@@ -12,15 +12,42 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
 
         <h1>Sammlungen</h1>
 
+        <section>
+            <h3>Hier findest du alle Sammlungen</h3>
+            <div>
+                <div>
+                    <form>
+                        <input type="text" placeholder="Suche..." name="suche">
+                        <button><i>Suche</i></button>
+                    </form>
+                </div>
+                <div>
+                    <select name="Filter" size="1">
+                        <option value="relevance" selected>Beliebteste</option>
+                        <option value="date">Datum</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <a href="sammlung.php">
+                    <img alt="Sammlung" src="images/stockblume_1.jpg" width="150">
+                </a>
+            </div>
+        </section>
+
+        <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        </p>
+
     </main>
 
-    <?php include 'php/footer.php';?>
+    <?php include 'php/footer.php'; ?>
 
 </body>
 

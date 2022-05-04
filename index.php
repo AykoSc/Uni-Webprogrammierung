@@ -12,13 +12,13 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
 
         <h1>Hauptseite</h1>
 
-        <img src="images/start.jpg" alt="Start">
+        <img src="images/start.jpg" alt="Start" width="640" height="499">
         <p>Quelle: https://commons.wikimedia.org/wiki/Category:History_paintings#/media/File:Jacques-Louis_David_-_Oath_of_the_Horatii_-_Google_Art_Project.jpg</p>
 
         <p>
@@ -27,7 +27,7 @@
 
     </main>
 
-    <?php include 'php/footer.php';?>
+    <?php include 'php/footer.php'; ?>
 
 </body>
 

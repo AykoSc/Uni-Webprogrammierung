@@ -12,53 +12,49 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
-    <section>
-            <h2>Registrierung</h2>
 
-                  <form action="registration.php" method="POST">
+        <h1>Registrierung</h1>
 
-                  <div>
+        <section>
+            <h3>Hier kannst du dich registieren</h3>
+            <form>
+                <div>
                     <label for="username">Benutzername:</label>
                     <div>
-                        <input type="text" id="username" name="username" maxlength="100"  required>
+                        <input type="text" id="username" name="username" maxlength="100" required>
                     </div>
                 </div>
-
                 <div>
                     <label for="email">E-Mail:</label>
                     <div>
                         <input type="email" id="email" name="email" maxlength="100" required>
                     </div>
                 </div>
-
                 <div>
-                    <label for="password" >Passwort:</label>
+                    <label for="password">Passwort:</label>
                     <div>
                         <input type="password" id="password" name="password" minlength="8" maxlength="100" required>
                     </div>
                 </div>
-                      
                 <div>
                     <label for="password_repeat">Passwort wiederholen:</label>
                     <div>
                         <input type="password" id="password_repeat" name="password_repeat" minlength="8" maxlength="100" required>
                     </div>
                 </div>
-
                 <div>
                     <a href="index.php">Abbrechen</a>
                     <button type="submit">Registrieren</button>
                 </div>
             </form>
-
         </section>
 
     </main>
 
-    <?php include 'php/footer.php';?>
+    <?php include 'php/footer.php'; ?>
 
 </body>
 

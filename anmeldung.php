@@ -12,37 +12,37 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
 
+        <h1>Anmeldung</h1>
+
         <section>
-            <h2>Anmeldung</h2>
-
-                <form action="login.php" method="POST">
+            <h3>Hier kannst du dich anmelden</h3>
+            <form>
+                <div>
+                    <label for="email">E-Mail:</label>
                     <div>
-                        <label for="email">E-Mail:</label>
-                        <div>
-                            <input type="email" id="email" name="email" maxlength="100" required>
-                        </div>
+                        <input type="email" id="email" name="email" maxlength="100" required>
                     </div>
+                </div>
+                <div>
+                    <label for="password">Passwort:</label>
                     <div>
-                        <label for="password">Passwort:</label>
-                        <div>
-                            <input type="password" id="password" name="password" maxlength="100" required>
-                        </div>
+                        <input type="password" id="password" name="password" maxlength="100" required>
                     </div>
-                    <div>
-                        <a href="index.php">Abbrechen</a>
-                        <button type="submit">Anmelden</button>
-                    </div>
-                </form>
-
+                </div>
+                <div>
+                    <a href="index.php">Abbrechen</a>
+                    <button type="submit">Anmelden</button>
+                </div>
+            </form>
         </section>
 
     </main>
 
-    <?php include 'php/footer.php';?>
+    <?php include 'php/footer.php'; ?>
 
 </body>
 

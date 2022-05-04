@@ -12,44 +12,42 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
-        <section>
+
         <h1>Mein Profil</h1>
-        <div>
-        <img src="images/profilbild_dummy.jpg" alt="Profil"
-        width="200">
-        </div>
-        <div>Name</div>
-        <div>Herkunft</div>
-        <div>Geburtstag</div>
-        <div>Über mich</div>   
-        <div>
-             <p>Ausgestellte Gemälde</p>
+
+        <section>
+            <h3>Willkommen auf dem Profil!</h3>
+            <div>
+                <img src="images/profilbild.png" alt="Profil" width="200">
+            </div>
+            <div>Name</div>
+            <div>Herkunft</div>
+            <div>Geburtstag</div>
+            <div>Über mich</div>
+            <div>
+                <p>Ausgestellte Gemälde</p>
                 <span>
-                    <img src="images/stockblume_1.jpg" alt="Profil"
-                    width="150"> 
+                    <a href="gemaelde.php">
+                        <img src="images/stockblume_1.jpg" alt="Profil" width="150">
+                    </a>
                 </span>
                 <span>
-                    <img src="images/stockblume_3.jpg" alt="Profil"
-                    width="150"> 
-                </span> 
-        </div>
-        <div>
-            <p>Ausgestellte Sammlungen</p>
-            <span>
-                <a href="gemaelde.php">
-                    <img alt="Profil" src="images/stockblume_2.jpg"
-                     width="150">
-                </a>
-            </span> 
-                
-        </div>
+                    <a href="gemaelde.php">
+                        <img src="images/stockblume_2.jpg" alt="Profil" width="150">
+                    </a>
+                </span>
+            </div>
+            <div>
+
+            </div>
         </section>
+
     </main>
 
-    <?php include 'php/footer.php';?>
+    <?php include 'php/footer.php'; ?>
 
 </body>
 

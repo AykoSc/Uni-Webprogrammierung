@@ -12,47 +12,43 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
-        <section> 
-            <h1>Ausstellung</h1>
+
+        <h1>Ausstellung</h1>
+
+        <section>
+            <h3>Hier findest du alle Gemälde</h3>
             <div>
                 <div>
-                    <form action="/ausstellung.php">
-                        <input type="text" placeholder="Suche.." name="suche">
-                        <button><i> Suche </i> </button>   
+                    <form>
+                        <input type="text" placeholder="Suche..." name="suche">
+                        <button><i>Suche</i></button>
                     </form>
                 </div>
                 <div>
                     <select name="Filter" size="1">
                         <option value="relevance" selected>Beliebteste</option>
                         <option value="date">Datum</option>
-                        <option value="artist">Künstler</option>
-                    </select>       
+                    </select>
                 </div>
             </div>
-            
-
-            <div> 
+            <div>
                 <a href="gemaelde.php">
-                    <img alt="Profil" src="images/stockblume_2.jpg"
-                     width="150">
+                    <img alt="Profil" src="images/stockblume_2.jpg" width="150">
                 </a>
             </div>
-            <div> 
+            <div>
                 <a href="gemaelde.php">
-                    <img alt="Profil" src="images/stockblume_1.jpg"
-                     width="150">
+                    <img alt="Profil" src="images/stockblume_1.jpg" width="150">
                 </a>
             </div>
-
         </section>
-        
 
     </main>
 
-    <?php include 'php/footer.php';?>
+    <?php include 'php/footer.php'; ?>
 
 </body>
 
