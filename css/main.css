@@ -1,1 +1,67 @@
- 
+/*Farbpalette*/
+:root { /*root beschreibt das oberste Element des CSS-Baums, wodurch alle Variablen später verwendet werden können*/
+    --first-color: #ececec;
+    --second-color: #9fd3c7;
+    --third-color: #385170;
+    --fourth-color: #142d4c;
+}
+
+/*---> Inhalt der Webseite <---*/
+
+body { /*Gesamte Webseite*/
+    background-color: var(--first-color);
+    padding: 0; /*Seitlicher Abstand auf 0*/
+    margin: 0; /*Obiger Abstand auf 0*/
+}
+
+/*---> Navigation <---*/
+
+.navigation { /*Gesamter Navigationsbereich*/
+    background-color: var(--third-color);
+    /*background-color: #00e1ff; /*Hintergrundfarbe*/
+    height: 40px; /*Bereichhöhe*/
+}
+
+nav { /*Navigationselement*/
+    float: right; /*Rechtsbündige Anordnung*/
+}
+
+nav ul { /*Ungeordnete Liste*/
+    list-style: none; /*Deaktiviert Punkt*/
+    padding: 0; /*Seitlicher Abstand auf 0*/
+    margin: 0; /*Obiger Abstand auf 0*/
+}
+
+nav li { /*Listen-Elemente*/
+    display: inline; /*Nebeneinander anordnen*/
+    margin: 10px; /*Abstand zwischen Elementen*/
+}
+
+nav a { /*Links*/
+    text-decoration: none; /*Nicht als normalen Link anzeigen*/
+    color: var(--first-color); /*Text in grauer Farbe*/
+    display: inline-block; /*Blockweise anordnen*/
+    padding-top: 10px; /*Abstand nach oben*/
+}
+
+nav a:hover { /*Links beim drüber hovern*/
+    color: var(--second-color); /*Text-Farbe ändern*/
+}
+
+@media screen and (max-width: 850px) {
+    .navigation {
+        background-color: var(--first-color);
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    nav li {
+        display: block;
+        background-color: var(--third-color);;
+        text-align: center;
+    }
+}
+
+
