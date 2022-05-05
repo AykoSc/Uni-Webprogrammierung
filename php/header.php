@@ -1,7 +1,5 @@
 <div class="navigation">
-
     <img src="images/logo.png" alt="logo">
-
     <nav>
         <ul>
             <li><a href="index.php">Start</a></li>
