@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php include 'php/header.php';?>
+    <?php include 'php/header.php'; ?>
 
     <main>
 
@@ -23,8 +23,8 @@
         </p>
 
     </main>
-    
-    <?php include 'php/footer.php';?>
+
+    <?php include 'php/footer.php'; ?>
 
 </body>
 

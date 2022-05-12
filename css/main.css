@@ -1,67 +1,131 @@
-/*Farbpalette*/
-:root { /*root beschreibt das oberste Element des CSS-Baums, wodurch alle Variablen später verwendet werden können*/
+/*
+---> Globale Variablen <--- (root ist das oberste Element des CSS-Baums, wodurch alle Variablen später verwendet werden können)
+*/
+:root { 
+    /*Farbpalette*/
     --first-color: #ececec;
     --second-color: #9fd3c7;
     --third-color: #385170;
     --fourth-color: #142d4c;
 }
 
-/*---> Inhalt der Webseite <---*/
 
-body { /*Gesamte Webseite*/
+/*
+---> Inhalt der Webseite <---
+*/
+body {
     background-color: var(--first-color);
+    font-family: Helvetica; /*Schriftart*/
     padding: 0; /*Seitlicher Abstand auf 0*/
     margin: 0; /*Obiger Abstand auf 0*/
 }
 
-/*---> Navigation <---*/
+main {
+    text-align: center;    
+}
 
-.navigation { /*Gesamter Navigationsbereich*/
+/*
+---> Navigation <---
+*/
+header { /*Gesamter Navigationsbereich*/    
     background-color: var(--third-color);
-    /*background-color: #00e1ff; /*Hintergrundfarbe*/
-    height: 40px; /*Bereichhöhe*/
+    display: flex;
+    flex-wrap: wrap;
 }
 
-nav { /*Navigationselement*/
-    float: right; /*Rechtsbündige Anordnung*/
-}
-
-nav ul { /*Ungeordnete Liste*/
-    list-style: none; /*Deaktiviert Punkt*/
-    padding: 0; /*Seitlicher Abstand auf 0*/
-    margin: 0; /*Obiger Abstand auf 0*/
-}
-
-nav li { /*Listen-Elemente*/
-    display: inline; /*Nebeneinander anordnen*/
+header > nav > a { /*Links*/
+    font-size: 20px; /*Größe*/
+    font-weight: bold; /*Fett*/
     margin: 10px; /*Abstand zwischen Elementen*/
-}
-
-nav a { /*Links*/
     text-decoration: none; /*Nicht als normalen Link anzeigen*/
     color: var(--first-color); /*Text in grauer Farbe*/
-    display: inline-block; /*Blockweise anordnen*/
     padding-top: 10px; /*Abstand nach oben*/
+    padding-bottom: 10px; /*Abstand nach unten*/
+    padding-left: 40px; /*Abstand nach links*/
+    padding-right: 40px; /*Abstand nach rechts*/
+    letter-spacing: 0.1em; /*Abstand zwischen Buchstaben*/
+    display: inline-block; /*Inline-Boxen*/
+    border-width: 2px; /*Umrandungsbreite*/
+    border-style: solid; /*Umrandungsstil*/
+    border-radius: 20px; /*Umrandungsradius*/
 }
 
-nav a:hover { /*Links beim drüber hovern*/
+header > nav > a:hover { /*Links beim drüber hovern*/
     color: var(--second-color); /*Text-Farbe ändern*/
 }
 
-@media screen and (max-width: 850px) {
-    .navigation {
-        background-color: var(--first-color);
-    }
 
-    nav {
-        width: 100%;
-    }
-
-    nav li {
-        display: block;
-        background-color: var(--third-color);;
-        text-align: center;
-    }
+/*
+---> Footer <---
+*/
+footer { /*Gesamter Footerbereich*/
+    background-color: var(--third-color);
+    display: flex;
+    flex-wrap: wrap;
+    
+    padding-top: 10px; /*Abstand nach oben*/
+    padding-bottom: 10px; /*Abstand nach unten*/
+    
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
+footer > nav > a { /*Links*/
+    font-size: 20px;
+    margin: 10px; /*Abstand zwischen Elementen*/
+    text-decoration: none; /*Nicht als normalen Link anzeigen*/
+    color: var(--first-color); /*Text in grauer Farbe*/
+}
+
+footer > nav > a:hover { /*Links beim drüber hovern*/
+    color: var(--second-color); /*Text-Farbe ändern*/
+}
+
+
+/*
+---> Formulare <---
+*/
+
+form > hr { /*Linie*/      
+    border-width: 1px; /*Umrandungsbreite*/
+    border-style: solid; /*Umrandungsstil*/
+    border-color: var(--second-color); /*Umrandungsfarbe*/
+}
+
+form > label {
+    font-weight: bold;
+}
+
+form > input {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+    text-align: center;
+}
+
+form > input:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+
+/* Set a style for the submit button */
+form > button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+form > button:hover {
+    opacity: 1;
+}
 

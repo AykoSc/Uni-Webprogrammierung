@@ -30,7 +30,8 @@
             </div>
             <form>
                 <div>
-                    <textarea cols="40" rows="5" maxlength="1000" wrap="soft" placeholder="Fügen Sie eine Beschreibung ein">
+                    <label for="beschreibung">Beschreibung:</label>
+                    <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft" placeholder="Fügen Sie eine Beschreibung ein">
                      </textarea>
                 </div>
                 <h3>Zusätzliche Daten angeben</h3>

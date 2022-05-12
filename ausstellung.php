@@ -6,6 +6,7 @@
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/ausstellung.css" />
     <title>Online-Ausstellung - Ausstellung</title>
 </head>
 
@@ -34,15 +35,138 @@
                     </select>
                 </div>
             </div>
-            <div>
-                <a href="gemaelde.php">
-                    <img alt="Profil" src="images/stockblume_2.jpg" width="150">
-                </a>
-            </div>
-            <div>
-                <a href="gemaelde.php">
-                    <img alt="Profil" src="images/stockblume_1.jpg" width="150">
-                </a>
+
+            <div class="container">
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine schöne Blume. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine schöne Blume. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine Sonnenblume! </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Wow ist das schön. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Wow ist das schön. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine schöne Blume. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Wow ist das schön. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine Sonnenblume! </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine schöne Blume. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine schöne Blume. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine Sonnenblume! </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Wow ist das schön. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Wow ist das schön. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine schöne Blume. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Wow ist das schön. </span>
+                        </div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="gemaelde.php" class="item__link">
+                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
+                        <div class="item__overlay">
+                            <span> Eine Sonnenblume! </span>
+                        </div>
+                    </a>
+                </div>
+
+
             </div>
         </section>
 

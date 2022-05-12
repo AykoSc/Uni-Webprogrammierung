@@ -19,36 +19,20 @@
         <h1>Registrierung</h1>
 
         <section>
-            <h3>Hier kannst du dich registieren</h3>
+            <h3>Bitte gib die folgende Informationen an, um dich zu registrieren.</h3>
             <form>
-                <div>
-                    <label for="username">Benutzername:</label>
-                    <div>
-                        <input type="text" id="username" name="username" maxlength="100" required>
-                    </div>
-                </div>
-                <div>
-                    <label for="email">E-Mail:</label>
-                    <div>
-                        <input type="email" id="email" name="email" maxlength="100" required>
-                    </div>
-                </div>
-                <div>
-                    <label for="password">Passwort:</label>
-                    <div>
-                        <input type="password" id="password" name="password" minlength="8" maxlength="100" required>
-                    </div>
-                </div>
-                <div>
-                    <label for="password_repeat">Passwort wiederholen:</label>
-                    <div>
-                        <input type="password" id="password_repeat" name="password_repeat" minlength="8" maxlength="100" required>
-                    </div>
-                </div>
-                <div>
-                    <a href="index.php">Abbrechen</a>
-                    <button type="submit">Registrieren</button>
-                </div>
+                <hr>
+                <label for="username">Benutzername</label>
+                <input type="text" id="username" name="username" maxlength="100" placeholder="Name eingeben" required>
+                <label for="email">E-Mail</label>
+                <input type="email" id="email" name="email" maxlength="100" placeholder="E-Mail eingeben" required>
+                <label for="password">Passwort</label>
+                <input type="password" id="password" name="password" minlength="8" maxlength="100" placeholder="Passwort eingeben" required>
+                <label for="password_repeat">Passwort wiederholen</label>
+                <input type="password" id="password_repeat" name="password_repeat" minlength="8" maxlength="100" placeholder="Passwort wiederholen" required>
+                <hr>
+                <button type="submit">Registrieren</button>
+                <a href="index.php">Abbrechen</a>
             </form>
         </section>
 

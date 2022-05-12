@@ -28,9 +28,9 @@
                     </div>
                 </div>
                 <div>
-                    <label>Nachricht:</label>
+                    <label for="kommentar">Kommentar:</label>
                     <div>
-                        <textarea cols="40" rows="5" maxlength="1000" wrap="soft" placeholder="Neuen Kommentar schreiben..."></textarea>
+                        <textarea id="kommentar" name="kommentar" cols="40" rows="5" maxlength="1000" wrap="soft" placeholder="Neuen Kommentar schreiben..." required></textarea>
                     </div>
                 </div>
                 <div>

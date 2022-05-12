@@ -26,7 +26,8 @@
             <h2> Kommentarbereich </h2>
             <form>
                 <div>
-                    <textarea cols="40" rows="5" maxlength="1000" wrap="soft" placeholder="Neuen Kommentar schreiben..."></textarea>
+                    <label for="kommentar">Kommentar:</label>
+                    <textarea id="kommentar" name="kommentar" cols="40" rows="5" maxlength="1000" wrap="soft" placeholder="Neuen Kommentar schreiben..." required></textarea>
                     <input type="submit" value="Kommentieren">
                 </div>
             </form>
