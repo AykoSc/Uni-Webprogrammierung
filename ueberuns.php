@@ -5,26 +5,29 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/main.css"/>
     <title>Online-Ausstellung - Über Uns</title>
 </head>
 
 
 <body>
 
-    <?php include 'php/header.php'; ?>
+<?php include 'php/header.php'; ?>
 
-    <main>
+<main>
 
-        <h1>Über Uns</h1>
+    <h1>Über Uns</h1>
 
-        <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    <div class="ueberuns">
+        <p>Wir möchten einen Platz für Künstler und Kunstinteressierte schaffen, um Werke zu präsentieren und zu
+            bewerten sowie Sammlungen von Werken diversere Künstler zu erstellen. Zudem möchten wir unseren Nutzern die
+            Möglichkeit bieten in der Kommentarsektion über die ausgestellten Werke und Sammlungen zu diskutieren.
         </p>
+    </div>
 
-    </main>
+</main>
 
-    <?php include 'php/footer.php'; ?>
+<?php include 'php/footer.php'; ?>
 
 </body>
 

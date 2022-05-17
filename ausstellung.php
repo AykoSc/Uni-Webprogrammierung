@@ -5,174 +5,77 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/ausstellung.css" />
+    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/ausstellung.css"/>
     <title>Online-Ausstellung - Ausstellung</title>
 </head>
 
 
 <body>
 
-    <?php include 'php/header.php'; ?>
+<?php include 'php/header.php'; ?>
 
-    <main>
+<main>
 
-        <h1>Ausstellung</h1>
-
-        <section>
-            <h3>Hier findest du alle Gemälde</h3>
-            <div>
-                <div>
-                    <form>
-                        <input type="text" placeholder="Suche..." name="suche">
-                        <button><i>Suche</i></button>
-                    </form>
-                </div>
-                <div>
-                    <select name="Filter" size="1">
-                        <option value="relevance" selected>Beliebteste</option>
-                        <option value="date">Datum</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine schöne Blume. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine schöne Blume. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine Sonnenblume! </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Wow ist das schön. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Wow ist das schön. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine schöne Blume. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Wow ist das schön. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine Sonnenblume! </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine schöne Blume. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine schöne Blume. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine Sonnenblume! </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Wow ist das schön. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Wow ist das schön. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_1.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine schöne Blume. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_2.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Wow ist das schön. </span>
-                        </div>
-                    </a>
-                </div>
-                <div class="item">
-                    <a href="gemaelde.php" class="item__link">
-                        <img alt="Profil" src="images/stockblume_3.jpg" class="item__image">
-                        <div class="item__overlay">
-                            <span> Eine Sonnenblume! </span>
-                        </div>
-                    </a>
-                </div>
+    <h1>Ausstellung</h1>
 
 
-            </div>
-        </section>
+    <h3>Hier findest du alle Gemälde</h3>
+    <div>
+        <div>
+            <form>
+                <input type="text" placeholder="Suche..." name="suche">
+                <button><i>Suche</i></button>
+            </form>
+        </div>
+        <div>
+            <select name="Filter" size="1">
+                <option value="relevance" selected>Beliebteste</option>
+                <option value="date">Datum</option>
+            </select>
+        </div>
+    </div>
 
-    </main>
+    <div class="row">
+        <div class="column">
+            <a href="gemaelde.php"> <img src="images/christ_blessing_1937.1.2.b.jpg" alt="Stockblume"> </a>
+            <a href="gemaelde.php"> <img src="images/narcissus_in_a_blue_and_white_vase_2017.12.1.jpg" alt="Stockblume">
+            </a>
+            <a href="gemaelde.php"> <img src="images/christ_blessing_1937.1.2.b.jpg" alt="Stockblume"> </a>
+            <a href="gemaelde.php"> <img src="images/enthroned_madonna_and_child_1949.7.1.jpg" alt="Stockblume"> </a>
+            <a href="gemaelde.php"> <img src="images/narcissus_in_a_blue_and_white_vase_2017.12.1.jpg" alt="Stockblume">
+            </a>
+            <a href="gemaelde.php"> <img src="images/christ_blessing_1937.1.2.b.jpg" alt="Stockblume"> </a>
+        </div>
 
-    <?php include 'php/footer.php'; ?>
+        <div class="column">
+            <a href="gemaelde.php"> <img src="images/narcissus_in_a_blue_and_white_vase_2017.12.1.jpg" alt="Stockblume">
+            </a>
+            <a href="gemaelde.php"> <img src="images/christ_blessing_1937.1.2.b.jpg" alt="Stockblume"> </a>
+            <a href="gemaelde.php"> <img src="images/christ_blessing_1937.1.2.b.jpg" alt="Stockblume"> </a>
+            <a href="gemaelde.php"> <img src="images/enthroned_madonna_and_child_1949.7.1.jpg" alt="Stockblume"> </a>
+            <a href="gemaelde.php"> <img src="images/enthroned_madonna_and_child_1949.7.1.jpg" alt="Stockblume"> </a>
+        </div>
+
+        <div class="column">
+            <img src="images/stockblume_3.jpg" style="width:100%">
+            <img src="images/stockblume_2.jpg" style="width:100%">
+            <img src="images/stockblume_1.jpg" style="width:100%">
+            <img src="images/stockblume_2.jpg" style="width:100%">
+        </div>
+
+        <div class="column">
+            <img src="images/stockblume_2.jpg" style="width:100%">
+            <img src="images/stockblume_2.jpg" style="width:100%">
+            <img src="images/stockblume_1.jpg" style="width:100%">
+        </div>
+
+    </div>
+
+
+</main>
+
+<?php include 'php/footer.php'; ?>
 
 </body>
 

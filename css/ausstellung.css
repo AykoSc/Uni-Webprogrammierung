@@ -1,90 +1,42 @@
-/*Inspiriert von https://www.youtube.com/watch?v=KI3h2RIMW2E 
-und https://www.youtube.com/watch?v=nEej0A08RYs&t=1665s*/
+/*Inspiriert von https://www.w3schools.com/css/tryit.asp?filename=trycss3_flexbox_image_gallery*/
 
-.container {
-  column-count: 4;
-  max-width: 90%;
-  margin: auto;
+/* Erstelle eine Reihe, in die nun Spalten ("column") eingefügt werden können */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
 }
 
-.img {
-  height: 100%;
-  width: 100%;
-  
+/* Erstelle nun 4 Spalten */
+.column {
+    flex: 25%;
+    max-width: 25%;
+    padding: 0 4px;
 }
 
-/* Responsive Design -> Resizing bei jeweiliger Bildgröße*/
-@media screen and (max-width: 1000px) {
-  .container {
-    column-count: 3;
-  }
+.column img {
+    margin-top: 8px;
+    vertical-align: middle;
+    width: 100%;
 }
 
-@media screen and (max-width: 800px) {
-  .container {
-    column-count: 2;
-  }
+.column img:hover {
+    transition: 0.5s;
+    transform: scale(1.1);
 }
 
-@media screen and (max-width: 600px) {
-  .container {
-    column-count: 1;
-  }
+/* Responsive layout - macht aus 4 Spalten 2 Spalten */
+@media (max-width: 800px) {
+    .column {
+        flex: 50%;
+        max-width: 50%;
+    }
 }
 
-@media screen and (max-width: 400px) {
-  .container {
-    column-count: 0;
-  }
-}
-
-.item__link {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* Text wird durch hover sichtbar */
-.item__link:hover .item__overlay {
-  opacity: 1;
-}
-
-/*  */
-.item__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /*Veränderung findet proportional und im Rahmen der Box Property statt*/
-  transform: scale(1);
-  transition: transform 0.5s;
-}
-
-/*leichter zoom auf das Bild bei hover*/
-.item__link:hover .item__image {
-  transform: scale(1.1);
-}
-
-/* Text für Item mit festem Ort*/
-.item__overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(0, 0, 0, 0.2);
-  font-size: 1.5rem;
-  color: #fff;
-  font-weight: 700;
-  text-transform: uppercase;
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease-out 0.2s;
+/* Responsive layout - macht aus 4 Spalten 1 Spalte */
+@media (max-width: 600px) {
+    .column {
+        flex: 100%;
+        max-width: 100%;
+    }
 }

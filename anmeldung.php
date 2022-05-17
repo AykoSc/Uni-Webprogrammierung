@@ -5,44 +5,44 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/main.css"/>
     <title>Online-Ausstellung - Anmeldung</title>
 </head>
 
 
 <body>
 
-    <?php include 'php/header.php'; ?>
+<?php include 'php/header.php'; ?>
 
-    <main>
+<main>
 
-        <h1>Anmeldung</h1>
+    <h1>Anmeldung</h1>
 
-        <section>
-            <h3>Hier kannst du dich anmelden</h3>
-            <form>
+    <div class="usermanagement">
+        <h3>Hier kannst du dich anmelden</h3>
+        <form>
+            <div>
+                <label for="email">E-Mail:</label>
                 <div>
-                    <label for="email">E-Mail:</label>
-                    <div>
-                        <input type="email" id="email" name="email" maxlength="100" required>
-                    </div>
+                    <input type="email" id="email" name="email" maxlength="100" required>
                 </div>
+            </div>
+            <div>
+                <label for="password">Passwort:</label>
                 <div>
-                    <label for="password">Passwort:</label>
-                    <div>
-                        <input type="password" id="password" name="password" maxlength="100" required>
-                    </div>
+                    <input type="password" id="password" name="password" maxlength="100" required>
                 </div>
-                <div>
-                    <a href="index.php">Abbrechen</a>
-                    <button type="submit">Anmelden</button>
-                </div>
-            </form>
-        </section>
+            </div>
+            <div>
+                <a href="index.php">Abbrechen</a>
+                <button type="submit">Anmelden</button>
+            </div>
+        </form>
+    </div>
 
-    </main>
+</main>
 
-    <?php include 'php/footer.php'; ?>
+<?php include 'php/footer.php'; ?>
 
 </body>
 
