@@ -24,15 +24,18 @@
         <h3>Hier findest du alle Sammlungen</h3>
         <div>
             <form class="suche" action="sammlungen.php">
-                <input type="text" placeholder="Suche..." name="suche">
+                <label for="suche" style="display:none;">Suche</label>
+                <input type="text" placeholder="Suche..." name="suche" id="suche">
                 <button><img src="images/suche.svg" alt="search" height="16" width="16"></button>
             </form>
         </div>
         <div class="filter">
-            <select name="Filter" size="1">
-                <option value="relevance" selected>Beliebteste</option>
-                <option value="date">Datum</option>
-            </select>
+            <label>
+                <select name="Filter" size="1">
+                    <option value="relevance" selected>Beliebteste</option>
+                    <option value="date">Datum</option>
+                </select>
+            </label>
         </div>
         <div class="reihe">
             <div class="spalte">

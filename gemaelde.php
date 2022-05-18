@@ -34,11 +34,11 @@
             <div class="container">
                 <h2>Einen Kommentar verfassen</h2>
                 <form>
+                    <label for="kommentar" style="display:none;">Kommentar</label>
                     <textarea id="kommentar" name="kommentar" maxlength="1000"
                               placeholder="Neuen Kommentar schreiben..."
                               required></textarea>
                     <input type="submit" value="Kommentieren">
-
                 </form>
             </div>
         </div>
