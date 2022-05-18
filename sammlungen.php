@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/ausstellung.css"/>
     <title>Online-Ausstellung - Sammlungen</title>
 </head>
 
@@ -20,10 +22,10 @@
 
     <div class="sammlungen">
         <h3>Hier findest du alle Sammlungen</h3>
-        <div class="suche">
-            <form>
+        <div>
+            <form class="suche" action="sammlungen.php">
                 <input type="text" placeholder="Suche..." name="suche">
-                <button><i>Suche</i></button>
+                <button><img src="images/suche.svg" alt="search" height="16" width="16"></button>
             </form>
         </div>
         <div class="filter">
@@ -32,10 +34,10 @@
                 <option value="date">Datum</option>
             </select>
         </div>
-        <div>
-            <a href="sammlung.php">
-                <img alt="Sammlung" src="images/stockblume_1.jpg" width="150">
-            </a>
+        <div class="reihe">
+            <div class="spalte">
+                <a href="sammlung.php"><img alt="Sammlung" src="images/picture2.jpg"> </a>
+            </div>
         </div>
     </div>
 

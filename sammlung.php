@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
     <title>Online-Ausstellung - Sammlung</title>
 </head>
@@ -20,7 +21,7 @@
 
     <div class="sammlung">
         <h3>Test Sammlung</h3>
-        <img alt="Profil" src="images/stockblume_1.jpg" width="150">
+        <a href="gemaelde.php"> <img alt="Profil" src="images/picture2.jpg" width="150"> </a>
     </div>
 
 </main>

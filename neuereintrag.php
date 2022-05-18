@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
     <title>Online-Ausstellung - Neuer Eintrag</title>
 </head>
@@ -18,53 +19,27 @@
 
     <h1>Neuer Eintrag</h1>
 
-
-    <div class="eintrag">
+    <div class="usermanagement">
         <h3>Hier kannst du einen neuen Eintrag erstellen</h3>
-        <p> Gemälde auswählen</p>
         <form>
-            <input type="file" name="img">
-            <input type="submit">
-        </form>
-        <div>
-            Gemälde Vorschau hier
-        </div>
-        <form>
-            <div>
-                <label for="beschreibung">Beschreibung:</label>
-                <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein">
-                     </textarea>
-            </div>
-            <h3>Zusätzliche Daten angeben</h3>
-            <div>
-                <label for="titel">Titel:</label>
-                <div>
-                    <input type="text" id="titel" name="titel" maxlength="100" required>
-                </div>
-            </div>
-            <div>
-                <label for="artist">Künstler:</label>
-                <div>
-                    <input type="text" id="artist" name="artist" maxlength="100" required>
-                </div>
-            </div>
-            <div>
-                <label for="location">Datum der Erstellung:</label>
-                <div>
-                    <input type="date" id="date" name="date">
-                </div>
-            </div>
-            <div>
-                <label for="location">Ort:</label>
-                <div>
-                    <input type="text" id="location" name="location" maxlength="100">
-                </div>
-            </div>
-            <div>
-                <a href="index.php">Abbrechen</a>
-                <button type="submit">Fertigstellen</button>
-            </div>
+            <hr>
+            <label for="file">Gemälde auswählen:</label>
+            <input type="file" id="file" name="file" style="display:none;" required>
+            <p><label for="file">Hier klicken um Datei hochzuladen!</label></p>
+            <label for="beschreibung">Beschreibung:</label>
+            <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
+                      placeholder="Fügen Sie eine Beschreibung ein..."></textarea>
+            <label for="titel">Titel:</label>
+            <input type="text" id="titel" name="titel" maxlength="100" required>
+            <label for="artist">Künstler:</label>
+            <input type="text" id="artist" name="artist" maxlength="100" required>
+            <label for="date">Datum der Erstellung:</label>
+            <input type="date" id="date" name="date">
+            <label for="location">Ort:</label>
+            <input type="text" id="location" name="location" maxlength="100">
+            <hr>
+            <button type="submit">Fertigstellen</button>
+            <a href="index.php">Abbrechen</a>
         </form>
     </div>
 

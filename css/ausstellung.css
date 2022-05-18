@@ -1,41 +1,46 @@
 /*Inspiriert von https://www.w3schools.com/css/tryit.asp?filename=trycss3_flexbox_image_gallery*/
 
+/* Überschreibe die max-Breite von main.css, um die Bilder auf 80% statt 50% der Fläche darzustellen */
+main {
+    max-width: 80%;
+}
+
 /* Erstelle eine Reihe, in die nun Spalten ("column") eingefügt werden können */
-.row {
+.reihe {
     display: flex;
     flex-wrap: wrap;
     padding: 0 4px;
 }
 
 /* Erstelle nun 4 Spalten */
-.column {
+.spalte {
     flex: 25%;
     max-width: 25%;
     padding: 0 4px;
 }
 
-.column img {
+.spalte img {
     margin-top: 8px;
     vertical-align: middle;
     width: 100%;
 }
 
-.column img:hover {
+.spalte img:hover {
     transition: 0.5s;
     transform: scale(1.1);
 }
 
 /* Responsive layout - macht aus 4 Spalten 2 Spalten */
-@media (max-width: 800px) {
-    .column {
+@media screen and (max-width: 800px) {
+    .spalte {
         flex: 50%;
         max-width: 50%;
     }
 }
 
 /* Responsive layout - macht aus 4 Spalten 1 Spalte */
-@media (max-width: 600px) {
-    .column {
+@media screen and (max-width: 600px) {
+    .spalte {
         flex: 100%;
         max-width: 100%;
     }

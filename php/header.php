@@ -1,6 +1,5 @@
 <header>
     <nav>
-        <img src="images/logo.svg" width="330" height="45" alt="logo">
         <a href="index.php">Start</a>
         <a href="ausstellung.php">Ausstellung</a>
         <a href="sammlungen.php">Sammlungen</a>

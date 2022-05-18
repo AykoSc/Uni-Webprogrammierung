@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
     <title>Online-Ausstellung - Nutzungsbedingungen</title>
 </head>
