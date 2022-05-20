@@ -7,7 +7,7 @@ main {
 
 /* Erstelle eine Reihe, in die nun Spalten eingefügt werden können */
 .reihe {
-    display: flex; /* Jedes Kind-element ist ein Spalten div und wird in eine Flexbox gepackt */
+    display: flex; /* Jedes Kindelement ist ein Spaltendiv und wird in eine Flexbox gepackt */
     flex-wrap: wrap; /* Wenn der Bildschirm kleiner wird, werden die Spalten untereinander statt nebeneinander angezeigt */
     padding: 0 4px; /* Abstand des kompletten Gerüsts oben und unten auf 0 und Abstand links und rechts auf 4 */
 }
@@ -21,7 +21,7 @@ main {
 
 .spalte img {
     margin-top: 8px; /* Abstand zwischen Bildern einer Spalte */
-    width: 100%; /* Nur Weite der Bilder muss in Spalten eingeschränkt werden und darf nicht 100% der Weite einer Spalte überschreiten */
+    width: 100%; /* Nur Weite der Bilder muss in Spalten eigeschränkt werden und darf nicht 100% der Weite einer Spalte überschreiten */
 }
 
 /* Erzeuge Vergrößerungseffekt (innerhalb von 0.5s) für hovern auf den Bildern */
