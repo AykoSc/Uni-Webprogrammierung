@@ -1,7 +1,5 @@
-/*
----> Globale Variablen <--- (root ist das oberste Element des CSS-Baums, wodurch alle Variablen später verwendet werden können)
-*/
-:root { 
+/* Globale Variablen (root ist das oberste Element des CSS-Baums, wodurch alle Variablen später verwendet werden können) */
+:root {
     /*Farbpalette*/
     --first-color: #ececec;
     --second-color: #9fd3c7;
@@ -15,22 +13,25 @@
 */
 
 * {
-    box-sizing: border-box;
+    box-sizing: border-box; /* Vereinfacht das box sizing (Abstand in alle Seiten). border box lässt die Grenzen eines elementes nicht die Grenzes seines Elternelementes überschreiten */
 }
 
 body {
     background-color: var(--first-color);
     font-family: Arial, serif;
+
+    /* kein padding-und kein margin-Seitenabstand (nützlich für z.B header, der dann kompletten Bereich ohne Lücke einfärbt) */
     padding: 0;
     margin: 0;
 }
 
 main {
+    /* Ordne main content mittig an mit 25% Abstand an beiden Seiten */
     max-width: 50%;
     margin: auto;
 }
 
-/* Responsive layout */
+/* Responsive layout - kleinerer Bildschirm hat nur noch 10& Abstand an beiden Seiten */
 @media screen and (max-width: 800px) {
     main {
         max-width: 80%;
@@ -164,4 +165,3 @@ footer > a:hover { /*Links beim drüber hovern*/
 .usermanagement form > button:hover {
     opacity: 1; /*Deckkraft*/
 }
-

@@ -1,5 +1,6 @@
+/*liste der Komentare */
 .comment-section {
-    list-style: none;
+    list-style: none; /*Keine Punkte vor Lsteneinträgen */
     width: 100%;
     margin: 50px auto;
     padding: 10px;
@@ -28,15 +29,14 @@
     font-weight: bold; /*name dick*/
     text-overflow: ellipsis;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: nowrap; /*keine doppelten Leerzeichen*/
     padding: 10px 0 3px 0;
 }
 
-.comment .info span { /* Time */
+.comment .info span { /*alter der nachricht */
     font-size: 11px;
 }
 
-/* The user avatar */
 
 .comment .avatar {
     width: 8%;
@@ -53,20 +53,19 @@
 
 .comment .avatar img {
     border-radius: 50%; /*rund*/
-
 }
 
-/* The comment text */
-
+/* Textinhalt der Kommentare*/
 .comment p {
     line-height: 1.5;
     padding: 18px 22px;
     width: 50%;
     position: relative;
-    word-wrap: break-word;
+    word-wrap: break-word; /*erlaubt Trennung von allen Wörtern*/
     background-color: #ffffff;
 }
 
+/*Abstand nach jedem Kommentar*/
 .comment p:after {
     content: '';
     position: absolute;
@@ -79,10 +78,9 @@
     top: 18px;
 }
 
-
+/* Responsive Layout: max-wif´dth klein - Kommentar größer und info und likes verteilen sich umzu*/
 @media (max-width: 800px) {
-    /* Wenn view klein wird Comment auf ganzer Breite angezeigt und Info wandert runter
-    */
+
     .comment p {
         width: 100%;
     }
@@ -134,6 +132,7 @@
     margin-bottom: 15px;
 }
 
+/*Textarea zum Kommentare schreiben*/
 textarea {
     height: 5rem;
     width: 100%;
