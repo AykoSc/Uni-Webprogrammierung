@@ -13,7 +13,7 @@
 */
 
 * {
-    box-sizing: border-box; /* Vereinfacht das box sizing (Abstand in alle Seiten). border box lässt die Grenzen eines elementes nicht die Grenzes seines Elternelementes überschreiten */
+    box-sizing: border-box; /* Vereinfacht das box sizing (Abstand in alle Seiten). inkludiert padding border und content in der width und height berechnung */
 }
 
 body {
@@ -28,10 +28,10 @@ body {
 main {
     /* Ordne main content mittig an mit 25% Abstand an beiden Seiten */
     max-width: 50%;
-    margin: auto;
+    margin: auto; /* browser setzt content automatisch in die mitte */
 }
 
-/* Responsive layout - kleinerer Bildschirm hat nur noch 10& Abstand an beiden Seiten */
+/* Responsive layout - kleinerer Bildschirm hat nur noch 10% Abstand an beiden Seiten */
 @media screen and (max-width: 800px) {
     main {
         max-width: 80%;
@@ -74,8 +74,8 @@ header > nav > a:hover { /*Links beim drüber hovern*/
 form.suche input[type=text] {
     padding: 10px;
     font-size: 17px;
-    border: 1px solid grey;
-    float: left;
+    border: 1px solid grey; /* kante umzieht die suchleiste */
+    float: left; /* soll sich links im such-dive befinden */
     width: 80%;
 }
 
@@ -104,6 +104,8 @@ footer {
     flex-wrap: wrap;
     padding-top: 10px; /*Abstand nach oben*/
     padding-bottom: 10px; /*Abstand nach unten*/
+
+    /* footer immer ganz unten auf der seite */
     position: fixed;
     bottom: 0;
     left: 0;
