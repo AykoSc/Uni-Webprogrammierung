@@ -1,14 +1,16 @@
+<?php if (!isset($abs_path)) include_once 'path.php'; ?>
+
 <!DOCTYPE html>
 <html lang="de">
 
 <?php
 $name = "Datenschutz";
-include "php/head.php";
+include $abs_path . 'php/head.php';
 ?>
 
 <body>
 
-<?php include 'php/header.php'; ?>
+<?php include $abs_path . 'php/header.php'; ?>
 
 <main>
 
@@ -320,7 +322,7 @@ include "php/head.php";
 
 </main>
 
-<?php include 'php/footer.php'; ?>
+<?php include $abs_path . 'php/footer.php'; ?>
 
 </body>
 

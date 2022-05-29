@@ -1,3 +1,5 @@
+<?php if (!isset($abs_path)) include_once '../path.php'; ?>
+
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">

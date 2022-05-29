@@ -1,3 +1,5 @@
+<?php if (!isset($abs_path)) include_once '../path.php'; ?>
+
 <footer>
     <a href="ueberuns.php">Über uns</a>
     <a href="nutzungsbedingungen.php">Nutzungsbedingungen</a>
