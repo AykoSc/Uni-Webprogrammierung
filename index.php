@@ -5,11 +5,11 @@
 
 <?php
 $name = "Start";
-include $abs_path . 'php/head.php';
+include $abs_path . '/php/head.php';
 ?>
 
 <body>
-<?php include $abs_path . 'php/header.php'; ?>
+<?php include $abs_path . '/php/header.php'; ?>
 
 
 <main>
@@ -34,7 +34,7 @@ include $abs_path . 'php/head.php';
 </main>
 
 
-<?php include $abs_path . 'php/footer.php'; ?>
+<?php include $abs_path . '/php/footer.php'; ?>
 </body>
 
 </html>

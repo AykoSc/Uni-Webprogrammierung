@@ -72,33 +72,54 @@ img {
 ---> Navigation <---
 */
 
-header > nav {
-    /* Enable flex mode. */
-    display: flex;
-
-    /* Spread out the elements inside the header. */
-    justify-content: space-between;
-
-    /* Align items vertically in the center. */
-    align-items: center;
+header { /*Gesamter Navigationsbereich*/
+    background-color: var(--third-color);
+    padding: 15px;
 }
 
-@media (max-width: 1000px) {
-    header > nav {
-        /* Reverse the axis of the header, making it vertical. */
-        flex-direction: column;
+header > nav > div {
+    display: flex;
+    flex-direction: row;
+}
 
-        /* Align items to the begining (the left) of the header. */
-        align-items: flex-start;
+@media (max-width: 800px) {
+    .textlogo {
+        flex-direction: column;
     }
 
-    header > nav > .header-center {
-        /* Reverse the axis of the header, making it vertical. */
+    .navitem {
         flex-direction: column;
-
-        /* Align items to the begining (the left) of the header. */
-        align-items: flex-start;
     }
+}
+
+header > nav > * { /*Gemeinsame Eigenschaften von textlogo und navitem*/
+    font-size: 1.2em; /* 1.2 mal so groß wie normaler Text */
+    text-decoration: none; /*Nicht als normalen Link anzeigen*/
+    font-weight: bold; /*Fett*/
+    color: var(--first-color); /*Text in grauer Farbe*/
+    margin: 5px; /*Abstand zwischen Elementen*/
+    padding: 5px 5px; /*Abstand auf allen Seiten (top und bottom 10px, seiten 40px*/
+
+    flex: 50%;
+}
+
+header .textlogo { /*Text-Logo*/
+    text-transform: uppercase; /*In Großbuchstaben anzeigen*/
+    margin-right: 30px;
+
+}
+
+header .navitem { /*Link-Elemente rechts vom Text-Logo*/
+    letter-spacing: 0.1em; /*Abstand zwischen Buchstaben*/
+    display: inline-block; /*Inline-Boxen*/
+    border-width: thin; /*Umrandungsbreite*/
+    border-style: solid; /*Umrandungsstil*/
+    /*border-radius: 20px; Umrandungsradius*/
+}
+
+header > nav > a:hover { /*Links beim drüber hovern*/
+    color: var(--fourth-color); /*Text-Farbe ändern*/
+    background-color: var(--first-color);
 }
 
 
