@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
-    <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css"/>
-    <link rel="stylesheet" href="css/gemaelde.css"/>
-    <title>Online-Ausstellung - Gemälde</title>
-</head>
-
+<?php
+$name = "Gemälde";
+include "php/head.php";
+?>
 
 <body>
 
@@ -19,7 +13,7 @@
 <main>
 
     <h1>Beispiel Gemälde</h1>
-    <img alt="Stockbild" src="images/start.jpg" style="width: 100%">
+    <img alt="Stockbild" src="images/start.jpg">
 
     <div class="description">
         <h2>Über das Gemälde</h2>
@@ -34,7 +28,7 @@
             <div class="container">
                 <h2>Einen Kommentar verfassen</h2>
                 <form>
-                    <label for="kommentar" style="display:none;">Kommentar</label>
+                    <label for="kommentar" class="invisible">Kommentar</label>
                     <textarea id="kommentar" name="kommentar" maxlength="1000"
                               placeholder="Neuen Kommentar schreiben..."
                               required></textarea>

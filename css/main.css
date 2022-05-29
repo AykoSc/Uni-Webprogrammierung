@@ -16,19 +16,35 @@
     box-sizing: border-box; /* Vereinfacht das box sizing (Abstand in alle Seiten). inkludiert padding border und content in der width und height berechnung */
 }
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     background-color: var(--first-color);
     font-family: Arial, serif;
 
-    /* kein padding-und kein margin-Seitenabstand (nützlich für z.B header, der dann kompletten Bereich ohne Lücke einfärbt) */
+    /* Kein padding-und kein margin-Seitenabstand (nützlich für z.B header, der dann kompletten Bereich ohne Lücke einfärbt) */
     padding: 0;
-    margin: 0;
+    margin: 0 0 100px; /* Platz für den Footer (Platz nach unten)*/
 }
 
 main {
     /* Ordne main content mittig an mit 25% Abstand an beiden Seiten */
     max-width: 50%;
-    margin: auto; /* browser setzt content automatisch in die mitte */
+    margin: auto; /* Browser setzt content automatisch in die mitte */
+}
+
+/* Responsive layout - mittelgroßer Bildschirm hat nur noch 20% Abstand an beiden Seiten */
+@media screen and (max-width: 1200px) {
+    main {
+        max-width: 60%;
+    }
+
+    body {
+        margin: 0 0 150px; /* Platz für den Footer (Platz nach unten)*/
+    }
 }
 
 /* Responsive layout - kleinerer Bildschirm hat nur noch 10% Abstand an beiden Seiten */
@@ -36,7 +52,21 @@ main {
     main {
         max-width: 80%;
     }
+
+    body {
+        margin: 0 0 250px; /* Platz für den Footer (Platz nach unten)*/
+    }
 }
+
+
+img {
+    width: 100%; /* Setze die Breite eines Elements */
+}
+
+.invisible {
+    display: none; /* Element soll nicht angezeigt werden */
+}
+
 
 /*
 ---> Navigation <---
@@ -44,26 +74,40 @@ main {
 
 header { /*Gesamter Navigationsbereich*/
     background-color: var(--third-color);
+    padding: 15px;
+}
+
+header > nav {
     display: flex;
     flex-wrap: wrap;
 }
 
-header > nav > a { /*Links*/
-    font-size: 20px; /*Größe*/
-    font-weight: bold; /*Fett*/
-    margin: 10px; /*Abstand zwischen Elementen*/
+header > nav > * { /*Gemeinsame Eigenschaften von textlogo und navitem*/
+    font-size: 1.2em; /* 1.2 mal so groß wie normaler Text */
     text-decoration: none; /*Nicht als normalen Link anzeigen*/
+    font-weight: bold; /*Fett*/
     color: var(--first-color); /*Text in grauer Farbe*/
-    padding: 10px 40px; /*Abstand auf allen Seiten (top und bottom 10px, seiten 40px*/
+    margin: 5px; /*Abstand zwischen Elementen*/
+    padding: 5px 5px; /*Abstand auf allen Seiten (top und bottom 10px, seiten 40px*/
+}
+
+header .textlogo { /*Text-Logo*/
+    text-transform: uppercase; /*In Großbuchstaben anzeigen*/
+    margin-right: 30px;
+
+}
+
+header .navitem { /*Link-Elemente rechts vom Text-Logo*/
     letter-spacing: 0.1em; /*Abstand zwischen Buchstaben*/
     display: inline-block; /*Inline-Boxen*/
-    border-width: 2px; /*Umrandungsbreite*/
+    border-width: thin; /*Umrandungsbreite*/
     border-style: solid; /*Umrandungsstil*/
-    border-radius: 20px; /*Umrandungsradius*/
+    /*border-radius: 20px; Umrandungsradius*/
 }
 
 header > nav > a:hover { /*Links beim drüber hovern*/
-    color: var(--second-color); /*Text-Farbe ändern*/
+    color: var(--fourth-color); /*Text-Farbe ändern*/
+    background-color: var(--first-color);
 }
 
 
@@ -71,11 +115,14 @@ header > nav > a:hover { /*Links beim drüber hovern*/
 ---> Suchbereich Quelle: https://www.iconpacks.net/free-icon/search-2903.html, inspiriert: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_search_button<---
 */
 
+form.suche {
+    display: flex; /* verwendet um suchfeld und button nebeneinander zu platzieren und float: left zu vermeiden */
+}
+
 form.suche input[type=text] {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey; /* kante umzieht die suchleiste */
-    float: left; /* soll sich links im such-dive befinden */
     width: 80%;
 }
 
@@ -106,12 +153,9 @@ footer {
     padding-bottom: 10px; /*Abstand nach unten*/
 
     /* footer immer ganz unten auf der seite */
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    left: 0;
     width: 100%;
-
-
 }
 
 footer > a { /*Links*/

@@ -1,14 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
-    <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css"/>
-    <title>Online-Ausstellung - Start</title>
-</head>
+<?php
+$name = "Start";
+include "php/head.php";
+?>
 
 <body>
 <?php include 'php/header.php'; ?>
@@ -17,7 +13,7 @@
 <main>
     <h1>Hauptseite</h1>
 
-    <img src="images/start.jpg" alt="Start" style="width: 100%">
+    <img src="images/start.jpg" alt="Start">
 
 
     <p>

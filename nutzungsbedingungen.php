@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Virtuelle Online-Ausstellung von Gemälden">
-    <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css"/>
-    <title>Online-Ausstellung - Nutzungsbedingungen</title>
-</head>
-
+<?php
+$name = "Nutzungsbedingungen";
+include "php/head.php";
+?>
 
 <body>
 
@@ -20,7 +15,7 @@
     <h1>Nutzungsbedingungen</h1>
 
     <div class="nutzungsbedingungen">
-        <p>&nbsp;</p><h4><span style="text-decoration: underline;">Nutzungsbedingungen</span>
+        <p>&nbsp;</p><h4><span><u>Nutzungsbedingungen</u></span>
         </h4>
         <p>&nbsp;</p>
         <p><strong>1 Geltungsbereich</strong></p>
@@ -44,7 +39,7 @@
             die gegen diese Kommentareregeln, gegen die guten Sitten oder sonst gegen geltendes deutsches Recht
             verstoßen.
         </p>
-        <p><span style="text-decoration: underline;">Folgende Punkte sind Ihnen nicht genehmigt:</span></p>
+        <p><span><u>Folgende Punkte sind Ihnen nicht genehmigt:</u></span></p>
         <p>1. Inhalte zu veröffentlichen, die unwahr sind und deren Veröffentlichung einen Straftatbestand oder eine
             Ordnungswidrigkeit erfüllt,<br/>2. Versendung von Spam über das Kommentar an andere
             Kommentar-Nutzer/Form-Nutzerin,<br/>3. Verwendung von gesetzlich durch Urheber- und Markenrecht geschützte

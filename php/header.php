@@ -1,12 +1,12 @@
 <header>
     <nav>
-        <a href="index.php">Start</a>
-        <a href="ausstellung.php">Ausstellung</a>
-        <a href="sammlungen.php">Sammlungen</a>
-        <a href="registrierung.php">Registrierung</a>
-        <a href="anmeldung.php">Anmeldung</a>
-        <a href="index.php">Abmeldung</a>
-        <a href="profil.php">Mein Profil</a>
-        <a href="neuereintrag.php">Neuer Eintrag</a>
+        <a href="index.php" class="textlogo">Art Place</a>
+        <a href="ausstellung.php" class="navitem">Ausstellung</a>
+        <a href="sammlungen.php" class="navitem">Sammlungen</a>
+        <a href="registrierung.php" class="navitem">Registrierung</a>
+        <a href="anmeldung.php" class="navitem">Anmeldung</a>
+        <a href="index.php" class="navitem">Abmeldung</a>
+        <a href="profil.php" class="navitem">Mein Profil</a>
+        <a href="neuereintrag.php" class="navitem">Neuer Eintrag</a>
     </nav>
 </header>
