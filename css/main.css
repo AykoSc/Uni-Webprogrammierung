@@ -77,30 +77,35 @@ header { /*Gesamter Navigationsbereich*/
     padding: 15px;
 }
 
-header > nav > div {
+header > nav {
+    display: flex; /* Flex-Modus aktivieren */
+    justify-content: space-between; /* Die flex-Elemente (header-left, header-center) soweit wie möglich verteilen */
+    align-items: center; /* die items mittig anordnen, damit das logo (header-left) auf gleicher höhe wie die link elemente sind */
+}
+
+header .header-center {
+    /*Nochmal Flexbox für die tatsächlichen links, damit diese bei kleinem bidschirm in spalte stehen*/
     display: flex;
     flex-direction: row;
 }
 
-@media (max-width: 800px) {
-    .textlogo {
+@media screen and (max-width: 950px) {
+    header > nav {
         flex-direction: column;
     }
 
-    .navitem {
+    header .header-center {
         flex-direction: column;
     }
 }
 
-header > nav > * { /*Gemeinsame Eigenschaften von textlogo und navitem*/
+header > nav > div > * { /*Gemeinsame Eigenschaften von textlogo und navitem*/
     font-size: 1.2em; /* 1.2 mal so groß wie normaler Text */
     text-decoration: none; /*Nicht als normalen Link anzeigen*/
     font-weight: bold; /*Fett*/
     color: var(--first-color); /*Text in grauer Farbe*/
     margin: 5px; /*Abstand zwischen Elementen*/
     padding: 5px 5px; /*Abstand auf allen Seiten (top und bottom 10px, seiten 40px*/
-
-    flex: 50%;
 }
 
 header .textlogo { /*Text-Logo*/
@@ -117,7 +122,7 @@ header .navitem { /*Link-Elemente rechts vom Text-Logo*/
     /*border-radius: 20px; Umrandungsradius*/
 }
 
-header > nav > a:hover { /*Links beim drüber hovern*/
+header a:hover { /*Links beim drüber hovern*/
     color: var(--fourth-color); /*Text-Farbe ändern*/
     background-color: var(--first-color);
 }
