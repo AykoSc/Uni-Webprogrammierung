@@ -74,26 +74,27 @@ main {
 
 header { /*Gesamter Navigationsbereich*/
     background-color: var(--third-color);
-    padding: 15px;
+    padding: 15px; /*Mehr Abstand in alle Seiten beim Header, damit  dieser größer erscheint*/
 }
 
 header > nav {
     display: flex; /* Flex-Modus aktivieren */
-    justify-content: space-between; /* Die flex-Elemente (header-left, header-center) soweit wie möglich verteilen */
-    align-items: center; /* die items mittig anordnen, damit das logo (header-left) auf gleicher höhe wie die link elemente sind */
+    justify-content: space-between; /* Die flex-Elemente (header-left, header-right) soweit wie möglich verteilen */
+    align-items: center; /* die items zentrieren, damit das logo (header-left) auf gleicher höhe wie die link elemente sind */
 }
 
 header .header-right {
-    /*Nochmal Flexbox für die tatsächlichen links, damit diese bei kleinem bidschirm in spalte stehen*/
+    /*Nochmal Flexbox für die tatsächlichen links, damit diese bei kleinem bidschirm in spalte stehen können*/
     display: flex;
-    flex-direction: row;
 }
 
 @media screen and (max-width: 950px) {
+    /*Text-Logo und Links nicht mehr nebeneinander, sondern übereinander*/
     header > nav {
         flex-direction: column;
     }
 
+    /*Die einzelnen Links nicht mehr nebeneinander, sondern übereinander*/
     header .header-right {
         flex-direction: column;
     }
