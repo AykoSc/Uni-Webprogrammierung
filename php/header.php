@@ -7,7 +7,7 @@
         </div>
 
 
-        <div class="header-center">
+        <div class="header-right">
             <a href="ausstellung.php" class="navitem">Ausstellung</a>
             <a href="sammlungen.php" class="navitem">Sammlungen</a>
             <a href="registrierung.php" class="navitem">Registrierung</a>

@@ -83,7 +83,7 @@ header > nav {
     align-items: center; /* die items mittig anordnen, damit das logo (header-left) auf gleicher höhe wie die link elemente sind */
 }
 
-header .header-center {
+header .header-right {
     /*Nochmal Flexbox für die tatsächlichen links, damit diese bei kleinem bidschirm in spalte stehen*/
     display: flex;
     flex-direction: row;
@@ -94,7 +94,7 @@ header .header-center {
         flex-direction: column;
     }
 
-    header .header-center {
+    header .header-right {
         flex-direction: column;
     }
 }
