@@ -15,7 +15,7 @@ include $abs_path . '/php/head.php';
 <main>
     <h1>Hauptseite</h1>
 
-    <img src="images/start.jpg" alt="Start">
+    <img class="presentation" src="images/start.jpg" alt="Start">
 
 
     <p>

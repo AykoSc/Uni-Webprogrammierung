@@ -15,7 +15,7 @@ include $abs_path . '/php/head.php';
 <main>
 
     <h1>Beispiel Gemälde</h1>
-    <img alt="Stockbild" src="images/start.jpg">
+    <img class="presentation" alt="Stockbild" src="images/start.jpg">
 
     <div class="description">
         <h2>Über das Gemälde</h2>
