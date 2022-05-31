@@ -1,4 +1,7 @@
-<?php if (!isset($abs_path)) include_once 'path.php'; ?>
+<?php
+session_start();
+if (!isset($abs_path)) include_once 'path.php';
+?>
 
 <!DOCTYPE html>
 <html lang="de">

@@ -6,17 +6,15 @@
     <meta name="author" content="Jonas Brüggemann, Ayko Schwedler, Jan Niklas Pollak">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
-    <?php
-    if (!empty($name)) {
-        if ($name == 'Ausstellung' or $name == 'Sammlungen') {
-            echo '<link rel="stylesheet" href="css/ausstellung.css"/>';
-        }
-        if ($name == 'Gemälde') {
-            echo '<link rel="stylesheet" href="css/gemaelde.css"/>';
-        }
-        echo '<title>Online-Ausstellung - ' . $name . '</title>';
-    } else {
-        echo '<title>Online-Ausstellung</title>';
-    }
-    ?>
+
+    <?php if (!empty($name) and ($name == 'Ausstellung' or $name == 'Sammlungen')) : ?>
+        <link rel="stylesheet" href="css/ausstellung.css"/>
+    <?php endif ?>
+
+    <?php if (!empty($name) and $name == 'Gemälde') : ?>
+        <link rel="stylesheet" href="css/gemaelde.css"/>
+    <?php endif ?>
+
+    <title>Online-Ausstellung<?php echo (!empty($name)) ? ' - ' . $name : '' ?></title>
+
 </head>
