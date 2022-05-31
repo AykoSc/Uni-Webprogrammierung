@@ -23,9 +23,8 @@ include $abs_path . '/php/head.php';
         <h3>Hier kannst du einen neuen Eintrag erstellen</h3>
         <form>
             <hr>
-            <p><b>Gemälde auswählen:</b></p>
+            <label for="file">Gemälde auswählen:</label>
             <input type="file" id="file" name="file" class="invisible" required>
-            <p><label for="file">Hier klicken um Datei hochzuladen!</label></p>
             <label for="beschreibung">Beschreibung:</label>
             <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
                       placeholder="Fügen Sie eine Beschreibung ein..."></textarea>
