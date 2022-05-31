@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {
+    session_unset();
+    session_destroy();
+    header("location: index.php");
+}
 if (!isset($abs_path)) include_once 'path.php';
 ?>
 

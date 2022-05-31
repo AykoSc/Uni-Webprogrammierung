@@ -88,7 +88,7 @@ header .header-right {
     display: flex;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1000px) {
     /*Text-Logo und Links nicht mehr nebeneinander, sondern übereinander*/
     header > nav {
         flex-direction: column;
