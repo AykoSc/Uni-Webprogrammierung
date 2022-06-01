@@ -21,7 +21,7 @@ $bewertung = htmlentities($gemaelde[7]);
 $hochladedatum = htmlentities($gemaelde[8]);
 $aufrufe = htmlentities($gemaelde[9]);
 
-/*
+/* TODO
 if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])){
     $user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), "3", $_SESSION["id"]);
 }

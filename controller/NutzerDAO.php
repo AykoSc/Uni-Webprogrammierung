@@ -36,25 +36,25 @@ interface NutzerDAO
 
     public function gemaelde_anlegen($datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): int;
 
-    public function gemaelde_editieren($gemaelde_id, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool;
+    public function gemaelde_editieren($gemaeldeID, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool;
 
-    public function gemaelde_entfernen($gemaelde_id): bool;
+    public function gemaelde_entfernen($gemaeldeID): bool;
 
-    public function gemaelde_erhalten($id): array;
+    public function gemaelde_erhalten($gemaeldeID): array;
 
     public function sammlung_anlegen($gemaelde, $titel, $beschreibung): int;
 
-    public function sammlung_editieren($sammlung_id, $gemaelde, $titel, $beschreibung): bool;
+    public function sammlung_editieren($sammlungID, $gemaelde, $titel, $beschreibung): bool;
 
-    public function sammlung_entfernen($sammlung_id): bool;
+    public function sammlung_entfernen($sammlungID): bool;
 
-    public function sammlung_erhalten($id): array;
+    public function sammlung_erhalten($sammlungID): array;
 
-    public function kommentar_anlegen($text, $gemaelde_id, $author_id): bool;
+    public function kommentar_anlegen($text, $gemaeldeID, $authorID): bool;
 
-    public function kommentar_entfernen($user_id, $kommentar_id): bool;
+    public function kommentar_entfernen($nutzerID, $kommentarID): bool;
 
-    public function kommentar_liken($userID, $kommentar_id): bool;
+    public function kommentar_liken($userID, $kommentarID): bool;
 
-    public function kommentar_erhalten($id): array;
+    public function kommentar_erhalten($gemaeldeID): array;
 }

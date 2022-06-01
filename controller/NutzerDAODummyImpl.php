@@ -5,14 +5,20 @@ include $abs_path . "/controller/NutzerDAO.php";
 class NutzerDAODummyImpl implements NutzerDAO
 {
 
-    // [NutzerID, Email, Passwort, Nutzername]
-    private $users = [
-        [0, "test1@test.com", "test1!", "test1"],
-        [1, "test2@test.com", "test2!", "test2"]
+    // [NutzerID, Email, Passwort]
+    private array $users = [
+        [0, "test1@test.com", "test1!"],
+        [1, "test2@test.com", "test2!"]
+    ];
+
+    // [NutzerID, Nutzername, etc TODO]
+    private array $users_profil = [
+        [0, "test1"],
+        [1, "test2"]
     ];
 
     // [users_NutzerID, Validierungstoken]
-    private $valid_tokens = [
+    private array $valid_tokens = [
         [0, "mA23zbjdkENShbk9ezqNp5nQMpyrVb7m"],
         [1, "YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7"]
     ];
@@ -20,21 +26,21 @@ class NutzerDAODummyImpl implements NutzerDAO
     // [GemaeldeID, users_NutzerID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung (*/10), Hochladedatum, Aufrufe]
     // href: gemaelde.php?id=[GemaeldeID]
     // Datei: images/[GemaeldeID].jpg
-    private $gemaelde = [
+    private array $gemaelde = [
         [0, 0, "Stockbild0", "Stockkünstler0", "Beschreibung von Bild 0", "04.09.1900", "München, Deutschland", 8, "07.10.2021", 56],
         [1, 1, "Stockbild1", "Stockkünstler1", "Beschreibung von Bild 1", "05.10.1234", "Oldenburg, Deutschland", 9, "01.06.2022", 4],
         [2, 1, "Stockbild2", "Stockkünstler2", "Beschreibung von Bild 2", "06.11.1432", "Berlin, Deutschland", 4, "06.09.2022", 8]
     ];
 
     // [KommentarID, gemaelde_GemaeldeID, users_NutzerID, Likeanzahl, Text, Erstellungsdatum]
-    private $kommentare = [
+    private array $kommentare = [
         [0, 0, 0, 274, "Dies ist ein Kommentar!", "05.10.2021"],
         [1, 0, 1, 346, "Dies ist auch ein Kommentar!!", "07.06.2022"],
         [2, 1, 2, 56, "Mein erster Kommentar.", "02.03.2022"]
     ];
 
     // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
-    private $sammlungen = [
+    private array $sammlungen = [
         [0, 1, [0, 2, 1], "Sammlung0", "Beschreibung von Bild 0", 3, "03.01.2021", 2234],
         [1, 1, [1, 0], "Sammlung1", "Beschreibung von Bild 1", 7, "06.04.2022", 34],
         [2, 0, [2, 0], "Sammlung2", "Beschreibung von Bild 2", 5, "02.03.2022", 8673]
@@ -94,23 +100,23 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function gemaelde_editieren($gemaelde_id, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($gemaeldeID, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool
     {
         //TODO: Gemälde wird erst editiert, wenn Datenbank vorhanden ist.
         return true;
     }
 
-    public function gemaelde_entfernen($gemaelde_id): bool
+    public function gemaelde_entfernen($gemaeldeID): bool
     {
         //TODO: Gemälde wird erst entfernt, wenn Datenbank vorhanden ist.
         return true;
     }
 
-    public function gemaelde_erhalten($id): array
+    public function gemaelde_erhalten($gemaeldeID): array
     {
-        if (isset($id) and is_string($id)) {
+        if (isset($gemaeldeID) and is_string($gemaeldeID)) {
             foreach ($this->gemaelde as $g) {
-                if ($g[0] == htmlentities($id)) {
+                if ($g[0] == htmlentities($gemaeldeID)) {
                     return $g;
                 }
             }
@@ -124,23 +130,23 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function sammlung_editieren($sammlung_id, $gemaelde, $titel, $beschreibung): bool
+    public function sammlung_editieren($sammlungID, $gemaelde, $titel, $beschreibung): bool
     {
         //TODO: Sammlung wird erst editiert, wenn Datenbank vorhanden ist.
         return true;
     }
 
-    public function sammlung_entfernen($sammlung_id): bool
+    public function sammlung_entfernen($sammlungID): bool
     {
         //TODO: Sammlung wird erst entfernt, wenn Datenbank vorhanden ist.
         return true;
     }
 
-    public function sammlung_erhalten($id): array
+    public function sammlung_erhalten($sammlungID): array
     {
-        if (isset($id) and is_string($id)) {
+        if (isset($sammlungID) and is_string($sammlungID)) {
             foreach ($this->sammlungen as $s) {
-                if ($s[0] == htmlentities($id)) {
+                if ($s[0] == htmlentities($sammlungID)) {
                     return $s;
                 }
             }
@@ -148,7 +154,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return array();
     }
 
-    public function kommentar_anlegen($text, $gemaelde_id, $author_id): bool
+    public function kommentar_anlegen($text, $gemaeldeID, $authorID): bool
     {
         /*TODO: Kommentar wird erst angelegt, wenn Datenbank vorhanden ist.
         if (isset($author_id) and is_string($author_id) and isset($text) and is_string($text) and isset($gemaelde_id) and is_string($gemaelde_id)) {
@@ -157,7 +163,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_entfernen($user_id, $kommentar_id): bool
+    public function kommentar_entfernen($nutzerID, $kommentarID): bool
     {
         /*TODO: Kommentar wird erst editiert, wenn Datenbank vorhanden ist.
         if (isset($user_id) and is_string($user_id) and isset($kommentar_id) and is_string($kommentar_id) and $this->comments[$kommentar_id]["author"] == $user_id) {
@@ -166,7 +172,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_liken($userID, $kommentar_id): bool
+    public function kommentar_liken($userID, $kommentarID): bool
     {
         /*TODO: Kommentar wird erst geliked, wenn Datenbank vorhanden ist.
         //Nutzer kann nicht mehr liken, weil er den Kommentar erstellt, oder bereits geliked hat
@@ -178,12 +184,35 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_erhalten($id): array
+    public function kommentar_erhalten($gemaeldeID): array
     {
         $result = array();
-        if (isset($id) and is_string($id)) {
+        if (isset($gemaeldeID) and is_string($gemaeldeID)) {
             foreach ($this->kommentare as $k) {
-                if ($k[1] == htmlentities($id)) {
+                if ($k[1] == htmlentities($gemaeldeID)) {
+                    $result[] = $k;
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function profil_bearbeiten($nutzerID): bool
+    {
+        //TODO: Profil wird erst bearbeitet, wenn Datenbank vorhanden ist.
+        return true;
+    }
+
+    //TODO Überall in dieser Klasse htmlspecialchars benutzen zur Sicherheit (https://stackoverflow.com/questions/46483/htmlentities-vs-htmlspecialchars)
+    //TODO Auch die schreibenden Methoden aufrufen, wo sie genutzt werden (nur die Implementierung hier in dieser Klasser leer lassen)
+    //TODO Suche (auch Filter)
+    // TODO interface vervollständigen
+
+    public function profil_erhalten($nutzerID): array
+    {
+        if (isset($nutzerID) and is_string($nutzerID)) {
+            foreach ($this->kommentare as $k) {
+                if ($k[1] == htmlentities($nutzerID)) {
                     $result[] = $k;
                 }
             }

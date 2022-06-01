@@ -1,6 +1,14 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
+include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
+$user = new NutzerDAODummyImpl();
+
+if (isset($_GET["id"]) and is_string($_GET["id"])) {
+    $profil = $user->profil_erhalten(htmlentities($_GET["id"]));
+} else {
+    header("location: index.php");
+}
 ?>
 
 <!DOCTYPE html>

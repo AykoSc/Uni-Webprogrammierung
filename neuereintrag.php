@@ -25,17 +25,23 @@ include $abs_path . '/php/head.php';
             <hr>
             <label for="file">Gemälde auswählen:</label>
             <input type="file" id="file" name="file" class="invisible" required>
+
             <label for="beschreibung">Beschreibung:</label>
             <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
                       placeholder="Fügen Sie eine Beschreibung ein..."></textarea>
+
             <label for="titel">Titel:</label>
             <input type="text" id="titel" name="titel" maxlength="100" required>
+
             <label for="artist">Künstler:</label>
             <input type="text" id="artist" name="artist" maxlength="100" required>
+
             <label for="date">Datum der Erstellung:</label>
             <input type="date" id="date" name="date">
+
             <label for="location">Ort:</label>
             <input type="text" id="location" name="location" maxlength="100">
+
             <hr>
             <button type="submit">Fertigstellen</button>
             <a href="index.php">Abbrechen</a>
