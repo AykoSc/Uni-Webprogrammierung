@@ -13,10 +13,17 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     // [GemaeldeID, href, Bilddatei, Titel]
     private $gemaelde = [
-        ["0", "gemaelde.php", "images/picture1.jpg", "Stockbild1"],
-        ["1", "gemaelde.php", "images/picture2.jpg", "Stockbild2"],
-        ["2", "gemaelde.php", "images/picture3.jpg", "Stockbild3"],
-        ["3", "gemaelde.php", "images/start.jpg", "Startbild"]
+        ["gemaelde_id" => 0, "href" => "gemaelde.php", "bilddatei"  => "images/picture1.jpg", "titel" => "Stockbild1",
+            "beschreibung" => "aliquyam.", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"],
+
+        ["gemaelde_id" => 1, "href" => "gemaelde.php", "bilddatei"  => "images/picture2.jpg", "titel" => "Stockbild2",
+            "beschreibung" => "Lorem", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"],
+        ["gemaelde_id" => 2, "href" => "gemaelde.php", "bilddatei"  => "images/picture3.jpg", "titel" => "Stockbild3",
+            "beschreibung" => "Lorem", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"],
+
+        ["gemaelde_id" => 3, "href" => "gemaelde.php", "bilddatei"  => "images/start.jpg", "titel" => "Start",
+            "beschreibung" => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut 
+            labore et dolore magna aliquyam.", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"]
     ];
 
     // [kommentarID, text, author, likes, userLikes]
@@ -68,6 +75,12 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
+    public function gemaelde_getByID($gemaelde_id): array
+    {
+        //funktioniert weil index = id, bei datenbank dann richtig
+        return $this-> gemaelde[$gemaelde_id];
+    }
+
     public function kommentar_anlegen($inhalt, $sammlung_id, $gemaelde_id): bool
     {
         //TODO
@@ -115,13 +128,20 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_getAll(): array
+    public function kommentar_getAll($gemaelde_id): array
     {
-        return $this->comments;
+        $erg = array();
+        foreach ($this->comments as $comment) {
+            if ($comment["gemaelde_id"] == htmlentities($gemaelde_id)) {
+                $erg[] = $comment;
+            }
+        }
+        return $erg;
     }
 
     public function nutzer_getNameByID($id): String
     {
+        //funktioniert weil index = id, bei datenbank dann richtig
         return $this-> users[$id][3];
     }
 

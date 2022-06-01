@@ -27,26 +27,47 @@ if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"
     $user -> kommentar_liken($_SESSION["id"], htmlspecialchars($_POST["like"]));
 }
 
-print_r($_POST);
 if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])){
     $user -> kommentar_entfernen($_SESSION["id"], htmlspecialchars($_POST["delete"]));
 }
 
 $comments = $user->kommentar_getAll("3");
+$gemaelde = $user->gemaelde_getByID("3");
 ?>
 
 
 <main>
 
     <h1>Beispiel Gemälde</h1>
-    <img class="presentation" alt="Stockbild" src="images/start.jpg">
+    <img class="presentation" alt="Stockbild" src =<?php echo htmlspecialchars($gemaelde["bilddatei"]); ?>>
 
+    <!-- muss noch schöner und idealerweise collapsable gemacht werden-->
     <div class="description">
         <h2>Über das Gemälde</h2>
         <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-            labore et dolore magna aliquyam erat, sed diam voluptua.
+            <?php echo htmlspecialchars($gemaelde["beschreibung"]); ?>
         </p>
+        <h2>Mehr Infos</h2>
+       <ul class ="gemaelde-info-section">
+
+           <li class="gemaelde-info">
+           <h3> KünstlerIn: </h3>
+               <p>
+                   <?php echo htmlspecialchars($gemaelde["ersteller"]); ?>
+               </p>
+           </li>
+           <li class="gemaelde-info">
+               <h3> Erstellungsdatum </h3>
+               <p>
+                   <?php echo htmlspecialchars($gemaelde["datum"]); ?>
+               </p>
+           </li>
+           <li class="gemaelde-info">
+               <h3> Ort </h3>
+               <p>
+                   <?php echo htmlspecialchars($gemaelde["ort"]); ?>
+               </p>
+           </li>
     </div>
 
     <section id="comment_section">
