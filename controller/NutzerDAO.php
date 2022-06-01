@@ -10,7 +10,7 @@ interface NutzerDAO
      * @param $passwort String Passwort des Nutzers
      * @return bool Registrierung erfolgreich
      */
-    public function registrieren(string $nutzername, string $email, string $passwort): bool;
+    public function registrieren($nutzername, $email, $passwort): bool;
 
     /**
      * Funktion zum Anmelden.
@@ -19,7 +19,7 @@ interface NutzerDAO
      * @param $passwort String Passwort des Nutzers
      * @return array<int, String> Nutzer-ID und Token
      */
-    public function anmelden(string $email, string $passwort): array;
+    public function anmelden($email, $passwort): array;
 
     /**
      * Funktion zum Abmelden.
@@ -28,13 +28,13 @@ interface NutzerDAO
      * @param $nutzerToken String Token der Session des Nutzers
      * @return bool Abmeldung erfolgreich
      */
-    function abmelden(int $nutzerID, string $nutzerToken): bool;
+    public function abmelden($nutzerID, $nutzerToken): bool;
 
     public function ausstellung_suche($input): bool;
 
     public function sammlungen_suche($input): bool;
 
-    public function gemaelde_anlegen($datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): int;
+    public function gemaelde_anlegen($id, $file, $beschreibung, $titel, $artist, $date, $location): bool;
 
     public function gemaelde_editieren($gemaeldeID, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool;
 
@@ -50,11 +50,17 @@ interface NutzerDAO
 
     public function sammlung_erhalten($sammlungID): array;
 
-    public function kommentar_anlegen($text, $gemaeldeID, $authorID): bool;
+    public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool;
 
     public function kommentar_entfernen($nutzerID, $kommentarID): bool;
 
-    public function kommentar_liken($userID, $kommentarID): bool;
+    public function kommentar_liken($nutzerID, $kommentarID): bool;
 
     public function kommentar_erhalten($gemaeldeID): array;
+
+    public function profil_erhalten($nutzerID): array;
+
+    public function ausstellung_erhalten($suche, $filter): array;
+
+    public function sammlungen_erhalten($suche, $filter): array;
 }

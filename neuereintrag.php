@@ -1,6 +1,16 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
+include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
+$user = new NutzerDAODummyImpl();
+
+if (isset($_POST['file']) and isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
+    isset($_POST['titel']) and is_string($_POST['titel']) and isset($_POST['artist']) and is_string($_POST['artist']) and
+    isset($_POST['date']) and is_string($_POST['date']) and isset($_POST['location']) and is_string($_POST['location'])) {
+    $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST['file']), htmlspecialchars($_POST['beschreibung']),
+        htmlspecialchars($_POST['titel']), htmlspecialchars($_POST['artist']),
+        htmlspecialchars($_POST['date']), htmlspecialchars($_POST['location']));
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,12 +26,18 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
+    <?php if (isset($erstellung) and is_bool($erstellung) and $erstellung): ?>
+        <p class="nachricht">Eintragerstellung erfolgreich</p>
+    <?php endif ?>
+    <?php if (isset($erstellung) and is_bool($erstellung) and !$erstellung): ?>
+        <p class="nachricht fehler">Eintragerstellung fehlgeschlagen</p>
+    <?php endif ?>
 
     <h1>Neuer Eintrag</h1>
 
     <div class="usermanagement">
         <h3>Hier kannst du einen neuen Eintrag erstellen</h3>
-        <form>
+        <form method="post" action="neuereintrag.php">
             <hr>
             <label for="file">Gemälde auswählen:</label>
             <input type="file" id="file" name="file" class="invisible" required>

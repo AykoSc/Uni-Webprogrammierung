@@ -11,14 +11,14 @@ class NutzerDAODummyImpl implements NutzerDAO
         [1, "test2@test.com", "test2!"]
     ];
 
-    // [NutzerID, Nutzername, etc TODO]
+    // [NutzerID, Nutzername, beschreibung, geschlecht, VollständigerName, Adresse, Sprache, Geburtsdatum, Registrierungsdatum]
     private array $users_profil = [
-        [0, "test1"],
-        [1, "test2"]
+        [0, "test1", "Ich bin Test 1 !", "m", "Max Mustermann", "Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg", "deutsch", "04.10.2000", "01.06.2022"],
+        [1, "test2", "Ich bin der User Test 2 !", "w", "Maxine Musterfrau", "Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg", "deutsch", "01.11.2000", "28.05.2022"]
     ];
 
     // [users_NutzerID, Validierungstoken]
-    private array $valid_tokens = [
+    private array $users_tokens = [
         [0, "mA23zbjdkENShbk9ezqNp5nQMpyrVb7m"],
         [1, "YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7"]
     ];
@@ -36,7 +36,8 @@ class NutzerDAODummyImpl implements NutzerDAO
     private array $kommentare = [
         [0, 0, 0, 274, "Dies ist ein Kommentar!", "05.10.2021"],
         [1, 0, 1, 346, "Dies ist auch ein Kommentar!!", "07.06.2022"],
-        [2, 1, 2, 56, "Mein erster Kommentar.", "02.03.2022"]
+        [2, 1, 2, 56, "Mein erster Kommentar.", "02.03.2022"],
+        [3, 2, 0, 23, "Mein toller Kommentar.", "01.06.2022"]
     ];
 
     // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
@@ -60,12 +61,12 @@ class NutzerDAODummyImpl implements NutzerDAO
     {
         if (isset($email) and is_string($email) and isset($passwort) and is_string($passwort)) {
             foreach ($this->users as $user) {
-                if ($user[1] === htmlentities($email) and $user[2] === htmlentities($passwort)) {
+                if ($user[1] === htmlspecialchars($email) and $user[2] === htmlspecialchars($passwort)) {
                     /* TODO: Token in Datenbank speichern und an User senden, wenn Datenbank vorhanden ist.
                     $gentoken = openssl_random_pseudo_bytes(16); //Generiere einen zufälligen Text.
                     $gentoken = bin2hex($token); //Konvertiere die Binäre-Daten zu Hexadezimal-Daten.
                     */
-                    foreach ($this->valid_tokens as $token) {
+                    foreach ($this->users_tokens as $token) {
                         if ($user[0] === $token[0]) {
                             return array($token[0], $token[1]); // Anmeldung erfolgreich
                         }
@@ -84,17 +85,17 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function ausstellung_suche($input): bool
     {
-
+        //TODO: Ausstellung Suche wird erst angelegt, wenn Datenbank vorhanden ist.
         return true;
     }
 
     public function sammlungen_suche($input): bool
     {
-
+        //TODO: Sammlungen Suche wird erst angelegt, wenn Datenbank vorhanden ist.
         return true;
     }
 
-    public function gemaelde_anlegen($datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): int
+    public function gemaelde_anlegen($id, $file, $beschreibung, $titel, $artist, $date, $location): bool
     {
         //TODO: Gemälde wird erst angelegt, wenn Datenbank vorhanden ist.
         return true;
@@ -116,12 +117,12 @@ class NutzerDAODummyImpl implements NutzerDAO
     {
         if (isset($gemaeldeID) and is_string($gemaeldeID)) {
             foreach ($this->gemaelde as $g) {
-                if ($g[0] == htmlentities($gemaeldeID)) {
+                if ($g[0] == htmlspecialchars($gemaeldeID)) {
                     return $g;
                 }
             }
         }
-        return array();
+        return [-1];
     }
 
     public function sammlung_anlegen($gemaelde, $titel, $beschreibung): int
@@ -146,41 +147,29 @@ class NutzerDAODummyImpl implements NutzerDAO
     {
         if (isset($sammlungID) and is_string($sammlungID)) {
             foreach ($this->sammlungen as $s) {
-                if ($s[0] == htmlentities($sammlungID)) {
+                if ($s[0] == htmlspecialchars($sammlungID)) {
                     return $s;
                 }
             }
         }
-        return array();
+        return [-1];
     }
 
-    public function kommentar_anlegen($text, $gemaeldeID, $authorID): bool
+    public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool
     {
-        /*TODO: Kommentar wird erst angelegt, wenn Datenbank vorhanden ist.
-        if (isset($author_id) and is_string($author_id) and isset($text) and is_string($text) and isset($gemaelde_id) and is_string($gemaelde_id)) {
-            $this->comments[] = ["gemaelde_id" => $gemaelde_id, "kommentar_id" => count($this->comments), "text" => $text, "author" => $author_id, "likes" => 0, "userLikes" => array($author_id)];
-        }*/
+        //TODO: Kommentar wird erst angelegt, wenn Datenbank vorhanden ist.
         return true;
     }
 
     public function kommentar_entfernen($nutzerID, $kommentarID): bool
     {
-        /*TODO: Kommentar wird erst editiert, wenn Datenbank vorhanden ist.
-        if (isset($user_id) and is_string($user_id) and isset($kommentar_id) and is_string($kommentar_id) and $this->comments[$kommentar_id]["author"] == $user_id) {
-            unset($this->comments[$kommentar_id]);
-        }*/
+        //TODO: Kommentar wird erst editiert, wenn Datenbank vorhanden ist.
         return true;
     }
 
-    public function kommentar_liken($userID, $kommentarID): bool
+    public function kommentar_liken($nutzerID, $kommentarID): bool
     {
-        /*TODO: Kommentar wird erst geliked, wenn Datenbank vorhanden ist.
-        //Nutzer kann nicht mehr liken, weil er den Kommentar erstellt, oder bereits geliked hat
-        if (in_array($userID, $this->comments[$kommentar_id]["userLikes"])) {
-            return false;
-        }
-        $this->comments[$kommentar_id]["likes"]++;
-        $this->comments[$kommentar_id]["userLikes"][] = $userID;*/
+        //TODO: Kommentar wird erst geliked, wenn Datenbank vorhanden ist.
         return true;
     }
 
@@ -189,34 +178,123 @@ class NutzerDAODummyImpl implements NutzerDAO
         $result = array();
         if (isset($gemaeldeID) and is_string($gemaeldeID)) {
             foreach ($this->kommentare as $k) {
-                if ($k[1] == htmlentities($gemaeldeID)) {
+                if ($k[1] == htmlspecialchars($gemaeldeID)) {
                     $result[] = $k;
                 }
             }
         }
         return $result;
     }
-
-    public function profil_bearbeiten($nutzerID): bool
-    {
-        //TODO: Profil wird erst bearbeitet, wenn Datenbank vorhanden ist.
-        return true;
-    }
-
-    //TODO Überall in dieser Klasse htmlspecialchars benutzen zur Sicherheit (https://stackoverflow.com/questions/46483/htmlentities-vs-htmlspecialchars)
-    //TODO Auch die schreibenden Methoden aufrufen, wo sie genutzt werden (nur die Implementierung hier in dieser Klasser leer lassen)
-    //TODO Suche (auch Filter)
-    // TODO interface vervollständigen
 
     public function profil_erhalten($nutzerID): array
     {
         if (isset($nutzerID) and is_string($nutzerID)) {
-            foreach ($this->kommentare as $k) {
-                if ($k[1] == htmlentities($nutzerID)) {
-                    $result[] = $k;
+            foreach ($this->users_profil as $profil) {
+                if ($profil[0] == htmlspecialchars($nutzerID)) {
+                    return $profil;
                 }
             }
         }
-        return $result;
+        return [-1];
     }
+
+    public function ausstellung_erhalten($suche, $filter): array
+    {
+        $suche_result = array();
+        if (isset($suche) and is_string($suche)) {
+            foreach ($this->gemaelde as $g) {
+                if (str_contains($g[2], $suche)) {
+                    $suche_result[] = $g;
+                }
+            }
+        } else {
+            $suche_result = $this->gemaelde;
+        }
+        if (isset($filter) and is_string($filter)) {
+            if ($filter === "Beliebteste") { //Nach beliebtesten sortieren
+                for ($i = 0; $i < sizeof($suche_result); $i++) {
+                    for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
+                        if ($suche_result[$i][7] < $suche_result[$j][7]) {
+                            $temp = $suche_result[$i][7];
+                            $suche_result[$i][7] = $suche_result[$j][7];
+                            $suche_result[$j][7] = $temp;
+                        }
+                    }
+                }
+            } else { //Nach Datum sortieren
+                //TODO als richtiges Datum abspeichern um hier weitermachen zu können (nicht als string)
+            }
+        }
+
+        $reihe0 = array();
+        $reihe1 = array();
+        $reihe2 = array();
+        $reihe3 = array();
+
+        $curr_reihe = 0;
+        for ($i = 0; $i < sizeof($suche_result); $i++) {
+            if ($curr_reihe == 0) {
+                $reihe0[] = $suche_result[$i];
+            } else if ($curr_reihe == 1) {
+                $reihe1[] = $suche_result[$i];
+            } else if ($curr_reihe == 2) {
+                $reihe2[] = $suche_result[$i];
+            } else {
+                $reihe3[] = $suche_result[$i];
+            }
+            $curr_reihe = $curr_reihe + 1;
+        }
+
+        return array($reihe0, $reihe1, $reihe2, $reihe3);
+    }
+
+    public function sammlungen_erhalten($suche, $filter): array
+    {
+        $suche_result = array();
+        if (isset($suche) and is_string($suche)) {
+            foreach ($this->sammlungen as $s) {
+                if (str_contains($s[3], $suche)) {
+                    $suche_result[] = $s;
+                }
+            }
+        } else {
+            $suche_result = $this->sammlungen;
+        }
+        if (isset($filter) and is_string($filter)) {
+            if ($filter === "Beliebteste") { //Nach beliebtesten sortieren
+                for ($i = 0; $i < sizeof($suche_result); $i++) {
+                    for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
+                        if ($suche_result[$i][7] < $suche_result[$j][7]) {
+                            $temp = $suche_result[$i][7];
+                            $suche_result[$i][7] = $suche_result[$j][7];
+                            $suche_result[$j][7] = $temp;
+                        }
+                    }
+                }
+            } else { //Nach Datum sortieren
+                //TODO als richtiges Datum abspeichern um hier weitermachen zu können (nicht als string)
+            }
+        }
+        $reihe0 = array();
+        $reihe1 = array();
+        $reihe2 = array();
+        $reihe3 = array();
+
+        $curr_reihe = 0;
+        for ($i = 0; $i < sizeof($suche_result); $i++) {
+            if ($curr_reihe == 0) {
+                $reihe0[] = $suche_result[$i];
+            } else if ($curr_reihe == 1) {
+                $reihe1[] = $suche_result[$i];
+            } else if ($curr_reihe == 2) {
+                $reihe2[] = $suche_result[$i];
+            } else {
+                $reihe3[] = $suche_result[$i];
+            }
+            $curr_reihe = $curr_reihe + 1;
+        }
+
+        return array($reihe0, $reihe1, $reihe2, $reihe3);
+    }
+
 }

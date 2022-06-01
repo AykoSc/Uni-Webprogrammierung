@@ -5,38 +5,38 @@ include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
 $user = new NutzerDAODummyImpl();
 
 if (isset($_GET["id"]) and is_string($_GET["id"])) {
-    $kommentare = $user->kommentar_erhalten(htmlentities($_GET["id"]));
-    $gemaelde = $user->gemaelde_erhalten(htmlentities($_GET["id"]));
+    $kommentare = $user->kommentar_erhalten(htmlspecialchars($_GET["id"]));
+    $gemaelde = $user->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
 } else {
     header("location: index.php");
 }
-$id = $gemaelde[0];
-$nutzer = $gemaelde[1];
-$titel = htmlentities($gemaelde[2]);
-$kuenstler = htmlentities($gemaelde[3]);
-$beschreibung = htmlentities($gemaelde[4]);
-$erstellungsdatum = htmlentities($gemaelde[5]);
-$ort = htmlentities($gemaelde[6]);
-$bewertung = htmlentities($gemaelde[7]);
-$hochladedatum = htmlentities($gemaelde[8]);
-$aufrufe = htmlentities($gemaelde[9]);
+if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
+    $id = $gemaelde[0];
+    $nutzer = $gemaelde[1];
+    $titel = htmlspecialchars($gemaelde[2]);
+    $kuenstler = htmlspecialchars($gemaelde[3]);
+    $beschreibung = htmlspecialchars($gemaelde[4]);
+    $erstellungsdatum = htmlspecialchars($gemaelde[5]);
+    $ort = htmlspecialchars($gemaelde[6]);
+    $bewertung = htmlspecialchars($gemaelde[7]);
+    $hochladedatum = htmlspecialchars($gemaelde[8]);
+    $aufrufe = htmlspecialchars($gemaelde[9]);
+} else {
+    header("location: index.php");
+}
 
-/* TODO
 if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])){
-    $user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), "3", $_SESSION["id"]);
+    $result = $user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_SESSION["id"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"])){
-    $user->kommentar_liken($_SESSION["id"], htmlspecialchars($_POST["like"]));
+    $result = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["like"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])){
-    $user->kommentar_entfernen($_SESSION["id"], htmlspecialchars($_POST["delete"]));
+    $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["delete"]));
 }
 
-$comments = $user->kommentar_erhalten("3");
-$gemaelde = $user->gemaelde_getByID("3");
-*/
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ include $abs_path . '/php/head.php';
         <div class="align_container">
             <div class="container">
                 <h2>Einen Kommentar verfassen</h2>
-                <form method="post" action="gemaelde.php">
+                <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
                     <label for="kommentar" class="invisible">Kommentar</label>
                     <textarea id="kommentar" name="kommentar" maxlength="1000"
                               placeholder="Neuen Kommentar schreiben..."
@@ -91,32 +91,31 @@ include $abs_path . '/php/head.php';
             <?php foreach ($kommentare as $kommentar): ?>
                 <li class="comment">
                     <div class="info">
-                        <a href="profil.php?<?php echo htmlentities($kommentar[2]) ?>"><?php //TODO Name vom Verfasser als String bekommen ?></a>
-                        <span><?php echo htmlentities($kommentar[5]) ?></span>
+                        <a href="profil.php?id=<?php echo htmlspecialchars($kommentar[2]) ?>">
+                            <span><?php echo htmlspecialchars($kommentar[5]) ?></span></a>
                     </div>
-                    <a class="avatar" href="profil.php?<?php echo htmlentities($kommentar[2]) ?>">
+                    <a class="avatar" href="profil.php?id=<?php echo htmlspecialchars($kommentar[2]) ?>">
                         <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
                     </a>
                     <p>
-                        <?php echo htmlentities($kommentar[4]); ?>
+                        <?php echo htmlspecialchars($kommentar[4]); ?>
                     </p>
-                    <a class="likes">
-                        <form method="post" action="gemaelde.php">
-                            <label for="like" class="invisible">Like</label>
-                            <input type="hidden" name="like" value="<?php echo htmlentities($kommentar[3]); ?>">
+                    <div class="likes">
+                        <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
+                            <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
                             <input type="image" alt="thumbsUp" src="images/thumbsUp.png" width="20">
                         </form>
 
-                        <?php echo htmlentities($kommentar[3]) ?>
-                    </a>
+                        <?php echo htmlspecialchars($kommentar[3]) ?>
+                    </div>
                     <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
-                        <a class="delete">
-                            <form method="post" action="gemaelde.php">
-                                <label for="like" class="invisible">Like</label>
-                                <input type="hidden" name="delete" value="<?php echo htmlentities($kommentar[0]); ?>">
+                        <div class="delete">
+                            <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
+                                <input type="hidden" name="delete"
+                                       value="<?php echo htmlspecialchars($kommentar[0]) ?>">
                                 <input type="image" alt="trashbin" src="images/trashbin.png" width="20">
                             </form>
-                        </a>
+                        </div>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>

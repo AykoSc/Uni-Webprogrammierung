@@ -11,7 +11,7 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     if ($_POST["passwort"] === $_POST["passwort_wiederholen"]
         and $_POST["passwort"] !== $_POST["nutzername"]
         and $_POST["passwort"] !== $_POST["email"]) {
-        $registrierung = $user->registrieren(htmlentities($_POST["nutzername"]), htmlentities($_POST["email"]), htmlentities($_POST["passwort"]));
+        $registrierung = $user->registrieren(htmlspecialchars($_POST["nutzername"]), htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["passwort"]));
         if ($registrierung) {
             header("location: anmeldung.php?registrieren=1");
         }
@@ -46,10 +46,10 @@ include $abs_path . '/php/head.php';
             <hr>
             <label for="nutzername">Benutzername</label>
             <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required
-                <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . htmlentities($_POST["nutzername"]) : '' ?>>
+                <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . htmlspecialchars($_POST["nutzername"]) : '' ?>>
             <label for="email">E-Mail</label>
             <input type="email" id="email" name="email" maxlength="100" placeholder="E-Mail eingeben" required
-                <?php echo (isset($_POST["email"]) and is_string($_POST["email"])) ? 'value=' . htmlentities($_POST["email"]) : '' ?>>
+                <?php echo (isset($_POST["email"]) and is_string($_POST["email"])) ? 'value=' . htmlspecialchars($_POST["email"]) : '' ?>>
             <label for="passwort">Passwort</label>
             <input type="password" id="passwort" name="passwort" minlength="8" maxlength="100"
                    placeholder="Passwort eingeben" required>
