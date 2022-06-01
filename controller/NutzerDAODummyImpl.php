@@ -23,9 +23,9 @@ class NutzerDAODummyImpl implements NutzerDAO
     private array $comments= [
         ["gemaelde_id" => "3", "kommentar_id" => "0","text" => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
         sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.", "author" => "test1", "likes" => 0, "userLikes" => array(0)],
+        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.", "author" => "0", "likes" => 0, "userLikes" => array(0)],
         ["gemaelde_id" => "3", "kommentar_id" => "1","text" => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut.", "author" => "test2", "likes" => 0, "userLikes" => array(1)]
+        sed diam nonumy eirmod tempor invidunt ut.", "author" => "1", "likes" => 0, "userLikes" => array(1)]
     ];
 
     public function __construct()
@@ -74,10 +74,13 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_entfernen($gemaelde_id): bool
+    public function kommentar_entfernen($user_id, $kommentar_id): bool
     {
-        //TODO
-        return true;
+        if(isset($user_id) and is_string($user_id) and isset($kommentar_id) and is_string($kommentar_id) and $this->comments[$kommentar_id]["author"] == $user_id){
+                unset($this -> comments[$kommentar_id]);
+                return true;
+        }
+        return false;
     }
 
     public function ausstellung_suche($input): bool
@@ -95,26 +98,31 @@ class NutzerDAODummyImpl implements NutzerDAO
     public function kommentar_schreiben($text, $gemaelde_id, $author_id): bool
     {
         if (isset($author_id) and is_string($author_id) and isset($text) and is_string($text) and isset($gemaelde_id) and is_string($gemaelde_id)) {
-            $this -> comments[] = ["gemaelde_id" => $gemaelde_id, "kommentar_id" => count($this -> comments), "text" => $text, "author" => $this->users[$author_id][3], "likes" => 0, "userLikes" => array($author_id)];
+            $this -> comments[] = ["gemaelde_id" => $gemaelde_id, "kommentar_id" => count($this -> comments), "text" => $text, "author" => $author_id, "likes" => 0, "userLikes" => array($author_id)];
             return true;
         }
         return false;
     }
 
-    public function kommentar_liken($userID, $gemaelde_id): bool
+    public function kommentar_liken($userID, $kommentar_id): bool
     {
-        //Nutzer hat bereits geliked
-        if(in_array($this->comments[$gemaelde_id]["userLikes"], [$userID] )){
+        //Nutzer kann nicht mehr liken, weil er den Kommentar erstellt, oder bereits geliked hat
+        if(in_array($userID, $this->comments[$kommentar_id]["userLikes"] )){
             return false;
         }
-        $this->comments[$gemaelde_id]["likes"]++;
-        $this->comments[$gemaelde_id]["userLikes"][] = $userID;
+        $this->comments[$kommentar_id]["likes"]++;
+        $this->comments[$kommentar_id]["userLikes"][] = $userID;
         return true;
     }
 
     public function kommentar_getAll(): array
     {
         return $this->comments;
+    }
+
+    public function nutzer_getNameByID($id): String
+    {
+        return $this-> users[$id][3];
     }
 
 }
