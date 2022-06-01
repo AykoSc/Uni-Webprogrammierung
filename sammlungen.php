@@ -38,7 +38,7 @@ include $abs_path . '/php/head.php';
 
     <div class="reihe">
         <div class="spalte">
-            <a href="sammlung.php"><img alt="Sammlung" src="images/picture2.jpg"> </a>
+            <a href="sammlung.php"><img alt="Sammlung" src="images/1.jpg"> </a>
         </div>
     </div>
 

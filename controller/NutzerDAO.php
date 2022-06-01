@@ -40,15 +40,21 @@ interface NutzerDAO
 
     public function gemaelde_entfernen($gemaelde_id): bool;
 
+    public function gemaelde_erhalten($id): array;
+
     public function sammlung_anlegen($gemaelde, $titel, $beschreibung): int;
 
     public function sammlung_editieren($sammlung_id, $gemaelde, $titel, $beschreibung): bool;
 
     public function sammlung_entfernen($sammlung_id): bool;
 
+    public function sammlung_erhalten($id): array;
+
     public function kommentar_anlegen($text, $gemaelde_id, $author_id): bool;
 
     public function kommentar_entfernen($user_id, $kommentar_id): bool;
 
     public function kommentar_liken($userID, $kommentar_id): bool;
+
+    public function kommentar_erhalten($id): array;
 }

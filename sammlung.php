@@ -21,7 +21,7 @@ include $abs_path . '/php/head.php';
 
     <div class="sammlung">
         <h3>Test Sammlung</h3>
-        <a href="gemaelde.php"> <img alt="Profil" src="images/picture2.jpg" width="150"> </a>
+        <a href="gemaelde.php"> <img alt="Profil" src="images/1.jpg" width="150"> </a>
     </div>
 
 </main>

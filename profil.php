@@ -28,8 +28,8 @@ include $abs_path . '/php/head.php';
         <p>Über mich</p>
         <div class="profilausstellung">
             <p>Ausgestellte Gemälde</p>
-            <span><a href="gemaelde.php"><img src="images/picture2.jpg" alt="Profil" width="150"></a></span>
-            <span><a href="gemaelde.php"><img src="images/picture1.jpg" alt="Profil" width="150"></a></span>
+            <span><a href="gemaelde.php"><img src="images/1.jpg" alt="Profil" width="150"></a></span>
+            <span><a href="gemaelde.php"><img src="images/0.jpg" alt="Profil" width="150"></a></span>
         </div>
         <div class="profilsammlungen">
             <p>Meine Sammlungen</p>

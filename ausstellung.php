@@ -38,36 +38,36 @@ include $abs_path . '/php/head.php';
 
     <div class="reihe">
         <div class="spalte">
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture2.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture2.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/1.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/1.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
         </div>
 
         <div class="spalte">
-            <a href="gemaelde.php"> <img src="images/picture2.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/1.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
         </div>
 
         <div class="spalte">
-            <a href="gemaelde.php"> <img src="images/picture2.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/1.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
         </div>
 
         <div class="spalte">
-            <a href="gemaelde.php"> <img src="images/picture2.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture1.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
-            <a href="gemaelde.php"> <img src="images/picture3.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/1.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/0.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
+            <a href="gemaelde.php"> <img src="images/2.jpg" alt="Stockbild"> </a>
         </div>
     </div>
 

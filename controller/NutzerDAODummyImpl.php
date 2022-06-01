@@ -17,60 +17,28 @@ class NutzerDAODummyImpl implements NutzerDAO
         [1, "YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7"]
     ];
 
-    // [GemaeldeID, href, Bilddatei, Titel]
-    private $gemaelde = [
-        ["gemaelde_id" => 0, "href" => "gemaelde.php", "bilddatei" => "images/picture1.jpg", "titel" => "Stockbild1",
-            "beschreibung" => "aliquyam.", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"],
-        ["gemaelde_id" => 1, "href" => "gemaelde.php", "bilddatei" => "images/picture2.jpg", "titel" => "Stockbild2",
-            "beschreibung" => "Lorem", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"],
-        ["gemaelde_id" => 2, "href" => "gemaelde.php", "bilddatei" => "images/picture3.jpg", "titel" => "Stockbild3",
-            "beschreibung" => "Lorem", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"],
-        ["gemaelde_id" => 3, "href" => "gemaelde.php", "bilddatei" => "images/start.jpg", "titel" => "Start",
-            "beschreibung" => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut 
-            labore et dolore magna aliquyam.", "datum" => "02.02.2022", "ort" => "Am Main", "ersteller" => "Mark"]
-    ];
-
-    // [kommentarID, text, author, likes, userLikes]
-    private $comments = [
-        ["gemaelde_id" => "3", "kommentar_id" => "0", "text" => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
-        sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.", "author" => "0", "likes" => 0, "userLikes" => array(0)],
-        ["gemaelde_id" => "3", "kommentar_id" => "1", "text" => "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut.", "author" => "1", "likes" => 0, "userLikes" => array(1)]
-    ];
-
-    // TODO: REMOVE vv
-    // [GemaeldeID, users_NutzerID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe]
+    // [GemaeldeID, users_NutzerID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung (*/10), Hochladedatum, Aufrufe]
     // href: gemaelde.php?id=[GemaeldeID]
     // Datei: images/[GemaeldeID].jpg
-    private $gemaelde_alt = [
+    private $gemaelde = [
         [0, 0, "Stockbild0", "Stockkünstler0", "Beschreibung von Bild 0", "04.09.1900", "München, Deutschland", 8, "07.10.2021", 56],
         [1, 1, "Stockbild1", "Stockkünstler1", "Beschreibung von Bild 1", "05.10.1234", "Oldenburg, Deutschland", 9, "01.06.2022", 4],
         [2, 1, "Stockbild2", "Stockkünstler2", "Beschreibung von Bild 2", "06.11.1432", "Berlin, Deutschland", 4, "06.09.2022", 8]
     ];
 
-    // [SammlungID, users_NutzerID, gemaelde_GemaeldeID, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
+    // [KommentarID, gemaelde_GemaeldeID, users_NutzerID, Likeanzahl, Text, Erstellungsdatum]
+    private $kommentare = [
+        [0, 0, 0, 274, "Dies ist ein Kommentar!", "05.10.2021"],
+        [1, 0, 1, 346, "Dies ist auch ein Kommentar!!", "07.06.2022"],
+        [2, 1, 2, 56, "Mein erster Kommentar.", "02.03.2022"]
+    ];
+
+    // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
     private $sammlungen = [
         [0, 1, [0, 2, 1], "Sammlung0", "Beschreibung von Bild 0", 3, "03.01.2021", 2234],
         [1, 1, [1, 0], "Sammlung1", "Beschreibung von Bild 1", 7, "06.04.2022", 34],
         [2, 0, [2, 0], "Sammlung2", "Beschreibung von Bild 2", 5, "02.03.2022", 8673]
     ];
-
-    // [gemaelde_GemaeldeID, users_NutzerID, Likeanzahl, Text, Erstellungsdatum]
-    private $gemaelde_kommentare = [
-        [0, 0, 274, "Dies ist ein Kommentar!", "05.10.2021"],
-        [0, 1, 346, "Dies ist ein Kommentar!!", "07.06.2022"],
-        [1, 2, 56, "Mein erster Kommentar.", "02.03.2022"]
-    ];
-
-    // [sammlungen_SammlungID, users_NutzerID, Likeanzahl, Text, Erstellungsdatum]
-    private $sammlungen_kommentare = [
-        [0, 0, 274, "Dies ist ein Kommentar!", "05.10.2021"],
-        [0, 1, 346, "Dies ist ein Kommentar!!", "07.06.2022"],
-        [1, 2, 56, "Mein erster Kommentar.", "02.03.2022"]
-    ];
-
-    // TODO: REMOVE ^^
 
     public function __construct()
     {
@@ -102,6 +70,12 @@ class NutzerDAODummyImpl implements NutzerDAO
         return array(-1, ""); // Anmeldung fehlgeschlagen
     }
 
+    public function abmelden($nutzerID, $nutzerToken): bool
+    {
+        // TODO: Token wird erst aus der Tabelle für valide Token gelöscht, wenn Datenbank vorhanden ist.
+        return true;
+    }
+
     public function ausstellung_suche($input): bool
     {
 
@@ -111,12 +85,6 @@ class NutzerDAODummyImpl implements NutzerDAO
     public function sammlungen_suche($input): bool
     {
 
-        return true;
-    }
-
-    public function abmelden($nutzerID, $nutzerToken): bool
-    {
-        // TODO: Token wird erst aus der Tabelle für valide Token gelöscht, wenn Datenbank vorhanden ist.
         return true;
     }
 
@@ -138,6 +106,18 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
+    public function gemaelde_erhalten($id): array
+    {
+        if (isset($id) and is_string($id)) {
+            foreach ($this->gemaelde as $g) {
+                if ($g[0] == htmlentities($id)) {
+                    return $g;
+                }
+            }
+        }
+        return array();
+    }
+
     public function sammlung_anlegen($gemaelde, $titel, $beschreibung): int
     {
         //TODO: Sammlung wird erst angelegt, wenn Datenbank vorhanden ist.
@@ -156,56 +136,58 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
+    public function sammlung_erhalten($id): array
+    {
+        if (isset($id) and is_string($id)) {
+            foreach ($this->sammlungen as $s) {
+                if ($s[0] == htmlentities($id)) {
+                    return $s;
+                }
+            }
+        }
+        return array();
+    }
+
     public function kommentar_anlegen($text, $gemaelde_id, $author_id): bool
     {
+        /*TODO: Kommentar wird erst angelegt, wenn Datenbank vorhanden ist.
         if (isset($author_id) and is_string($author_id) and isset($text) and is_string($text) and isset($gemaelde_id) and is_string($gemaelde_id)) {
             $this->comments[] = ["gemaelde_id" => $gemaelde_id, "kommentar_id" => count($this->comments), "text" => $text, "author" => $author_id, "likes" => 0, "userLikes" => array($author_id)];
-            return true;
-        }
-        return false;
+        }*/
+        return true;
     }
 
     public function kommentar_entfernen($user_id, $kommentar_id): bool
     {
+        /*TODO: Kommentar wird erst editiert, wenn Datenbank vorhanden ist.
         if (isset($user_id) and is_string($user_id) and isset($kommentar_id) and is_string($kommentar_id) and $this->comments[$kommentar_id]["author"] == $user_id) {
             unset($this->comments[$kommentar_id]);
-            return true;
-        }
-        return false;
+        }*/
+        return true;
     }
 
     public function kommentar_liken($userID, $kommentar_id): bool
     {
+        /*TODO: Kommentar wird erst geliked, wenn Datenbank vorhanden ist.
         //Nutzer kann nicht mehr liken, weil er den Kommentar erstellt, oder bereits geliked hat
         if (in_array($userID, $this->comments[$kommentar_id]["userLikes"])) {
             return false;
         }
         $this->comments[$kommentar_id]["likes"]++;
-        $this->comments[$kommentar_id]["userLikes"][] = $userID;
+        $this->comments[$kommentar_id]["userLikes"][] = $userID;*/
         return true;
     }
 
-    public function kommentar_getAll($gemaelde_id): array
+    public function kommentar_erhalten($id): array
     {
-        $erg = array();
-        foreach ($this->comments as $comment) {
-            if ($comment["gemaelde_id"] == htmlentities($gemaelde_id)) {
-                $erg[] = $comment;
+        $result = array();
+        if (isset($id) and is_string($id)) {
+            foreach ($this->kommentare as $k) {
+                if ($k[1] == htmlentities($id)) {
+                    $result[] = $k;
+                }
             }
         }
-        return $erg;
+        return $result;
     }
-
-    public function nutzer_getNameByID($id): string
-    {
-        //funktioniert weil index = id, bei datenbank dann richtig
-        return $this->users[$id][3];
-    }
-
-    public function gemaelde_getByID($gemaelde_id): array
-    {
-        //funktioniert weil index = id, bei datenbank dann richtig
-        return $this->gemaelde[$gemaelde_id];
-    }
-
 }
