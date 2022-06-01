@@ -46,7 +46,9 @@ interface NutzerDAO
 
     public function sammlung_entfernen($sammlung_id): bool;
 
-    public function kommentar_anlegen($inhalt, $sammlung_id, $gemaelde_id): bool;
+    public function kommentar_anlegen($text, $gemaelde_id, $author_id): bool;
 
-    public function kommentar_entfernen($gemaelde_id): bool;
+    public function kommentar_entfernen($user_id, $kommentar_id): bool;
+
+    public function kommentar_liken($userID, $kommentar_id): bool;
 }

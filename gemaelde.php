@@ -20,7 +20,7 @@ include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
 
 //TODO gemaelde_id noch fest
 if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])){
-    ($user -> kommentar_schreiben(htmlspecialchars($_POST["kommentar"]), "3", $_SESSION["id"]));
+    ($user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), "3", $_SESSION["id"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"])){
