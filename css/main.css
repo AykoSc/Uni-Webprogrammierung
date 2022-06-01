@@ -229,3 +229,22 @@ footer > a:hover { /*Links beim drüber hovern*/
 .usermanagement form > button:hover {
     opacity: 1; /*Deckkraft*/
 }
+
+/*
+---> Interaktion mit Nutzer: Rückmeldung per Nachricht <---
+*/
+
+.nachricht {
+    font-weight: bold; /*Fett*/
+    border-width: medium; /*Umrandungsbreite*/
+    border-style: solid; /*Umrandungsstil*/
+    border-color: darkgreen; /*Umrandungsfarbe*/
+    background-color: white; /*Hintergrundfarbe*/
+    text-align: center; /*Mittiger Text*/
+    padding-top: 5px; /*Platz nach oben*/
+    padding-bottom: 5px; /*Platz nach unten*/
+}
+
+.fehler {
+    border-color: darkred; /*Umrandungsfarbe*/
+}

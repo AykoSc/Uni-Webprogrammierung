@@ -1,9 +1,7 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-
 include_once $abs_path . "/controller/NutzerDAODummyImpl.php";
-
 $user = new NutzerDAODummyImpl();
 
 if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
@@ -13,10 +11,12 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     if ($_POST["passwort"] === $_POST["passwort_wiederholen"]
         and $_POST["passwort"] !== $_POST["nutzername"]
         and $_POST["passwort"] !== $_POST["email"]) {
-        $result = $user->registrieren(htmlentities($_POST["nutzername"]), htmlentities($_POST["email"]), htmlentities($_POST["passwort"]));
-        if ($result) {
-            header("location: anmeldung.php");
+        $registrierung = $user->registrieren(htmlentities($_POST["nutzername"]), htmlentities($_POST["email"]), htmlentities($_POST["passwort"]));
+        if ($registrierung) {
+            header("location: anmeldung.php?registrieren=1");
         }
+    } else {
+        $registrierung = false;
     }
 }
 ?>
@@ -34,6 +34,9 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
+    <?php if (isset($registrierung) and is_bool($registrierung) and !$registrierung): ?>
+        <p class="nachricht fehler">Registrierung fehlgeschlagen</p>
+    <?php endif ?>
 
     <h1>Registrierung</h1>
 
@@ -43,10 +46,10 @@ include $abs_path . '/php/head.php';
             <hr>
             <label for="nutzername">Benutzername</label>
             <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required
-                <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . $_POST["nutzername"] : '' ?>>
+                <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . htmlentities($_POST["nutzername"]) : '' ?>>
             <label for="email">E-Mail</label>
             <input type="email" id="email" name="email" maxlength="100" placeholder="E-Mail eingeben" required
-                <?php echo (isset($_POST["email"]) and is_string($_POST["email"])) ? 'value=' . $_POST["email"] : '' ?>>
+                <?php echo (isset($_POST["email"]) and is_string($_POST["email"])) ? 'value=' . htmlentities($_POST["email"]) : '' ?>>
             <label for="passwort">Passwort</label>
             <input type="password" id="passwort" name="passwort" minlength="8" maxlength="100"
                    placeholder="Passwort eingeben" required>
