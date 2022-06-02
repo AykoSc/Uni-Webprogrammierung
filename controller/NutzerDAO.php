@@ -34,7 +34,7 @@ interface NutzerDAO
 
     public function sammlungen_suche($input): bool;
 
-    public function gemaelde_anlegen($id, $file, $beschreibung, $titel, $artist, $date, $location): bool;
+    public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool;
 
     public function gemaelde_editieren($gemaeldeID, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool;
 
@@ -42,7 +42,7 @@ interface NutzerDAO
 
     public function gemaelde_erhalten($gemaeldeID): array;
 
-    public function sammlung_anlegen($gemaelde, $titel, $beschreibung): int;
+    public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool;
 
     public function sammlung_editieren($sammlungID, $gemaelde, $titel, $beschreibung): bool;
 
