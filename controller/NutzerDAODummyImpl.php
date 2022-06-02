@@ -95,7 +95,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function gemaelde_anlegen($id, $file, $beschreibung, $titel, $artist, $date, $location): bool
+    public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool
     {
         //TODO: Gemälde wird erst angelegt, wenn Datenbank vorhanden ist.
         return true;
@@ -125,7 +125,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function sammlung_anlegen($gemaelde, $titel, $beschreibung): int
+    public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool
     {
         //TODO: Sammlung wird erst angelegt, wenn Datenbank vorhanden ist.
         return true;
@@ -211,13 +211,13 @@ class NutzerDAODummyImpl implements NutzerDAO
             $suche_result = $this->gemaelde;
         }
         if (isset($filter) and is_string($filter)) {
-            if ($filter === "Beliebteste") { //Nach beliebtesten sortieren
+            if ($filter === "relevance") { //Nach beliebtesten sortieren
                 for ($i = 0; $i < sizeof($suche_result); $i++) {
                     for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
-                        if ($suche_result[$i][7] < $suche_result[$j][7]) {
-                            $temp = $suche_result[$i][7];
-                            $suche_result[$i][7] = $suche_result[$j][7];
-                            $suche_result[$j][7] = $temp;
+                        if ($suche_result[$i][9] < $suche_result[$j][9]) {
+                            $temp = $suche_result[$i][9];
+                            $suche_result[$i][9] = $suche_result[$j][9];
+                            $suche_result[$j][9] = $temp;
                         }
                     }
                 }
@@ -226,75 +226,20 @@ class NutzerDAODummyImpl implements NutzerDAO
             }
         }
 
-        $reihe0 = array();
-        $reihe1 = array();
-        $reihe2 = array();
-        $reihe3 = array();
-
+        $return_array = array(array(), array(), array(), array());
         $curr_reihe = 0;
-        for ($i = 0; $i < sizeof($suche_result); $i++) {
-            if ($curr_reihe == 0) {
-                $reihe0[] = $suche_result[$i];
-            } else if ($curr_reihe == 1) {
-                $reihe1[] = $suche_result[$i];
-            } else if ($curr_reihe == 2) {
-                $reihe2[] = $suche_result[$i];
-            } else {
-                $reihe3[] = $suche_result[$i];
-            }
-            $curr_reihe = $curr_reihe + 1;
+        foreach ($suche_result as $gemaelde_result) {
+            $return_array[$curr_reihe][] = $gemaelde_result;
+            $curr_reihe = ($curr_reihe + 1) % 4;
         }
 
-        return array($reihe0, $reihe1, $reihe2, $reihe3);
+        return $return_array;
     }
 
     public function sammlungen_erhalten($suche, $filter): array
     {
-        $suche_result = array();
-        if (isset($suche) and is_string($suche)) {
-            foreach ($this->sammlungen as $s) {
-                if (str_contains($s[3], $suche)) {
-                    $suche_result[] = $s;
-                }
-            }
-        } else {
-            $suche_result = $this->sammlungen;
-        }
-        if (isset($filter) and is_string($filter)) {
-            if ($filter === "Beliebteste") { //Nach beliebtesten sortieren
-                for ($i = 0; $i < sizeof($suche_result); $i++) {
-                    for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
-                        if ($suche_result[$i][7] < $suche_result[$j][7]) {
-                            $temp = $suche_result[$i][7];
-                            $suche_result[$i][7] = $suche_result[$j][7];
-                            $suche_result[$j][7] = $temp;
-                        }
-                    }
-                }
-            } else { //Nach Datum sortieren
-                //TODO als richtiges Datum abspeichern um hier weitermachen zu können (nicht als string)
-            }
-        }
-        $reihe0 = array();
-        $reihe1 = array();
-        $reihe2 = array();
-        $reihe3 = array();
-
-        $curr_reihe = 0;
-        for ($i = 0; $i < sizeof($suche_result); $i++) {
-            if ($curr_reihe == 0) {
-                $reihe0[] = $suche_result[$i];
-            } else if ($curr_reihe == 1) {
-                $reihe1[] = $suche_result[$i];
-            } else if ($curr_reihe == 2) {
-                $reihe2[] = $suche_result[$i];
-            } else {
-                $reihe3[] = $suche_result[$i];
-            }
-            $curr_reihe = $curr_reihe + 1;
-        }
-
-        return array($reihe0, $reihe1, $reihe2, $reihe3);
+        //TODO ausstellung_erhalten neu copy pasten mit anderen index-werten
+        return array(-1);
     }
 
 }

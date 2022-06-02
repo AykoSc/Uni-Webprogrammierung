@@ -133,18 +133,18 @@ header a:hover { /*Links beim drüber hovern*/
 ---> Suchbereich Quelle: https://www.iconpacks.net/free-icon/search-2903.html, inspiriert: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_search_button<---
 */
 
-form.suche {
+.suche {
     display: flex; /* verwendet um suchfeld und button nebeneinander zu platzieren und float: left zu vermeiden */
 }
 
-form.suche input[type=text] {
+.suche input[type=text] {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey; /* kante umzieht die suchleiste */
     width: 80%;
 }
 
-form.suche button {
+.suche button {
     width: 20%;
     padding: 10px;
     background: var(--third-color);
@@ -154,7 +154,7 @@ form.suche button {
     cursor: pointer;
 }
 
-form.suche button:hover {
+.suche button:hover {
     background: #0b7dda;
 }
 

@@ -25,6 +25,7 @@ include $abs_path . '/php/head.php';
             <hr>
             <label for="email">E-Mail:</label>
             <input type="email" id="email" name="email" maxlength="100" required>
+
             <label for="kommentar">Kommentar:</label>
             <textarea id="kommentar" name="kommentar" cols="40" rows="10" maxlength="1000" wrap="soft"
                       placeholder="Neuen Kommentar schreiben..." required></textarea>

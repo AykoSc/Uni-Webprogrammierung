@@ -4,10 +4,42 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
 $user = new NutzerDAODummyImpl();
 
+/* Funktioniert nicht
+
+$wrongFilterLinkFormat = false;
+$filter = "";
+if (isset($_GET["filter"]) and is_string($_GET["filter"])) {
+    if ($_GET["filter"] === "") {
+        $wrongFilterLinkFormat = true;
+    } else {
+        $filter = htmlspecialchars($_GET["filter"]);
+    }
+}
+
+$wrongSucheLinkFormat = false;
+$suche = "";
 if (isset($_GET["suche"]) and is_string($_GET["suche"])) {
-    $ausstellung = $user->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), "Beliebteste");
+    if ($_GET["suche"] === "") {
+        $wrongSucheLinkFormat = true;
+    } else {
+        $suche = htmlspecialchars($_GET["suche"]);
+    }
+}
+
+if ($wrongFilterLinkFormat or $wrongSucheLinkFormat) {
+    //"?filter=" . htmlspecialchars($filter)
+    //"?suche=" . htmlspecialchars($suche)
+    header("location: ausstellung.php"
+        . ($wrongSucheLinkFormat ? ("?suche=" . $suche) : "")
+        . ($wrongFilterLinkFormat ? ("?filter=" . $filter) : ""));
+}
+*/
+
+if (isset($_GET["suche"]) and is_string($_GET["suche"])
+    and isset($_GET["filter"]) and is_string($_GET["filter"])) {
+    $ausstellung = $user->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
 } else {
-    $ausstellung = $user->ausstellung_erhalten("", "Beliebteste");
+    $ausstellung = $user->ausstellung_erhalten("", "");
 }
 
 $reihe0 = $ausstellung[0];
@@ -34,20 +66,32 @@ include $abs_path . '/php/head.php';
 
     <h3>Hier findest du alle Gemälde</h3>
 
-    <form class="suche">
-        <label for="suche" class="invisible">Suche</label>
-        <input type="text" placeholder="Suche..." name="suche" id="suche">
-        <button>
-            <img src="images/suche.svg" alt="suchen" height="16" width="16">
-        </button>
-    </form>
-    <div class="filter">
+    <form>
+        <div class="suche">
+            <label for="suche" class="invisible">Suche</label>
+            <?php if (true): ?>
+                <input type="text" placeholder="Suche..." name="suche" id="suche">
+            <?php endif ?>
+            <button>
+                <img src="images/suche.svg" alt="suchen" height="16" width="16">
+            </button>
+        </div>
+
         <label for="filter">Filtern nach:</label>
-        <select id="filter" name="Filter">
-            <option value="relevance" selected>Beliebteste</option>
+        <select id="filter" name="filter">
+            <option value="" selected>-</option>
+            <option value="relevance">Beliebteste</option>
             <option value="date">Datum</option>
+            +
         </select>
-    </div>
+    </form>
+
+    <!-- Filter überschreibt Suche, deswegen kommt Filter in Suche rein
+    <form class="filter">
+
+        <button type="submit">Filtern</button>
+    </form>
+    -->
 
     <div class="reihe">
         <div class="spalte">
