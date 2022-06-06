@@ -215,9 +215,9 @@ class NutzerDAODummyImpl implements NutzerDAO
                 for ($i = 0; $i < sizeof($suche_result); $i++) {
                     for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
                         if ($suche_result[$i][9] < $suche_result[$j][9]) {
-                            $temp = $suche_result[$i][9];
-                            $suche_result[$i][9] = $suche_result[$j][9];
-                            $suche_result[$j][9] = $temp;
+                            $temp = $suche_result[$i];
+                            $suche_result[$i] = $suche_result[$j];
+                            $suche_result[$j] = $temp;
                         }
                     }
                 }
