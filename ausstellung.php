@@ -30,7 +30,7 @@ if ($wrongFilterLinkFormat or $wrongSucheLinkFormat) {
     //"?filter=" . htmlspecialchars($filter)
     //"?suche=" . htmlspecialchars($suche)
     header("location: ausstellung.php"
-        . ($wrongSucheLinkFormat ? ("?suche=" . $suche) : "")
+        . ($wrongSucheLinkFormat ? ("?suche=" . $suche) : "") . "&" .
         . ($wrongFilterLinkFormat ? ("?filter=" . $filter) : ""));
 }
 */

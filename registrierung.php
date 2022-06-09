@@ -8,15 +8,30 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     and isset($_POST["email"]) and is_string($_POST["email"])
     and isset($_POST["passwort"]) and is_string($_POST["passwort"])
     and isset($_POST["passwort_wiederholen"]) and is_string($_POST["passwort_wiederholen"])) {
-    if ($_POST["passwort"] === $_POST["passwort_wiederholen"]
-        and $_POST["passwort"] !== $_POST["nutzername"]
-        and $_POST["passwort"] !== $_POST["email"]) {
-        $registrierung = $user->registrieren(htmlspecialchars($_POST["nutzername"]), htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["passwort"]));
-        if ($registrierung) {
-            header("location: anmeldung.php?registrieren=1");
-        }
-    } else {
+    $nutzername = htmlspecialchars($_POST["nutzername"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $passwort = htmlspecialchars($_POST["passwort"]);
+    $passwort_wiederholen = htmlspecialchars($_POST["passwort_wiederholen"]);
+    if ($passwort !== $passwort_wiederholen) {
+        $fehlermeldung = "Das Passwort wurde falsch wiederholt.";
+    }
+    if ($passwort === $nutzername) {
+        $fehlermeldung = "Das Passwort darf nicht dem Nutzernamen entsprechen.";
+    }
+    if ($passwort === $email) {
+        $fehlermeldung = "Das Passwort darf nicht der Email entsprechen.";
+    }
+    if (isset($fehlermeldung) and is_string($fehlermeldung)) {
         $registrierung = false;
+    } else {
+        $registrierung = $user->registrieren($nutzername, $email, $passwort);
+        if (!$registrierung) {
+            $fehlermeldung = "Der Nutzername oder die Email wird bereits verwendet.";
+        }
+    }
+
+    if ($registrierung) {
+        header("location: anmeldung.php?registrieren=1");
     }
 }
 ?>
@@ -34,8 +49,8 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($registrierung) and is_bool($registrierung) and !$registrierung): ?>
-        <p class="nachricht fehler">Registrierung fehlgeschlagen</p>
+    <?php if (isset($registrierung) and is_bool($registrierung) and !$registrierung and isset($fehlermeldung) and is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler">Registrierung fehlgeschlagen: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
 
     <h1>Registrierung</h1>

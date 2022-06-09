@@ -34,6 +34,8 @@ interface NutzerDAO
 
     public function sammlungen_suche($input): bool;
 
+    public function kontakt_aufnehmen($email, $kommentar): bool;
+
     public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool;
 
     public function gemaelde_editieren($gemaeldeID, $beschreibung, $titel, $erstellungsdatum, $ort): bool;

@@ -5,6 +5,10 @@ include $abs_path . "/controller/NutzerDAO.php";
 class NutzerDAODummyImpl implements NutzerDAO
 {
 
+    /*
+     * Datenspeicherung (ALT)
+     */
+
     // [NutzerID, Email, Passwort]
     private array $users = [
         [0, "test1@test.com", "test1!"],
@@ -47,8 +51,25 @@ class NutzerDAODummyImpl implements NutzerDAO
         [2, 0, [2, 0], "Sammlung2", "Beschreibung von Bild 2", 5, "02.03.2022", 8673]
     ];
 
+    /*
+     * Datenspeicherung (NEU)
+     */
+
+    /*TODO Datenbank weitermachen
+    private SQLite3 $db;
+    */
+
+
     public function __construct()
     {
+        /*TODO Datenbank weitermachen
+        $db = new SQLite3("sqlite-beispiele.db");
+        $sql = "CREATE TABLE tabelle (
+                id INTEGER PRIMARY KEY, // erzeugt Autowert
+                feld TEXT
+                     )";
+        $db->exec($sql);
+        */
     }
 
     public function registrieren($nutzername, $email, $passwort): bool
@@ -92,6 +113,12 @@ class NutzerDAODummyImpl implements NutzerDAO
     public function sammlungen_suche($input): bool
     {
         //TODO: Sammlungen Suche wird erst angelegt, wenn Datenbank vorhanden ist.
+        return true;
+    }
+
+    public function kontakt_aufnehmen($email, $kommentar): bool
+    {
+        //TODO: Kontaktaufnahme wird erst gespeichert, wenn Datenbank vorhanden ist.
         return true;
     }
 

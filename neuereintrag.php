@@ -7,11 +7,12 @@ $user = new NutzerDAODummyImpl();
 if (isset($_REQUEST['typ']) and is_string($_REQUEST['typ'])) {
     if ($_REQUEST['typ'] === 'Gemälde') {
         $gemaelde = true;
-    } elseif ($_REQUEST['typ'] === 'Sammlung') {
+    } else if ($_REQUEST['typ'] === 'Sammlung') {
         $gemaelde = false;
-    } else {
-        header("location: index.php");
     }
+}
+if (!isset($gemaelde)) {
+    header("location: index.php");
 }
 
 if ($gemaelde) {
