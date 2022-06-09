@@ -127,6 +127,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .container {
@@ -179,4 +180,43 @@ button {
 
 .description p {
     font-size: medium;
+}
+
+.description {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.description .grid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+}
+
+.description input[type ="submit"]{
+    display: flex;
+    justify-self: flex-end;
+}
+
+
+details > summary{
+    cursor: pointer;
+    color: #656c71;
+    list-style: none;
+}
+
+.extended_description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+details.extended_description[open] summary::after {
+    content: attr(data-open);
+}
+
+details.extended_description:not([open]) summary::after {
+    content: attr(data-close);
 }

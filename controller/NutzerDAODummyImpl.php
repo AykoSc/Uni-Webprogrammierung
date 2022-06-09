@@ -101,7 +101,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function gemaelde_editieren($gemaeldeID, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($gemaeldeID, $beschreibung, $titel, $erstellungsdatum, $ort): bool
     {
         //TODO: Gemälde wird erst editiert, wenn Datenbank vorhanden ist.
         return true;

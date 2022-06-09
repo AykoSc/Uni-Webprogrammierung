@@ -36,7 +36,7 @@ interface NutzerDAO
 
     public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool;
 
-    public function gemaelde_editieren($gemaeldeID, $datei, $beschreibung, $titel, $kuenstler, $erstellungsdatum, $ort): bool;
+    public function gemaelde_editieren($gemaeldeID, $beschreibung, $titel, $erstellungsdatum, $ort): bool;
 
     public function gemaelde_entfernen($gemaeldeID): bool;
 

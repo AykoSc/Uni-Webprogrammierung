@@ -37,6 +37,14 @@ if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["del
     $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["delete"]));
 }
 
+//Eintrag bearbeiten
+if (isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
+    isset($_POST['date']) and is_string($_POST['date']) and
+    isset($_POST['location']) and is_string($_POST['location'])) {
+    $gemaelde = $user->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST['beschreibung']), "titel",
+        htmlspecialchars($_POST['date']), htmlspecialchars($_POST['location']));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +54,7 @@ if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["del
 $name = "Gemälde";
 include $abs_path . '/php/head.php';
 ?>
-
+</div>
 <body>
 
 <?php include $abs_path . '/php/header.php'; ?>
@@ -55,29 +63,92 @@ include $abs_path . '/php/head.php';
 
     <h1><?php echo $titel ?></h1>
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id ?>.jpg">
-
+<div class = "align_container">
     <div class="description">
-        <h2>Über das Gemälde</h2>
-        <h3>Beschreibung</h3>
-        <p><?php echo $beschreibung ?></p>
-        <h3>KünstlerIn</h3>
-        <p><?php echo $kuenstler ?></p>
-        <h3>Erstellungsdatum</h3>
-        <p><?php echo $erstellungsdatum ?></p>
-        <h3>Ort</h3>
-        <p><?php echo $ort ?></p>
-        <h3>Bewertung</h3>
-        <p><?php echo $bewertung ?>/10</p>
-        <h3>Hochladedatum</h3>
-        <p><?php echo $hochladedatum ?></p>
-        <h3>Aufrufe</h3>
-        <p><?php echo $aufrufe ?></p>
-    </div>
+        <?php if (isset($_SESSION["id"]) and htmlspecialchars($nutzer) == htmlspecialchars($_SESSION["id"])) : ?>
 
+            <form method="post">
+                <h2> Über das Gemaelde </h2>
+                <label for="beschreibung" class="invisible">Beschreibung</label>
+                <textarea cols="70" rows="10" name="beschreibung"> <?php echo $beschreibung ?> </textarea>
+                <div class="grid">
+                        <div class ="item">
+                            <h3>KünstlerIn</h3>
+                            <label for="kuenstler" class="invisible">Künstler</label>
+                            <input type="text" name="kuenstler" value="<?php echo htmlspecialchars($kuenstler) ?>"/>
+                        </div>
+                    <div class ="item">
+                        <h3>Erstellungsdatum</h3>
+                        <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
+                        <input type="text" name="erstellungsdatum" value="<?php echo $erstellungsdatum ?>"/>
+                    </div>
+                    <div class="item">
+                        <h3>Ort</h3>
+                        <label for="ort" class="invisible">Ort</label>
+                        <input type="text" name="ort" value="<?php echo htmlspecialchars($ort)?>" ?>
+                    </div>
+                    <div class = "item">
+                        <h3>Bewertung</h3>
+                        <p><?php echo $bewertung ?>/10</p>
+                    </div>
+                    <div class = "item">
+                        <h3>Hochladedatum</h3>
+                        <p><?php echo $hochladedatum ?></p>
+                    </div>
+                    <div class = "item">
+                        <h3>Aufrufe</h3>
+                        <p><?php echo $aufrufe ?></p>
+                    </div>
+                </div>
+                <input type="submit" name="Submit" value="Speichern" />
+            </form>
+        <?php else: ?>
+
+
+            <h2>Über das Gemälde</h2>
+        <p><?php echo $beschreibung ?></p>
+            <details class ="extended_description">
+                <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
+
+                <div class="grid">
+                    <div class="item" >
+                        <h3>KünstlerIn</h3>
+                        <p><?php echo $kuenstler ?></p>
+                    </div>
+                    <div class="item" >
+                        <h3>Erstellungsdatum</h3>
+                        <p><?php echo $erstellungsdatum ?></p>
+                    </div>
+                    <div class="description-item" >
+                        <h3>Ort</h3>
+                        <p><?php echo $ort ?></p>
+                    </div>
+                    <div class="item" >
+                        <h3>Bewertung</h3>
+                        <p><?php echo $bewertung ?>/10</p>
+                    </div>
+                    <div class="item" >
+                        <h3>Hochladedatum</h3>
+                        <p><?php echo $hochladedatum ?></p>
+                    </div>
+                    <div class="item" >
+                        <h3>Aufrufe</h3>
+                        <p><?php echo $aufrufe ?></p>
+                    </div>
+
+            </details>
+
+
+    </div>
+        <?php endif ?>
+
+    </div>
+    </div>
     <section id="comment_section">
         <div class="align_container">
+            <h2> Kommentarbereich</h2>
+           <?php if(isset($_SESSION["id"])): ?>
             <div class="container">
-                <h2>Einen Kommentar verfassen</h2>
                 <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
                     <label for="kommentar" class="invisible">Kommentar</label>
                     <textarea id="kommentar" name="kommentar" maxlength="1000"
@@ -86,6 +157,7 @@ include $abs_path . '/php/head.php';
                     <input type="submit" value="Kommentar">
                 </form>
             </div>
+            <?php endif ?>
         </div>
         <ul class="comment-section">
             <?php foreach ($kommentare as $kommentar): ?>
