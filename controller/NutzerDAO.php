@@ -30,7 +30,7 @@ interface NutzerDAO
      */
     public function abmelden($nutzerID, $nutzerToken): bool;
 
-    public function ausstellung_suche($input): bool;
+    public function ausstellung_suche($input): bool; /* TODO inkonsistente methoden entfernen*/
 
     public function sammlungen_suche($input): bool;
 

@@ -7,6 +7,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     /*
      * Datenspeicherung (ALT)
+     * Soll NICHT gelöscht werden
      */
 
     // [NutzerID, Email, Passwort]
