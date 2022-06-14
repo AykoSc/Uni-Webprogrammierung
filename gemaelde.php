@@ -104,10 +104,11 @@ include $abs_path . '/php/head.php';
             </form>
         <?php else: ?>
 
-
-            <h2>Über das Gemälde</h2>
+        <h2>Über das Gemälde</h2>
         <p><?php echo $beschreibung ?></p>
+
             <details class ="extended_description">
+
                 <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
 
                 <div class="grid">
@@ -119,7 +120,7 @@ include $abs_path . '/php/head.php';
                         <h3>Erstellungsdatum</h3>
                         <p><?php echo $erstellungsdatum ?></p>
                     </div>
-                    <div class="description-item" >
+                    <div class="item" >
                         <h3>Ort</h3>
                         <p><?php echo $ort ?></p>
                     </div>

@@ -185,14 +185,17 @@ button {
 .description {
     display: flex;
     justify-content: center;
+    align-items: center;
+    align-content: center;
     flex-direction: column;
+    width: 90%;
 }
 
 
 .description .grid{
     display: grid;
-    grid-template-columns: 50% 50%;
-
+    grid-template-columns: auto auto;
+    column-gap: 20%;
 }
 
 .description input[type ="submit"]{
@@ -205,6 +208,8 @@ details > summary{
     cursor: pointer;
     color: #656c71;
     list-style: none;
+    display: flex;
+    justify-content: center;
 }
 
 .extended_description {
