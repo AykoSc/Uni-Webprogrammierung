@@ -54,22 +54,121 @@ class NutzerDAODummyImpl implements NutzerDAO
     /*
      * Datenspeicherung (NEU)
      */
-
-    /*TODO Datenbank weitermachen
+    private static $instance = null;
     private SQLite3 $db;
-    */
 
-
-    public function __construct()
+    private function __construct()
     {
-        /*TODO Datenbank weitermachen
-        $db = new SQLite3("sqlite-beispiele.db");
-        $sql = "CREATE TABLE tabelle (
-                id INTEGER PRIMARY KEY, // erzeugt Autowert
-                feld TEXT
-                     )";
+        /*TODO Datenbank weitermachen*/
+        $db = new SQLite3("database.db");
+        $sql = "CREATE TABLE Anbieter (
+                    AnbieterID CHAR(1),
+                    E-Mail-Adresse CHAR(1),
+                    Passwort CHAR(1),
+                    PRIMARY KEY (AnbieterID)
+                );
+                
+                CREATE TABLE Gemaelde (
+                    GemaeldeID CHAR(1),
+                    Bilddatei CHAR(1),
+                    Titel CHAR(1),
+                    Künstler CHAR(1),
+                    Beschreibung CHAR(1),
+                    Erstellungsdatum CHAR(1),
+                    Ort CHAR(1),
+                    Bewertung CHAR(1),
+                    Hochladedatum CHAR(1),
+                    AnbieterID CHAR(1),
+                    PRIMARY KEY (GemaeldeID)
+                );
+                
+                CREATE TABLE Sammlung (
+                    SammlungID CHAR(1),
+                    Titel CHAR(1),
+                    Vorschaubild CHAR(1),
+                    Beschreibung CHAR(1),
+                    Bewertung CHAR(1),
+                    Erstellungsdatum CHAR(1),
+                    AnbieterID CHAR(1),
+                    PRIMARY KEY (SammlungID)
+                );
+                
+                CREATE TABLE Kommentare (
+                    KommentarID CHAR(1),
+                    Autor CHAR(1),
+                    Likeanzahl CHAR(1),
+                    Text CHAR(1),
+                    Erstellungsdatum CHAR(1),
+                    AnbieterID CHAR(1),
+                    GemaeldeID CHAR(1),
+                    PRIMARY KEY (KommentarID)
+                );
+                
+                CREATE TABLE Kontakt (
+                    KontaktID CHAR(1),
+                    Kommentar CHAR(1),
+                    E-Mail-Adresse CHAR(1),
+                    PRIMARY KEY (KontaktID)
+                );
+                
+                CREATE TABLE Profil (
+                    AnbieterID CHAR(1) NOT NULL,
+                    Nutzername CHAR(1),
+                    Personenbeschreibung CHAR(1),
+                    Geschlecht CHAR(1),
+                    Vollstaendiger_Name CHAR(1),
+                    Anschrift CHAR(1),
+                    Sprache CHAR(1),
+                    Geburtsdatum CHAR(1),
+                    Registrierungsdatum CHAR(1),
+                    PRIMARY KEY (AnbieterID)
+                );
+                
+                CREATE TABLE Token (
+                    Tokennummer CHAR(1),
+                    AnbieterID CHAR(1) NOT NULL,
+                    /* PRIMARY KEY is needed for this table */
+                );
+                
+                CREATE TABLE gehoert_zu (
+                    GemaeldeID CHAR(1) NOT NULL,
+                    SammlungID CHAR(1) NOT NULL,
+                    PRIMARY KEY (GemaeldeID, SammlungID)
+                );
+                
+                ALTER TABLE Gemaelde
+                    ADD FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE SET NULL ON UPDATE CASCADE;
+                
+                ALTER TABLE Sammlung
+                    ADD FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE SET NULL ON UPDATE CASCADE;
+                
+                ALTER TABLE Kommentare
+                    ADD FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE SET NULL ON UPDATE CASCADE;
+                
+                ALTER TABLE Kommentare
+                    ADD FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE SET NULL ON UPDATE CASCADE;
+                
+                ALTER TABLE Profil
+                    ADD FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE;
+                
+                ALTER TABLE Token
+                    ADD FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE NO ACTION ON UPDATE CASCADE;
+                
+                ALTER TABLE gehoert_zu
+                    ADD FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE;
+                
+                ALTER TABLE gehoert_zu
+                    ADD FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE;";
         $db->exec($sql);
-        */
+    }
+
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new NutzerDAODummyImpl();
+        }
+
+        return self::$instance;
     }
 
     public function registrieren($nutzername, $email, $passwort): bool
