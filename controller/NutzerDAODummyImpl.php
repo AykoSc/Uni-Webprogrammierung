@@ -61,7 +61,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     private function __construct()
     {
-        /*TODO Datenbank weitermachen*/
+        /*TODO Datenbank weitermachen und Fehlerbehandlung*/
         //Datenbankverbindung
         try {
             $user = "root";
