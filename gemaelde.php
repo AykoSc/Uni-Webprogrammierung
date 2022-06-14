@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
-$user = new NutzerDAODummyImpl();
+$user = NutzerDAODummyImpl::getInstance();
 
 if (isset($_GET["id"]) and is_string($_GET["id"])) {
     $kommentare = $user->kommentar_erhalten(htmlspecialchars($_GET["id"]));
@@ -54,7 +54,7 @@ if (isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
 $name = "Gemälde";
 include $abs_path . '/php/head.php';
 ?>
-</div>
+
 <body>
 
 <?php include $abs_path . '/php/header.php'; ?>
@@ -85,7 +85,7 @@ include $abs_path . '/php/head.php';
                     <div class="item">
                         <h3>Ort</h3>
                         <label for="ort" class="invisible">Ort</label>
-                        <input type="text" name="ort" value="<?php echo htmlspecialchars($ort)?>" ?>
+                        <input type="text" name="ort" value="<?php echo htmlspecialchars($ort)?>">
                     </div>
                     <div class = "item">
                         <h3>Bewertung</h3>
@@ -142,7 +142,6 @@ include $abs_path . '/php/head.php';
     </div>
         <?php endif ?>
 
-    </div>
     </div>
     <section id="comment_section">
         <div class="align_container">

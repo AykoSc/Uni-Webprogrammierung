@@ -60,6 +60,7 @@ class NutzerDAODummyImpl implements NutzerDAO
     private function __construct()
     {
         /*TODO Datenbank weitermachen*/
+        /*
         $db = new SQLite3("database.db");
         $sql = "CREATE TABLE Anbieter (
                     AnbieterID CHAR(1),
@@ -127,7 +128,7 @@ class NutzerDAODummyImpl implements NutzerDAO
                 CREATE TABLE Token (
                     Tokennummer CHAR(1),
                     AnbieterID CHAR(1) NOT NULL,
-                    /* PRIMARY KEY is needed for this table */
+                     PRIMARY KEY is needed for this table
                 );
                 
                 CREATE TABLE gehoert_zu (
@@ -159,7 +160,7 @@ class NutzerDAODummyImpl implements NutzerDAO
                 
                 ALTER TABLE gehoert_zu
                     ADD FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE;";
-        $db->exec($sql);
+        $db->exec($sql);*/
     }
 
     public static function getInstance()

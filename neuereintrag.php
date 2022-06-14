@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
-$user = new NutzerDAODummyImpl();
+$user = NutzerDAODummyImpl::getInstance();
 
 if (isset($_REQUEST['typ']) and is_string($_REQUEST['typ'])) {
     if ($_REQUEST['typ'] === 'Gemälde') {
@@ -95,9 +95,7 @@ include $abs_path . '/php/head.php';
 
                 <label for="beschreibung">Beschreibung:</label>
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein..."
-                    <?php echo (isset($_POST["beschreibung"]) and is_string($_POST["beschreibung"])) ? 'value=' . htmlspecialchars($_POST["beschreibung"]) : '' ?>>
-                </textarea>
+                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) and is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
                 <label for="kuenstler">Künstler:</label>
                 <input type="text" id="kuenstler" name="kuenstler" maxlength="100" required
@@ -130,9 +128,7 @@ include $abs_path . '/php/head.php';
 
                 <label for="beschreibung">Beschreibung:</label>
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein..."
-                    <?php echo (isset($_POST["beschreibung"]) and is_string($_POST["beschreibung"])) ? 'value=' . htmlspecialchars($_POST["beschreibung"]) : '' ?>>
-                </textarea>
+                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) and is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
                 <input type="hidden" name="typ" value="Sammlung">
                 <hr>

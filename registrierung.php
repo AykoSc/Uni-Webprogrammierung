@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODummyImpl.php";
-$user = new NutzerDAODummyImpl();
+$user = NutzerDAODummyImpl::getInstance();
 
 if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     and isset($_POST["email"]) and is_string($_POST["email"])

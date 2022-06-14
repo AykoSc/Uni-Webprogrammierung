@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
-$user = new NutzerDAODummyImpl();
+$user = NutzerDAODummyImpl::getInstance();
 
 if (isset($_GET["suche"]) and is_string($_GET["suche"])) {
     $sammlungen = $user->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), "Beliebteste");
