@@ -2,13 +2,6 @@
 
 class DatabaseTools
 {
-    /**
-     * @implNote In SQLite gibt es keine Datumsspeicherung, daher muss hier TEXT
-     * benutzt werden im Format 'YYYY-MM-DD'
-     * @implNote Wir verwenden nicht AUTOINCREMENT, sondern inkrementieren in den
-     * aufrufenden Methoden
-     */
-
     const CREATE_DATABASE = "
     CREATE TABLE IF NOT EXISTS Anbieter (
         AnbieterID INTEGER PRIMARY KEY AUTOINCREMENT,
