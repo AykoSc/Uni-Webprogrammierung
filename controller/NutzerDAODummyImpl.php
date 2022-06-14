@@ -1,6 +1,7 @@
 <?php if (!isset($abs_path)) include_once "../path.php";
 
 include $abs_path . "/controller/NutzerDAO.php";
+include $abs_path . "/controller/DatabaseTools.php";
 
 class NutzerDAODummyImpl implements NutzerDAO
 {
@@ -56,17 +57,24 @@ class NutzerDAODummyImpl implements NutzerDAO
      * Datenspeicherung (NEU)
      */
     private static $instance = null;
-    private SQLite3 $db;
+    private PDO $db;
 
     private function __construct()
     {
         /*TODO Datenbank weitermachen*/
-        $db = new SQLite3("database.db");
-        $sql = DatabaseTools::$createDatabase;
-        $db->exec($sql);
+        //Datenbankverbindung
+        try {
+            $user = "root";
+            $pw = null;
+            $dsn = "sqlite:database.db";
+            $this->db = new PDO($dsn, $user, $pw);
+            $this->db->exec(DatabaseTools::CREATE_DATABASE);
+        } catch (PDOException $e) {
+            echo "Fehler: " . $e->getMessage();
+        }
     }
 
-    public static function getInstance()
+    public static function getInstance(): NutzerDAODummyImpl
     {
         if (self::$instance == null) {
             self::$instance = new NutzerDAODummyImpl();
@@ -77,7 +85,16 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function registrieren($nutzername, $email, $passwort): bool
     {
-        // TODO: Nutzer wird erst angelegt, wenn Datenbank vorhanden ist.
+        // TODO: Transaktion erstellen
+        $checkIfExists = $this->db->prepare("SELECT COUNT(:Email) FROM Anbieter WHERE Email = :Email");
+        $checkIfExists->bindValue("Email", $email);
+        if ($checkIfExists->execute() > 0) {
+            return false;
+        }
+
+        $this->db->exec("BEGIN TRANSACTION;");
+        $this->db->exec("ROLLBACK;");
+        $this->db->exec("COMMIT;");
         return true;
     }
 
