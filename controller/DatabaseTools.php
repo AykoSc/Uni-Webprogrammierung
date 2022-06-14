@@ -67,13 +67,15 @@ class DatabaseTools
     
     CREATE TABLE IF NOT EXISTS Tokens (
         AnbieterID INTEGER,
-        Tokennummer TEXT PRIMARY KEY,
+        Tokennummer TEXT,
+        PRIMARY KEY (AnbieterID, Tokennummer),
         FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE NO ACTION ON UPDATE CASCADE
     );
     
     CREATE TABLE IF NOT EXISTS gehoert_zu (
-        GemaeldeID INTEGER PRIMARY KEY,
-        SammlungID INTEGER PRIMARY KEY,
+        GemaeldeID INTEGER,
+        SammlungID INTEGER,
+        PRIMARY KEY (GemaeldeID, SammlungID),
         FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE                    
     );
