@@ -66,7 +66,7 @@ class DatabaseTools
     );
     
     CREATE TABLE IF NOT EXISTS Tokens (
-        AnbieterID INTEGER PRIMARY KEY,
+        AnbieterID INTEGER,
         Tokennummer TEXT PRIMARY KEY,
         FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE NO ACTION ON UPDATE CASCADE
     );
