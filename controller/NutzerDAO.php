@@ -30,10 +30,6 @@ interface NutzerDAO
      */
     public function abmelden($nutzerID, $nutzerToken): bool;
 
-    public function ausstellung_suche($input): bool; /* TODO inkonsistente methoden entfernen*/
-
-    public function sammlungen_suche($input): bool;
-
     public function kontakt_aufnehmen($email, $kommentar): bool;
 
     public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool;
