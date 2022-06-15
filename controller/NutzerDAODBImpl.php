@@ -3,9 +3,9 @@
 include $abs_path . "/controller/NutzerDAO.php";
 include $abs_path . "/controller/DatabaseTools.php";
 
-class NutzerDAODbImpl implements NutzerDAO
+class NutzerDAODBImpl implements NutzerDAO
 {
-    private static ?NutzerDAODbImpl $instance = null;
+    private static ?NutzerDAODBImpl $instance = null;
     private PDO $db;
 
     private function __construct()
@@ -23,10 +23,10 @@ class NutzerDAODbImpl implements NutzerDAO
         }
     }
 
-    public static function getInstance(): NutzerDAODbImpl
+    public static function getInstance(): NutzerDAODBImpl
     {
         if (self::$instance == null) {
-            self::$instance = new NutzerDAODbImpl();
+            self::$instance = new NutzerDAODBImpl();
         }
 
         return self::$instance;

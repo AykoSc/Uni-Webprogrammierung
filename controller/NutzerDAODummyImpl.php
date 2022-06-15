@@ -4,12 +4,8 @@ include $abs_path . "/controller/NutzerDAO.php";
 
 class NutzerDAODummyImpl implements NutzerDAO
 {
-
-
-    //TODO hier sollte alte dummyImpl sein
-    /*
-     * Datenspeicherung (ALT)
-     * Soll NICHT gelöscht werden
+    /**
+     * @implNote Datenspeicherung (ALT), soll nicht gelöscht werden
      */
 
     // [NutzerID, Email, Passwort]
@@ -54,11 +50,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         [2, 0, [2, 0], "Sammlung2", "Beschreibung von Bild 2", 5, "02.03.2022", 8673]
     ];
 
-    /*
-     * Datenspeicherung (NEU)
-     */
     private static $instance = null;
-    private PDO $db;
 
     private function __construct()
     {
@@ -76,16 +68,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function registrieren($nutzername, $email, $passwort): bool
     {
-        // TODO: Transaktion erstellen
-        $checkIfExists = $this->db->prepare("SELECT COUNT(:Email) FROM Anbieter WHERE Email = :Email");
-        $checkIfExists->bindValue("Email", $email);
-        if ($checkIfExists->execute() > 0) {
-            return false;
-        }
-
-        $this->db->exec("BEGIN TRANSACTION;");
-        $this->db->exec("ROLLBACK;");
-        $this->db->exec("COMMIT;");
+        // Registrierung wird in der DBImpl gemacht, da es eine schreibende Methode ist
         return true;
     }
 
@@ -94,10 +77,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         if (isset($email) and is_string($email) and isset($passwort) and is_string($passwort)) {
             foreach ($this->users as $user) {
                 if ($user[1] === htmlspecialchars($email) and $user[2] === htmlspecialchars($passwort)) {
-                    /* TODO: Token in Datenbank speichern und an User senden, wenn Datenbank vorhanden ist.
-                    $gentoken = openssl_random_pseudo_bytes(16); //Generiere einen zufälligen Text.
-                    $gentoken = bin2hex($token); //Konvertiere die Binäre-Daten zu Hexadezimal-Daten.
-                    */
+                    // Token wird hier nicht in Datenbank gespeichert und an User gesendet, da es eine schreibende Methode ist
                     foreach ($this->users_tokens as $token) {
                         if ($user[0] === $token[0]) {
                             return array($token[0], $token[1]); // Anmeldung erfolgreich
@@ -111,31 +91,31 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function abmelden($nutzerID, $nutzerToken): bool
     {
-        // TODO: Token wird erst aus der Tabelle für valide Token gelöscht, wenn Datenbank vorhanden ist.
+        // Token wird hier nicht aus der Tabelle für valide Token gelöscht, da es eine schreibende Methode ist
         return true;
     }
 
     public function kontakt_aufnehmen($email, $kommentar): bool
     {
-        //TODO: Kontaktaufnahme wird erst gespeichert, wenn Datenbank vorhanden ist.
+        // Kontaktaufnahme wird hier nicht gespeichert, da es eine schreibende Methode ist
         return true;
     }
 
     public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool
     {
-        //TODO: Gemälde wird erst angelegt, wenn Datenbank vorhanden ist.
+        // Gemälde wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;
     }
 
     public function gemaelde_editieren($gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
     {
-        //TODO: Gemälde wird erst editiert, wenn Datenbank vorhanden ist.
+        // Gemälde wird hier nicht editiert, da es eine schreibende Methode ist
         return true;
     }
 
     public function gemaelde_entfernen($gemaeldeID): bool
     {
-        //TODO: Gemälde wird erst entfernt, wenn Datenbank vorhanden ist.
+        // Gemälde wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
     }
 
@@ -153,19 +133,19 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool
     {
-        //TODO: Sammlung wird erst angelegt, wenn Datenbank vorhanden ist.
+        // Sammlung wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;
     }
 
     public function sammlung_editieren($sammlungID, $gemaelde, $titel, $beschreibung): bool
     {
-        //TODO: Sammlung wird erst editiert, wenn Datenbank vorhanden ist.
+        // Sammlung wird hier nicht editiert, da es eine schreibende Methode ist
         return true;
     }
 
     public function sammlung_entfernen($sammlungID): bool
     {
-        //TODO: Sammlung wird erst entfernt, wenn Datenbank vorhanden ist.
+        // Sammlung wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
     }
 
@@ -183,19 +163,19 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool
     {
-        //TODO: Kommentar wird erst angelegt, wenn Datenbank vorhanden ist.
+        // Kommentar wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;
     }
 
     public function kommentar_entfernen($nutzerID, $kommentarID): bool
     {
-        //TODO: Kommentar wird erst editiert, wenn Datenbank vorhanden ist.
+        // Kommentar wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
     }
 
     public function kommentar_liken($nutzerID, $kommentarID): bool
     {
-        //TODO: Kommentar wird erst geliked, wenn Datenbank vorhanden ist.
+        // Kommentar wird hier nicht geliked, da es eine schreibende Methode ist
         return true;
     }
 
@@ -247,8 +227,6 @@ class NutzerDAODummyImpl implements NutzerDAO
                         }
                     }
                 }
-            } else { //Nach Datum sortieren
-                //TODO als richtiges Datum abspeichern um hier weitermachen zu können (nicht als string)
             }
         }
 
@@ -264,8 +242,38 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function sammlungen_erhalten($suche, $filter): array
     {
-        //TODO ausstellung_erhalten neu copy pasten mit anderen index-werten
-        return array(-1);
+        $suche_result = array();
+        if (isset($suche) and is_string($suche)) {
+            foreach ($this->sammlungen as $s) {
+                if (str_contains($s[3], $suche)) {
+                    $suche_result[] = $s;
+                }
+            }
+        } else {
+            $suche_result = $this->sammlungen;
+        }
+        if (isset($filter) and is_string($filter)) {
+            if ($filter === "relevance") { //Nach beliebtesten sortieren
+                for ($i = 0; $i < sizeof($suche_result); $i++) {
+                    for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
+                        if ($suche_result[$i][7] < $suche_result[$j][7]) {
+                            $temp = $suche_result[$i];
+                            $suche_result[$i] = $suche_result[$j];
+                            $suche_result[$j] = $temp;
+                        }
+                    }
+                }
+            }
+        }
+
+        $return_array = array(array(), array(), array(), array());
+        $curr_reihe = 0;
+        foreach ($suche_result as $sammlungen_result) {
+            $return_array[$curr_reihe][] = $sammlungen_result;
+            $curr_reihe = ($curr_reihe + 1) % 4;
+        }
+
+        return $return_array;
     }
 
 }

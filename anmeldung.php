@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-include_once $abs_path . "/controller/NutzerDAODummyImpl.php";
-$user = NutzerDAODummyImpl::getInstance();
+include_once $abs_path . "/controller/NutzerDAODBImpl.php";
+$user = NutzerDAODBImpl::getInstance();
 
 if (isset($_POST["email"]) and is_string($_POST["email"]) and isset($_POST["passwort"]) and is_string($_POST["passwort"])) {
     $anmeldung = $user->anmelden(htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["passwort"]));

@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-include_once $abs_path . "/controller/NutzerDAODummyImpl.php";
-$user = NutzerDAODummyImpl::getInstance();
+include_once $abs_path . "/controller/NutzerDAODBImpl.php";
+$user = NutzerDAODBImpl::getInstance();
 
 
 if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {

@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-include_once $abs_path . '/controller/NutzerDAODbImpl.php';
-$user = NutzerDAODbImpl::getInstance();
+include_once $abs_path . "/controller/NutzerDAODBImpl.php";
+$user = NutzerDAODBImpl::getInstance();
 
 /* Funktioniert nicht
 

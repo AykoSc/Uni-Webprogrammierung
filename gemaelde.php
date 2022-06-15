@@ -1,18 +1,18 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-include_once $abs_path . '/controller/NutzerDAODbImpl.php';
-$user = NutzerDAODbImpl::getInstance();
+include_once $abs_path . "/controller/NutzerDAODBImpl.php";
+$user = NutzerDAODBImpl::getInstance();
 
-if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])){
+if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])) {
     $result = $user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_SESSION["id"]));
 }
 
-if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"])){
+if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
     $result = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["like"]));
 }
 
-if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])){
+if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
     $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["delete"]));
 }
 
