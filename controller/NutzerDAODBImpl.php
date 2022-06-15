@@ -8,9 +8,17 @@ class NutzerDAODBImpl implements NutzerDAO
     private static ?NutzerDAODBImpl $instance = null;
     private PDO $db;
 
+    public static function getInstance(): NutzerDAODBImpl
+    {
+        if (self::$instance == null) {
+            self::$instance = new NutzerDAODBImpl();
+        }
+
+        return self::$instance;
+    }
+
     private function __construct()
     {
-        /*TODO Datenbank weitermachen und Fehlerbehandlung*/
         //Datenbankverbindung
         try {
             $user = "root";
@@ -27,7 +35,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $checkEmptySQL = $this->db->query("SELECT * FROM Gemaelde;");
                 $result = $checkEmptySQL->fetchObject();
                 if (!isset($result->GemaeldeID)) {
-                    $this->db->exec(DBTools::INSERT_DATA);
+                    $this->db->exec(DBTools::INSERT_DATA); // Daten werden eingefügt, wenn Datenbank leer ist
                 }
 
                 $this->db->commit();
@@ -35,18 +43,9 @@ class NutzerDAODBImpl implements NutzerDAO
                 print_r($ex);
                 $db->rollBack();
             }
-        } catch (PDOException $ex) {
+        } catch (Exception $ex) {
             print_r($ex);
         }
-    }
-
-    public static function getInstance(): NutzerDAODBImpl
-    {
-        if (self::$instance == null) {
-            self::$instance = new NutzerDAODBImpl();
-        }
-
-        return self::$instance;
     }
 
     public function registrieren($nutzername, $email, $passwort): bool
@@ -72,11 +71,13 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Nutzername existiert bereits
             }
 
+            $hash = password_hash($passwort, PASSWORD_DEFAULT);
+
             $insertAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:nutzername, :email, :passwort);";
             $insertAnbieterCMD = $this->db->prepare($insertAnbieterSQL);
             $insertAnbieterCMD->bindParam(":nutzername", $nutzername);
             $insertAnbieterCMD->bindParam(":email", $email);
-            $insertAnbieterCMD->bindParam(":passwort", $passwort);
+            $insertAnbieterCMD->bindParam(":passwort", $hash);
             $insertAnbieterCMD->execute();
 
             $this->db->commit();
@@ -90,25 +91,121 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function anmelden($email, $passwort): array
     {
-        return array();
+        try {
+            $this->db->beginTransaction();
+
+            $findAnbieterSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
+            $findAnbieterCMD = $this->db->prepare($findAnbieterSQL);
+            $findAnbieterCMD->bindParam(":email", $email);
+            $findAnbieterCMD->execute();
+            $result = $findAnbieterCMD->fetchObject();
+            if (!isset($result->AnbieterID) or !isset($result->Email) or !isset($result->Passwort)) {
+                return array(-1, ""); // Anmeldung fehlgeschlagen (Anbieter existiert nicht)
+            }
+
+            $valid = password_verify($passwort, $result->Passwort);
+            if ($valid) {
+                $id = $result->AnbieterID;
+                $token = openssl_random_pseudo_bytes(16); //Generiere einen zufälligen Text.
+                $token = bin2hex($token); //Konvertiere die Binäre-Daten zu Hexadezimal-Daten.
+
+                $insertTokenSQL = "INSERT INTO Tokens (AnbieterID, Tokennummer) VALUES (:id, :token);";
+                $insertTokenCMD = $this->db->prepare($insertTokenSQL);
+                $insertTokenCMD->bindParam(":id", $id);
+                $insertTokenCMD->bindParam(":token", $token);
+                $insertTokenCMD->execute();
+
+                $this->db->commit();
+                return array($id, $token);
+            } else {
+                $this->db->commit();
+                return array(-1, ""); // Anmeldung fehlgeschlagen (Passwort falsch)
+            }
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return array(-1, "");
+        }
+
     }
 
     public function abmelden($nutzerID, $nutzerToken): bool
     {
-        // TODO: Token wird erst aus der Tabelle für valide Token gelöscht, wenn Datenbank vorhanden ist.
-        return true;
+        try {
+            $this->db->beginTransaction();
+
+            $deleteTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :id AND Tokennummer = :token);";
+            $deleteTokenCMD = $this->db->prepare($deleteTokenSQL);
+            $deleteTokenCMD->bindParam(":id", $nutzerID);
+            $deleteTokenCMD->bindParam(":token", $nutzerToken);
+            $deleteTokenCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
     }
 
     public function kontakt_aufnehmen($email, $kommentar): bool
     {
-        //TODO: Kontaktaufnahme wird erst gespeichert, wenn Datenbank vorhanden ist.
-        return true;
+        try {
+            $this->db->beginTransaction();
+
+            $insertKontaktSQL = "INSERT INTO Kontakt (Kommentar, Email) VALUES (:kommentar, :email);";
+            $insertKontaktCMD = $this->db->prepare($insertKontaktSQL);
+            $insertKontaktCMD->bindParam(":kommentar", $kommentar);
+            $insertKontaktCMD->bindParam(":email", $email);
+            $insertKontaktCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
     }
 
-    public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool
+    public function gemaelde_anlegen($AnbieterID, $file, $titel, $beschreibung, $artist, $date, $location): bool
     {
-        //TODO: Gemälde wird erst angelegt, wenn Datenbank vorhanden ist.
-        return true;
+        try {
+            $this->db->beginTransaction();
+
+            $checkAnbieterIDSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
+            $checkAnbieterIDCMD = $this->db->prepare($checkAnbieterIDSQL);
+            $checkAnbieterIDCMD->bindParam(":AnbieterID", $AnbieterID);
+            $checkAnbieterIDCMD->execute();
+            $result = $checkAnbieterIDCMD->fetchObject();
+            if (!isset($result->AnbieterID)) {
+                return false; //AnbieterID existiert nicht
+            }
+
+            $insertGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Hochladedatum)
+                                    VALUES (:AnbieterID, :titel, :artist, :beschreibung, :date, :location, :hochladedatum);";
+            $insertGemaeldeCMD = $this->db->prepare($insertGemaeldeSQL);
+            $insertGemaeldeCMD->bindParam(":AnbieterID", $AnbieterID);
+            $insertGemaeldeCMD->bindParam(":titel", $titel);
+            $insertGemaeldeCMD->bindParam(":artist", $artist);
+            $insertGemaeldeCMD->bindParam(":beschreibung", $beschreibung);
+            $insertGemaeldeCMD->bindParam(":date", $date);
+            $insertGemaeldeCMD->bindParam(":location", $location);
+            $hochladedatum = date("d.m.Y");
+            $insertGemaeldeCMD->bindParam(":hochladedatum", $hochladedatum);
+
+            $insertGemaeldeCMD->execute();
+
+            //TODO file unter images-Ordner abspeichern
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
     }
 
     //TODO gegebenenfalls möglichkeit hinzufügen titel zu editieren
