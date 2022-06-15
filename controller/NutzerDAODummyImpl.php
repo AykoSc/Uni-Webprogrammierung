@@ -137,7 +137,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function sammlung_editieren($sammlungID, $gemaelde, $titel, $beschreibung): bool
+    public function sammlung_editieren($sammlungID, $titel, $beschreibung): bool
     {
         // Sammlung wird hier nicht editiert, da es eine schreibende Methode ist
         return true;

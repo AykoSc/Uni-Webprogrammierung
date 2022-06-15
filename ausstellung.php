@@ -4,37 +4,6 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $user = NutzerDAODBImpl::getInstance();
 
-/* Funktioniert nicht
-
-$wrongFilterLinkFormat = false;
-$filter = "";
-if (isset($_GET["filter"]) and is_string($_GET["filter"])) {
-    if ($_GET["filter"] === "") {
-        $wrongFilterLinkFormat = true;
-    } else {
-        $filter = htmlspecialchars($_GET["filter"]);
-    }
-}
-
-$wrongSucheLinkFormat = false;
-$suche = "";
-if (isset($_GET["suche"]) and is_string($_GET["suche"])) {
-    if ($_GET["suche"] === "") {
-        $wrongSucheLinkFormat = true;
-    } else {
-        $suche = htmlspecialchars($_GET["suche"]);
-    }
-}
-
-if ($wrongFilterLinkFormat or $wrongSucheLinkFormat) {
-    //"?filter=" . htmlspecialchars($filter)
-    //"?suche=" . htmlspecialchars($suche)
-    header("location: ausstellung.php"
-        . ($wrongSucheLinkFormat ? ("?suche=" . $suche) : "") . "&" .
-        . ($wrongFilterLinkFormat ? ("?filter=" . $filter) : ""));
-}
-*/
-
 if (isset($_GET["suche"]) and is_string($_GET["suche"])
     and isset($_GET["filter"]) and is_string($_GET["filter"])) {
     $ausstellung = $user->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));

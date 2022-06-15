@@ -29,8 +29,8 @@ if ($gemaelde and $angemeldet) {
         isset($_POST['datum']) and is_string($_POST['datum']) and
         isset($_POST['ort']) and is_string($_POST['ort'])) {
         $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]),
-            htmlspecialchars($_POST['datei']), htmlspecialchars($_POST['beschreibung']),
-            htmlspecialchars($_POST['titel']), htmlspecialchars($_POST['kuenstler']),
+            htmlspecialchars($_POST['datei']), htmlspecialchars($_POST['titel']),
+            htmlspecialchars($_POST['beschreibung']), htmlspecialchars($_POST['kuenstler']),
             htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
     }
 }

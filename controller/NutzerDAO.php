@@ -42,7 +42,7 @@ interface NutzerDAO
 
     public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool;
 
-    public function sammlung_editieren($sammlungID, $gemaelde, $titel, $beschreibung): bool;
+    public function sammlung_editieren($sammlungID, $titel, $beschreibung): bool;
 
     public function sammlung_entfernen($sammlungID): bool;
 

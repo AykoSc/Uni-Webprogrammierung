@@ -12,6 +12,7 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     $email = htmlspecialchars($_POST["email"]);
     $passwort = htmlspecialchars($_POST["passwort"]);
     $passwort_wiederholen = htmlspecialchars($_POST["passwort_wiederholen"]);
+
     if ($passwort !== $passwort_wiederholen) {
         $fehlermeldung = "Das Passwort wurde falsch wiederholt.";
     }
