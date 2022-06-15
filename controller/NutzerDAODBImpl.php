@@ -478,7 +478,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
 
-            $GemaeldeIDs = array($SammlungID, $AnbieterID, , $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
+            //$GemaeldeIDs = array($SammlungID, $AnbieterID, , $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
             $getGehoertZuSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
             $getGehoertZuCMD = $this->db->prepare($getSammlungSQL);
             $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
