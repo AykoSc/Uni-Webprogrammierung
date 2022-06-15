@@ -32,7 +32,7 @@ interface NutzerDAO
 
     public function kontakt_aufnehmen($email, $kommentar): bool;
 
-    public function gemaelde_anlegen($AnbieterID, $file, $titel, $beschreibung, $artist, $date, $location): bool;
+    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): bool;
 
     public function gemaelde_editieren($gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool;
 
@@ -40,7 +40,7 @@ interface NutzerDAO
 
     public function gemaelde_erhalten($gemaeldeID): array;
 
-    public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool;
+    public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool;
 
     public function sammlung_editieren($sammlungID, $titel, $beschreibung): bool;
 

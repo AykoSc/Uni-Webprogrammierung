@@ -101,7 +101,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function gemaelde_anlegen($AnbieterID, $file, $titel, $beschreibung, $artist, $date, $location): bool
+    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): bool
     {
         // Gemälde wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;
@@ -131,7 +131,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool
+    public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
     {
         // Sammlung wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;

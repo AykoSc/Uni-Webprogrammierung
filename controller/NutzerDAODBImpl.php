@@ -60,6 +60,37 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
+    /**
+     * @implNote Hilfsmethoden zur Überprüfung bestimmter Dinge, um Redundanzen zu vermeiden.
+     *          Methoden nur innerhalb einer Transaktion benutzen!
+     */
+    private function anbieterCheck($AnbieterID, $token): bool
+    {
+        $checkAnbieterSQL = "SELECT * FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :token;";
+        $checkAnbieterCMD = $this->db->prepare($checkAnbieterSQL);
+        $checkAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
+        $checkAnbieterCMD->bindParam(":token", $token);
+        $checkAnbieterCMD->execute();
+        $result = $checkAnbieterCMD->fetchObject();
+        if (!isset($result->AnbieterID)) {
+            return false; // Anbieter ist nicht eingeloggt oder existiert nicht
+        }
+        return true;
+    }
+
+    private function gemaeldeCheck($GemaeldeID): bool
+    {
+        $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+        $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
+        $checkGemaeldeIDCMD->bindParam(":AnbieterID", $GemaeldeID);
+        $checkGemaeldeIDCMD->execute();
+        $result = $checkGemaeldeIDCMD->fetchObject();
+        if (!isset($result->AnbieterID)) {
+            return false; //Gemaelde existiert nicht
+        }
+        return true;
+    }
+
     public function registrieren($nutzername, $email, $passwort): bool
     {
         try {
@@ -181,18 +212,13 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_anlegen($AnbieterID, $file, $titel, $beschreibung, $artist, $date, $location): bool
+    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): bool
     {
         try {
             $this->db->beginTransaction();
 
-            $checkAnbieterIDSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
-            $checkAnbieterIDCMD = $this->db->prepare($checkAnbieterIDSQL);
-            $checkAnbieterIDCMD->bindParam(":AnbieterID", $AnbieterID);
-            $checkAnbieterIDCMD->execute();
-            $result = $checkAnbieterIDCMD->fetchObject();
-            if (!isset($result->AnbieterID)) {
-                return false; //AnbieterID existiert nicht
+            if (!$this->anbieterCheck($AnbieterID, $token)) {
+                return false;
             }
 
             $insertGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
@@ -227,13 +253,8 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
-            $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
-            $checkGemaeldeIDCMD->bindParam(":GemaeldeID", $gemaeldeID);
-            $checkGemaeldeIDCMD->execute();
-            $result = $checkGemaeldeIDCMD->fetchObject();
-            if (!isset($result->GemaeldeID)) {
-                return false; //GemaeldeID existiert nicht
+            if (!$this->gemaeldeCheck($gemaeldeID)) {
+                return false;
             }
 
             $editGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :beschreibung, Erstellungsdatum = :erstellungsdatum, Ort = :ort WHERE GemaeldeID = :id;";
@@ -259,13 +280,8 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
-            $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
-            $checkGemaeldeIDCMD->bindParam(":GemaeldeID", $gemaeldeID);
-            $checkGemaeldeIDCMD->execute();
-            $result = $checkGemaeldeIDCMD->fetchObject();
-            if (!isset($result->GemaeldeID)) {
-                return false; //GemaeldeID existiert nicht
+            if (!$this->gemaeldeCheck($gemaeldeID)) {
+                return false;
             }
 
             $deleteGemaeldeSQL = "DELETE FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
@@ -288,13 +304,8 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
-            $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
-            $checkGemaeldeIDCMD->bindParam(":GemaeldeID", $gemaeldeID);
-            $checkGemaeldeIDCMD->execute();
-            $result = $checkGemaeldeIDCMD->fetchObject();
-            if (!isset($result->GemaeldeID)) {
-                return array(-1); //GemaeldeID existiert nicht
+            if (!$this->gemaeldeCheck($gemaeldeID)) {
+                return array(-1);
             }
 
             $getGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
@@ -322,26 +333,25 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function sammlung_anlegen($id, $auswahl, $titel, $beschreibung): bool
+    public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
     {
-        // $auswahl ist ein array an GemaeldeID's
-        if (sizeof($auswahl) < 1) {
-            return false;
+        //$auswahl ist kommaseparierte liste an gemaeldeIDs, z.B. 1,4,3,2
+        $auswahlSplitted = preg_split(",", $auswahl, null, PREG_SPLIT_DELIM_CAPTURE);
+        foreach ($auswahlSplitted as $split) {
+            if (!strlen($split) == 1) {
+                return false; //falsche eingabe
+            }
         }
+
         try {
             $this->db->beginTransaction();
 
-            $checkAnbieterIDSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
-            $checkAnbieterIDCMD = $this->db->prepare($checkAnbieterIDSQL);
-            $checkAnbieterIDCMD->bindParam(":AnbieterID", $AnbieterID);
-            $checkAnbieterIDCMD->execute();
-            $result = $checkAnbieterIDCMD->fetchObject();
-            if (!isset($result->AnbieterID)) {
-                return false; //AnbieterID existiert nicht
+            if (!$this->anbieterCheck($AnbieterID, $token)) {
+                return false;
             }
 
             $getHighestSammlungIDSQL = "SELECT MAX(SammlungID) FROM Sammlung;";
-            $getHighestSammlungIDCMD = $this->db->prepare($checkAnbieterIDSQL);
+            $getHighestSammlungIDCMD = $this->db->prepare($getHighestSammlungIDSQL);
             $getHighestSammlungIDCMD->execute();
             $result = $getHighestSammlungIDCMD->fetchObject();
             $NewSammlungID = 0;
@@ -360,7 +370,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $insertSammlungCMD->bindParam(":hochladedatum", $hochladedatum);
             $insertSammlungCMD->execute();
 
-            foreach ($auswahl as $GemaeldeID) {
+            foreach ($auswahlSplitted as $GemaeldeID) {
                 $insertGehoertZuSQL = "INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
                                     VALUES (:GemaeldeID, :SammlungID);";
                 $insertGehoertZuCMD = $this->db->prepare($insertGehoertZuSQL);
@@ -457,57 +467,25 @@ class NutzerDAODBImpl implements NutzerDAO
             $getSammlungCMD->execute();
             $result = $getSammlungCMD->fetchObject();
             $SammlungID = $result->SammlungID;
+            $AnbieterID = $result->SammlungID;
+            $Titel = $result->SammlungID;
+            $Beschreibung = $result->SammlungID;
+            $Bewertung = $result->SammlungID;
+            $Hochladedatum = $result->SammlungID;
+            $Aufrufe = $result->SammlungID;
+
 
             $this->db->commit();
-
-
             // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
-            $suche_result = array();
-            if (isset($suche) and is_string($suche)) {
-                foreach ($this->sammlungen as $s) {
-                    if (str_contains($s[3], $suche)) {
-                        $suche_result[] = $s;
-                    }
-                }
-            } else {
-                $suche_result = $this->sammlungen;
-            }
-            if (isset($filter) and is_string($filter)) {
-                if ($filter === "relevance") { //Nach beliebtesten sortieren
-                    for ($i = 0; $i < sizeof($suche_result); $i++) {
-                        for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
-                            if ($suche_result[$i][7] < $suche_result[$j][7]) {
-                                $temp = $suche_result[$i];
-                                $suche_result[$i] = $suche_result[$j];
-                                $suche_result[$j] = $temp;
-                            }
-                        }
-                    }
-                }
-            }
 
-            $return_array = array(array(), array(), array(), array());
-            $curr_reihe = 0;
-            foreach ($suche_result as $sammlungen_result) {
-                $return_array[$curr_reihe][] = $sammlungen_result;
-                $curr_reihe = ($curr_reihe + 1) % 4;
-            }
+            $GemaeldeIDs = array($SammlungID, $AnbieterID, , $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
 
-            return $return_array;
+            return array();
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }
-
-        if (isset($sammlungID) and is_string($sammlungID)) {
-            foreach ($this->sammlungen as $s) {
-                if ($s[0] == htmlspecialchars($sammlungID)) {
-                    return $s;
-                }
-            }
-        }
-        return [-1];
     }
 
     public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool
