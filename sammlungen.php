@@ -1,9 +1,8 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-/*
-include_once $abs_path . "/controller/NutzerDAODummyImpl.php";
-$user = NutzerDAODummyImpl::getInstance();
+include_once $abs_path . "/controller/NutzerDAODBImpl.php";
+$user = NutzerDAODBImpl::getInstance();
 
 if (isset($_GET["suche"]) and is_string($_GET["suche"])) {
     $sammlungen = $user->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), "Beliebteste");
@@ -15,7 +14,6 @@ $reihe0 = $sammlungen[0];
 $reihe1 = $sammlungen[1];
 $reihe2 = $sammlungen[2];
 $reihe3 = $sammlungen[3];
-*/
 ?>
 
 <!DOCTYPE html>
@@ -52,30 +50,25 @@ include $abs_path . '/php/head.php';
     </div>
 
     <div class="reihe">
-        <!--
         <div class="spalte">
-            <?php //foreach ($reihe0 as $reihe): ?>
-                <a href="sammlung.php"><img alt="<?php //echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
-            <?php //endforeach; ?>
+            <?php foreach ($reihe0 as $reihe): ?>
+                <a href="sammlung.php"><img alt="<?php echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
+            <?php endforeach; ?>
         </div>
         <div class="spalte">
-            <?php //foreach ($reihe1 as $reihe): ?>
-                <a href="sammlung.php"><img alt="<?php //echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
-            <?php //endforeach; ?>
+            <?php foreach ($reihe1 as $reihe): ?>
+                <a href="sammlung.php"><img alt="<?php echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
+            <?php endforeach; ?>
         </div>
         <div class="spalte">
-            <?php //foreach ($reihe2 as $reihe): ?>
-                <a href="sammlung.php"><img alt="<?php //echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
-            <?php //endforeach; ?>
+            <?php foreach ($reihe2 as $reihe): ?>
+                <a href="sammlung.php"><img alt="<?php echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
+            <?php endforeach; ?>
         </div>
         <div class="spalte">
-            <?php //foreach ($reihe3 as $reihe): ?>
-                <a href="sammlung.php"><img alt="<?php //echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
-            <?php //endforeach; ?>
-        </div>
-        -->
-        <div class="spalte">
-            <a href="sammlung.php"><img alt="Sammlung" src="images/1.jpg"> </a>
+            <?php foreach ($reihe3 as $reihe): ?>
+                <a href="sammlung.php"><img alt="<?php echo htmlspecialchars($reihe[3]) ?>" src="images/1.jpg"> </a>
+            <?php endforeach; ?>
         </div>
     </div>
 

@@ -338,8 +338,6 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
     {
-        return true; // Erfolgt mit JavaScript
-
         //$auswahl ist kommaseparierte liste an gemaeldeIDs, z.B. 1,4,3,2
         $auswahlSplitted = explode(",", $auswahl);
         foreach ($auswahlSplitted as $split) {
@@ -364,16 +362,6 @@ class NutzerDAODBImpl implements NutzerDAO
             if (isset($result)) {
                 $NewSammlungID = ((integer)$result) + 1;
             }
-
-            // CREATE TABLE IF NOT EXISTS Sammlung (
-            //        SammlungID INTEGER PRIMARY KEY,
-            //        AnbieterID INTEGER,
-            //        Titel TEXT,
-            //        Beschreibung TEXT,
-            //        Bewertung INTEGER,
-            //        Erstellungsdatum TEXT,
-            //        Aufrufe INTEGER,
-            //
 
             $insertSammlungSQL = "INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Erstellungsdatum) 
                                     VALUES (:SammlungID, :AnbieterID, :titel, :beschreibung, :hochladedatum);";

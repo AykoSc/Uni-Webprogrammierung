@@ -14,10 +14,13 @@ Login-Daten:
 - Email: test1@test.com, Passwort: test1!
 - Email: test2@test.com, Passwort: test2!
 
-Sammlungen:
+JavaScript:
 
 - Die Sammlungsfunktionen sowie die Sammlungen folgen mit JavaScript, da wir hierüber das Hinzufügen der Gemälde
   ermöglichen wollen
+- Profil bearbeiten machen wir mit JavaScript
+- Gemaelde bewertung machen wir mt JavaScript
+- Sammlung erstellen machen wir mit JavaScript
 
 Erklärung Gemälde:
 
@@ -26,7 +29,3 @@ Erklärung Gemälde:
 Anmeldung:
 
 - Genauere Informationen über Fehler bei Anmeldung nicht an den Nutzer weiterleiten aufgrund von Datenschutz
-
--Profil bearbeiten machen wir mit JavaScript
--Gemaelde bewertung machen wir mt JavaScript
--Sammlung erstellen machen wir mit JavaScript
