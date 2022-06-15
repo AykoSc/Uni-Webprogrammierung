@@ -338,6 +338,8 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
     {
+        return true; // Erfolgt mit JavaScript
+
         //$auswahl ist kommaseparierte liste an gemaeldeIDs, z.B. 1,4,3,2
         $auswahlSplitted = explode(",", $auswahl);
         foreach ($auswahlSplitted as $split) {
