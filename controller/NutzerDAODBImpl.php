@@ -336,7 +336,7 @@ class NutzerDAODBImpl implements NutzerDAO
     public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
     {
         //$auswahl ist kommaseparierte liste an gemaeldeIDs, z.B. 1,4,3,2
-        $auswahlSplitted = preg_split(",", $auswahl, null, PREG_SPLIT_DELIM_CAPTURE);
+        $auswahlSplitted = explode(",", $auswahl);
         foreach ($auswahlSplitted as $split) {
             if (!strlen($split) == 1) {
                 return false; //falsche eingabe
@@ -467,26 +467,26 @@ class NutzerDAODBImpl implements NutzerDAO
             $getSammlungCMD->execute();
             $result = $getSammlungCMD->fetchObject();
             $SammlungID = $result->SammlungID;
-            $AnbieterID = $result->SammlungID;
-            $Titel = $result->SammlungID;
-            $Beschreibung = $result->SammlungID;
-            $Bewertung = $result->SammlungID;
-            $Hochladedatum = $result->SammlungID;
-            $Aufrufe = $result->SammlungID;
+            $AnbieterID = $result->AnbieterID;
+            $Titel = $result->Titel;
+            $Beschreibung = $result->Beschreibung;
+            $Bewertung = $result->Bewertung;
+            $Hochladedatum = $result->Hochladedatum;
+            $Aufrufe = $result->Aufrufe;
 
 
             $this->db->commit();
             // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
 
-            //$GemaeldeIDs = array($SammlungID, $AnbieterID, , $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
-            $getGehoertZuSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
+            $getGehoertZuSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
             $getGehoertZuCMD = $this->db->prepare($getSammlungSQL);
             $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
             $getGehoertZuCMD->execute();
             $result = $getSammlungCMD->fetchObject();
+            $GemaeldeIDs = array();
 
 
-            return array();
+            return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();

@@ -79,7 +79,7 @@ class DBTools
     VALUES ('test2', 'test2@test.com', '', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '01.11.2000', '28.05.2022');
   
     INSERT OR REPLACE INTO Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-    VALUES (0, 0, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56);
+    VALUES (0, 2, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56);
     INSERT OR REPLACE INTO  Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
     VALUES (1, 1, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '05.10.1234', 'Oldenburg, Deutschland', 9, '01.06.2022', 4);
     INSERT OR REPLACE INTO Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
@@ -99,7 +99,7 @@ class DBTools
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
     VALUES (1, 'Sammlung1', 'Beschreibung von Bild 1', 7, '06.04.2022', 34);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (0, 'Sammlung2', 'Beschreibung von Bild 2', 5, '02.03.2022', 8673);
+    VALUES (2, 'Sammlung2', 'Beschreibung von Bild 2', 5, '02.03.2022', 8673);
        
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (0, 0);

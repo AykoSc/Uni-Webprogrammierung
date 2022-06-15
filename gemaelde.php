@@ -80,33 +80,32 @@ include $abs_path . '/php/head.php';
             <form method="post">
                 <h2> Über das Gemaelde </h2>
                 <label for="beschreibung" class="invisible">Beschreibung</label>
-                <textarea cols="70" rows="10" name="beschreibung" placeholder="<?php echo $beschreibung ?>">  </textarea>
+                <textarea cols="70" rows="10" name="beschreibung">  <?php echo $beschreibung ?> </textarea>
                 <div class="grid">
-                        <div class ="item">
-                            <h3>KünstlerIn</h3>
-                            <label for="kuenstler" class="invisible">Künstler</label>
-                            <input type="text" name="kuenstler" value="<?php echo htmlspecialchars($kuenstler) ?>"/>
-                        </div>
-                    <div class ="item">
+                    <div class="item">
+                        <h3>KuenstlerIn</h3>
+                        <p><?php echo $kuenstler ?></p>
+                    </div>
+                    <div class="item">
                         <h3>Erstellungsdatum</h3>
                         <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
-                        <!--TODO mit placeholder wird nicht der alte wert übergeben, mit value wird der neueu nichtgenommen.-->..
-                        <input type="text" name="erstellungsdatum" placeholder="<?php echo $erstellungsdatum ?>"/>
+                        <input type="text" name="erstellungsdatum"
+                               value="<?php echo htmlspecialchars($erstellungsdatum) ?>"/>
                     </div>
                     <div class="item">
                         <h3>Ort</h3>
                         <label for="ort" class="invisible">Ort</label>
-                        <input type="text" name="ort" placeholder="<?php echo htmlspecialchars($ort)?>">
+                        <input type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
                     </div>
-                    <div class = "item">
+                    <div class="item">
                         <h3>Bewertung</h3>
                         <p><?php echo $bewertung ?>/10</p>
                     </div>
-                    <div class = "item">
+                    <div class="item">
                         <h3>Hochladedatum</h3>
                         <p><?php echo $hochladedatum ?></p>
                     </div>
-                    <div class = "item">
+                    <div class="item">
                         <h3>Aufrufe</h3>
                         <p><?php echo $aufrufe ?></p>
                     </div>
