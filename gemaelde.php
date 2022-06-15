@@ -17,19 +17,20 @@ if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["del
 }
 
 //Eintrag bearbeiten
-if (isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_GET["id"]) and is_string($_GET["id"]) and
+    isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
     isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
     isset($_POST['ort']) and is_string($_POST['ort'])) {
-    $gemaelde = $user->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST['beschreibung']),
+    $gemaelde = $user->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+        htmlspecialchars($_GET["id"]), htmlspecialchars($_POST['beschreibung']),
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
 }
 
 if (isset($_GET["id"]) and is_string($_GET["id"])) {
     $kommentare = $user->kommentare_erhalten(htmlspecialchars($_GET["id"]));
     $gemaelde = $user->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
-    print_r($_POST["beschreibung"]);
-    print_r($_POST["ort"]);
-    print_r($_POST["erstellungsdatum"]);
 
 } else {
     header("location: index.php");

@@ -248,10 +248,14 @@ class NutzerDAODBImpl implements NutzerDAO
     }
 
     //TODO gegebenenfalls möglichkeit hinzufügen titel zu editieren
-    public function gemaelde_editieren($gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($AnbieterID, $token, $gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
     {
         try {
             $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $token)) {
+                return false;
+            }
 
             if (!$this->gemaeldeCheck($gemaeldeID)) {
                 return false;
@@ -355,19 +359,30 @@ class NutzerDAODBImpl implements NutzerDAO
             $getHighestSammlungIDCMD->execute();
             $result = $getHighestSammlungIDCMD->fetchObject();
             $NewSammlungID = 0;
-            if (isset($result->name)) {
-                $NewSammlungID = ($result->SammlungID) + 1;
+            $result = $result->name;
+            if (isset($result)) {
+                $NewSammlungID = ((integer)$result) + 1;
             }
+
+            // CREATE TABLE IF NOT EXISTS Sammlung (
+            //        SammlungID INTEGER PRIMARY KEY,
+            //        AnbieterID INTEGER,
+            //        Titel TEXT,
+            //        Beschreibung TEXT,
+            //        Bewertung INTEGER,
+            //        Erstellungsdatum TEXT,
+            //        Aufrufe INTEGER,
+            //
 
             $insertSammlungSQL = "INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Erstellungsdatum) 
                                     VALUES (:SammlungID, :AnbieterID, :titel, :beschreibung, :hochladedatum);";
             $insertSammlungCMD = $this->db->prepare($insertSammlungSQL);
+            $upload_date = date("d.m.Y");
             $insertSammlungCMD->bindParam(":SammlungID", $NewSammlungID);
             $insertSammlungCMD->bindParam(":AnbieterID", $AnbieterID);
             $insertSammlungCMD->bindParam(":titel", $titel);
             $insertSammlungCMD->bindParam(":beschreibung", $beschreibung);
-            $hochladedatum = date("d.m.Y");
-            $insertSammlungCMD->bindParam(":hochladedatum", $hochladedatum);
+            $insertSammlungCMD->bindParam(":hochladedatum", $upload_date);
             $insertSammlungCMD->execute();
 
             foreach ($auswahlSplitted as $GemaeldeID) {
@@ -616,20 +631,11 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkSammlungIDSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $checkSammlungIDCMD = $this->db->prepare($checkSammlungIDSQL);
-            $checkSammlungIDCMD->bindParam(":SammlungID", $sammlungID);
-            $checkSammlungIDCMD->execute();
-            $result = $checkSammlungIDCMD->fetchObject();
-            if (!isset($result->SammlungID)) {
-                return array(-1); //SammlungID existiert nicht
-            }
-
-            $getSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $getSammlungCMD = $this->db->prepare($getSammlungSQL);
-            $getSammlungCMD->bindParam(":SammlungID", $sammlungID);
-            $getSammlungCMD->execute();
-            $result = $getSammlungCMD->fetchObject();
+            $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:filter%' ORDER BY Bewertung;";
+            $getSammlungenCMD = $this->db->prepare($getSammlungenSQL);
+            $getSammlungenCMD->bindParam(":SammlungID", $sammlungID);
+            $getSammlungenCMD->execute();
+            $result = $getSammlungenCMD->fetchObject();
             $SammlungID = $result->SammlungID;
             $AnbieterID = $result->AnbieterID;
             $Titel = $result->Titel;
@@ -643,11 +649,11 @@ class NutzerDAODBImpl implements NutzerDAO
             // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
 
             $getGehoertZuSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $getGehoertZuCMD = $this->db->prepare($getSammlungSQL);
+            $getGehoertZuCMD = $this->db->prepare($getSammlungenSQL);
             $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
             $getGehoertZuCMD->execute();
             $GemaeldeIDs = array();
-            while ($zeile = $getSammlungCMD->fetchObject()) {
+            while ($zeile = $getSammlungenCMD->fetchObject()) {
                 $GemaeldeIDs[] = $zeile;
             }
 

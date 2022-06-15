@@ -107,7 +107,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function gemaelde_editieren($gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($AnbieterID, $token, $gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
     {
         // Gemälde wird hier nicht editiert, da es eine schreibende Methode ist
         return true;
