@@ -24,9 +24,9 @@ class NutzerDAODBImpl implements NutzerDAO
 
                 $this->db->exec(DBTools::CREATE_TABLES);
 
-                $sqlCheckEmptyDatabase = $this->db->query("SELECT * FROM Gemaelde");
-                $result = $sqlCheckEmptyDatabase->fetchObject();
-                if (empty($result->GemaeldeID)) {
+                $checkEmptySQL = $this->db->query("SELECT * FROM Gemaelde;");
+                $result = $checkEmptySQL->fetchObject();
+                if (!isset($result->GemaeldeID)) {
                     $this->db->exec(DBTools::INSERT_DATA);
                 }
 
@@ -54,21 +54,30 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $sqlCheckIfEmailExists = "SELECT * FROM Anbieter WHERE Email = :email;";
-            $kommandoEmailCheck = $this->db->prepare($sqlCheckIfEmailExists);
-            $kommandoEmailCheck->bindParam(":email", $email);
-            $kommandoEmailCheck->execute();
-            $result = $kommandoEmailCheck->fetchObject();
+            $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
+            $checkEmailCMD = $this->db->prepare($checkEmailSQL);
+            $checkEmailCMD->bindParam(":email", $email);
+            $checkEmailCMD->execute();
+            $result = $checkEmailCMD->fetchObject();
             if (isset($result->Email)) {
                 return false; //Email existiert bereits
             }
 
-            $sqlInsertNewAnbieter = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:nutzername, :email, :passwort);";
-            $kommandoInsertAnbieter = $this->db->prepare($sqlInsertNewAnbieter);
-            $kommandoInsertAnbieter->bindParam(":nutzername", $nutzername);
-            $kommandoInsertAnbieter->bindParam(":email", $email);
-            $kommandoInsertAnbieter->bindParam(":passwort", $passwort);
-            $kommandoInsertAnbieter->execute();
+            $checkUsernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :nutzername;";
+            $checkUsernameCMD = $this->db->prepare($checkUsernameSQL);
+            $checkUsernameCMD->bindParam(":nutzername", $nutzername);
+            $checkUsernameCMD->execute();
+            $result = $checkUsernameCMD->fetchObject();
+            if (isset($result->Nutzername)) {
+                return false; //Nutzername existiert bereits
+            }
+
+            $insertAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:nutzername, :email, :passwort);";
+            $insertAnbieterCMD = $this->db->prepare($insertAnbieterSQL);
+            $insertAnbieterCMD->bindParam(":nutzername", $nutzername);
+            $insertAnbieterCMD->bindParam(":email", $email);
+            $insertAnbieterCMD->bindParam(":passwort", $passwort);
+            $insertAnbieterCMD->execute();
 
             $this->db->commit();
             return true;
