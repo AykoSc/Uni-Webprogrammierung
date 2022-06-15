@@ -8,7 +8,6 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"])
     and isset($_GET["filter"]) and is_string($_GET["filter"])) {
     $ausstellung = $user->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
 } else {
-    //TODO gegebenenfalls anpassen, aber sonst bringt der check mit isset nichts
     $ausstellung = $user->ausstellung_erhalten(null, null);
 }
 

@@ -81,7 +81,7 @@ include $abs_path . '/php/head.php';
             <form method="post">
                 <h2> Über das Gemaelde </h2>
                 <label for="beschreibung" class="invisible">Beschreibung</label>
-                <textarea cols="70" rows="10" name="beschreibung">  <?php echo $beschreibung ?> </textarea>
+                <textarea cols="70" rows="10" name="beschreibung"><?php echo $beschreibung ?></textarea>
                 <div class="grid">
                     <div class="item">
                         <h3>KuenstlerIn</h3>

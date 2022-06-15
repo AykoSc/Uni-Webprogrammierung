@@ -247,7 +247,6 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    //TODO gegebenenfalls möglichkeit hinzufügen titel zu editieren
     public function gemaelde_editieren($AnbieterID, $token, $gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
     {
         try {
@@ -584,16 +583,44 @@ class NutzerDAODBImpl implements NutzerDAO
         return $kommentare;
     }
 
-    public function profil_erhalten($nutzerID): array
+    public function profil_erhalten($AnbieterID): array
     {
-        if (isset($nutzerID) and is_string($nutzerID)) {
-            foreach ($this->users_profil as $profil) {
-                if ($profil[0] == htmlspecialchars($nutzerID)) {
-                    return $profil;
-                }
+        try {
+            $this->db->beginTransaction();
+
+            $checkAnbieterIDSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
+            $checkAnbieterIDCMD = $this->db->prepare($checkAnbieterIDSQL);
+            $checkAnbieterIDCMD->bindParam(":AnbieterID", $AnbieterID);
+            $checkAnbieterIDCMD->execute();
+            $result = $checkAnbieterIDCMD->fetchObject();
+            if (!isset($result->AnbieterID)) {
+                return array(-1); //Nutzer existiert nicht
             }
+
+            $getProfilSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
+            $getProfilCMD = $this->db->prepare($getProfilSQL);
+            $getProfilCMD->bindParam(":AnbieterID", $AnbieterID);
+            $getProfilCMD->execute();
+            $result = $getProfilCMD->fetchObject();
+
+            // [NutzerID, Nutzername, beschreibung, geschlecht, VollständigerName, Adresse, Sprache, Geburtsdatum, Registrierungsdatum]
+            $AnbieterID = $result->AnbieterID;
+            $Nutzername = $result->Nutzername;
+            $Personenbeschreibung = $result->Personenbeschreibung;
+            $Geschlecht = $result->Geschlecht;
+            $Vollstaendiger_Name = $result->Vollstaendiger_Name;
+            $Anschrift = $result->Anschrift;
+            $Sprache = $result->Sprache;
+            $Geburtsdatum = $result->Geburtsdatum;
+            $Registrierungsdatum = $result->Registrierungsdatum;
+
+            $this->db->commit();
+            return array($AnbieterID, $Nutzername, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum, $Registrierungsdatum);
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return array(-1);
         }
-        return [-1];
     }
 
     public function ausstellung_erhalten($suche, $filter): array
