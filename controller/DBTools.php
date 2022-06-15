@@ -1,8 +1,8 @@
 <?php
 
-class DatabaseTools
+class DBTools
 {
-    const CREATE_DATABASE = "
+    const CREATE_TABLES = "
     CREATE TABLE IF NOT EXISTS Anbieter (
         AnbieterID INTEGER PRIMARY KEY AUTOINCREMENT,
         Nutzername TEXT,
@@ -61,19 +61,18 @@ class DatabaseTools
     CREATE TABLE IF NOT EXISTS Tokens (
         AnbieterID INTEGER,
         Tokennummer TEXT,
-        PRIMARY KEY (AnbieterID, Tokennummer),
         FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE NO ACTION ON UPDATE CASCADE
     );
     
     CREATE TABLE IF NOT EXISTS gehoert_zu (
         GemaeldeID INTEGER,
         SammlungID INTEGER,
-        PRIMARY KEY (GemaeldeID, SammlungID),
         FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE                    
     );
+    ";
 
-
+    const INSERT_DATA = "
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
     VALUES ('test1', 'test1@test.com', 'test1!', 'Ich bin Test 1 !', 'm', 'Max Mustermann', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '04.10.2000', '01.06.2022');
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
@@ -84,7 +83,6 @@ class DatabaseTools
     INSERT INTO Tokens (AnbieterID, Tokennummer)
     VALUES (1, 'YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7');
   
-  /*TODO für alle weiteren Daten mit ID einfügen, sonst werden bei jedem Neuladen die Daten erneut in die Datenbank geladen*/
     INSERT OR REPLACE INTO Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
     VALUES (0, 0, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56);
     INSERT OR REPLACE INTO  Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)

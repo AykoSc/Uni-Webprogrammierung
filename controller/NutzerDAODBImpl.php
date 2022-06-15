@@ -1,7 +1,7 @@
 <?php if (!isset($abs_path)) include_once "../path.php";
 
 include $abs_path . "/controller/NutzerDAO.php";
-include $abs_path . "/controller/DatabaseTools.php";
+include $abs_path . "/controller/DBTools.php";
 
 class NutzerDAODBImpl implements NutzerDAO
 {
@@ -16,10 +16,27 @@ class NutzerDAODBImpl implements NutzerDAO
             $user = "root";
             $pw = null;
             $dsn = "sqlite:database.db";
+            // Nur bei MySQL: $dsn = "mysql:dbname=website;host=localhost";
             $this->db = new PDO($dsn, $user, $pw);
-            $this->db->exec(DatabaseTools::CREATE_DATABASE);
-        } catch (PDOException $e) {
-            echo "Fehler: " . $e->getMessage();
+            // Nur bei MySQL: $this->db->exec("SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE");
+            try {
+                $this->db->beginTransaction();
+
+                $this->db->exec(DBTools::CREATE_TABLES);
+
+                $sqlCheckEmptyDatabase = $this->db->query("SELECT * FROM Gemaelde");
+                $result = $sqlCheckEmptyDatabase->fetchObject();
+                if (empty($result->GemaeldeID)) {
+                    $this->db->exec(DBTools::INSERT_DATA);
+                }
+
+                $this->db->commit();
+            } catch (Exception $ex) {
+                print_r($ex);
+                $db->rollBack();
+            }
+        } catch (PDOException $ex) {
+            print_r($ex);
         }
     }
 
@@ -34,17 +51,32 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function registrieren($nutzername, $email, $passwort): bool
     {
-        // TODO: Transaktion erstellen
-        $checkIfExists = $this->db->prepare("SELECT COUNT(:Email) FROM Anbieter WHERE Email = :Email");
-        $checkIfExists->bindValue("Email", $email);
-        if ($checkIfExists->execute() > 0) {
+        try {
+            $this->db->beginTransaction();
+
+            $sqlCheckIfEmailExists = "SELECT * FROM Anbieter WHERE Email = :email;";
+            $kommandoEmailCheck = $this->db->prepare($sqlCheckIfEmailExists);
+            $kommandoEmailCheck->bindParam(":email", $email);
+            $kommandoEmailCheck->execute();
+            $result = $kommandoEmailCheck->fetchObject();
+            if (isset($result->Email)) {
+                return false; //Email existiert bereits
+            }
+
+            $sqlInsertNewAnbieter = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:nutzername, :email, :passwort);";
+            $kommandoInsertAnbieter = $this->db->prepare($sqlInsertNewAnbieter);
+            $kommandoInsertAnbieter->bindParam(":nutzername", $nutzername);
+            $kommandoInsertAnbieter->bindParam(":email", $email);
+            $kommandoInsertAnbieter->bindParam(":passwort", $passwort);
+            $kommandoInsertAnbieter->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
             return false;
         }
-
-        $this->db->exec("BEGIN TRANSACTION;");
-        $this->db->exec("ROLLBACK;");
-        $this->db->exec("COMMIT;");
-        return true;
     }
 
     public function anmelden($email, $passwort): array
@@ -81,16 +113,16 @@ class NutzerDAODBImpl implements NutzerDAO
                         Erstellungsdatum = :erstellungsdatum, 
                         Ort = :ort 
                     WHERE GemaeldeID = :id';
-            $kommando = $this->db->prepare( $sql );
-            $kommando->bindParam( ':id', $gemaeldeID );
-            $kommando->bindParam( ':beschreibung', $beschreibung );
-            $kommando->bindParam( ':erstellungsdatum', $erstellungsdatum );
-            $kommando->bindParam( ':ort', $ort );
+            $kommando = $this->db->prepare($sql);
+            $kommando->bindParam(':id', $gemaeldeID);
+            $kommando->bindParam(':beschreibung', $beschreibung);
+            $kommando->bindParam(':erstellungsdatum', $erstellungsdatum);
+            $kommando->bindParam(':ort', $ort);
             $kommando->execute();
 
             $this->db->commit();
             return true;
-        } catch ( Exception $ex ) {
+        } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
             return false;
