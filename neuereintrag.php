@@ -15,7 +15,7 @@ if (!isset($gemaelde)) {
     header("location: index.php");
 }
 
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
     $angemeldet = true;
 } else {
     $angemeldet = false;
@@ -28,7 +28,7 @@ if ($gemaelde and $angemeldet) {
         isset($_POST['kuenstler']) and is_string($_POST['kuenstler']) and
         isset($_POST['datum']) and is_string($_POST['datum']) and
         isset($_POST['ort']) and is_string($_POST['ort'])) {
-        $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]),
+        $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
             htmlspecialchars($_POST['datei']), htmlspecialchars($_POST['titel']),
             htmlspecialchars($_POST['beschreibung']), htmlspecialchars($_POST['kuenstler']),
             htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
@@ -39,7 +39,7 @@ if (!$gemaelde and $angemeldet) {
     if (isset($_POST['auswahl']) and is_string($_POST['auswahl']) and
         isset($_POST['titel']) and is_string($_POST['titel']) and
         isset($_POST['beschreibung']) and is_string($_POST['beschreibung'])) {
-        $erstellung = $user->sammlung_anlegen(htmlspecialchars($_SESSION["id"]),
+        $erstellung = $user->sammlung_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
             htmlspecialchars($_POST['auswahl']),
             htmlspecialchars($_POST['titel']),
             htmlspecialchars($_POST['beschreibung']));
