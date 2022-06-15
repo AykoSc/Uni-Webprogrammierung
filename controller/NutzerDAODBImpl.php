@@ -484,7 +484,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $getGehoertZuCMD->execute();
             $GemaeldeIDs = array();
             while ($zeile = $getSammlungCMD->fetchObject()) {
-
+                $GemaeldeIDs[] = $zeile;
             }
 
             return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);

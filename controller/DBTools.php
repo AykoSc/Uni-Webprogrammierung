@@ -94,12 +94,12 @@ class DBTools
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
     VALUES (2, 1, 23, 'Mein toller Kommentar.', '01.06.2022');
 
-    INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung0', 'Beschreibung von Bild 0', 3, '03.01.2021', 2234);
-    INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung1', 'Beschreibung von Bild 1', 7, '06.04.2022', 34);
-    INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (2, 'Sammlung2', 'Beschreibung von Bild 2', 5, '02.03.2022', 8673);
+    INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
+    VALUES (1, 1, 'Sammlung0', 'Beschreibung von Bild 0', 3, '03.01.2021', 2234);
+    INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
+    VALUES (2, 1, 'Sammlung1', 'Beschreibung von Bild 1', 7, '06.04.2022', 34);
+    INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
+    VALUES (3, 2, 'Sammlung2', 'Beschreibung von Bild 2', 5, '02.03.2022', 8673);
        
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (0, 0);
