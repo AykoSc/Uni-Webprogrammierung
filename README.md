@@ -26,3 +26,7 @@ Erklärung Gemälde:
 Anmeldung:
 
 - Genauere Informationen über Fehler bei Anmeldung nicht an den Nutzer weiterleiten aufgrund von Datenschutz
+
+-Profil bearbeiten machen wir mit JavaScript
+-Gemaelde bewertung machen wir mt JavaScript
+-Sammlung erstellen machen wir mit JavaScript
