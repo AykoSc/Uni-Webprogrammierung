@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
-$user = NutzerDAODummyImpl::getInstance();
+include_once $abs_path . '/controller/NutzerDAODbImpl.php';
+$user = NutzerDAODbImpl::getInstance();
 
 /* Funktioniert nicht
 
@@ -39,7 +39,8 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"])
     and isset($_GET["filter"]) and is_string($_GET["filter"])) {
     $ausstellung = $user->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
 } else {
-    $ausstellung = $user->ausstellung_erhalten("", "");
+    //TODO gegebenenfalls anpassen, aber sonst bringt der check mit isset nichts
+    $ausstellung = $user->ausstellung_erhalten(null, null);
 }
 
 $reihe0 = $ausstellung[0];

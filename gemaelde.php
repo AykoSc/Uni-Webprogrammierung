@@ -1,29 +1,8 @@
 <?php
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
-include_once $abs_path . '/controller/NutzerDAODummyImpl.php';
-$user = NutzerDAODummyImpl::getInstance();
-
-if (isset($_GET["id"]) and is_string($_GET["id"])) {
-    $kommentare = $user->kommentar_erhalten(htmlspecialchars($_GET["id"]));
-    $gemaelde = $user->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
-} else {
-    header("location: index.php");
-}
-if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
-    $id = $gemaelde[0];
-    $nutzer = $gemaelde[1];
-    $titel = htmlspecialchars($gemaelde[2]);
-    $kuenstler = htmlspecialchars($gemaelde[3]);
-    $beschreibung = htmlspecialchars($gemaelde[4]);
-    $erstellungsdatum = htmlspecialchars($gemaelde[5]);
-    $ort = htmlspecialchars($gemaelde[6]);
-    $bewertung = htmlspecialchars($gemaelde[7]);
-    $hochladedatum = htmlspecialchars($gemaelde[8]);
-    $aufrufe = htmlspecialchars($gemaelde[9]);
-} else {
-    header("location: index.php");
-}
+include_once $abs_path . '/controller/NutzerDAODbImpl.php';
+$user = NutzerDAODbImpl::getInstance();
 
 if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])){
     $result = $user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_SESSION["id"]));
@@ -39,11 +18,42 @@ if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["del
 
 //Eintrag bearbeiten
 if (isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
-    isset($_POST['date']) and is_string($_POST['date']) and
-    isset($_POST['location']) and is_string($_POST['location'])) {
-    $gemaelde = $user->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST['beschreibung']), "titel",
-        htmlspecialchars($_POST['date']), htmlspecialchars($_POST['location']));
+    isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
+    isset($_POST['ort']) and is_string($_POST['ort'])) {
+    $gemaelde = $user->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST['beschreibung']),
+        htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
 }
+
+if (isset($_GET["id"]) and is_string($_GET["id"])) {
+    $kommentare = $user->kommentare_erhalten(htmlspecialchars($_GET["id"]));
+    $gemaelde = $user->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
+    print_r($_POST["beschreibung"]);
+    print_r($_POST["ort"]);
+    print_r($_POST["erstellungsdatum"]);
+
+} else {
+    header("location: index.php");
+}
+
+
+
+
+if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
+    $id = $gemaelde[0];
+    $nutzer = $gemaelde[1];
+    $titel = htmlspecialchars($gemaelde[2]);
+    $kuenstler = htmlspecialchars($gemaelde[3]);
+    $beschreibung = htmlspecialchars($gemaelde[4]);
+    $erstellungsdatum = htmlspecialchars($gemaelde[5]);
+    $ort = htmlspecialchars($gemaelde[6]);
+    $bewertung = htmlspecialchars($gemaelde[7]);
+    $hochladedatum = htmlspecialchars($gemaelde[8]);
+    $aufrufe = htmlspecialchars($gemaelde[9]);
+} else {
+    header("location: index.php");
+}
+
+
 
 ?>
 
@@ -70,7 +80,7 @@ include $abs_path . '/php/head.php';
             <form method="post">
                 <h2> Über das Gemaelde </h2>
                 <label for="beschreibung" class="invisible">Beschreibung</label>
-                <textarea cols="70" rows="10" name="beschreibung"> <?php echo $beschreibung ?> </textarea>
+                <textarea cols="70" rows="10" name="beschreibung" placeholder="<?php echo $beschreibung ?>">  </textarea>
                 <div class="grid">
                         <div class ="item">
                             <h3>KünstlerIn</h3>
@@ -80,12 +90,13 @@ include $abs_path . '/php/head.php';
                     <div class ="item">
                         <h3>Erstellungsdatum</h3>
                         <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
-                        <input type="text" name="erstellungsdatum" value="<?php echo $erstellungsdatum ?>"/>
+                        <!--TODO mit placeholder wird nicht der alte wert übergeben, mit value wird der neueu nichtgenommen.-->..
+                        <input type="text" name="erstellungsdatum" placeholder="<?php echo $erstellungsdatum ?>"/>
                     </div>
                     <div class="item">
                         <h3>Ort</h3>
                         <label for="ort" class="invisible">Ort</label>
-                        <input type="text" name="ort" value="<?php echo htmlspecialchars($ort)?>">
+                        <input type="text" name="ort" placeholder="<?php echo htmlspecialchars($ort)?>">
                     </div>
                     <div class = "item">
                         <h3>Bewertung</h3>
@@ -149,7 +160,7 @@ include $abs_path . '/php/head.php';
             <h2> Kommentarbereich</h2>
            <?php if(isset($_SESSION["id"])): ?>
             <div class="container">
-                <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
+                <form method="post">
                     <label for="kommentar" class="invisible">Kommentar</label>
                     <textarea id="kommentar" name="kommentar" maxlength="1000"
                               placeholder="Neuen Kommentar schreiben..."
@@ -173,7 +184,7 @@ include $abs_path . '/php/head.php';
                         <?php echo htmlspecialchars($kommentar[4]); ?>
                     </p>
                     <div class="likes">
-                        <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
+                        <form method="post">
                             <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
                             <input type="image" alt="thumbsUp" src="images/thumbsUp.png" width="20">
                         </form>
@@ -182,7 +193,7 @@ include $abs_path . '/php/head.php';
                     </div>
                     <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
                         <div class="delete">
-                            <form method="post" action="gemaelde.php?id=<?php echo $_GET["id"] ?>">
+                            <form method="post">
                                 <input type="hidden" name="delete"
                                        value="<?php echo htmlspecialchars($kommentar[0]) ?>">
                                 <input type="image" alt="trashbin" src="images/trashbin.png" width="20">

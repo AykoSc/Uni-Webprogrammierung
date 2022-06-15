@@ -34,7 +34,7 @@ interface NutzerDAO
 
     public function gemaelde_anlegen($id, $file, $titel, $beschreibung, $artist, $date, $location): bool;
 
-    public function gemaelde_editieren($gemaeldeID, $beschreibung, $titel, $erstellungsdatum, $ort): bool;
+    public function gemaelde_editieren($gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool;
 
     public function gemaelde_entfernen($gemaeldeID): bool;
 
@@ -54,7 +54,7 @@ interface NutzerDAO
 
     public function kommentar_liken($nutzerID, $kommentarID): bool;
 
-    public function kommentar_erhalten($gemaeldeID): array;
+    public function kommentare_erhalten($gemaeldeID): array;
 
     public function profil_erhalten($nutzerID): array;
 

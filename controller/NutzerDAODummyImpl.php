@@ -1,11 +1,12 @@
 <?php if (!isset($abs_path)) include_once "../path.php";
 
 include $abs_path . "/controller/NutzerDAO.php";
-include $abs_path . "/controller/DatabaseTools.php";
 
 class NutzerDAODummyImpl implements NutzerDAO
 {
 
+
+    //TODO hier sollte alte dummyImpl sein
     /*
      * Datenspeicherung (ALT)
      * Soll NICHT gelöscht werden
@@ -61,17 +62,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     private function __construct()
     {
-        /*TODO Datenbank weitermachen und Fehlerbehandlung*/
-        //Datenbankverbindung
-        try {
-            $user = "root";
-            $pw = null;
-            $dsn = "sqlite:database.db";
-            $this->db = new PDO($dsn, $user, $pw);
-            $this->db->exec(DatabaseTools::CREATE_DATABASE);
-        } catch (PDOException $e) {
-            echo "Fehler: " . $e->getMessage();
-        }
+
     }
 
     public static function getInstance(): NutzerDAODummyImpl
@@ -136,7 +127,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function gemaelde_editieren($gemaeldeID, $beschreibung, $titel, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
     {
         //TODO: Gemälde wird erst editiert, wenn Datenbank vorhanden ist.
         return true;
@@ -208,7 +199,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_erhalten($gemaeldeID): array
+    public function kommentare_erhalten($gemaeldeID): array
     {
         $result = array();
         if (isset($gemaeldeID) and is_string($gemaeldeID)) {
