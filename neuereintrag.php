@@ -15,7 +15,7 @@ if (!isset($gemaelde)) {
     header("location: index.php");
 }
 
-if (isset($_SESSION["id"]) and is_int($_SESSION["id"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"])) {
     $angemeldet = true;
 } else {
     $angemeldet = false;

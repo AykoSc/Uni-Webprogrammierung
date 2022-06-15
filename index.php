@@ -6,14 +6,14 @@ $user = NutzerDAODBImpl::getInstance();
 
 
 if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {
-    if (isset($_SESSION["id"]) and is_int($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
         $abmeldung = $user->abmelden(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
     }
     session_unset();
     session_destroy();
 }
 
-if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_int($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
     $anmeldung = true;
 }
 ?>

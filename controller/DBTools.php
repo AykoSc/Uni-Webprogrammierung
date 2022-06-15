@@ -32,7 +32,7 @@ class DBTools
     );
 
     CREATE TABLE IF NOT EXISTS Sammlung (
-        SammlungID INTEGER PRIMARY KEY AUTOINCREMENT,
+        SammlungID INTEGER PRIMARY KEY,
         AnbieterID INTEGER,
         Titel TEXT,
         Beschreibung TEXT,
@@ -77,11 +77,6 @@ class DBTools
     VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1 !', 'm', 'Max Mustermann', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '04.10.2000', '01.06.2022');
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
     VALUES ('test2', 'test2@test.com', '', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '01.11.2000', '28.05.2022');
-
-    INSERT INTO Tokens (AnbieterID, Tokennummer)
-    VALUES (0, 'mA23zbjdkENShbk9ezqNp5nQMpyrVb7m');
-    INSERT INTO Tokens (AnbieterID, Tokennummer)
-    VALUES (1, 'YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7');
   
     INSERT OR REPLACE INTO Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
     VALUES (0, 0, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56);
