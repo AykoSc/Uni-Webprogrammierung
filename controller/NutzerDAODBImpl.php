@@ -350,12 +350,12 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $getHighestSammlungIDSQL = "SELECT MAX(SammlungID) FROM Sammlung;";
+            $getHighestSammlungIDSQL = "SELECT MAX(SammlungID) AS name FROM Sammlung;";
             $getHighestSammlungIDCMD = $this->db->prepare($getHighestSammlungIDSQL);
             $getHighestSammlungIDCMD->execute();
             $result = $getHighestSammlungIDCMD->fetchObject();
             $NewSammlungID = 0;
-            if (isset($result->SammlungID)) {
+            if (isset($result->name)) {
                 $NewSammlungID = ($result->SammlungID) + 1;
             }
 
@@ -482,9 +482,10 @@ class NutzerDAODBImpl implements NutzerDAO
             $getGehoertZuCMD = $this->db->prepare($getSammlungSQL);
             $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
             $getGehoertZuCMD->execute();
-            $result = $getSammlungCMD->fetchObject();
             $GemaeldeIDs = array();
+            while ($zeile = $getSammlungCMD->fetchObject()) {
 
+            }
 
             return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
         } catch (Exception $ex) {

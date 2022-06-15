@@ -78,21 +78,21 @@ class DBTools
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
     VALUES ('test2', 'test2@test.com', '', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '01.11.2000', '28.05.2022');
   
-    INSERT OR REPLACE INTO Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-    VALUES (0, 2, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56);
-    INSERT OR REPLACE INTO  Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-    VALUES (1, 1, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '05.10.1234', 'Oldenburg, Deutschland', 9, '01.06.2022', 4);
-    INSERT OR REPLACE INTO Gemaelde (GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-    VALUES (2, 1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '06.11.1432', 'Berlin, Deutschland', 4, '06.09.2022', 8);
+    INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
+    VALUES (2, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56);
+    INSERT INTO  Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
+    VALUES (1, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '05.10.1234', 'Oldenburg, Deutschland', 9, '01.06.2022', 4);
+    INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
+    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '06.11.1432', 'Berlin, Deutschland', 4, '06.09.2022', 8);
 
-    INSERT OR REPLACE INTO Kommentar (KommentarID, GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (0, 0, 1, 274, 'Dies ist ein Kommentar!', '05.10.2021');
-    INSERT  OR REPLACE INTO Kommentar (KommentarID, GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (1, 0, 2, 346, 'Dies ist auch ein Kommentar!!', '07.06.2022');
-    INSERT OR REPLACE INTO Kommentar (KommentarID, GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (2, 1, 3, 56, 'Mein erster Kommentar.', '02.03.2022');
-    INSERT OR REPLACE INTO Kommentar (KommentarID, GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (3, 2, 1, 23, 'Mein toller Kommentar.', '01.06.2022');
+    INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
+    VALUES (0, 1, 274, 'Dies ist ein Kommentar!', '05.10.2021');
+    INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
+    VALUES (0, 2, 346, 'Dies ist auch ein Kommentar!!', '07.06.2022');
+    INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
+    VALUES (1, 3, 56, 'Mein erster Kommentar.', '02.03.2022');
+    INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
+    VALUES (2, 1, 23, 'Mein toller Kommentar.', '01.06.2022');
 
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
     VALUES (1, 'Sammlung0', 'Beschreibung von Bild 0', 3, '03.01.2021', 2234);
