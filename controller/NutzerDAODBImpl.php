@@ -36,8 +36,20 @@ class NutzerDAODBImpl implements NutzerDAO
                 $result = $checkEmptySQL->fetchObject();
                 if (!isset($result->GemaeldeID)) {
                     $this->db->exec(DBTools::INSERT_DATA); // Daten werden eingefügt, wenn Datenbank leer ist
-                }
 
+                    $name1 = "test1";
+                    $hash1 = password_hash("test1!", PASSWORD_DEFAULT);
+                    $name2 = "test2";
+                    $hash2 = password_hash("test2!", PASSWORD_DEFAULT);
+                    $setPasswordSQL = "UPDATE Anbieter SET Passwort = :passwort WHERE Nutzername = :nutzername";
+                    $setPasswordCMD = $this->db->prepare($setPasswordSQL);
+                    $setPasswordCMD->bindParam(':passwort', $hash1);
+                    $setPasswordCMD->bindParam(':nutzername', $name1);
+                    $setPasswordCMD->execute();
+                    $setPasswordCMD->bindParam(':passwort', $hash2);
+                    $setPasswordCMD->bindParam(':nutzername', $name2);
+                    $setPasswordCMD->execute();
+                }
                 $this->db->commit();
             } catch (Exception $ex) {
                 print_r($ex);
@@ -214,17 +226,27 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $sql = 'UPDATE Gemaelde
+            $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
+            $checkGemaeldeIDCMD->bindParam(":GemaeldeID", $gemaeldeID);
+            $checkGemaeldeIDCMD->execute();
+            $result = $checkGemaeldeIDCMD->fetchObject();
+            if (!isset($result->GemaeldeID)) {
+                return false; //GemaeldeID existiert nicht
+            }
+
+            $editGemaeldeSQL = "UPDATE Gemaelde
                     SET Beschreibung = :beschreibung, 
                         Erstellungsdatum = :erstellungsdatum, 
                         Ort = :ort 
-                    WHERE GemaeldeID = :id';
-            $kommando = $this->db->prepare($sql);
-            $kommando->bindParam(':id', $gemaeldeID);
-            $kommando->bindParam(':beschreibung', $beschreibung);
-            $kommando->bindParam(':erstellungsdatum', $erstellungsdatum);
-            $kommando->bindParam(':ort', $ort);
-            $kommando->execute();
+                    WHERE GemaeldeID = :id";
+            $editGemaeldeCMD = $this->db->prepare($editGemaeldeSQL);
+            $editGemaeldeCMD->bindParam(':id', $gemaeldeID);
+            $editGemaeldeCMD->bindParam(':beschreibung', $beschreibung);
+            $editGemaeldeCMD->bindParam(':erstellungsdatum', $erstellungsdatum);
+            $editGemaeldeCMD->bindParam(':ort', $ort);
+
+            $editGemaeldeCMD->execute();
 
             $this->db->commit();
             return true;
@@ -237,14 +259,67 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function gemaelde_entfernen($gemaeldeID): bool
     {
-        //TODO: Gemälde wird erst entfernt, wenn Datenbank vorhanden ist.
-        return true;
+        try {
+            $this->db->beginTransaction();
+
+            $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
+            $checkGemaeldeIDCMD->bindParam(":GemaeldeID", $gemaeldeID);
+            $checkGemaeldeIDCMD->execute();
+            $result = $checkGemaeldeIDCMD->fetchObject();
+            if (!isset($result->GemaeldeID)) {
+                return false; //GemaeldeID existiert nicht
+            }
+
+            $deleteGemaeldeSQL = "DELETE FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $deleteGemaeldeCMD = $this->db->prepare($deleteGemaeldeSQL);
+            $deleteGemaeldeCMD->bindParam(":GemaeldeID", $gemaeldeID);
+
+            $deleteGemaeldeCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
     }
 
     public function gemaelde_erhalten($gemaeldeID): array
     {
-        $sql = "SELECT * FROM Gemaelde
-                  WHERE GemaeldeID = :id;";
+        try {
+            $this->db->beginTransaction();
+
+            $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $checkGemaeldeIDCMD = $this->db->prepare($checkGemaeldeIDSQL);
+            $checkGemaeldeIDCMD->bindParam(":GemaeldeID", $gemaeldeID);
+            $checkGemaeldeIDCMD->execute();
+            $result = $checkGemaeldeIDCMD->fetchObject();
+            if (!isset($result->GemaeldeID)) {
+                return array(-1); //GemaeldeID existiert nicht
+            }
+
+            $getGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $getGemaeldeCMD = $this->db->prepare($getGemaeldeSQL);
+            $getGemaeldeCMD->bindParam(":GemaeldeID", $gemaeldeID);
+            $getGemaeldeCMD->execute();
+            $result = $getGemaeldeCMD->fetchObject();
+            $GemaeldeID = $result->GemaeldeID;
+            /*
+            $AnbieterID =
+
+            $this->db->commit();
+            return array($GemaeldeID, $AnbieterID, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort, $Bewertung, $Hochladedatum, $Aufrufe);
+            */
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+
+
+        $sql = "SELECT * FROM Gemaelde WHERE GemaeldeID = :id;";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array(":id" => $gemaeldeID));

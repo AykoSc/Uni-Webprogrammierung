@@ -74,9 +74,9 @@ class DBTools
 
     const INSERT_DATA = "
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
-    VALUES ('test1', 'test1@test.com', 'test1!', 'Ich bin Test 1 !', 'm', 'Max Mustermann', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '04.10.2000', '01.06.2022');
+    VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1 !', 'm', 'Max Mustermann', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '04.10.2000', '01.06.2022');
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
-    VALUES ('test2', 'test2@test.com', 'test2!', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '01.11.2000', '28.05.2022');
+    VALUES ('test2', 'test2@test.com', '', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '01.11.2000', '28.05.2022');
 
     INSERT INTO Tokens (AnbieterID, Tokennummer)
     VALUES (0, 'mA23zbjdkENShbk9ezqNp5nQMpyrVb7m');
