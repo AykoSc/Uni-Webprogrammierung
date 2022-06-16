@@ -56,6 +56,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $db->rollBack();
             }
         } catch (Exception $ex) {
+            print_r("AMOGUS TEST");
             print_r($ex);
         }
     }
@@ -648,11 +649,23 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:filter%' ORDER BY Bewertung;";
+            $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:suche%';";
+            if ($filter == "relevance") {
+                $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:suche%' ORDER BY Bewertung;";
+            } else if ($filter == "date") {
+                $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:suche%' ORDER BY Erstellungsdatum;";
+            }
+
             $getSammlungenCMD = $this->db->prepare($getSammlungenSQL);
-            $getSammlungenCMD->bindParam(":SammlungID", $sammlungID);
+            $getSammlungenCMD->bindParam(":suche", $suche);
             $getSammlungenCMD->execute();
             $result = $getSammlungenCMD->fetchObject();
+
+            $GemaeldeIDs = array();
+            while ($zeile = $getSammlungenCMD->fetchObject()) {
+                $GemaeldeIDs[] = $zeile;
+            }
+
             $SammlungID = $result->SammlungID;
             $AnbieterID = $result->AnbieterID;
             $Titel = $result->Titel;
@@ -663,17 +676,8 @@ class NutzerDAODBImpl implements NutzerDAO
 
 
             $this->db->commit();
+
             // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
-
-            $getGehoertZuSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $getGehoertZuCMD = $this->db->prepare($getSammlungenSQL);
-            $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
-            $getGehoertZuCMD->execute();
-            $GemaeldeIDs = array();
-            while ($zeile = $getSammlungenCMD->fetchObject()) {
-                $GemaeldeIDs[] = $zeile;
-            }
-
             return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
         } catch (Exception $ex) {
             print_r($ex);
