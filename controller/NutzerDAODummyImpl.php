@@ -173,7 +173,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_liken($nutzerID, $kommentarID): bool
+    public function kommentar_liken($AnbieterID, $token, $kommentarID): bool
     {
         // Kommentar wird hier nicht geliked, da es eine schreibende Methode ist
         return true;

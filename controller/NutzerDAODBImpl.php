@@ -74,6 +74,7 @@ class NutzerDAODBImpl implements NutzerDAO
         $checkAnbieterCMD->execute();
         $result = $checkAnbieterCMD->fetchObject();
         if (!isset($result->AnbieterID)) {
+            $this->db->rollBack();
             return false; // Anbieter ist nicht eingeloggt oder existiert nicht
         }
         return true;
@@ -87,10 +88,28 @@ class NutzerDAODBImpl implements NutzerDAO
         $checkGemaeldeIDCMD->execute();
         $result = $checkGemaeldeIDCMD->fetchObject();
         if (!isset($result->GemaeldeID)) {
+            $this->db->rollBack();
             return false; //Gemaelde existiert nicht
         }
         return true;
     }
+
+    private function kommentarCheck($KommentarID): bool
+    {
+        $checkKommentarIDSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
+        $checkKommentarIDCMD = $this->db->prepare($checkKommentarIDSQL);
+        $checkKommentarIDCMD->bindParam(":KommentarID", $KommentarID);
+        $checkKommentarIDCMD->execute();
+        $result = $checkKommentarIDCMD->fetchObject();
+        if (!isset($result->KommentarID)) {
+            $this->db->rollBack();
+            return false; //Kommentar existiert nicht
+        }
+        return true;
+    }
+
+
+
 
     public function registrieren($nutzername, $email, $passwort): bool
     {
@@ -103,6 +122,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $checkEmailCMD->execute();
             $result = $checkEmailCMD->fetchObject();
             if (isset($result->Email)) {
+                $this->db->rollBack();
                 return false; //Email existiert bereits
             }
 
@@ -112,6 +132,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $checkUsernameCMD->execute();
             $result = $checkUsernameCMD->fetchObject();
             if (isset($result->Nutzername)) {
+                $this->db->rollBack();
                 return false; //Nutzername existiert bereits
             }
 
@@ -144,6 +165,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $findAnbieterCMD->execute();
             $result = $findAnbieterCMD->fetchObject();
             if (!isset($result->AnbieterID) or !isset($result->Email) or !isset($result->Passwort)) {
+                $this->db->rollBack();
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Anbieter existiert nicht)
             }
 
@@ -162,7 +184,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $this->db->commit();
                 return array($id, $token);
             } else {
-                $this->db->commit();
+                $this->db->rollBack();
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Passwort falsch)
             }
         } catch (Exception $ex) {
@@ -343,6 +365,7 @@ class NutzerDAODBImpl implements NutzerDAO
         $auswahlSplitted = explode(",", $auswahl);
         foreach ($auswahlSplitted as $split) {
             if (!strlen($split) == 1) {
+                $this->db->rollBack();
                 return false; //falsche eingabe
             }
         }
@@ -434,6 +457,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $checkSammlungIDCMD->execute();
             $result = $checkSammlungIDCMD->fetchObject();
             if (!isset($result->SammlungID)) {
+                $this->db->rollBack();
                 return false; //SammlungID existiert nicht
             }
 
@@ -463,6 +487,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $checkSammlungIDCMD->execute();
             $result = $checkSammlungIDCMD->fetchObject();
             if (!isset($result->SammlungID)) {
+                $this->db->rollBack();
                 return array(-1); //SammlungID existiert nicht
             }
 
@@ -543,16 +568,40 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentar_liken($nutzerID, $kommentarID): bool
+    public function kommentar_liken($AnbieterID, $token, $kommentarID): bool
     {
         try {
             $this->db->beginTransaction();
 
-            /*TODO Merken welcher User welches Bild geliked hat, so noch mehrfaches Liken möglich*/
+            if (!$this->anbieterCheck($AnbieterID, $token)) {
+                return false;
+            }
+
+            if (!$this->kommentarCheck($kommentarID)) {
+                return false;
+            }
+
+            $checkGelikedSQL = "SELECT * FROM geliked_von WHERE KommentarID = :KommentarID;";
+            $checkGelikedSQL = $this->db->prepare($checkGelikedSQL);
+            $checkGelikedSQL->bindParam(":KommentarID", $kommentarID);
+            $checkGelikedSQL->execute();
+            $result = $checkGelikedSQL->fetchObject();
+            if (isset($result->KommentarID)) {
+                $this->db->rollBack();
+                return false; //Kommentar bereits geliked
+            }
+
             $sql = 'UPDATE Kommentar SET Likeanzahl = Likeanzahl + 1 WHERE KommentarID = :id;';
             $kommando = $this->db->prepare($sql);
             $kommando->bindParam( ':id', $kommentarID );
             $kommando->execute();
+
+            $sql = 'Insert INTO geliked_von (KommentarID, AnbieterID) VALUES (:KommentarID, :AnbieterID);';
+            $kommando = $this->db->prepare($sql);
+            $kommando->bindParam( ':KommentarID', $kommentarID );
+            $kommando->bindParam( ':AnbieterID', $nutzerID );
+            $kommando->execute();
+
 
             $this->db->commit();
             return true;
@@ -585,6 +634,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $checkAnbieterIDCMD->execute();
             $result = $checkAnbieterIDCMD->fetchObject();
             if (!isset($result->AnbieterID)) {
+                $this->db->rollBack();
                 return array(-1); //Nutzer existiert nicht
             }
 

@@ -70,6 +70,15 @@ class DBTools
         FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE                    
     );
+
+
+  CREATE TABLE IF NOT EXISTS geliked_von (
+        KommentarID INTEGER,
+        AnbieterID INTEGER,
+        FOREIGN KEY (KommentarID) REFERENCES Kommentar (KommentarID) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
     ";
 
     const INSERT_DATA = "

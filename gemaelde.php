@@ -9,7 +9,7 @@ if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["k
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
-    $result = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["like"]));
+    $result = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
@@ -31,13 +31,9 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
 if (isset($_GET["id"]) and is_string($_GET["id"])) {
     $kommentare = $user->kommentare_erhalten(htmlspecialchars($_GET["id"]));
     $gemaelde = $user->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
-
 } else {
     header("location: index.php");
 }
-
-
-
 
 if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
     $id = $gemaelde[0];
@@ -90,7 +86,7 @@ include $abs_path . '/php/head.php';
                     <div class="item">
                         <h3>Erstellungsdatum</h3>
                         <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
-                        <input type="text" name="erstellungsdatum"
+                        <input type="date" name="erstellungsdatum"
                                value="<?php echo htmlspecialchars($erstellungsdatum) ?>"/>
                     </div>
                     <div class="item">

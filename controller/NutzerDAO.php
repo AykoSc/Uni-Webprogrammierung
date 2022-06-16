@@ -52,7 +52,7 @@ interface NutzerDAO
 
     public function kommentar_entfernen($nutzerID, $kommentarID): bool;
 
-    public function kommentar_liken($nutzerID, $kommentarID): bool;
+    public function kommentar_liken($AnbieterID, $token, $kommentarID): bool;
 
     public function kommentare_erhalten($gemaeldeID): array;
 
