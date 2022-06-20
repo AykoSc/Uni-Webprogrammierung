@@ -235,17 +235,20 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): bool
+    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): int
     {
         try {
             $this->db->beginTransaction();
 
             if (!$this->anbieterCheck($AnbieterID, $token)) {
-                return false;
+                return -1;
             }
 
-            $insertGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-                                    VALUES (:anbieter, :titel, :artist, :beschreibung, :date, :location, 0, :hochladedatum, 0);";
+            $filename = explode(".", $file);
+            $filetype = $filename[sizeof($filename) - 1];
+
+            $insertGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
+                                    VALUES (:anbieter, :titel, :artist, :beschreibung, :date, :location, 0, :hochladedatum, 0, :filetype);";
             $insertGemaeldeCMD = $this->db->prepare($insertGemaeldeSQL);
             $creation_date = date("d.m.Y", strtotime($date));
             $upload_date = date("d.m.Y");
@@ -256,17 +259,20 @@ class NutzerDAODBImpl implements NutzerDAO
             $insertGemaeldeCMD->bindParam(":date", $creation_date);
             $insertGemaeldeCMD->bindParam(":location", $location);
             $insertGemaeldeCMD->bindParam(":hochladedatum", $upload_date);
-
+            $insertGemaeldeCMD->bindParam(":filetype", $filetype);
             $insertGemaeldeCMD->execute();
 
+            $id = $this->db->lastInsertId();
+
+            $save_as =  $id . '.' . $filetype;
             //TODO file unter images-Ordner abspeichern
 
             $this->db->commit();
-            return true;
+            return $id;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
-            return false;
+            return -1;
         }
     }
 
@@ -349,9 +355,10 @@ class NutzerDAODBImpl implements NutzerDAO
             $Bewertung = $result->Bewertung;
             $Hochladedatum = $result->Hochladedatum;
             $Aufrufe = $result->Aufrufe;
+            $Dateityp = $result->Dateityp;
 
             $this->db->commit();
-            return array($GemaeldeID, $AnbieterID, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort, $Bewertung, $Hochladedatum, $Aufrufe);
+            return array($GemaeldeID, $AnbieterID, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort, $Bewertung, $Hochladedatum, $Aufrufe, $Dateityp);
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
@@ -501,7 +508,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $Titel = $result->Titel;
             $Beschreibung = $result->Beschreibung;
             $Bewertung = $result->Bewertung;
-            $Hochladedatum = $result->Hochladedatum;
+            $Hochladedatum = $result->Erstellungsdatum;
             $Aufrufe = $result->Aufrufe;
 
 
@@ -509,7 +516,7 @@ class NutzerDAODBImpl implements NutzerDAO
             // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
 
             $getGehoertZuSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $getGehoertZuCMD = $this->db->prepare($getSammlungSQL);
+            $getGehoertZuCMD = $this->db->prepare($getGehoertZuSQL);
             $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
             $getGehoertZuCMD->execute();
             $GemaeldeIDs = array();
@@ -699,36 +706,41 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:suche%';";
-            if ($filter == "relevance") {
-                $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:suche%' ORDER BY Bewertung;";
-            } else if ($filter == "date") {
-                $getSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE '%:suche%' ORDER BY Erstellungsdatum;";
+            $getSammlungenSQL = "SELECT * FROM Sammlung";
+
+            if (!empty($suche)) {
+                $getSammlungenSQL .= " WHERE Titel = :suche";
             }
+
+            if ($filter == "relevance") {
+                $getSammlungenSQL .= " ORDER BY Bewertung";
+            } else if ($filter == "date") {
+                $getSammlungenSQL .= " ORDER BY Erstellungsdatum";
+            }
+
+            $getSammlungenSQL .= ";";
 
             $getSammlungenCMD = $this->db->prepare($getSammlungenSQL);
-            $getSammlungenCMD->bindParam(":suche", $suche);
-            $getSammlungenCMD->execute();
-            $result = $getSammlungenCMD->fetchObject();
-
-            $GemaeldeIDs = array();
-            while ($zeile = $getSammlungenCMD->fetchObject()) {
-                $GemaeldeIDs[] = $zeile;
+            if (!empty($suche)) {
+                $getSammlungenCMD->bindParam(":suche", $suche);
             }
-
-            $SammlungID = $result->SammlungID;
-            $AnbieterID = $result->AnbieterID;
-            $Titel = $result->Titel;
-            $Beschreibung = $result->Beschreibung;
-            $Bewertung = $result->Bewertung;
-            $Hochladedatum = $result->Hochladedatum;
-            $Aufrufe = $result->Aufrufe;
-
+            $getSammlungenCMD->execute();
 
             $this->db->commit();
 
-            // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
-            return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
+            $suche_result = array();
+            while ($zeile = $getSammlungenCMD->fetchObject()) {
+                $suche_result[] = $this->sammlung_erhalten($zeile->SammlungID);
+            }
+
+            $return_array = array(array(), array(), array(), array());
+            $curr_reihe = 0;
+            foreach ($suche_result as $sammlungen_result) {
+                $return_array[$curr_reihe][] = $sammlungen_result;
+                $curr_reihe = ($curr_reihe + 1) % 4;
+            }
+
+            return $return_array;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();

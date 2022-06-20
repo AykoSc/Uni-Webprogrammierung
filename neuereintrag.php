@@ -63,10 +63,10 @@ include $abs_path . '/php/head.php';
     <?php if (isset($angemeldet) and is_bool($angemeldet) and !$angemeldet): ?>
         <p class="nachricht fehler">Du bist nicht angemeldet!</p>
     <?php endif ?>
-    <?php if (isset($erstellung) and is_bool($erstellung) and $erstellung): ?>
+    <?php if (isset($erstellung) and is_int($erstellung) and $erstellung != -1): ?>
         <p class="nachricht">Eintragerstellung erfolgreich</p>
     <?php endif ?>
-    <?php if (isset($erstellung) and is_bool($erstellung) and !$erstellung): ?>
+    <?php if (isset($erstellung) and is_int($erstellung) and !$erstellung == -1): ?>
         <p class="nachricht fehler">Eintragerstellung fehlgeschlagen</p>
     <?php endif ?>
 
@@ -87,7 +87,7 @@ include $abs_path . '/php/head.php';
             <form method="post" action="neuereintrag.php">
                 <hr>
                 <label for="datei">Gemälde auswählen:</label>
-                <input type="file" accept=".png, jpg" id="datei" name="datei" required>
+                <input type="file" accept=".png, .jpg" id="datei" name="datei" required>
 
                 <label for="titel">Titel:</label>
                 <input type="text" id="titel" name="titel" maxlength="100" required
