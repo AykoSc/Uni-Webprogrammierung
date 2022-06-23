@@ -513,8 +513,8 @@ class NutzerDAODBImpl implements NutzerDAO
             $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
             $getGehoertZuCMD->execute();
             $GemaeldeIDs = array();
-            while ($zeile = $getSammlungCMD->fetchObject()) {
-                $GemaeldeIDs[] = $zeile;
+            while ($zeile = $getGehoertZuCMD->fetchObject()) {
+                $GemaeldeIDs[] = $zeile->GemaeldeID;
             }
 
             return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
@@ -554,6 +554,13 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
+            if (!$this->anbieterCheck($AnbieterID, $token)) {
+                return false;
+            }
+            if (!$this->kommentarCheck($kommentarID)) {
+                return false;
+            }
+
             $sql = 'DELETE FROM Kommentar WHERE KommentarID = :id;';
             $kommando = $this->db->prepare($sql);
             $kommando->bindParam(':id', $kommentarID);
@@ -576,7 +583,6 @@ class NutzerDAODBImpl implements NutzerDAO
             if (!$this->anbieterCheck($AnbieterID, $token)) {
                 return false;
             }
-
             if (!$this->kommentarCheck($kommentarID)) {
                 return false;
             }
@@ -613,21 +619,27 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function kommentare_erhalten($gemaeldeID): array
     {
-        /*TODO try catch */
-        $this->db->beginTransaction();
+        try{
+            $this->db->beginTransaction();
 
-        $getKommentarSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
-        $getKommentarCMD = $this->db->prepare($getKommentarSQL);
-        $getKommentarCMD->bindParam(":GemaeldeID", $gemaeldeID);
-        $getKommentarCMD->execute();
+            $getKommentarSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
+            $getKommentarCMD = $this->db->prepare($getKommentarSQL);
+            $getKommentarCMD->bindParam(":GemaeldeID", $gemaeldeID);
+            $getKommentarCMD->execute();
 
-        $this->db->commit();
+            $this->db->commit();
 
-        $kommentare = array();
-        while($zeile = $getKommentarCMD->fetchObject()) {
-            $kommentare[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+            $kommentare = array();
+            while($zeile = $getKommentarCMD->fetchObject()) {
+                $kommentare[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+            }
+            return $kommentare;
+        }catch(Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return array(-1);
         }
-        return $kommentare;
+
     }
 
     public function profil_erhalten($AnbieterID): array
@@ -683,7 +695,6 @@ class NutzerDAODBImpl implements NutzerDAO
             if (!empty($suche)) {
                 $getAusstellungSQL .= " WHERE Titel LIKE :suche";
             }
-
 
             if ($filter == "relevance") {
                 $getAusstellungSQL .= " ORDER BY Bewertung";
@@ -766,4 +777,8 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
+    public function profil_editieren($nutzerID, $token, $nutzername, $beschreibung, $geschlecht, $vollsaendigerName, $adresse, $geburtsdatum)
+    {
+        // TODO: Implement profil_editieren() method.
+    }
 }

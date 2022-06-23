@@ -276,4 +276,8 @@ class NutzerDAODummyImpl implements NutzerDAO
         return $return_array;
     }
 
+    public function profil_editieren($nutzerID, $token, $nutzername, $beschreibung, $geschlecht, $vollsaendigerName, $adresse, $geburtsdatum)
+    {
+        // TODO: Implement profil_editieren() method.
+    }
 }

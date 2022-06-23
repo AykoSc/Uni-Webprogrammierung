@@ -58,6 +58,8 @@ interface NutzerDAO
 
     public function profil_erhalten($nutzerID): array;
 
+    public function profil_editieren($nutzerID, $token, $nutzername, $beschreibung, $geschlecht, $vollsaendigerName, $adresse, $geburtsdatum );
+
     public function ausstellung_erhalten($suche, $filter): array;
 
     public function sammlungen_erhalten($suche, $filter): array;

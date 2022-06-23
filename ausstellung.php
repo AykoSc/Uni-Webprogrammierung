@@ -49,7 +49,6 @@ include $abs_path . '/php/head.php';
             <option value="" selected>-</option>
             <option value="relevance">Beliebteste</option>
             <option value="date">Datum</option>
-            +
         </select>
     </form>
 

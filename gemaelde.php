@@ -46,10 +46,11 @@ if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
     $bewertung = htmlspecialchars($gemaelde[7]);
     $hochladedatum = htmlspecialchars($gemaelde[8]);
     $aufrufe = htmlspecialchars($gemaelde[9]);
+    $dateityp = htmlspecialchars($gemaelde[10]);
+
 } else {
     header("location: index.php");
 }
-
 
 
 ?>
@@ -69,7 +70,7 @@ include $abs_path . '/php/head.php';
 <main>
 
     <h1><?php echo $titel ?></h1>
-    <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id ?>.jpg">
+    <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
 <div class = "align_container">
     <div class="description">
         <?php if (isset($_SESSION["id"]) and htmlspecialchars($nutzer) == htmlspecialchars($_SESSION["id"])) : ?>
@@ -86,7 +87,7 @@ include $abs_path . '/php/head.php';
                     <div class="item">
                         <h3>Erstellungsdatum</h3>
                         <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
-                        <input type="date" name="erstellungsdatum"
+                        <input type="date" name="erstellungsdatum" dataformatas="yyyy/mm/dd"
                                value="<?php echo htmlspecialchars($erstellungsdatum) ?>"/>
                     </div>
                     <div class="item">

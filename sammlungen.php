@@ -11,16 +11,33 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"])
     $sammlungen = $dao->sammlungen_erhalten("", "");
 }
 
+echo "<pre>";
+print_r($sammlungen);
+print_r("-----------------------------------");
+echo "</pre>";
+
 //erste GemaeldeID als Vorschaubild der jeweiligen Sammlung nehmen
 foreach ($sammlungen as $sammlung_reihe) {
     foreach ($sammlung_reihe as $sammlung) {
         if (isset($sammlung[2][0])) { //vllt int und nicht string
-            $vorschaubild = $dao->gemaelde_erhalten(htmlspecialchars($sammlung[2][0]));
-            $sammlung[2] = $vorschaubild;
+            echo $sammlung[2][0];
+            $vorschaugemaelde = $dao->gemaelde_erhalten(htmlspecialchars($sammlung[2][0]));
+            echo "<pre>";
+            print_r("---AMOGUS--------------------------------");
+            print_r($vorschaugemaelde);
+            print_r("-----AMOGUS------------------------------");
+            echo "</pre>";
+            echo $sammlung[2][0];
+            //$sammlung[2] = $vorschaugemaelde;
+
+        } else {
+            $sammlung[2] = ["lul", 1,2,3,4,5,6,7,8,9,"jpggg"];
         }
     }
 }
-
+echo "<pre>";
+print_r($sammlungen);
+echo "</pre>";
 $reihe0 = $sammlungen[0];
 $reihe1 = $sammlungen[1];
 $reihe2 = $sammlungen[2];

@@ -22,13 +22,13 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["t
 }
 
 if ($gemaelde and $angemeldet) {
-    if (isset($_POST['datei']) and
+    if (isset($_FILES['datei']) and
         isset($_POST['titel']) and is_string($_POST['titel']) and
         isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
         isset($_POST['kuenstler']) and is_string($_POST['kuenstler']) and
         isset($_POST['datum']) and is_string($_POST['datum']) and
         isset($_POST['ort']) and is_string($_POST['ort'])) {
-        $datei_typ = strtolower(pathinfo(htmlspecialchars($_POST['datei']),PATHINFO_EXTENSION));
+        $datei_typ = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']),PATHINFO_EXTENSION));
         $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
             htmlspecialchars($datei_typ), htmlspecialchars($_POST['titel']),
             htmlspecialchars($_POST['beschreibung']), htmlspecialchars($_POST['kuenstler']),
@@ -37,9 +37,9 @@ if ($gemaelde and $angemeldet) {
         if ($erstellung != -1) {
             $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $datei_typ;
             if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
-                echo "File is valid, and was successfully uploaded.\n";
+                $hochladen = true;
             } else {
-                echo "Upload failed";
+                $hochladen = false;
             }
         }
 
@@ -79,6 +79,12 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
     <?php if (isset($erstellung) and is_int($erstellung) and !$erstellung == -1): ?>
         <p class="nachricht fehler">Eintragerstellung fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($hochladen) and is_bool($hochladen) and $hochladen): ?>
+        <p class="nachricht">Datei erfolgreich hochgeladen</p>
+    <?php endif ?>
+    <?php if (isset($hochladen) and is_bool($hochladen) and !$hochladen): ?>
+        <p class="nachricht fehler">Datei hochladen fehlgeschlagen</p>
     <?php endif ?>
 
     <h1>Neuer Eintrag</h1>
