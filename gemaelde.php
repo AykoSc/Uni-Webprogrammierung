@@ -13,7 +13,7 @@ if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
-    $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_POST["delete"]));
+    $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
 //Eintrag bearbeiten

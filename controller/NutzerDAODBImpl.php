@@ -556,7 +556,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentar_entfernen($nutzerID, $kommentarID): bool
+    public function kommentar_entfernen($AnbieterID, $token, $kommentarID): bool
     {
         try {
             $this->db->beginTransaction();
@@ -620,12 +620,19 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function kommentare_erhalten($gemaeldeID): array
     {
-        /*TODO prepare*/
-        $sql = "SELECT * FROM Kommentar WHERE GemaeldeID = $gemaeldeID;";
-        $ergebnis = $this->db->query($sql);
+        /*TODO try catch */
+        $this->db->beginTransaction();
+
+        $getKommentarSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
+        $getKommentarCMD = $this->db->prepare($getKommentarSQL);
+        $getKommentarCMD->bindParam(":GemaeldeID", $gemaeldeID);
+        $getKommentarCMD->execute();
+
+        $this->db->commit();
+
         $kommentare = array();
-        foreach ($ergebnis as $zeile) {
-            $kommentare[] = array($zeile['KommentarID'], $zeile['GemaeldeID'], $zeile['AnbieterID'], $zeile['Likeanzahl'], $zeile['Textinhalt'], $zeile['Erstellungsdatum']);
+        while($zeile = $getKommentarCMD->fetchObject()) {
+            $kommentare[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
         }
         return $kommentare;
     }
@@ -673,32 +680,50 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function ausstellung_erhalten($suche, $filter): array
     {
-        $suche_result = array();
-        $sql = null;
-        if (isset($suche) and is_string($suche) and isset($filter) and is_string($filter)) {
-            if($filter == "relevance"){
-                $sql = "SELECT * FROM Gemaelde WHERE Titel LIKE '%$suche%' ORDER BY Bewertung;";
-            }else {
-                $sql = "SELECT * FROM Gemaelde WHERE Titel LIKE '%$suche%'";
+        try {
+            $this->db->beginTransaction();
+
+            $suche_result = array();
+
+            $getAusstellungSQL = "SELECT * FROM Gemaelde";
+
+            if (!empty($suche)) {
+                $getAusstellungSQL .= " WHERE Titel LIKE :suche";
             }
-        } else if (isset($filter) and is_string($filter)) {
-            if ($filter == "relevance") { //Nach beliebtesten sortieren
-                $sql = "SELECT * FROM Gemaelde ORDER BY Bewertung;";
+
+
+            if ($filter == "relevance") {
+                $getAusstellungSQL .= " ORDER BY Bewertung";
+            } else if ($filter == "date") {
+                $getAusstellungSQL .= " ORDER BY Erstellungsdatum";
             }
-        }else {
-            $sql = "SELECT * FROM Gemaelde;";
+            $getAusstellungSQL .= ";";
+
+            $getAusstellungCMD = $this->db->prepare($getAusstellungSQL);
+            if (!empty($suche)) {
+                $getAusstellungCMD->bindValue(":suche", '%' . $suche . '%');
+            }
+            $getAusstellungCMD->execute();
+
+            while ($zeile = $getAusstellungCMD->fetchObject()) {
+                $suche_result[] = array($zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Titel, $zeile->Kuenstler,
+                    $zeile->Beschreibung, $zeile->Erstellungsdatum, $zeile->Ort, $zeile->Bewertung, $zeile->Hochladedatum,
+                    $zeile->Aufrufe, $zeile->Dateityp);
+            }
+            $return_array = array(array(), array(), array(), array());
+            $curr_reihe = 0;
+            foreach ($suche_result as $gemaelde_result) {
+                $return_array[$curr_reihe][] = $gemaelde_result;
+                $curr_reihe = ($curr_reihe + 1) % 4;
+            }
+            $this->db->commit();
+            return $return_array;
+        }catch (Exception $ex){
+            print_r($ex);
+            $this->db->rollBack();
+            return array(-1);
         }
-        $ergebnis = $this->db->query($sql);
-        foreach ($ergebnis as $zeile) {
-            $suche_result[] = array($zeile['GemaeldeID'], $zeile['AnbieterID'], $zeile['Titel'], $zeile['Kuenstler'], $zeile['Beschreibung'], $zeile['Erstellungsdatum'], $zeile['Ort'], $zeile['Bewertung'], $zeile['Hochladedatum'], $zeile['Aufrufe']);
-        }
-        $return_array = array(array(), array(), array(), array());
-        $curr_reihe = 0;
-        foreach ($suche_result as $gemaelde_result) {
-            $return_array[$curr_reihe][] = $gemaelde_result;
-            $curr_reihe = ($curr_reihe + 1) % 4;
-        }
-        return $return_array;
+
     }
 
     public function sammlungen_erhalten($suche, $filter): array

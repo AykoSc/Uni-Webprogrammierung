@@ -50,7 +50,7 @@ interface NutzerDAO
 
     public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool;
 
-    public function kommentar_entfernen($nutzerID, $kommentarID): bool;
+    public function kommentar_entfernen($AnbieterID, $token, $kommentarID): bool;
 
     public function kommentar_liken($AnbieterID, $token, $kommentarID): bool;
 

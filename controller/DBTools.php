@@ -89,11 +89,11 @@ class DBTools
     VALUES ('test2', 'test2@test.com', '', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '01.11.2000', '28.05.2022');
   
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-    VALUES (2, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '04.09.1900', 'München, Deutschland', 8, '07.10.2021', 56, 'jpg');
-    INSERT INTO Gemaelde (AnbieterID, Dateityp, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-    VALUES (1, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '05.10.1234', 'Oldenburg, Deutschland', 9, '01.06.2022', 4, 'jpg');
-    INSERT INTO Gemaelde (AnbieterID, Dateityp, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe)
-    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '06.11.1432', 'Berlin, Deutschland', 4, '06.09.2022', 8, 'jpg');
+    VALUES (2, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '1900.09.04', 'München, Deutschland', 8, '2021.10.07', 56, 'jpg');
+    INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
+    VALUES (1, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '1234.10.05', 'Oldenburg, Deutschland', 9, '2022.06.01', 4, 'jpg');
+    INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
+    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '1432.11.06', 'Berlin, Deutschland', 4, '2022.09.06', 8, 'jpg');
 
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
     VALUES (0, 1, 274, 'Dies ist ein Kommentar!', '05.10.2021');

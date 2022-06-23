@@ -167,7 +167,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentar_entfernen($nutzerID, $kommentarID): bool
+    public function kommentar_entfernen($AnbieterID, $token, $kommentarID): bool
     {
         // Kommentar wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
