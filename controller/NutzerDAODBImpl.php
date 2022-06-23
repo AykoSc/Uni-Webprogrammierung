@@ -56,7 +56,6 @@ class NutzerDAODBImpl implements NutzerDAO
                 $db->rollBack();
             }
         } catch (Exception $ex) {
-            print_r("AMOGUS TEST");
             print_r($ex);
         }
     }
@@ -244,14 +243,11 @@ class NutzerDAODBImpl implements NutzerDAO
                 return -1;
             }
 
-            $filename = explode(".", $file);
-            $filetype = $filename[sizeof($filename) - 1];
-
             $insertGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
                                     VALUES (:anbieter, :titel, :artist, :beschreibung, :date, :location, 0, :hochladedatum, 0, :filetype);";
             $insertGemaeldeCMD = $this->db->prepare($insertGemaeldeSQL);
-            $creation_date = date("d.m.Y", strtotime($date));
-            $upload_date = date("d.m.Y");
+            $creation_date = date("Y.m.d", strtotime($date));
+            $upload_date = date("Y.m.d");
             $insertGemaeldeCMD->bindParam(":anbieter", $AnbieterID);
             $insertGemaeldeCMD->bindParam(":titel", $titel);
             $insertGemaeldeCMD->bindParam(":artist", $artist);
@@ -259,13 +255,10 @@ class NutzerDAODBImpl implements NutzerDAO
             $insertGemaeldeCMD->bindParam(":date", $creation_date);
             $insertGemaeldeCMD->bindParam(":location", $location);
             $insertGemaeldeCMD->bindParam(":hochladedatum", $upload_date);
-            $insertGemaeldeCMD->bindParam(":filetype", $filetype);
+            $insertGemaeldeCMD->bindParam(":filetype", $file);
             $insertGemaeldeCMD->execute();
 
             $id = $this->db->lastInsertId();
-
-            $save_as =  $id . '.' . $filetype;
-            //TODO file unter images-Ordner abspeichern
 
             $this->db->commit();
             return $id;
@@ -397,7 +390,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $insertSammlungSQL = "INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Erstellungsdatum) 
                                     VALUES (:SammlungID, :AnbieterID, :titel, :beschreibung, :hochladedatum);";
             $insertSammlungCMD = $this->db->prepare($insertSammlungSQL);
-            $upload_date = date("d.m.Y");
+            $upload_date = date("Y.m.d");
             $insertSammlungCMD->bindParam(":SammlungID", $NewSammlungID);
             $insertSammlungCMD->bindParam(":AnbieterID", $AnbieterID);
             $insertSammlungCMD->bindParam(":titel", $titel);
@@ -543,7 +536,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $kommando->bindParam(':gemaeldeID', $gemaeldeID);
             $kommando->bindParam(':anbieterID', $nutzerID);
             $kommando->bindParam(':text', $text);
-            $date = date("d.m.Y");
+            $date = date("Y.m.d");
             $kommando->bindParam(':date', $date);
             $kommando->execute();
 

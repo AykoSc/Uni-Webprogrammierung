@@ -28,10 +28,21 @@ if ($gemaelde and $angemeldet) {
         isset($_POST['kuenstler']) and is_string($_POST['kuenstler']) and
         isset($_POST['datum']) and is_string($_POST['datum']) and
         isset($_POST['ort']) and is_string($_POST['ort'])) {
+        $datei_typ = strtolower(pathinfo(htmlspecialchars($_POST['datei']),PATHINFO_EXTENSION));
         $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-            htmlspecialchars($_POST['datei']), htmlspecialchars($_POST['titel']),
+            htmlspecialchars($datei_typ), htmlspecialchars($_POST['titel']),
             htmlspecialchars($_POST['beschreibung']), htmlspecialchars($_POST['kuenstler']),
             htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
+
+        if ($erstellung != -1) {
+            $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $datei_typ;
+            if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
+                echo "File is valid, and was successfully uploaded.\n";
+            } else {
+                echo "Upload failed";
+            }
+        }
+
     }
 }
 
@@ -84,7 +95,7 @@ include $abs_path . '/php/head.php';
 
         <?php if ($gemaelde): ?>
             <h3>Gemälde erstellen</h3>
-            <form method="post" action="neuereintrag.php">
+            <form method="post" action="neuereintrag.php" enctype="multipart/form-data">
                 <hr>
                 <label for="datei">Gemälde auswählen:</label>
                 <input type="file" accept=".png, .jpg" id="datei" name="datei" required>
