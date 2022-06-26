@@ -16,6 +16,14 @@ if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["del
     $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
+if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+    $result = $user->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+}
+//TODO Löschfehlermeldung
+/*if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) !== "loeschbestaetigung") {
+    $fehlermeldung = "Um dieses Gemälde zu löschen müssen Sie den Bestätigungshaken setzen.";
+}*/
+
 //Eintrag bearbeiten
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
@@ -71,76 +79,83 @@ include $abs_path . '/php/head.php';
 
     <h1><?php echo $titel ?></h1>
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
-<div class = "align_container">
-    <div class="description">
-        <?php if (isset($_SESSION["id"]) and htmlspecialchars($nutzer) == htmlspecialchars($_SESSION["id"])) : ?>
+    <div class="align_container">
+        <div class="description">
+            <?php if (isset($_SESSION["id"]) and htmlspecialchars($nutzer) == htmlspecialchars($_SESSION["id"])) : ?>
 
-            <form method="post">
-                <h2> Über das Gemaelde </h2>
-                <label for="beschreibung" class="invisible">Beschreibung</label>
-                <textarea cols="70" rows="10" name="beschreibung"><?php echo $beschreibung ?></textarea>
-                <div class="grid">
-                    <div class="item">
-                        <h3>KuenstlerIn</h3>
-                        <p><?php echo $kuenstler ?></p>
+                <form method="post">
+                    <h2> Über das Gemaelde </h2>
+                    <label for="beschreibung" class="invisible">Beschreibung</label>
+                    <textarea cols="70" rows="10" id="beschreibung" name="beschreibung"><?php echo $beschreibung ?></textarea>
+                    <div class="grid">
+                        <div class="item">
+                            <h3>KünstlerIn</h3>
+                            <p><?php echo $kuenstler ?></p>
+                        </div>
+                        <div class="item">
+                            <h3>Erstellungsdatum</h3>
+                            <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
+                            <input id="erstellungsdatum" type="date" name="erstellungsdatum"
+                                   value="<?php echo htmlspecialchars($erstellungsdatum) ?>"/>
+                        </div>
+                        <div class="item">
+                            <h3>Ort</h3>
+                            <label for="ort" class="invisible">Ort</label>
+                            <input id="ort" type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
+                        </div>
+                        <div class="item">
+                            <h3>Bewertung</h3>
+                            <p><?php echo $bewertung ?>/10</p>
+                        </div>
+                        <div class="item">
+                            <h3>Hochladedatum</h3>
+                            <p><?php echo $hochladedatum ?></p>
+                        </div>
+                        <div class="item">
+                            <h3>Aufrufe</h3>
+                            <p><?php echo $aufrufe ?></p>
+                        </div>
                     </div>
-                    <div class="item">
-                        <h3>Erstellungsdatum</h3>
-                        <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
-                        <input type="date" name="erstellungsdatum" dataformatas="yyyy/mm/dd"
-                               value="<?php echo htmlspecialchars($erstellungsdatum) ?>"/>
-                    </div>
-                    <div class="item">
-                        <h3>Ort</h3>
-                        <label for="ort" class="invisible">Ort</label>
-                        <input type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
-                    </div>
-                    <div class="item">
-                        <h3>Bewertung</h3>
-                        <p><?php echo $bewertung ?>/10</p>
-                    </div>
-                    <div class="item">
-                        <h3>Hochladedatum</h3>
-                        <p><?php echo $hochladedatum ?></p>
-                    </div>
-                    <div class="item">
-                        <h3>Aufrufe</h3>
-                        <p><?php echo $aufrufe ?></p>
-                    </div>
-                </div>
-                <input type="submit" name="Submit" value="Speichern" />
-            </form>
-        <?php else: ?>
+                    <input type="submit" name="Submit" value="Speichern"/>
+                </form>
 
-        <h2>Über das Gemälde</h2>
-        <p><?php echo $beschreibung ?></p>
+                <form method="post">
+                    <h3>Gemälde löschen?</h3>
+                    <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung">
+                    <label for="loeschen">Löschen bestätigen</label>
+                    <input type="submit" value="Löschen"/>
+                </form>
+            <?php else: ?>
 
-            <details class ="extended_description">
+            <h2>Über das Gemälde</h2>
+            <p><?php echo $beschreibung ?></p>
+
+            <details class="extended_description">
 
                 <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
 
                 <div class="grid">
-                    <div class="item" >
+                    <div class="item">
                         <h3>KünstlerIn</h3>
                         <p><?php echo $kuenstler ?></p>
                     </div>
-                    <div class="item" >
+                    <div class="item">
                         <h3>Erstellungsdatum</h3>
                         <p><?php echo $erstellungsdatum ?></p>
                     </div>
-                    <div class="item" >
+                    <div class="item">
                         <h3>Ort</h3>
                         <p><?php echo $ort ?></p>
                     </div>
-                    <div class="item" >
+                    <div class="item">
                         <h3>Bewertung</h3>
                         <p><?php echo $bewertung ?>/10</p>
                     </div>
-                    <div class="item" >
+                    <div class="item">
                         <h3>Hochladedatum</h3>
                         <p><?php echo $hochladedatum ?></p>
                     </div>
-                    <div class="item" >
+                    <div class="item">
                         <h3>Aufrufe</h3>
                         <p><?php echo $aufrufe ?></p>
                     </div>
@@ -148,23 +163,23 @@ include $abs_path . '/php/head.php';
             </details>
 
 
-    </div>
+        </div>
         <?php endif ?>
 
     </div>
     <section id="comment_section">
         <div class="align_container">
             <h2> Kommentarbereich</h2>
-           <?php if(isset($_SESSION["id"])): ?>
-            <div class="container">
-                <form method="post">
-                    <label for="kommentar" class="invisible">Kommentar</label>
-                    <textarea id="kommentar" name="kommentar" maxlength="1000"
-                              placeholder="Neuen Kommentar schreiben..."
-                              required></textarea>
-                    <input type="submit" value="Kommentar">
-                </form>
-            </div>
+            <?php if (isset($_SESSION["id"])): ?>
+                <div class="container">
+                    <form method="post">
+                        <label for="kommentar" class="invisible">Kommentar</label>
+                        <textarea id="kommentar" name="kommentar" maxlength="1000"
+                                  placeholder="Neuen Kommentar schreiben..."
+                                  required></textarea>
+                        <input type="submit" value="Kommentar">
+                    </form>
+                </div>
             <?php endif ?>
         </div>
         <ul class="comment-section">

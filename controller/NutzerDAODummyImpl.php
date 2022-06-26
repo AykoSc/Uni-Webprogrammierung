@@ -66,17 +66,17 @@ class NutzerDAODummyImpl implements NutzerDAO
         return self::$instance;
     }
 
-    public function registrieren($nutzername, $email, $passwort): bool
+    public function registrieren($Nutzername, $Email, $Passwort): bool
     {
         // Registrierung wird in der DBImpl gemacht, da es eine schreibende Methode ist
         return true;
     }
 
-    public function anmelden($email, $passwort): array
+    public function anmelden($Email, $Passwort): array
     {
-        if (isset($email) and is_string($email) and isset($passwort) and is_string($passwort)) {
+        if (isset($Email) and is_string($Email) and isset($Passwort) and is_string($Passwort)) {
             foreach ($this->users as $user) {
-                if ($user[1] === htmlspecialchars($email) and $user[2] === htmlspecialchars($passwort)) {
+                if ($user[1] === htmlspecialchars($Email) and $user[2] === htmlspecialchars($Passwort)) {
                     // Token wird hier nicht in Datenbank gespeichert und an User gesendet, da es eine schreibende Methode ist
                     foreach ($this->users_tokens as $token) {
                         if ($user[0] === $token[0]) {
@@ -89,41 +89,41 @@ class NutzerDAODummyImpl implements NutzerDAO
         return array(-1, ""); // Anmeldung fehlgeschlagen
     }
 
-    public function abmelden($nutzerID, $nutzerToken): bool
+    public function abmelden($AnbieterID, $Tokennummer): bool
     {
         // Token wird hier nicht aus der Tabelle für valide Token gelöscht, da es eine schreibende Methode ist
         return true;
     }
 
-    public function kontakt_aufnehmen($email, $kommentar): bool
+    public function kontakt_aufnehmen($EMail, $Kommentar): bool
     {
         // Kontaktaufnahme wird hier nicht gespeichert, da es eine schreibende Methode ist
         return true;
     }
 
-    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): int
+    public function gemaelde_anlegen($AnbieterID, $Tokennummer, $Dateityp, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort): int
     {
         // Gemälde wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;
     }
 
-    public function gemaelde_editieren($AnbieterID, $token, $gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($AnbieterID, $Tokennummer, $GemaeldeID, $Beschreibung, $Erstellungsdatum, $Ort): bool
     {
         // Gemälde wird hier nicht editiert, da es eine schreibende Methode ist
         return true;
     }
 
-    public function gemaelde_entfernen($gemaeldeID): bool
+    public function gemaelde_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool
     {
         // Gemälde wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
     }
 
-    public function gemaelde_erhalten($gemaeldeID): array
+    public function gemaelde_erhalten($GemaeldeID): array
     {
-        if (isset($gemaeldeID) and is_string($gemaeldeID)) {
+        if (isset($GemaeldeID) and is_string($GemaeldeID)) {
             foreach ($this->gemaelde as $g) {
-                if ($g[0] == htmlspecialchars($gemaeldeID)) {
+                if ($g[0] == htmlspecialchars($GemaeldeID)) {
                     return $g;
                 }
             }
@@ -131,29 +131,29 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
+    public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int
     {
         // Sammlung wird hier nicht angelegt, da es eine schreibende Methode ist
-        return true;
+        return -1;
     }
 
-    public function sammlung_editieren($sammlungID, $titel, $beschreibung): bool
+    public function sammlung_editieren($AnbieterID, $Tokennummer, $SammlungID, $Titel, $Beschreibung): bool
     {
         // Sammlung wird hier nicht editiert, da es eine schreibende Methode ist
         return true;
     }
 
-    public function sammlung_entfernen($sammlungID): bool
+    public function sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID): bool
     {
         // Sammlung wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
     }
 
-    public function sammlung_erhalten($sammlungID): array
+    public function sammlung_erhalten($SammlungID): array
     {
-        if (isset($sammlungID) and is_string($sammlungID)) {
+        if (isset($SammlungID) and is_string($SammlungID)) {
             foreach ($this->sammlungen as $s) {
-                if ($s[0] == htmlspecialchars($sammlungID)) {
+                if ($s[0] == htmlspecialchars($SammlungID)) {
                     return $s;
                 }
             }
@@ -204,80 +204,83 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function ausstellung_erhalten($suche, $filter): array
+    public function profil_editieren($AnbieterID, $Token, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool
     {
-        $suche_result = array();
-        if (isset($suche) and is_string($suche)) {
+        // Profil editieren wird hier nicht implementiert, da es eine schreibende Methode ist
+        return true;
+    }
+
+    public function ausstellung_erhalten($Suche, $Filter): array
+    {
+        $Suchergebnis = array();
+        if (isset($Suche) and is_string($Suche)) {
             foreach ($this->gemaelde as $g) {
-                if (str_contains($g[2], $suche)) {
-                    $suche_result[] = $g;
+                if (str_contains($g[2], $Suche)) {
+                    $Suchergebnis[] = $g;
                 }
             }
         } else {
-            $suche_result = $this->gemaelde;
+            $Suchergebnis = $this->gemaelde;
         }
-        if (isset($filter) and is_string($filter)) {
-            if ($filter === "relevance") { //Nach beliebtesten sortieren
-                for ($i = 0; $i < sizeof($suche_result); $i++) {
-                    for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
-                        if ($suche_result[$i][9] < $suche_result[$j][9]) {
-                            $temp = $suche_result[$i];
-                            $suche_result[$i] = $suche_result[$j];
-                            $suche_result[$j] = $temp;
+        if (isset($Filter) and is_string($Filter)) {
+            if ($Filter === "beliebteste") { //Nach beliebtesten sortieren
+                for ($i = 0; $i < sizeof($Suchergebnis); $i++) {
+                    for ($j = $i + 1; $j < sizeof($Suchergebnis); $j++) {
+                        if ($Suchergebnis[$i][9] < $Suchergebnis[$j][9]) {
+                            $temp = $Suchergebnis[$i];
+                            $Suchergebnis[$i] = $Suchergebnis[$j];
+                            $Suchergebnis[$j] = $temp;
                         }
                     }
                 }
             }
         }
 
-        $return_array = array(array(), array(), array(), array());
-        $curr_reihe = 0;
-        foreach ($suche_result as $gemaelde_result) {
-            $return_array[$curr_reihe][] = $gemaelde_result;
-            $curr_reihe = ($curr_reihe + 1) % 4;
+        $ergebnis = array(array(), array(), array(), array());
+        $reihe = 0;
+        foreach ($Suchergebnis as $gemaelde_result) {
+            $ergebnis[$reihe][] = $gemaelde_result;
+            $reihe = ($reihe + 1) % 4;
         }
 
-        return $return_array;
+        return $ergebnis;
     }
 
-    public function sammlungen_erhalten($suche, $filter): array
+    public function sammlungen_erhalten($Suche, $Filter): array
     {
-        $suche_result = array();
-        if (isset($suche) and is_string($suche)) {
+        $Suchergebnis = array();
+        if (isset($Suche) and is_string($Suche)) {
             foreach ($this->sammlungen as $s) {
-                if (str_contains($s[3], $suche)) {
-                    $suche_result[] = $s;
+                if (str_contains($s[3], $Suche)) {
+                    $Suchergebnis[] = $s;
                 }
             }
         } else {
-            $suche_result = $this->sammlungen;
+            $Suchergebnis = $this->sammlungen;
         }
-        if (isset($filter) and is_string($filter)) {
-            if ($filter === "relevance") { //Nach beliebtesten sortieren
-                for ($i = 0; $i < sizeof($suche_result); $i++) {
-                    for ($j = $i + 1; $j < sizeof($suche_result); $j++) {
-                        if ($suche_result[$i][7] < $suche_result[$j][7]) {
-                            $temp = $suche_result[$i];
-                            $suche_result[$i] = $suche_result[$j];
-                            $suche_result[$j] = $temp;
+        if (isset($Filter) and is_string($Filter)) {
+            if ($Filter === "beliebteste") { //Nach beliebtesten sortieren
+                for ($i = 0; $i < sizeof($Suchergebnis); $i++) {
+                    for ($j = $i + 1; $j < sizeof($Suchergebnis); $j++) {
+                        if ($Suchergebnis[$i][7] < $Suchergebnis[$j][7]) {
+                            $temp = $Suchergebnis[$i];
+                            $Suchergebnis[$i] = $Suchergebnis[$j];
+                            $Suchergebnis[$j] = $temp;
                         }
                     }
                 }
             }
         }
 
-        $return_array = array(array(), array(), array(), array());
-        $curr_reihe = 0;
-        foreach ($suche_result as $sammlungen_result) {
-            $return_array[$curr_reihe][] = $sammlungen_result;
-            $curr_reihe = ($curr_reihe + 1) % 4;
+        $ergebnis = array(array(), array(), array(), array());
+        $reihe = 0;
+        foreach ($Suchergebnis as $sammlungen_result) {
+            $ergebnis[$reihe][] = $sammlungen_result;
+            $reihe = ($reihe + 1) % 4;
         }
 
-        return $return_array;
+        return $ergebnis;
     }
 
-    public function profil_editieren($nutzerID, $token, $nutzername, $beschreibung, $geschlecht, $vollsaendigerName, $adresse, $geburtsdatum)
-    {
-        // TODO: Implement profil_editieren() method.
-    }
+
 }

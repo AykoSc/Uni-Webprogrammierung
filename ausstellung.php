@@ -38,7 +38,7 @@ include $abs_path . '/php/head.php';
     <form>
         <div class="suche">
             <label for="suche" class="invisible">Suche</label>
-                <input type="text" placeholder="Suche..." name="suche" id="suche">
+            <input type="text" placeholder="Suche..." name="suche" id="suche">
             <button>
                 <img src="images/suche.svg" alt="suchen" height="16" width="16">
             </button>
@@ -51,18 +51,11 @@ include $abs_path . '/php/head.php';
         </select>
     </form>
 
-    <!-- Filter überschreibt Suche, deswegen kommt Filter in Suche rein
-    <form class="filter">
-
-        <button type="submit">Filtern</button>
-    </form>
-    -->
-
     <div class="reihe">
         <div class="spalte">
             <?php foreach ($reihe0 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="images/<?php echo htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>
@@ -71,7 +64,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe1 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="images/<?php echo htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>
@@ -80,7 +73,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe2 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="images/<?php echo htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>
@@ -89,7 +82,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe3 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="images/<?php echo htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>

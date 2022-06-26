@@ -1,7 +1,7 @@
 <?php if (!isset($abs_path)) include_once "../path.php";
 
 include $abs_path . "/controller/NutzerDAO.php";
-include $abs_path . "/controller/DBTools.php";
+include $abs_path . "/controller/DBErstellung.php";
 
 class NutzerDAODBImpl implements NutzerDAO
 {
@@ -30,26 +30,28 @@ class NutzerDAODBImpl implements NutzerDAO
             try {
                 $this->db->beginTransaction();
 
-                $this->db->exec(DBTools::CREATE_TABLES);
+                $this->db->exec(DBErstellung::TABELLEN);
 
-                $checkEmptySQL = $this->db->query("SELECT * FROM Gemaelde;");
-                $result = $checkEmptySQL->fetchObject();
+                $checkLeereDatenbankCMD = $this->db->query("SELECT * FROM Gemaelde;");
+                $result = $checkLeereDatenbankCMD->fetchObject();
                 if (!isset($result->GemaeldeID)) {
-                    $this->db->exec(DBTools::INSERT_DATA); // Daten werden eingefügt, wenn Datenbank leer ist
+                    $this->db->exec(DBErstellung::DATEN); // Daten werden eingefügt, wenn Datenbank leer ist
 
-                    $name1 = "test1";
-                    $hash1 = password_hash("test1!", PASSWORD_DEFAULT);
-                    $name2 = "test2";
-                    $hash2 = password_hash("test2!", PASSWORD_DEFAULT);
-                    $setPasswordSQL = "UPDATE Anbieter SET Passwort = :passwort WHERE Nutzername = :nutzername;";
-                    $setPasswordCMD = $this->db->prepare($setPasswordSQL);
-                    $setPasswordCMD->bindParam(':passwort', $hash1);
-                    $setPasswordCMD->bindParam(':nutzername', $name1);
-                    $setPasswordCMD->execute();
-                    $setPasswordCMD->bindParam(':passwort', $hash2);
-                    $setPasswordCMD->bindParam(':nutzername', $name2);
-                    $setPasswordCMD->execute();
+                    // Passwort für Test-Accounts hashen
+                    $Nutzername1 = "test1";
+                    $Hash1 = password_hash("test1!", PASSWORD_DEFAULT);
+                    $Nutzername2 = "test2";
+                    $Hash2 = password_hash("test2!", PASSWORD_DEFAULT);
+                    $setzePasswortSQL = "UPDATE Anbieter SET Passwort = :Passwort WHERE Nutzername = :Nutzername;";
+                    $setzePasswortCMD = $this->db->prepare($setzePasswortSQL);
+                    $setzePasswortCMD->bindParam(':Passwort', $Hash1);
+                    $setzePasswortCMD->bindParam(':Nutzername', $Nutzername1);
+                    $setzePasswortCMD->execute();
+                    $setzePasswortCMD->bindParam(':Passwort', $Hash2);
+                    $setzePasswortCMD->bindParam(':Nutzername', $Nutzername2);
+                    $setzePasswortCMD->execute();
                 }
+
                 $this->db->commit();
             } catch (Exception $ex) {
                 print_r($ex);
@@ -62,14 +64,14 @@ class NutzerDAODBImpl implements NutzerDAO
 
     /**
      * @implNote Hilfsmethoden zur Überprüfung bestimmter Dinge, um Redundanzen zu vermeiden.
-     *          Methoden nur innerhalb einer Transaktion benutzen!
+     *           Methoden nur innerhalb einer Transaktion benutzen!
      */
-    private function anbieterCheck($AnbieterID, $token): bool
+    private function anbieterCheck($AnbieterID, $Tokennummer): bool
     {
-        $checkAnbieterSQL = "SELECT * FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :token;";
+        $checkAnbieterSQL = "SELECT * FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
         $checkAnbieterCMD = $this->db->prepare($checkAnbieterSQL);
         $checkAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
-        $checkAnbieterCMD->bindParam(":token", $token);
+        $checkAnbieterCMD->bindParam(":Tokennummer", $Tokennummer);
         $checkAnbieterCMD->execute();
         $result = $checkAnbieterCMD->fetchObject();
         if (!isset($result->AnbieterID)) {
@@ -93,13 +95,27 @@ class NutzerDAODBImpl implements NutzerDAO
         return true;
     }
 
+    private function sammlungCheck($SammlungID): bool
+    {
+        $checkSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
+        $checkSammlungCMD = $this->db->prepare($checkSammlungSQL);
+        $checkSammlungCMD->bindParam(":SammlungID", $SammlungID);
+        $checkSammlungCMD->execute();
+        $result = $checkSammlungCMD->fetchObject();
+        if (!isset($result->SammlungID)) {
+            $this->db->rollBack();
+            return false; //SammlungID existiert nicht
+        }
+        return true;
+    }
+
     private function kommentarCheck($KommentarID): bool
     {
-        $checkKommentarIDSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
-        $checkKommentarIDCMD = $this->db->prepare($checkKommentarIDSQL);
-        $checkKommentarIDCMD->bindParam(":KommentarID", $KommentarID);
-        $checkKommentarIDCMD->execute();
-        $result = $checkKommentarIDCMD->fetchObject();
+        $checkKommentarSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
+        $checkKommentarCMD = $this->db->prepare($checkKommentarSQL);
+        $checkKommentarCMD->bindParam(":KommentarID", $KommentarID);
+        $checkKommentarCMD->execute();
+        $result = $checkKommentarCMD->fetchObject();
         if (!isset($result->KommentarID)) {
             $this->db->rollBack();
             return false; //Kommentar existiert nicht
@@ -108,16 +124,14 @@ class NutzerDAODBImpl implements NutzerDAO
     }
 
 
-
-
-    public function registrieren($nutzername, $email, $passwort): bool
+    public function registrieren($Nutzername, $Email, $Passwort): bool
     {
         try {
             $this->db->beginTransaction();
 
             $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
             $checkEmailCMD = $this->db->prepare($checkEmailSQL);
-            $checkEmailCMD->bindParam(":email", $email);
+            $checkEmailCMD->bindParam(":email", $Email);
             $checkEmailCMD->execute();
             $result = $checkEmailCMD->fetchObject();
             if (isset($result->Email)) {
@@ -125,24 +139,24 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Email existiert bereits
             }
 
-            $checkUsernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :nutzername;";
-            $checkUsernameCMD = $this->db->prepare($checkUsernameSQL);
-            $checkUsernameCMD->bindParam(":nutzername", $nutzername);
-            $checkUsernameCMD->execute();
-            $result = $checkUsernameCMD->fetchObject();
+            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername;";
+            $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
+            $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
+            $checkNutzernameCMD->execute();
+            $result = $checkNutzernameCMD->fetchObject();
             if (isset($result->Nutzername)) {
                 $this->db->rollBack();
                 return false; //Nutzername existiert bereits
             }
 
-            $hash = password_hash($passwort, PASSWORD_DEFAULT);
+            $Hash = password_hash($Passwort, PASSWORD_DEFAULT);
 
-            $insertAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:nutzername, :email, :passwort);";
-            $insertAnbieterCMD = $this->db->prepare($insertAnbieterSQL);
-            $insertAnbieterCMD->bindParam(":nutzername", $nutzername);
-            $insertAnbieterCMD->bindParam(":email", $email);
-            $insertAnbieterCMD->bindParam(":passwort", $hash);
-            $insertAnbieterCMD->execute();
+            $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:Nutzername, :Email, :Passwort);";
+            $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
+            $speichereAnbieterCMD->bindParam(":Nutzername", $Nutzername);
+            $speichereAnbieterCMD->bindParam(":Email", $Email);
+            $speichereAnbieterCMD->bindParam(":Passwort", $Hash);
+            $speichereAnbieterCMD->execute();
 
             $this->db->commit();
             return true;
@@ -153,35 +167,35 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function anmelden($email, $passwort): array
+    public function anmelden($Email, $Passwort): array
     {
         try {
             $this->db->beginTransaction();
 
-            $findAnbieterSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
-            $findAnbieterCMD = $this->db->prepare($findAnbieterSQL);
-            $findAnbieterCMD->bindParam(":email", $email);
-            $findAnbieterCMD->execute();
-            $result = $findAnbieterCMD->fetchObject();
-            if (!isset($result->AnbieterID) or !isset($result->Email) or !isset($result->Passwort)) {
+            $existiertAnbieterSQL = "SELECT * FROM Anbieter WHERE Email = :Email;";
+            $existiertAnbieterCMD = $this->db->prepare($existiertAnbieterSQL);
+            $existiertAnbieterCMD->bindParam(":Email", $Email);
+            $existiertAnbieterCMD->execute();
+            $ergebnis = $existiertAnbieterCMD->fetchObject();
+            if (!isset($ergebnis->AnbieterID) or !isset($ergebnis->Email) or !isset($ergebnis->Passwort)) {
                 $this->db->rollBack();
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Anbieter existiert nicht)
             }
 
-            $valid = password_verify($passwort, $result->Passwort);
+            $valid = password_verify($Passwort, $ergebnis->Passwort);
             if ($valid) {
-                $id = $result->AnbieterID;
-                $token = openssl_random_pseudo_bytes(16); //Generiere einen zufälligen Text.
-                $token = bin2hex($token); //Konvertiere die Binäre-Daten zu Hexadezimal-Daten.
+                $AnbieterID = $ergebnis->AnbieterID;
+                $Tokennummer = openssl_random_pseudo_bytes(16); //Generiere einen zufälligen Text.
+                $Tokennummer = bin2hex($Tokennummer); //Konvertiere die Binäre-Daten zu Hexadezimal-Daten.
 
-                $insertTokenSQL = "INSERT INTO Tokens (AnbieterID, Tokennummer) VALUES (:id, :token);";
-                $insertTokenCMD = $this->db->prepare($insertTokenSQL);
-                $insertTokenCMD->bindParam(":id", $id);
-                $insertTokenCMD->bindParam(":token", $token);
-                $insertTokenCMD->execute();
+                $speichereTokenSQL = "INSERT INTO Tokens (AnbieterID, Tokennummer) VALUES (:AnbieterID, :Tokennummer);";
+                $speichereTokenCMD = $this->db->prepare($speichereTokenSQL);
+                $speichereTokenCMD->bindParam(":AnbieterID", $AnbieterID);
+                $speichereTokenCMD->bindParam(":Tokennummer", $Tokennummer);
+                $speichereTokenCMD->execute();
 
                 $this->db->commit();
-                return array($id, $token);
+                return array($AnbieterID, $Tokennummer);
             } else {
                 $this->db->rollBack();
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Passwort falsch)
@@ -194,16 +208,16 @@ class NutzerDAODBImpl implements NutzerDAO
 
     }
 
-    public function abmelden($nutzerID, $nutzerToken): bool
+    public function abmelden($AnbieterID, $Tokennummer): bool
     {
         try {
             $this->db->beginTransaction();
 
-            $deleteTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :id AND Tokennummer = :token;";
-            $deleteTokenCMD = $this->db->prepare($deleteTokenSQL);
-            $deleteTokenCMD->bindParam(":id", $nutzerID);
-            $deleteTokenCMD->bindParam(":token", $nutzerToken);
-            $deleteTokenCMD->execute();
+            $entferneTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
+            $entferneTokenCMD = $this->db->prepare($entferneTokenSQL);
+            $entferneTokenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $entferneTokenCMD->bindParam(":Tokennummer", $Tokennummer);
+            $entferneTokenCMD->execute();
 
             $this->db->commit();
             return true;
@@ -214,16 +228,16 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kontakt_aufnehmen($email, $kommentar): bool
+    public function kontakt_aufnehmen($EMail, $Kommentar): bool
     {
         try {
             $this->db->beginTransaction();
 
-            $insertKontaktSQL = "INSERT INTO Kontakt (Kommentar, Email) VALUES (:kommentar, :email);";
-            $insertKontaktCMD = $this->db->prepare($insertKontaktSQL);
-            $insertKontaktCMD->bindParam(":kommentar", $kommentar);
-            $insertKontaktCMD->bindParam(":email", $email);
-            $insertKontaktCMD->execute();
+            $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail) VALUES (:Kommentar, :EMail);";
+            $speichereKontaktCMD = $this->db->prepare($speichereKontaktSQL);
+            $speichereKontaktCMD->bindParam(":Kommentar", $Kommentar);
+            $speichereKontaktCMD->bindParam(":EMail", $EMail);
+            $speichereKontaktCMD->execute();
 
             $this->db->commit();
             return true;
@@ -234,29 +248,30 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): int
+    public function gemaelde_anlegen($AnbieterID, $Tokennummer, $Dateityp, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort): int
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->anbieterCheck($AnbieterID, $token)) {
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
                 return -1;
             }
 
-            $insertGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-                                    VALUES (:anbieter, :titel, :artist, :beschreibung, :date, :location, 0, :hochladedatum, 0, :filetype);";
-            $insertGemaeldeCMD = $this->db->prepare($insertGemaeldeSQL);
-            $creation_date = date("Y.m.d", strtotime($date));
-            $upload_date = date("Y.m.d");
-            $insertGemaeldeCMD->bindParam(":anbieter", $AnbieterID);
-            $insertGemaeldeCMD->bindParam(":titel", $titel);
-            $insertGemaeldeCMD->bindParam(":artist", $artist);
-            $insertGemaeldeCMD->bindParam(":beschreibung", $beschreibung);
-            $insertGemaeldeCMD->bindParam(":date", $creation_date);
-            $insertGemaeldeCMD->bindParam(":location", $location);
-            $insertGemaeldeCMD->bindParam(":hochladedatum", $upload_date);
-            $insertGemaeldeCMD->bindParam(":filetype", $file);
-            $insertGemaeldeCMD->execute();
+            $Erstellungsdatum = date("Y.m.d", strtotime($Erstellungsdatum));
+            $Hochladedatum = date("Y.m.d");
+
+            $speichereGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
+                                     VALUES (:AnbieterID, :Titel, :Kuenstler, :Beschreibung, :Erstellungsdatum, :Ort, 0, :Hochladedatum, 0, :Dateityp);";
+            $speichereGemaeldeCMD = $this->db->prepare($speichereGemaeldeSQL);
+            $speichereGemaeldeCMD->bindParam(":AnbieterID", $AnbieterID);
+            $speichereGemaeldeCMD->bindParam(":Titel", $Titel);
+            $speichereGemaeldeCMD->bindParam(":Kuenstler", $Kuenstler);
+            $speichereGemaeldeCMD->bindParam(":Beschreibung", $Beschreibung);
+            $speichereGemaeldeCMD->bindParam(":Erstellungsdatum", $Erstellungsdatum);
+            $speichereGemaeldeCMD->bindParam(":Ort", $Ort);
+            $speichereGemaeldeCMD->bindParam(":Hochladedatum", $Hochladedatum);
+            $speichereGemaeldeCMD->bindParam(":Dateityp", $Dateityp);
+            $speichereGemaeldeCMD->execute();
 
             $id = $this->db->lastInsertId();
 
@@ -269,27 +284,27 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_editieren($AnbieterID, $token, $gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool
+    public function gemaelde_editieren($AnbieterID, $Tokennummer, $GemaeldeID, $Beschreibung, $Erstellungsdatum, $Ort): bool
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->anbieterCheck($AnbieterID, $token)) {
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
                 return false;
             }
 
-            if (!$this->gemaeldeCheck($gemaeldeID)) {
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
                 return false;
             }
 
-            $editGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :beschreibung, Erstellungsdatum = :erstellungsdatum, Ort = :ort WHERE GemaeldeID = :id;";
-            $editGemaeldeCMD = $this->db->prepare($editGemaeldeSQL);
-            $editGemaeldeCMD->bindParam(':id', $gemaeldeID);
-            $editGemaeldeCMD->bindParam(':beschreibung', $beschreibung);
-            $editGemaeldeCMD->bindParam(':erstellungsdatum', $erstellungsdatum);
-            $editGemaeldeCMD->bindParam(':ort', $ort);
-
-            $editGemaeldeCMD->execute();
+            $editiereGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :Beschreibung, Erstellungsdatum = :Erstellungsdatum, Ort = :ort WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
+            $editiereGemaeldeCMD = $this->db->prepare($editiereGemaeldeSQL);
+            $editiereGemaeldeCMD->bindParam(':Beschreibung', $Beschreibung);
+            $editiereGemaeldeCMD->bindParam(':Erstellungsdatum', $Erstellungsdatum);
+            $editiereGemaeldeCMD->bindParam(':Ort', $Ort);
+            $editiereGemaeldeCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $editiereGemaeldeCMD->bindParam(':AnbieterID', $AnbieterID);
+            $editiereGemaeldeCMD->execute();
 
             $this->db->commit();
             return true;
@@ -300,20 +315,24 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_entfernen($gemaeldeID): bool
+    public function gemaelde_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->gemaeldeCheck($gemaeldeID)) {
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
                 return false;
             }
 
-            $deleteGemaeldeSQL = "DELETE FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
-            $deleteGemaeldeCMD = $this->db->prepare($deleteGemaeldeSQL);
-            $deleteGemaeldeCMD->bindParam(":GemaeldeID", $gemaeldeID);
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return false;
+            }
 
-            $deleteGemaeldeCMD->execute();
+            $entferneGemaeldeSQL = "DELETE FROM Gemaelde WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
+            $entferneGemaeldeCMD = $this->db->prepare($entferneGemaeldeSQL);
+            $entferneGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $entferneGemaeldeCMD->bindParam(':AnbieterID', $AnbieterID);
+            $entferneGemaeldeCMD->execute();
 
             $this->db->commit();
             return true;
@@ -324,35 +343,38 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_erhalten($gemaeldeID): array
+    public function gemaelde_erhalten($GemaeldeID): array
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->gemaeldeCheck($gemaeldeID)) {
-                echo "AMONG US IST SUSSSSSSSSSSSSSSSSSSSSSS";
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
                 return array(-1);
             }
 
-            $getGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
-            $getGemaeldeCMD = $this->db->prepare($getGemaeldeSQL);
-            $getGemaeldeCMD->bindParam(":GemaeldeID", $gemaeldeID);
-            $getGemaeldeCMD->execute();
-            $result = $getGemaeldeCMD->fetchObject();
-            $GemaeldeID = $result->GemaeldeID;
-            $AnbieterID = $result->AnbieterID;
-            $Titel = $result->Titel;
-            $Kuenstler = $result->Kuenstler;
-            $Beschreibung = $result->Beschreibung;
-            $Erstellungsdatum = $result->Erstellungsdatum;
-            $Ort = $result->Ort;
-            $Bewertung = $result->Bewertung;
-            $Hochladedatum = $result->Hochladedatum;
-            $Aufrufe = $result->Aufrufe;
-            $Dateityp = $result->Dateityp;
+            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
+            $erhalteGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $erhalteGemaeldeCMD->execute();
+            $ergebnis = $erhalteGemaeldeCMD->fetchObject();
+
+            $datumFormatiert = explode(".", $ergebnis->Erstellungsdatum);
+            $ergebnis->Erstellungsdatum = $datumFormatiert[0] . "-" . $datumFormatiert[1] . "-" . $datumFormatiert[2];
+
+            $datumFormatiert = explode(".", $ergebnis->Hochladedatum);
+            $ergebnis->Hochladedatum = $datumFormatiert[2] . "." . $datumFormatiert[1] . "." . $datumFormatiert[0];
+
+            //Erhöhe Aufrufe um 1
+            $aktualisiereAufrufeSQL = "UPDATE Gemaelde SET Aufrufe = :Aufrufe WHERE GemaeldeID = :GemaeldeID;";
+            $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
+            $aktualisiereAufrufeCMD->bindValue(':Aufrufe', $ergebnis->Aufrufe + 1);
+            $aktualisiereAufrufeCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $aktualisiereAufrufeCMD->execute();
 
             $this->db->commit();
-            return array($GemaeldeID, $AnbieterID, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort, $Bewertung, $Hochladedatum, $Aufrufe, $Dateityp);
+            return array($ergebnis->GemaeldeID, $ergebnis->AnbieterID, $ergebnis->Titel, $ergebnis->Kuenstler,
+                $ergebnis->Beschreibung, $ergebnis->Erstellungsdatum, $ergebnis->Ort, $ergebnis->Bewertung,
+                $ergebnis->Hochladedatum, $ergebnis->Aufrufe, $ergebnis->Dateityp);
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
@@ -360,53 +382,72 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool
+    public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int
     {
-        //$auswahl ist kommaseparierte liste an gemaeldeIDs, z.B. 1,4,3,2
-        $auswahlSplitted = explode(",", $auswahl);
-        foreach ($auswahlSplitted as $split) {
-            if (!strlen($split) == 1) {
-                $this->db->rollBack();
-                return false; //falsche eingabe
-            }
-        }
-
         try {
             $this->db->beginTransaction();
 
-            if (!$this->anbieterCheck($AnbieterID, $token)) {
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return -1;
+            }
+
+            $Erstellungsdatum = date("Y.m.d");
+
+            $speichereSammlungSQL = "INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe) 
+                                     VALUES (:AnbieterID, :Titel, :Beschreibung, 0, :Erstellungsdatum, 0);";
+            $speichereSammlungCMD = $this->db->prepare($speichereSammlungSQL);
+            $speichereSammlungCMD->bindParam(":AnbieterID", $AnbieterID);
+            $speichereSammlungCMD->bindParam(":Titel", $Titel);
+            $speichereSammlungCMD->bindParam(":Beschreibung", $Beschreibung);
+            $speichereSammlungCMD->bindParam(":Erstellungsdatum", $Erstellungsdatum);
+            $speichereSammlungCMD->execute();
+
+            $SammlungID = $this->db->lastInsertId();
+
+            //$Auswahl ist kommaseparierte Liste von GemaeldeIDs, z.B. 1,4,3,2
+            $Auswahl = explode(",", $Auswahl);
+
+            foreach ($Auswahl as $GemaeldeID) {
+                if (!$this->gemaeldeCheck($GemaeldeID)) {
+                    return -1;
+                }
+                $speichereGehoertZuSQL = "INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
+                                          VALUES (:GemaeldeID, :SammlungID);";
+                $speichereGehoertZuCMD = $this->db->prepare($speichereGehoertZuSQL);
+                $speichereGehoertZuCMD->bindParam(":GemaeldeID", $GemaeldeID);
+                $speichereGehoertZuCMD->bindParam(":SammlungID", $SammlungID);
+                $speichereGehoertZuCMD->execute();
+            }
+
+            $this->db->commit();
+            return $SammlungID;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return -1;
+        }
+    }
+
+    public function sammlung_editieren($AnbieterID, $Tokennummer, $SammlungID, $Titel, $Beschreibung): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
                 return false;
             }
 
-            $getHighestSammlungIDSQL = "SELECT MAX(SammlungID) AS name FROM Sammlung;";
-            $getHighestSammlungIDCMD = $this->db->prepare($getHighestSammlungIDSQL);
-            $getHighestSammlungIDCMD->execute();
-            $result = $getHighestSammlungIDCMD->fetchObject();
-            $NewSammlungID = 0;
-            $result = $result->name;
-            if (isset($result)) {
-                $NewSammlungID = ((integer)$result) + 1;
+            if (!$this->sammlungCheck($SammlungID)) {
+                return false;
             }
 
-            $insertSammlungSQL = "INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Erstellungsdatum) 
-                                    VALUES (:SammlungID, :AnbieterID, :titel, :beschreibung, :hochladedatum);";
-            $insertSammlungCMD = $this->db->prepare($insertSammlungSQL);
-            $upload_date = date("Y.m.d");
-            $insertSammlungCMD->bindParam(":SammlungID", $NewSammlungID);
-            $insertSammlungCMD->bindParam(":AnbieterID", $AnbieterID);
-            $insertSammlungCMD->bindParam(":titel", $titel);
-            $insertSammlungCMD->bindParam(":beschreibung", $beschreibung);
-            $insertSammlungCMD->bindParam(":hochladedatum", $upload_date);
-            $insertSammlungCMD->execute();
-
-            foreach ($auswahlSplitted as $GemaeldeID) {
-                $insertGehoertZuSQL = "INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-                                    VALUES (:GemaeldeID, :SammlungID);";
-                $insertGehoertZuCMD = $this->db->prepare($insertGehoertZuSQL);
-                $insertGehoertZuCMD->bindParam(":GemaeldeID", $GemaeldeID);
-                $insertGehoertZuCMD->bindParam(":SammlungID", $NewSammlungID);
-                $insertSammlungCMD->execute();
-            }
+            $editiereSammlungSQL = "UPDATE Sammlung SET Titel = :Titel, Beschreibung = :Beschreibung WHERE SammlungID = :SammlungID AND AnbieterID = :AnbieterID;";
+            $editiereSammlungCMD = $this->db->prepare($editiereSammlungSQL);
+            $editiereSammlungCMD->bindParam(":Titel", $Titel);
+            $editiereSammlungCMD->bindParam(":Beschreibung", $Beschreibung);
+            $editiereSammlungCMD->bindParam(":SammlungID", $SammlungID);
+            $editiereSammlungCMD->bindParam(':AnbieterID', $AnbieterID);
+            $editiereSammlungCMD->execute();
 
             $this->db->commit();
             return true;
@@ -417,26 +458,24 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function sammlung_editieren($sammlungID, $titel, $beschreibung): bool
+    public function sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID): bool
     {
         try {
             $this->db->beginTransaction();
 
-            $checkSammlungIDSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $checkSammlungIDCMD = $this->db->prepare($checkSammlungIDSQL);
-            $checkSammlungIDCMD->bindParam(":SammlungID", $sammlungID);
-            $checkSammlungIDCMD->execute();
-            $result = $checkSammlungIDCMD->fetchObject();
-            if (!isset($result->SammlungID)) {
-                return false; //SammlungID existiert nicht
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
             }
 
-            $editSammlungSQL = "UPDATE Sammlung SET Titel = :titel, Beschreibung = :beschreibung WHERE SammlungID = :id";
-            $editSammlungCMD = $this->db->prepare($editSammlungSQL);
-            $editSammlungCMD->bindParam(":titel", $titel);
-            $editSammlungCMD->bindParam(":beschreibung", $beschreibung);
-            $editSammlungCMD->bindParam(":id", $sammlungID);
-            $editSammlungCMD->execute();
+            if (!$this->sammlungCheck($SammlungID)) {
+                return false;
+            }
+
+            $entferneSammlungSQL = "DELETE FROM Sammlung WHERE SammlungID = :SammlungID AND AnbieterID = :AnbieterID;";
+            $entferneSammlungCMD = $this->db->prepare($entferneSammlungSQL);
+            $entferneSammlungCMD->bindParam(":SammlungID", $SammlungID);
+            $entferneSammlungCMD->bindParam(':AnbieterID', $AnbieterID);
+            $entferneSammlungCMD->execute();
 
             $this->db->commit();
             return true;
@@ -447,78 +486,42 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function sammlung_entfernen($sammlungID): bool
+    public function sammlung_erhalten($SammlungID): array
     {
         try {
             $this->db->beginTransaction();
 
-            $checkSammlungIDSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $checkSammlungIDCMD = $this->db->prepare($checkSammlungIDSQL);
-            $checkSammlungIDCMD->bindParam(":SammlungID", $sammlungID);
-            $checkSammlungIDCMD->execute();
-            $result = $checkSammlungIDCMD->fetchObject();
-            if (!isset($result->SammlungID)) {
-                $this->db->rollBack();
-                return false; //SammlungID existiert nicht
+            if (!$this->sammlungCheck($SammlungID)) {
+                return array(-1);
             }
 
-            $deleteSammlungSQL = "DELETE FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $deleteSammlungCMD = $this->db->prepare($deleteSammlungSQL);
-            $deleteSammlungCMD->bindParam(":SammlungID", $sammlungID);
+            $erhalteSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
+            $erhalteSammlungCMD = $this->db->prepare($erhalteSammlungSQL);
+            $erhalteSammlungCMD->bindParam(":SammlungID", $SammlungID);
+            $erhalteSammlungCMD->execute();
+            $ergebnis = $erhalteSammlungCMD->fetchObject();
 
-            $deleteSammlungCMD->execute();
+            $datumFormatiert = explode(".", $ergebnis->Erstellungsdatum);
+            $ergebnis->Erstellungsdatum = $datumFormatiert[2] . "." . $datumFormatiert[1] . "." . $datumFormatiert[0];
 
-            $this->db->commit();
-            return true;
-        } catch (Exception $ex) {
-            print_r($ex);
-            $this->db->rollBack();
-            return false;
-        }
-    }
-
-    public function sammlung_erhalten($sammlungID): array
-    {
-        try {
-            $this->db->beginTransaction();
-
-            $checkSammlungIDSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $checkSammlungIDCMD = $this->db->prepare($checkSammlungIDSQL);
-            $checkSammlungIDCMD->bindParam(":SammlungID", $sammlungID);
-            $checkSammlungIDCMD->execute();
-            $result = $checkSammlungIDCMD->fetchObject();
-            if (!isset($result->SammlungID)) {
-                $this->db->rollBack();
-                return array(-1); //SammlungID existiert nicht
-            }
-
-            $getSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $getSammlungCMD = $this->db->prepare($getSammlungSQL);
-            $getSammlungCMD->bindParam(":SammlungID", $sammlungID);
-            $getSammlungCMD->execute();
-            $result = $getSammlungCMD->fetchObject();
-            $SammlungID = $result->SammlungID;
-            $AnbieterID = $result->AnbieterID;
-            $Titel = $result->Titel;
-            $Beschreibung = $result->Beschreibung;
-            $Bewertung = $result->Bewertung;
-            $Hochladedatum = $result->Erstellungsdatum;
-            $Aufrufe = $result->Aufrufe;
-
-
-            $this->db->commit();
-            // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
-
-            $getGehoertZuSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $getGehoertZuCMD = $this->db->prepare($getGehoertZuSQL);
-            $getGehoertZuCMD->bindParam(":SammlungID", $sammlungID);
-            $getGehoertZuCMD->execute();
+            $erhalteSammlungsinhalteSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
+            $erhalteSammlungsinhalteCMD = $this->db->prepare($erhalteSammlungsinhalteSQL);
+            $erhalteSammlungsinhalteCMD->bindParam(":SammlungID", $ergebnis->SammlungID);
+            $erhalteSammlungsinhalteCMD->execute();
             $GemaeldeIDs = array();
-            while ($zeile = $getGehoertZuCMD->fetchObject()) {
+            while ($zeile = $erhalteSammlungsinhalteCMD->fetchObject()) {
                 $GemaeldeIDs[] = $zeile->GemaeldeID;
             }
 
-            return array($SammlungID, $AnbieterID, $GemaeldeIDs, $Titel, $Beschreibung, $Bewertung, $Hochladedatum, $Aufrufe);
+            //Erhöhe Aufrufe um 1
+            $aktualisiereAufrufeSQL = "UPDATE Sammlung SET Aufrufe = :Aufrufe WHERE SammlungID = :SammlungID;";
+            $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
+            $aktualisiereAufrufeCMD->bindValue(':Aufrufe', $ergebnis->Aufrufe + 1);
+            $aktualisiereAufrufeCMD->bindParam(':SammlungID', $SammlungID);
+            $aktualisiereAufrufeCMD->execute();
+
+            $this->db->commit();
+            return array($SammlungID, $ergebnis->AnbieterID, $GemaeldeIDs, $ergebnis->Titel, $ergebnis->Beschreibung, $ergebnis->Bewertung, $ergebnis->Erstellungsdatum, $ergebnis->Aufrufe);
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
@@ -600,19 +603,19 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $sql = 'UPDATE Kommentar SET Likeanzahl = Likeanzahl + 1 WHERE KommentarID = :id;';
             $kommando = $this->db->prepare($sql);
-            $kommando->bindParam( ':id', $kommentarID );
+            $kommando->bindParam(':id', $kommentarID);
             $kommando->execute();
 
             $sql = 'Insert INTO geliked_von (KommentarID, AnbieterID) VALUES (:KommentarID, :AnbieterID);';
             $kommando = $this->db->prepare($sql);
-            $kommando->bindParam( ':KommentarID', $kommentarID );
-            $kommando->bindParam( ':AnbieterID', $nutzerID );
+            $kommando->bindParam(':KommentarID', $kommentarID);
+            $kommando->bindParam(':AnbieterID', $nutzerID);
             $kommando->execute();
 
 
             $this->db->commit();
             return true;
-        } catch ( Exception $ex ) {
+        } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
             return false;
@@ -621,7 +624,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
     public function kommentare_erhalten($gemaeldeID): array
     {
-        try{
+        try {
             $this->db->beginTransaction();
 
             $getKommentarSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
@@ -632,11 +635,14 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
 
             $kommentare = array();
-            while($zeile = $getKommentarCMD->fetchObject()) {
-                $kommentare[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+            while ($zeile = $getKommentarCMD->fetchObject()) {
+                $datumSplitted = explode(".", $zeile->Erstellungsdatum);
+                $Erstellungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
+
+                $kommentare[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $Erstellungsdatum);
             }
             return $kommentare;
-        }catch(Exception $ex) {
+        } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
             return array(-1);
@@ -673,8 +679,16 @@ class NutzerDAODBImpl implements NutzerDAO
             $Vollstaendiger_Name = $result->Vollstaendiger_Name;
             $Anschrift = $result->Anschrift;
             $Sprache = $result->Sprache;
-            $Geburtsdatum = $result->Geburtsdatum;
-            $Registrierungsdatum = $result->Registrierungsdatum;
+
+            $datumSplitted = explode(".", $result->Geburtsdatum);
+            if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
+                $Geburtsdatum = $datumSplitted[0] . "-" . $datumSplitted[1] . "-" . $datumSplitted[2];
+            } else {
+                $Geburtsdatum = $result->Geburtsdatum;
+            }
+
+            $datumSplitted = explode(".", $result->Registrierungsdatum);
+            $Registrierungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
 
             $this->db->commit();
             return array($AnbieterID, $Nutzername, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum, $Registrierungsdatum);
@@ -685,34 +699,65 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function ausstellung_erhalten($suche, $filter): array
+    public function profil_editieren($AnbieterID, $Token, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool
     {
         try {
             $this->db->beginTransaction();
 
-            $ausstellungErhaltenSQL = "SELECT * FROM Gemaelde";
-            if (!empty($suche)) {
-                $ausstellungErhaltenSQL .= " WHERE Titel LIKE :suche";
-            }
-            if ($filter == "beliebteste") {
-                $ausstellungErhaltenSQL .= " ORDER BY Bewertung";
-            } else if ($filter == "datum") {
-                $ausstellungErhaltenSQL .= " ORDER BY Erstellungsdatum";
-            }
-            $ausstellungErhaltenSQL .= ";";
+            if (!$this->anbieterCheck($AnbieterID, $Token)) return false;
+            if (!($Geschlecht === "m" || $Geschlecht === "w")) return false;
 
-            $ausstellungErhaltenCMD = $this->db->prepare($ausstellungErhaltenSQL);
-            if (!empty($suche)) {
-                $ausstellungErhaltenCMD->bindValue(":suche", '%' . $suche . '%');
+            $datumSplitted = explode(".", $Geburtsdatum);
+            $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
+
+            $editAnbieterSQL = "UPDATE Anbieter SET Personenbeschreibung = :Personenbeschreibung, Geschlecht = :Geschlecht, Vollstaendiger_Name = :Vollstaendiger_Name, 
+                    Anschrift = :Anschrift, Sprache = :Sprache, Geburtsdatum = :Geburtsdatum
+                WHERE AnbieterID = :AnbieterID";
+            $editAnbieterCMD = $this->db->prepare($editAnbieterSQL);
+            $editAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
+            $editAnbieterCMD->bindParam(":Personenbeschreibung", $Personenbeschreibung);
+            $editAnbieterCMD->bindParam(":Geschlecht", $Geschlecht);
+            $editAnbieterCMD->bindParam(":Vollstaendiger_Name", $Vollstaendiger_Name);
+            $editAnbieterCMD->bindParam(":Anschrift", $Anschrift);
+            $editAnbieterCMD->bindParam(":Sprache", $Sprache);
+            $editAnbieterCMD->bindParam(":Geburtsdatum", $Geburtsdatum);
+            $editAnbieterCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+    public function ausstellung_erhalten($Suche, $Filter): array
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $erhalteAusstellungSQL = "SELECT * FROM Gemaelde";
+            if (!empty($Suche)) {
+                $erhalteAusstellungSQL .= " WHERE Titel LIKE :suche";
             }
-            $ausstellungErhaltenCMD->execute();
+            if ($Filter == "beliebteste") {
+                $erhalteAusstellungSQL .= " ORDER BY Bewertung";
+            } else if ($Filter == "datum") {
+                $erhalteAusstellungSQL .= " ORDER BY Erstellungsdatum";
+            }
+            $erhalteAusstellungSQL .= ";";
+
+            $erhalteAusstellungCMD = $this->db->prepare($erhalteAusstellungSQL);
+            if (!empty($Suche)) {
+                $erhalteAusstellungCMD->bindValue(":suche", '%' . $Suche . '%');
+            }
+            $erhalteAusstellungCMD->execute();
             $this->db->commit();
 
             $suchergebnis = array();
-            while ($zeile = $ausstellungErhaltenCMD->fetchObject()) {
-                $suchergebnis[] = array($zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Titel, $zeile->Kuenstler,
-                    $zeile->Beschreibung, $zeile->Erstellungsdatum, $zeile->Ort, $zeile->Bewertung, $zeile->Hochladedatum,
-                    $zeile->Aufrufe, $zeile->Dateityp);
+            while ($zeile = $erhalteAusstellungCMD->fetchObject()) {
+                $suchergebnis[] = $this->gemaelde_erhalten($zeile->GemaeldeID);
             }
             $ergebnis = array(array(), array(), array(), array());
             $reihe = 0;
@@ -721,7 +766,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $reihe = ($reihe + 1) % 4;
             }
             return $ergebnis;
-        }catch (Exception $ex){
+        } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
             return array(-1);
@@ -729,31 +774,31 @@ class NutzerDAODBImpl implements NutzerDAO
 
     }
 
-    public function sammlungen_erhalten($suche, $filter): array
+    public function sammlungen_erhalten($Suche, $Filter): array
     {
         try {
             $this->db->beginTransaction();
 
-            $sammlungenErhaltenSQL = "SELECT * FROM Sammlung";
-            if (!empty($suche)) {
-                $sammlungenErhaltenSQL .= " WHERE Titel = :suche";
+            $erhalteSammlungenSQL = "SELECT * FROM Sammlung";
+            if (!empty($Suche)) {
+                $erhalteSammlungenSQL .= " WHERE Titel LIKE :suche";
             }
-            if ($filter == "beliebteste") {
-                $sammlungenErhaltenSQL .= " ORDER BY Bewertung";
-            } else if ($filter == "datum") {
-                $sammlungenErhaltenSQL .= " ORDER BY Erstellungsdatum";
+            if ($Filter == "beliebteste") {
+                $erhalteSammlungenSQL .= " ORDER BY Bewertung";
+            } else if ($Filter == "datum") {
+                $erhalteSammlungenSQL .= " ORDER BY Erstellungsdatum";
             }
-            $sammlungenErhaltenSQL .= ";";
+            $erhalteSammlungenSQL .= ";";
 
-            $sammlungenErhaltenCMD = $this->db->prepare($sammlungenErhaltenSQL);
-            if (!empty($suche)) {
-                $sammlungenErhaltenCMD->bindValue(":suche", '%' . $suche . '%');
+            $erhalteSammlungenCMD = $this->db->prepare($erhalteSammlungenSQL);
+            if (!empty($Suche)) {
+                $erhalteSammlungenCMD->bindValue(":suche", '%' . $Suche . '%');
             }
-            $sammlungenErhaltenCMD->execute();
+            $erhalteSammlungenCMD->execute();
             $this->db->commit();
 
             $suchergebnis = array();
-            while ($zeile = $sammlungenErhaltenCMD->fetchObject()) {
+            while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
                 $suchergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
             }
             $ergebnis = array(array(), array(), array(), array());
@@ -770,8 +815,4 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function profil_editieren($nutzerID, $token, $nutzername, $beschreibung, $geschlecht, $vollsaendigerName, $adresse, $geburtsdatum)
-    {
-        // TODO: Implement profil_editieren() method.
-    }
 }

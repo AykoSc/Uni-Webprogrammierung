@@ -11,32 +11,14 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"])
     $sammlungen = $dao->sammlungen_erhalten("", "");
 }
 
-echo "<pre>"; //test
-print_r($sammlungen); //test
-print_r("-----------------------------------"); //test
-echo "</pre>"; //test
-// Erste GemaeldeID als Vorschaubild der jeweiligen Sammlung nehmen
-foreach ($sammlungen as $reihe) {
-    foreach ($reihe as $sammlung) {
-        if (isset($sammlung[2][0]) and is_int($sammlung[2][0])) {
-            echo $sammlung[2][0];
-            $vorschaugemaelde = $dao->gemaelde_erhalten(htmlspecialchars($sammlung[2][0]));
-            echo "<pre>";
-            print_r("---AMOGUS--------------------------------");
-            print_r($vorschaugemaelde);
-            print_r("-----AMOGUS------------------------------");
-            echo "</pre>";
-            echo $sammlung[2][0];
-            $sammlung[2] = $vorschaugemaelde;
-        } else {
-            $sammlung[2] = ["lul", 1,2,3,4,5,6,7,8,9,"jpggg"];
+// Erstes Gemaelde als Vorschaubild der jeweiligen Sammlung nehmen
+for ($i = 0; $i < sizeof($sammlungen); $i++) { //$sammlungen as $reihe
+    for ($j = 0; $j < sizeof($sammlungen[$i]); $j++) { //$reihe as $sammlung
+        if (isset($sammlungen[$i][$j][2][0]) and is_int($sammlungen[$i][$j][2][0])) {
+            $sammlungen[$i][$j][2] = $dao->gemaelde_erhalten(htmlspecialchars($sammlungen[$i][$j][2][0]));
         }
     }
 }
-echo "<pre>";
-print_r($sammlungen);
-echo "</pre>";
-
 
 $reihe0 = $sammlungen[0];
 $reihe1 = $sammlungen[1];
@@ -62,59 +44,52 @@ include $abs_path . '/php/head.php';
 
     <h3>Hier findest du alle Sammlungen</h3>
 
-    <form class="suche">
-        <label for="suche" class="invisible">Suche</label>
-        <input type="text" placeholder="Suche..." name="suche" id="suche">
-        <button>
-            <img src="images/suche.svg" alt="suchen" height="16" width="16">
-        </button>
-    </form>
-    <div class="filter">
+    <form>
+        <div class="suche">
+            <label for="suche" class="invisible">Suche</label>
+            <input type="text" placeholder="Suche..." name="suche" id="suche">
+            <button>
+                <img src="images/suche.svg" alt="suchen" height="16" width="16">
+            </button>
+        </div>
+
         <label for="filter">Filtern nach:</label>
-        <select id="filter" name="Filter">
+        <select id="filter" name="filter">
             <option value="beliebteste" selected>Beliebteste</option>
             <option value="datum">Datum</option>
         </select>
-    </div>
+    </form>
 
     <div class="reihe">
         <div class="spalte">
             <?php foreach ($reihe0 as $reihe): ?>
                 <a href="sammlung.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img
-                            alt="<?php echo htmlspecialchars($reihe[3]) ?>"
-                            src="<?php echo "images/" . htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
-                    >
+                    <img src="<?php echo "images/" . htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
+                         alt="<?php echo htmlspecialchars($reihe[3]) ?>">
                 </a>
             <?php endforeach; ?>
         </div>
         <div class="spalte">
             <?php foreach ($reihe1 as $reihe): ?>
                 <a href="sammlung.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img
-                            alt="<?php echo htmlspecialchars($reihe[3]) ?>"
-                            src="<?php echo htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
-                    >
+                    <img src="<?php echo "images/" . htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
+                         alt="<?php echo htmlspecialchars($reihe[3]) ?>">
                 </a>
             <?php endforeach; ?>
         </div>
         <div class="spalte">
             <?php foreach ($reihe2 as $reihe): ?>
                 <a href="sammlung.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img
-                            alt="<?php echo htmlspecialchars($reihe[3]) ?>"
-                            src="<?php echo htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
-                    >
+                    <img src="<?php echo "images/" . htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
+                         alt="<?php echo htmlspecialchars($reihe[3]) ?>">
                 </a>
             <?php endforeach; ?>
         </div>
         <div class="spalte">
             <?php foreach ($reihe3 as $reihe): ?>
                 <a href="sammlung.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img
-                            alt="<?php echo htmlspecialchars($reihe[3]) ?>"
-                            src="<?php echo htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
-                    >
+                    <img src="<?php echo "images/" . htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
+                         alt="<?php echo htmlspecialchars($reihe[3]) ?>">
                 </a>
             <?php endforeach; ?>
         </div>

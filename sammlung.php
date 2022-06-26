@@ -47,7 +47,7 @@ include $abs_path . '/php/head.php';
     <?php foreach ($alle_gemaelde as $gemaelde): ?>
         <h3><?php echo $gemaelde[2] ?></h3>
         <a href="gemaelde.php?id=<?php echo htmlspecialchars($gemaelde[0]) ?>">
-            <img src="images/<?php echo htmlspecialchars($gemaelde[0]) . $gemaelde[10] ?>"
+            <img class="presentation" src="<?php echo "images/" . htmlspecialchars($gemaelde[0]) . "." . htmlspecialchars($gemaelde[10]) ?>"
                  alt="<?php echo htmlspecialchars($gemaelde[2]) ?>">
         </a>
     <?php endforeach; ?>

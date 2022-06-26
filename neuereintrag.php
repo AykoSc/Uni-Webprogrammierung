@@ -24,18 +24,18 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["t
 if ($gemaelde and $angemeldet) {
     if (isset($_FILES['datei']) and
         isset($_POST['titel']) and is_string($_POST['titel']) and
-        isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
         isset($_POST['kuenstler']) and is_string($_POST['kuenstler']) and
+        isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
         isset($_POST['datum']) and is_string($_POST['datum']) and
         isset($_POST['ort']) and is_string($_POST['ort'])) {
-        $datei_typ = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']),PATHINFO_EXTENSION));
+        $dateityp = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']),PATHINFO_EXTENSION));
         $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-            htmlspecialchars($datei_typ), htmlspecialchars($_POST['titel']),
-            htmlspecialchars($_POST['beschreibung']), htmlspecialchars($_POST['kuenstler']),
+            htmlspecialchars($dateityp), htmlspecialchars($_POST['titel']),
+            htmlspecialchars($_POST['kuenstler']), htmlspecialchars($_POST['beschreibung']),
             htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
 
         if ($erstellung !== -1) {
-            $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $datei_typ;
+            $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $dateityp;
             if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
                 $hochladen = true;
             } else {
@@ -136,7 +136,7 @@ include $abs_path . '/php/head.php';
             <form method="post" action="neuereintrag.php">
                 <hr>
                 <label for="auswahl">Gemälde-IDs: (z.B.: 1,2,6)</label>
-                <input type="text" id="auswahl" name="auswahl" required
+                <input type="text" id="auswahl" name="auswahl" pattern="(([0-9]|[1-9][0-9]*),)*([0-9]|[1-9][0-9]*)+" required
                     <?php echo (isset($_POST["auswahl"]) and is_string($_POST["auswahl"])) ? 'value=' . htmlspecialchars($_POST["auswahl"]) : '' ?>>
 
                 <label for="titel">Titel:</label>

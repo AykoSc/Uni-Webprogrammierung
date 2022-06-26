@@ -1,8 +1,8 @@
 <?php
 
-class DBTools
+class DBErstellung
 {
-    const CREATE_TABLES = "
+    const TABELLEN = "
     CREATE TABLE IF NOT EXISTS Anbieter (
         AnbieterID INTEGER PRIMARY KEY AUTOINCREMENT,
         Nutzername TEXT,
@@ -82,7 +82,7 @@ class DBTools
 
     ";
 
-    const INSERT_DATA = "
+    const DATEN = "
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
     VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1 !', 'm', 'Max Mustermann', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '2000.10.04', '2022.06.02');
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
@@ -105,12 +105,12 @@ class DBTools
     VALUES (3, 1, 23, 'Mein toller Kommentar.', '2022.06.01');
 
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung0', 'Beschreibung von Bild 0', 3, '2021.01.03', 2234);
+    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 0', 3, '2021.01.03', 2234);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung1', 'Beschreibung von Bild 1', 7, '2022.04.06', 34);
+    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 1', 7, '2022.04.06', 34);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (2, 'Sammlung2', 'Beschreibung von Bild 2', 5, '2022.03.02', 8673);
-       
+    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 2', 5, '2022.03.02', 8673);
+
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (1, 1);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)

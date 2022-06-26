@@ -2,51 +2,29 @@
 
 interface NutzerDAO
 {
-    /**
-     * Funktion zum Registrieren.
-     *
-     * @param $nutzername String Nutzername des Nutzers
-     * @param $email String E-Mail des Nutzers
-     * @param $passwort String Passwort des Nutzers
-     * @return bool Registrierung erfolgreich
-     */
-    public function registrieren($nutzername, $email, $passwort): bool;
+    public function registrieren($Nutzername, $Email, $Passwort): bool;
 
-    /**
-     * Funktion zum Anmelden.
-     *
-     * @param $email String E-Mail des Nutzers
-     * @param $passwort String Passwort des Nutzers
-     * @return array<int, String> Nutzer-ID und Token
-     */
-    public function anmelden($email, $passwort): array;
+    public function anmelden($Email, $Passwort): array;
 
-    /**
-     * Funktion zum Abmelden.
-     *
-     * @param $nutzerID int ID des Nutzers
-     * @param $nutzerToken String Token der Session des Nutzers
-     * @return bool Abmeldung erfolgreich
-     */
-    public function abmelden($nutzerID, $nutzerToken): bool;
+    public function abmelden($AnbieterID, $Tokennummer): bool;
 
-    public function kontakt_aufnehmen($email, $kommentar): bool;
+    public function kontakt_aufnehmen($EMail, $Kommentar): bool;
 
-    public function gemaelde_anlegen($AnbieterID, $token, $file, $titel, $beschreibung, $artist, $date, $location): int;
+    public function gemaelde_anlegen($AnbieterID, $Tokennummer, $Dateityp, $Titel, $Kuenstler, $Beschreibung, $Erstellungsdatum, $Ort): int;
 
-    public function gemaelde_editieren($AnbieterID, $token, $gemaeldeID, $beschreibung, $erstellungsdatum, $ort): bool;
+    public function gemaelde_editieren($AnbieterID, $Tokennummer, $GemaeldeID, $Beschreibung, $Erstellungsdatum, $Ort): bool;
 
-    public function gemaelde_entfernen($gemaeldeID): bool;
+    public function gemaelde_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool;
 
-    public function gemaelde_erhalten($gemaeldeID): array;
+    public function gemaelde_erhalten($GemaeldeID): array;
 
-    public function sammlung_anlegen($AnbieterID, $token, $auswahl, $titel, $beschreibung): bool;
+    public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int;
 
-    public function sammlung_editieren($sammlungID, $titel, $beschreibung): bool;
+    public function sammlung_editieren($AnbieterID, $Tokennummer, $SammlungID, $Titel, $Beschreibung): bool;
 
-    public function sammlung_entfernen($sammlungID): bool;
+    public function sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID): bool;
 
-    public function sammlung_erhalten($sammlungID): array;
+    public function sammlung_erhalten($SammlungID): array;
 
     public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool;
 
@@ -58,9 +36,9 @@ interface NutzerDAO
 
     public function profil_erhalten($nutzerID): array;
 
-    public function profil_editieren($nutzerID, $token, $nutzername, $beschreibung, $geschlecht, $vollsaendigerName, $adresse, $geburtsdatum );
+    public function profil_editieren($AnbieterID, $Token, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool;
 
-    public function ausstellung_erhalten($suche, $filter): array;
+    public function ausstellung_erhalten($Suche, $Filter): array;
 
-    public function sammlungen_erhalten($suche, $filter): array;
+    public function sammlungen_erhalten($Suche, $Filter): array;
 }
