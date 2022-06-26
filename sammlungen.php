@@ -11,15 +11,14 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"])
     $sammlungen = $dao->sammlungen_erhalten("", "");
 }
 
-echo "<pre>";
-print_r($sammlungen);
-print_r("-----------------------------------");
-echo "</pre>";
-
-//erste GemaeldeID als Vorschaubild der jeweiligen Sammlung nehmen
-foreach ($sammlungen as $sammlung_reihe) {
-    foreach ($sammlung_reihe as $sammlung) {
-        if (isset($sammlung[2][0])) { //vllt int und nicht string
+echo "<pre>"; //test
+print_r($sammlungen); //test
+print_r("-----------------------------------"); //test
+echo "</pre>"; //test
+// Erste GemaeldeID als Vorschaubild der jeweiligen Sammlung nehmen
+foreach ($sammlungen as $reihe) {
+    foreach ($reihe as $sammlung) {
+        if (isset($sammlung[2][0]) and is_int($sammlung[2][0])) {
             echo $sammlung[2][0];
             $vorschaugemaelde = $dao->gemaelde_erhalten(htmlspecialchars($sammlung[2][0]));
             echo "<pre>";
@@ -28,8 +27,7 @@ foreach ($sammlungen as $sammlung_reihe) {
             print_r("-----AMOGUS------------------------------");
             echo "</pre>";
             echo $sammlung[2][0];
-            //$sammlung[2] = $vorschaugemaelde;
-
+            $sammlung[2] = $vorschaugemaelde;
         } else {
             $sammlung[2] = ["lul", 1,2,3,4,5,6,7,8,9,"jpggg"];
         }
@@ -38,6 +36,8 @@ foreach ($sammlungen as $sammlung_reihe) {
 echo "<pre>";
 print_r($sammlungen);
 echo "</pre>";
+
+
 $reihe0 = $sammlungen[0];
 $reihe1 = $sammlungen[1];
 $reihe2 = $sammlungen[2];
@@ -72,8 +72,8 @@ include $abs_path . '/php/head.php';
     <div class="filter">
         <label for="filter">Filtern nach:</label>
         <select id="filter" name="Filter">
-            <option value="relevance" selected>Beliebteste</option>
-            <option value="date">Datum</option>
+            <option value="beliebteste" selected>Beliebteste</option>
+            <option value="datum">Datum</option>
         </select>
     </div>
 

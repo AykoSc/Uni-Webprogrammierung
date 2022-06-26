@@ -2,13 +2,13 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 if (isset($_GET["suche"]) and is_string($_GET["suche"])
     and isset($_GET["filter"]) and is_string($_GET["filter"])) {
-    $ausstellung = $user->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
+    $ausstellung = $dao->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
 } else {
-    $ausstellung = $user->ausstellung_erhalten("", "");
+    $ausstellung = $dao->ausstellung_erhalten("", "");
 }
 
 $reihe0 = $ausstellung[0];
@@ -46,9 +46,8 @@ include $abs_path . '/php/head.php';
 
         <label for="filter">Filtern nach:</label>
         <select id="filter" name="filter">
-            <option value="" selected>-</option>
-            <option value="relevance">Beliebteste</option>
-            <option value="date">Datum</option>
+            <option value="beliebteste" selected>Beliebteste</option>
+            <option value="datum">Datum</option>
         </select>
     </form>
 

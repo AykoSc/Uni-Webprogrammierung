@@ -34,7 +34,7 @@ if ($gemaelde and $angemeldet) {
             htmlspecialchars($_POST['beschreibung']), htmlspecialchars($_POST['kuenstler']),
             htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
 
-        if ($erstellung != -1) {
+        if ($erstellung !== -1) {
             $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $datei_typ;
             if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
                 $hochladen = true;
@@ -74,10 +74,10 @@ include $abs_path . '/php/head.php';
     <?php if (isset($angemeldet) and is_bool($angemeldet) and !$angemeldet): ?>
         <p class="nachricht fehler">Du bist nicht angemeldet!</p>
     <?php endif ?>
-    <?php if (isset($erstellung) and is_int($erstellung) and $erstellung != -1): ?>
+    <?php if (isset($erstellung) and is_int($erstellung) and $erstellung !== -1): ?>
         <p class="nachricht">Eintragerstellung erfolgreich</p>
     <?php endif ?>
-    <?php if (isset($erstellung) and is_int($erstellung) and !$erstellung == -1): ?>
+    <?php if (isset($erstellung) and is_int($erstellung) and $erstellung === -1): ?>
         <p class="nachricht fehler">Eintragerstellung fehlgeschlagen</p>
     <?php endif ?>
     <?php if (isset($hochladen) and is_bool($hochladen) and $hochladen): ?>

@@ -33,7 +33,7 @@ class DBTools
     );
 
     CREATE TABLE IF NOT EXISTS Sammlung (
-        SammlungID INTEGER PRIMARY KEY,
+        SammlungID INTEGER PRIMARY KEY AUTOINCREMENT,
         AnbieterID INTEGER,
         Titel TEXT,
         Beschreibung TEXT,
@@ -96,34 +96,34 @@ class DBTools
     VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '1432.11.06', 'Berlin, Deutschland', 4, '2022.09.06', 8, 'jpg');
 
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (0, 1, 274, 'Dies ist ein Kommentar!', '2021.10.05');
+    VALUES (1, 1, 274, 'Dies ist ein Kommentar!', '2021.10.05');
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (0, 2, 346, 'Dies ist auch ein Kommentar!!', '2022.06.07');
+    VALUES (1, 2, 346, 'Dies ist auch ein Kommentar!!', '2022.06.07');
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (1, 3, 56, 'Mein erster Kommentar.', '2022.03.02');
+    VALUES (2, 1, 56, 'Mein erster Kommentar.', '2022.03.02');
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (2, 1, 23, 'Mein toller Kommentar.', '2022.06.01');
+    VALUES (3, 1, 23, 'Mein toller Kommentar.', '2022.06.01');
 
-    INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 1, 'Sammlung0', 'Beschreibung von Bild 0', 3, '2021.01.03', 2234);
-    INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (2, 1, 'Sammlung1', 'Beschreibung von Bild 1', 7, '2022.04.06', 34);
-    INSERT INTO Sammlung (SammlungID, AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (3, 2, 'Sammlung2', 'Beschreibung von Bild 2', 5, '2022.03.02', 8673);
+    INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
+    VALUES (1, 'Sammlung0', 'Beschreibung von Bild 0', 3, '2021.01.03', 2234);
+    INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
+    VALUES (1, 'Sammlung1', 'Beschreibung von Bild 1', 7, '2022.04.06', 34);
+    INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
+    VALUES (2, 'Sammlung2', 'Beschreibung von Bild 2', 5, '2022.03.02', 8673);
        
-    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (0, 0);
-    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (0, 2);
-    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (0, 1);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (1, 1);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (1, 0);
+    VALUES (1, 3);
+    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
+    VALUES (1, 2);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (2, 2);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (2, 0);
+    VALUES (2, 1);
+    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
+    VALUES (3, 3);
+    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
+    VALUES (3, 1);
     ";
 }

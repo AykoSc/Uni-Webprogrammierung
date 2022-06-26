@@ -21,11 +21,11 @@ class NutzerDAODBImpl implements NutzerDAO
     {
         //Datenbankverbindung
         try {
-            $user = "root";
-            $pw = null;
+            $nutzername = "root";
+            $passwort = null;
             $dsn = "sqlite:database.db";
             // Nur bei MySQL: $dsn = "mysql:dbname=website;host=localhost";
-            $this->db = new PDO($dsn, $user, $pw);
+            $this->db = new PDO($dsn, $nutzername, $passwort);
             // Nur bei MySQL: $this->db->exec("SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE");
             try {
                 $this->db->beginTransaction();
@@ -330,6 +330,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->beginTransaction();
 
             if (!$this->gemaeldeCheck($gemaeldeID)) {
+                echo "AMONG US IST SUSSSSSSSSSSSSSSSSSSSSSS";
                 return array(-1);
             }
 
@@ -612,6 +613,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch ( Exception $ex ) {
+            print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -688,40 +690,37 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $suche_result = array();
-
-            $getAusstellungSQL = "SELECT * FROM Gemaelde";
-
+            $ausstellungErhaltenSQL = "SELECT * FROM Gemaelde";
             if (!empty($suche)) {
-                $getAusstellungSQL .= " WHERE Titel LIKE :suche";
+                $ausstellungErhaltenSQL .= " WHERE Titel LIKE :suche";
             }
-
-            if ($filter == "relevance") {
-                $getAusstellungSQL .= " ORDER BY Bewertung";
-            } else if ($filter == "date") {
-                $getAusstellungSQL .= " ORDER BY Erstellungsdatum";
+            if ($filter == "beliebteste") {
+                $ausstellungErhaltenSQL .= " ORDER BY Bewertung";
+            } else if ($filter == "datum") {
+                $ausstellungErhaltenSQL .= " ORDER BY Erstellungsdatum";
             }
-            $getAusstellungSQL .= ";";
+            $ausstellungErhaltenSQL .= ";";
 
-            $getAusstellungCMD = $this->db->prepare($getAusstellungSQL);
+            $ausstellungErhaltenCMD = $this->db->prepare($ausstellungErhaltenSQL);
             if (!empty($suche)) {
-                $getAusstellungCMD->bindValue(":suche", '%' . $suche . '%');
+                $ausstellungErhaltenCMD->bindValue(":suche", '%' . $suche . '%');
             }
-            $getAusstellungCMD->execute();
+            $ausstellungErhaltenCMD->execute();
+            $this->db->commit();
 
-            while ($zeile = $getAusstellungCMD->fetchObject()) {
-                $suche_result[] = array($zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Titel, $zeile->Kuenstler,
+            $suchergebnis = array();
+            while ($zeile = $ausstellungErhaltenCMD->fetchObject()) {
+                $suchergebnis[] = array($zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Titel, $zeile->Kuenstler,
                     $zeile->Beschreibung, $zeile->Erstellungsdatum, $zeile->Ort, $zeile->Bewertung, $zeile->Hochladedatum,
                     $zeile->Aufrufe, $zeile->Dateityp);
             }
-            $return_array = array(array(), array(), array(), array());
-            $curr_reihe = 0;
-            foreach ($suche_result as $gemaelde_result) {
-                $return_array[$curr_reihe][] = $gemaelde_result;
-                $curr_reihe = ($curr_reihe + 1) % 4;
+            $ergebnis = array(array(), array(), array(), array());
+            $reihe = 0;
+            foreach ($suchergebnis as $g) {
+                $ergebnis[$reihe][] = $g;
+                $reihe = ($reihe + 1) % 4;
             }
-            $this->db->commit();
-            return $return_array;
+            return $ergebnis;
         }catch (Exception $ex){
             print_r($ex);
             $this->db->rollBack();
@@ -735,41 +734,35 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $getSammlungenSQL = "SELECT * FROM Sammlung";
-
+            $sammlungenErhaltenSQL = "SELECT * FROM Sammlung";
             if (!empty($suche)) {
-                $getSammlungenSQL .= " WHERE Titel = :suche";
+                $sammlungenErhaltenSQL .= " WHERE Titel = :suche";
             }
-
-            if ($filter == "relevance") {
-                $getSammlungenSQL .= " ORDER BY Bewertung";
-            } else if ($filter == "date") {
-                $getSammlungenSQL .= " ORDER BY Erstellungsdatum";
+            if ($filter == "beliebteste") {
+                $sammlungenErhaltenSQL .= " ORDER BY Bewertung";
+            } else if ($filter == "datum") {
+                $sammlungenErhaltenSQL .= " ORDER BY Erstellungsdatum";
             }
+            $sammlungenErhaltenSQL .= ";";
 
-            $getSammlungenSQL .= ";";
-
-            $getSammlungenCMD = $this->db->prepare($getSammlungenSQL);
+            $sammlungenErhaltenCMD = $this->db->prepare($sammlungenErhaltenSQL);
             if (!empty($suche)) {
-                $getSammlungenCMD->bindParam(":suche", $suche);
+                $sammlungenErhaltenCMD->bindValue(":suche", '%' . $suche . '%');
             }
-            $getSammlungenCMD->execute();
-
+            $sammlungenErhaltenCMD->execute();
             $this->db->commit();
 
-            $suche_result = array();
-            while ($zeile = $getSammlungenCMD->fetchObject()) {
-                $suche_result[] = $this->sammlung_erhalten($zeile->SammlungID);
+            $suchergebnis = array();
+            while ($zeile = $sammlungenErhaltenCMD->fetchObject()) {
+                $suchergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
             }
-
-            $return_array = array(array(), array(), array(), array());
-            $curr_reihe = 0;
-            foreach ($suche_result as $sammlungen_result) {
-                $return_array[$curr_reihe][] = $sammlungen_result;
-                $curr_reihe = ($curr_reihe + 1) % 4;
+            $ergebnis = array(array(), array(), array(), array());
+            $reihe = 0;
+            foreach ($suchergebnis as $s) {
+                $ergebnis[$reihe][] = $s;
+                $reihe = ($reihe + 1) % 4;
             }
-
-            return $return_array;
+            return $ergebnis;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
