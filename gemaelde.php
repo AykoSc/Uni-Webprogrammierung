@@ -18,11 +18,12 @@ if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["del
 
 if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $result = $user->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+    if (!$result) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
-//TODO Löschfehlermeldung
-/*if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) !== "loeschbestaetigung") {
+
+if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um dieses Gemälde zu löschen müssen Sie den Bestätigungshaken setzen.";
-}*/
+}
 
 //Eintrag bearbeiten
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
@@ -76,6 +77,9 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
+    <?php if (isset($fehlermeldung)): ?>
+        <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
+    <?php endif ?>
 
     <h1><?php echo $titel ?></h1>
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
@@ -121,7 +125,8 @@ include $abs_path . '/php/head.php';
 
                 <form method="post">
                     <h3>Gemälde löschen?</h3>
-                    <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung">
+                    <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
+                    <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
                     <label for="loeschen">Löschen bestätigen</label>
                     <input type="submit" value="Löschen"/>
                 </form>

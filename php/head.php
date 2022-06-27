@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/ausstellung.css"/>
     <?php endif ?>
 
-    <?php if (!empty($name) and $name == 'Gemälde') : ?>
+    <?php if (!empty($name) and ($name == 'Gemälde' or $name == 'Sammlung')) : ?>
         <link rel="stylesheet" href="css/gemaelde.css"/>
     <?php endif ?>
 
