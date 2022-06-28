@@ -297,7 +297,9 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $editiereGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :Beschreibung, Erstellungsdatum = :Erstellungsdatum, Ort = :ort WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
+            $Erstellungsdatum = date("Y.m.d", strtotime($Erstellungsdatum));
+
+            $editiereGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :Beschreibung, Erstellungsdatum = :Erstellungsdatum, Ort = :Ort WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
             $editiereGemaeldeCMD = $this->db->prepare($editiereGemaeldeSQL);
             $editiereGemaeldeCMD->bindParam(':Beschreibung', $Beschreibung);
             $editiereGemaeldeCMD->bindParam(':Erstellungsdatum', $Erstellungsdatum);
