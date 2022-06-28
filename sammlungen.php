@@ -67,7 +67,7 @@ include $abs_path . '/php/head.php';
             <label for="suche" class="invisible">Suche</label>
             <input type="text" placeholder="Suche..." name="suche" id="suche" onkeyup="suchvorschlaege(this.value)"
                 <?php echo (isset($_GET["suche"]) and is_string($_GET["suche"])) ? 'value=' . htmlspecialchars($_GET["suche"]) : '' ?>>
-            <button id="knopf">
+            <button id="suchenknopf">
                 <img src="images/suche.svg" alt="suchen" height="16" width="16">
             </button>
         </div>

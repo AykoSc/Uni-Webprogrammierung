@@ -1,3 +1,3 @@
 document.getElementById('filter').addEventListener("change", function () {
-    document.getElementById('knopf').click();
+    document.getElementById('suchenknopf').click();
 });
