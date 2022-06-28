@@ -161,30 +161,30 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool
+    public function kommentar_anlegen($AnbieterID, $Tokennummer, $Textinhalt, $GemaeldeID): bool
     {
         // Kommentar wird hier nicht angelegt, da es eine schreibende Methode ist
         return true;
     }
 
-    public function kommentar_entfernen($AnbieterID, $token, $kommentarID): bool
+    public function kommentar_entfernen($AnbieterID, $Tokennummer, $KommentarID): bool
     {
         // Kommentar wird hier nicht entfernt, da es eine schreibende Methode ist
         return true;
     }
 
-    public function kommentar_liken($AnbieterID, $token, $kommentarID): bool
+    public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool
     {
         // Kommentar wird hier nicht geliked, da es eine schreibende Methode ist
         return true;
     }
 
-    public function kommentare_erhalten($gemaeldeID): array
+    public function kommentare_erhalten($GemaeldeID): array
     {
         $result = array();
-        if (isset($gemaeldeID) and is_string($gemaeldeID)) {
+        if (isset($GemaeldeID) and is_string($GemaeldeID)) {
             foreach ($this->kommentare as $k) {
-                if ($k[1] == htmlspecialchars($gemaeldeID)) {
+                if ($k[1] == htmlspecialchars($GemaeldeID)) {
                     $result[] = $k;
                 }
             }
@@ -192,11 +192,11 @@ class NutzerDAODummyImpl implements NutzerDAO
         return $result;
     }
 
-    public function profil_erhalten($nutzerID): array
+    public function profil_erhalten($AnbieterID): array
     {
-        if (isset($nutzerID) and is_string($nutzerID)) {
+        if (isset($AnbieterID) and is_string($AnbieterID)) {
             foreach ($this->users_profil as $profil) {
-                if ($profil[0] == htmlspecialchars($nutzerID)) {
+                if ($profil[0] == htmlspecialchars($AnbieterID)) {
                     return $profil;
                 }
             }
@@ -204,7 +204,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function profil_editieren($AnbieterID, $Token, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool
+    public function profil_editieren($AnbieterID, $Tokennummer, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool
     {
         // Profil editieren wird hier nicht implementiert, da es eine schreibende Methode ist
         return true;

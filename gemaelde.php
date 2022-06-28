@@ -4,21 +4,21 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $user = NutzerDAODBImpl::getInstance();
 
-if (isset($_SESSION["id"]) and isset($_POST["kommentar"]) && is_string($_POST["kommentar"])) {
-    $result = $user->kommentar_anlegen(htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_SESSION["id"]));
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["kommentar"]) and is_string($_POST["kommentar"]) and isset($_GET["id"]) and is_string($_GET["id"])) {
+    $angelegt = $user->kommentar_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]));
 }
 
-if (isset($_SESSION["id"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
-    $result = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
+    $geliked = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
 }
 
-if (isset($_SESSION["id"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
-    $result = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
+    $entfernung = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
-    $result = $user->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
-    if (!$result) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+    $loeschung = $user->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+    if (!$loeschung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
 if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
@@ -56,7 +56,6 @@ if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
     $hochladedatum = htmlspecialchars($gemaelde[8]);
     $aufrufe = htmlspecialchars($gemaelde[9]);
     $dateityp = htmlspecialchars($gemaelde[10]);
-
 } else {
     header("location: index.php");
 }

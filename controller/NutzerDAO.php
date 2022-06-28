@@ -26,17 +26,17 @@ interface NutzerDAO
 
     public function sammlung_erhalten($SammlungID): array;
 
-    public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool;
+    public function kommentar_anlegen($AnbieterID, $Tokennummer, $Textinhalt, $GemaeldeID): bool;
 
-    public function kommentar_entfernen($AnbieterID, $token, $kommentarID): bool;
+    public function kommentar_entfernen($AnbieterID, $Tokennummer, $KommentarID): bool;
 
-    public function kommentar_liken($AnbieterID, $token, $kommentarID): bool;
+    public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool;
 
-    public function kommentare_erhalten($gemaeldeID): array;
+    public function kommentare_erhalten($GemaeldeID): array;
 
-    public function profil_erhalten($nutzerID): array;
+    public function profil_erhalten($AnbieterID): array;
 
-    public function profil_editieren($AnbieterID, $Token, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool;
+    public function profil_editieren($AnbieterID, $Tokennummer, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool;
 
     public function ausstellung_erhalten($Suche, $Filter): array;
 

@@ -550,19 +550,26 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentar_anlegen($text, $gemaeldeID, $nutzerID): bool
+    public function kommentar_anlegen($AnbieterID, $Tokennummer, $Textinhalt, $GemaeldeID): bool
     {
         try {
             $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
+            }
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return false;
+            }
 
             $sql = 'INSERT INTO Kommentar  (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-                    VALUES (:gemaeldeID, :anbieterID, 0, :text, :date) ;';
+                    VALUES (:GemaeldeID, :AnbieterID, 0, :Textinhalt, :Erstellungsdatum) ;';
             $kommando = $this->db->prepare($sql);
-            $kommando->bindParam(':gemaeldeID', $gemaeldeID);
-            $kommando->bindParam(':anbieterID', $nutzerID);
-            $kommando->bindParam(':text', $text);
-            $date = date("Y.m.d");
-            $kommando->bindParam(':date', $date);
+            $kommando->bindParam(':GemaeldeID', $GemaeldeID);
+            $kommando->bindParam(':AnbieterID', $AnbieterID);
+            $kommando->bindParam(':Textinhalt', $Textinhalt);
+            $Erstellungsdatum = date("Y.m.d");
+            $kommando->bindParam(':Erstellungsdatum', $Erstellungsdatum);
             $kommando->execute();
 
             $this->db->commit();
@@ -574,22 +581,23 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentar_entfernen($AnbieterID, $token, $kommentarID): bool
+    public function kommentar_entfernen($AnbieterID, $Tokennummer, $KommentarID): bool
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->anbieterCheck($AnbieterID, $token)) {
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
                 return false;
             }
-            if (!$this->kommentarCheck($kommentarID)) {
+            if (!$this->kommentarCheck($KommentarID)) {
                 return false;
             }
 
-            $sql = 'DELETE FROM Kommentar WHERE KommentarID = :id;';
-            $kommando = $this->db->prepare($sql);
-            $kommando->bindParam(':id', $kommentarID);
-            $kommando->execute();
+            $entferneKommentarSQL = 'DELETE FROM Kommentar WHERE KommentarID = :KommentarID AND AnbieterID = :AnbieterID;';
+            $entferneKommentarCMD = $this->db->prepare($entferneKommentarSQL);
+            $entferneKommentarCMD->bindParam(':KommentarID', $KommentarID);
+            $entferneKommentarCMD->bindParam(':AnbieterID', $AnbieterID);
+            $entferneKommentarCMD->execute();
 
             $this->db->commit();
             return true;
@@ -600,39 +608,39 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentar_liken($AnbieterID, $token, $kommentarID): bool
+    public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->anbieterCheck($AnbieterID, $token)) {
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
                 return false;
             }
-            if (!$this->kommentarCheck($kommentarID)) {
+            if (!$this->kommentarCheck($KommentarID)) {
                 return false;
             }
 
-            $checkGelikedSQL = "SELECT * FROM geliked_von WHERE KommentarID = :KommentarID;";
-            $checkGelikedSQL = $this->db->prepare($checkGelikedSQL);
-            $checkGelikedSQL->bindParam(":KommentarID", $kommentarID);
-            $checkGelikedSQL->execute();
-            $result = $checkGelikedSQL->fetchObject();
-            if (isset($result->KommentarID)) {
+            $bereitsGelikedSQL = "SELECT * FROM geliked_von WHERE KommentarID = :KommentarID AND AnbieterID = :AnbieterID;";
+            $bereitsGelikedCMD = $this->db->prepare($bereitsGelikedSQL);
+            $bereitsGelikedCMD->bindParam(":KommentarID", $KommentarID);
+            $bereitsGelikedCMD->bindParam(':AnbieterID', $AnbieterID);
+            $bereitsGelikedCMD->execute();
+            $ergebnis = $bereitsGelikedCMD->fetchObject();
+            if (isset($ergebnis->KommentarID)) {
                 $this->db->rollBack();
                 return false; //Kommentar bereits geliked
             }
 
-            $sql = 'UPDATE Kommentar SET Likeanzahl = Likeanzahl + 1 WHERE KommentarID = :id;';
-            $kommando = $this->db->prepare($sql);
-            $kommando->bindParam(':id', $kommentarID);
-            $kommando->execute();
+            $aktualisiereLikeanzahlSQL = 'UPDATE Kommentar SET Likeanzahl = Likeanzahl + 1 WHERE KommentarID = :KommentarID;';
+            $aktualisiereLikeanzahlCMD = $this->db->prepare($aktualisiereLikeanzahlSQL);
+            $aktualisiereLikeanzahlCMD->bindParam(':KommentarID', $KommentarID);
+            $aktualisiereLikeanzahlCMD->execute();
 
-            $sql = 'Insert INTO geliked_von (KommentarID, AnbieterID) VALUES (:KommentarID, :AnbieterID);';
-            $kommando = $this->db->prepare($sql);
-            $kommando->bindParam(':KommentarID', $kommentarID);
-            $kommando->bindParam(':AnbieterID', $nutzerID);
-            $kommando->execute();
-
+            $speichereLikeSQL = 'Insert INTO geliked_von (KommentarID, AnbieterID) VALUES (:KommentarID, :AnbieterID);';
+            $speichereLikeCMD = $this->db->prepare($speichereLikeSQL);
+            $speichereLikeCMD->bindParam(':KommentarID', $KommentarID);
+            $speichereLikeCMD->bindParam(':AnbieterID', $AnbieterID);
+            $speichereLikeCMD->execute();
 
             $this->db->commit();
             return true;
@@ -643,26 +651,30 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentare_erhalten($gemaeldeID): array
+    public function kommentare_erhalten($GemaeldeID): array
     {
         try {
             $this->db->beginTransaction();
 
-            $getKommentarSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
-            $getKommentarCMD = $this->db->prepare($getKommentarSQL);
-            $getKommentarCMD->bindParam(":GemaeldeID", $gemaeldeID);
-            $getKommentarCMD->execute();
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return array(-1);
+            }
+
+            $erhalteKommentareSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteKommentareCMD = $this->db->prepare($erhalteKommentareSQL);
+            $erhalteKommentareCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $erhalteKommentareCMD->execute();
+
+            $ergebnis = array();
+            while ($zeile = $erhalteKommentareCMD->fetchObject()) {
+                $datumSplitted = explode(".", $zeile->Erstellungsdatum);
+                $zeile->Erstellungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
+
+                $ergebnis[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+            }
 
             $this->db->commit();
-
-            $kommentare = array();
-            while ($zeile = $getKommentarCMD->fetchObject()) {
-                $datumSplitted = explode(".", $zeile->Erstellungsdatum);
-                $Erstellungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
-
-                $kommentare[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $Erstellungsdatum);
-            }
-            return $kommentare;
+            return $ergebnis;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
@@ -676,43 +688,27 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkAnbieterIDSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
-            $checkAnbieterIDCMD = $this->db->prepare($checkAnbieterIDSQL);
-            $checkAnbieterIDCMD->bindParam(":AnbieterID", $AnbieterID);
-            $checkAnbieterIDCMD->execute();
-            $result = $checkAnbieterIDCMD->fetchObject();
-            if (!isset($result->AnbieterID)) {
+            $existiertAnbieterSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
+            $existiertAnbieterCMD = $this->db->prepare($existiertAnbieterSQL);
+            $existiertAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
+            $existiertAnbieterCMD->execute();
+            $ergebnis = $existiertAnbieterCMD->fetchObject();
+
+            if (!isset($ergebnis->AnbieterID)) {
                 $this->db->rollBack();
                 return array(-1); //Nutzer existiert nicht
             }
 
-            $getProfilSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
-            $getProfilCMD = $this->db->prepare($getProfilSQL);
-            $getProfilCMD->bindParam(":AnbieterID", $AnbieterID);
-            $getProfilCMD->execute();
-            $result = $getProfilCMD->fetchObject();
-
-            // [NutzerID, Nutzername, beschreibung, geschlecht, VollständigerName, Adresse, Sprache, Geburtsdatum, Registrierungsdatum]
-            $AnbieterID = $result->AnbieterID;
-            $Nutzername = $result->Nutzername;
-            $Personenbeschreibung = $result->Personenbeschreibung;
-            $Geschlecht = $result->Geschlecht;
-            $Vollstaendiger_Name = $result->Vollstaendiger_Name;
-            $Anschrift = $result->Anschrift;
-            $Sprache = $result->Sprache;
-
-            $datumSplitted = explode(".", $result->Geburtsdatum);
+            $datumSplitted = explode(".", $ergebnis->Geburtsdatum);
             if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
-                $Geburtsdatum = $datumSplitted[0] . "-" . $datumSplitted[1] . "-" . $datumSplitted[2];
-            } else {
-                $Geburtsdatum = $result->Geburtsdatum;
+                $ergebnis->Geburtsdatum = $datumSplitted[0] . "-" . $datumSplitted[1] . "-" . $datumSplitted[2];
             }
 
-            $datumSplitted = explode(".", $result->Registrierungsdatum);
-            $Registrierungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
+            $datumSplitted = explode(".", $ergebnis->Registrierungsdatum);
+            $ergebnis->Registrierungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
 
             $this->db->commit();
-            return array($AnbieterID, $Nutzername, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum, $Registrierungsdatum);
+            return array($ergebnis->AnbieterID, $ergebnis->Nutzername, $ergebnis->Personenbeschreibung, $ergebnis->Geschlecht, $ergebnis->Vollstaendiger_Name, $ergebnis->Anschrift, $ergebnis->Sprache, $ergebnis->Geburtsdatum, $ergebnis->Registrierungsdatum);
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
@@ -720,14 +716,18 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function profil_editieren($AnbieterID, $Token, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool
+    public function profil_editieren($AnbieterID, $Tokennummer, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool
     {
         try {
             $this->db->beginTransaction();
 
-            if (!$this->anbieterCheck($AnbieterID, $Token)) return false;
-            if (!($Geschlecht === "m" || $Geschlecht === "w")) return false;
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
+            }
 
+            if (!($Geschlecht === "m" || $Geschlecht === "w")) {
+                return false;
+            }
             $datumSplitted = explode("-", $Geburtsdatum);
             if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
                 $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
@@ -735,18 +735,18 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Datum nicht richtig übertragen (nicht im Format yyyy-mm-dd)
             }
 
-            $editAnbieterSQL = "UPDATE Anbieter SET Personenbeschreibung = :Personenbeschreibung, Geschlecht = :Geschlecht, Vollstaendiger_Name = :Vollstaendiger_Name, 
-                    Anschrift = :Anschrift, Sprache = :Sprache, Geburtsdatum = :Geburtsdatum
-                WHERE AnbieterID = :AnbieterID";
-            $editAnbieterCMD = $this->db->prepare($editAnbieterSQL);
-            $editAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
-            $editAnbieterCMD->bindParam(":Personenbeschreibung", $Personenbeschreibung);
-            $editAnbieterCMD->bindParam(":Geschlecht", $Geschlecht);
-            $editAnbieterCMD->bindParam(":Vollstaendiger_Name", $Vollstaendiger_Name);
-            $editAnbieterCMD->bindParam(":Anschrift", $Anschrift);
-            $editAnbieterCMD->bindParam(":Sprache", $Sprache);
-            $editAnbieterCMD->bindParam(":Geburtsdatum", $Geburtsdatum);
-            $editAnbieterCMD->execute();
+            $editiereAnbieterSQL = "UPDATE Anbieter 
+                                SET Personenbeschreibung = :Personenbeschreibung, Geschlecht = :Geschlecht, Vollstaendiger_Name = :Vollstaendiger_Name, Anschrift = :Anschrift, Sprache = :Sprache, Geburtsdatum = :Geburtsdatum
+                                WHERE AnbieterID = :AnbieterID";
+            $editiereAnbieterCMD = $this->db->prepare($editiereAnbieterSQL);
+            $editiereAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
+            $editiereAnbieterCMD->bindParam(":Personenbeschreibung", $Personenbeschreibung);
+            $editiereAnbieterCMD->bindParam(":Geschlecht", $Geschlecht);
+            $editiereAnbieterCMD->bindParam(":Vollstaendiger_Name", $Vollstaendiger_Name);
+            $editiereAnbieterCMD->bindParam(":Anschrift", $Anschrift);
+            $editiereAnbieterCMD->bindParam(":Sprache", $Sprache);
+            $editiereAnbieterCMD->bindParam(":Geburtsdatum", $Geburtsdatum);
+            $editiereAnbieterCMD->execute();
 
             $this->db->commit();
             return true;
