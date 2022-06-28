@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     and isset($_POST["email"]) and is_string($_POST["email"])
@@ -25,7 +25,7 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     if (isset($fehlermeldung) and is_string($fehlermeldung)) {
         $registrierung = false;
     } else {
-        $registrierung = $user->registrieren($nutzername, $email, $passwort);
+        $registrierung = $dao->registrieren($nutzername, $email, $passwort);
         if (!$registrierung) {
             $fehlermeldung = "Der Nutzername oder die Email wird bereits verwendet.";
         }

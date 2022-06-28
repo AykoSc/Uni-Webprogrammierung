@@ -4,9 +4,11 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
+$selektiert = 'beliebteste';
 if (isset($_GET["suche"]) and is_string($_GET["suche"])
     and isset($_GET["filter"]) and is_string($_GET["filter"])) {
     $sammlungen = $dao->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
+    $selektiert = htmlspecialchars($_GET["filter"]);
 } else {
     $sammlungen = $dao->sammlungen_erhalten("", "");
 }
@@ -36,6 +38,21 @@ include $abs_path . '/php/head.php';
 
 <body>
 
+<script>
+    function suchvorschlaege(suche) {
+        if (suche.length === 0) {
+            document.getElementById("suchvorschlag").innerHTML = "Keine Vorschläge";
+            return;
+        }
+        const request = new XMLHttpRequest();
+        request.onload = function() {
+            document.getElementById("suchvorschlag").innerHTML = this.responseText;
+        }
+        request.open("GET", "suchvorschlaege.php?herkunft=sammlungen&suche=" + suche);
+        request.send();
+    }
+</script>
+
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
@@ -47,7 +64,8 @@ include $abs_path . '/php/head.php';
     <form>
         <div class="suche">
             <label for="suche" class="invisible">Suche</label>
-            <input type="text" placeholder="Suche..." name="suche" id="suche">
+            <input type="text" placeholder="Suche..." name="suche" id="suche" onkeyup="suchvorschlaege(this.value)"
+                <?php echo (isset($_GET["suche"]) and is_string($_GET["suche"])) ? 'value=' . htmlspecialchars($_GET["suche"]) : '' ?>>
             <button>
                 <img src="images/suche.svg" alt="suchen" height="16" width="16">
             </button>
@@ -55,9 +73,10 @@ include $abs_path . '/php/head.php';
 
         <label for="filter">Filtern nach:</label>
         <select id="filter" name="filter">
-            <option value="beliebteste" selected>Beliebteste</option>
-            <option value="datum">Datum</option>
+            <option value="beliebteste" <?php echo ($selektiert === 'beliebteste') ? 'selected' : ''?>selected>Beliebteste</option>
+            <option value="datum" <?php echo ($selektiert === 'datum') ? 'selected' : ''?>>Datum</option>
         </select>
+        <p id="suchvorschlag"></p>
     </form>
 
     <div class="reihe">

@@ -2,12 +2,12 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 
 if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {
     if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
-        $abmeldung = $user->abmelden(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
+        $abmeldung = $dao->abmelden(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
     }
     session_unset();
     session_destroy();
@@ -27,8 +27,10 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
-<?php include $abs_path . '/php/header.php'; ?>
 
+<script src="js/aktionscountdown.js" async></script>
+
+<?php include $abs_path . '/php/header.php'; ?>
 
 <main>
     <?php if (isset($abmeldung) and is_bool($abmeldung) and $abmeldung): ?>
@@ -41,21 +43,10 @@ include $abs_path . '/php/head.php';
     <h1>Hauptseite</h1>
 
     <img class="presentation" src="images/start.jpg" alt="Start">
+    <p>Der Schwur der Horatier (französisch Le Serment des Horaces) ist ein 1784 fertiggestelltes Gemälde von Jacques-Louis David. Das großformatige Bild (330 × 425 cm) wurde mit Ölfarbe auf Leinwand gemalt.</p>
 
-
-    <p>
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-        labore et
-        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-        Stet
-        clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-        amet,
-        consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-        erat, sed
-        diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-        sea
-        takimata sanctus est Lorem ipsum dolor sit amet.
-    </p>
+    <noscript><h4>Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt.</h4></noscript>
+    <h4 id="aktionscountdown"></h4>
 </main>
 
 

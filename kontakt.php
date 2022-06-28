@@ -2,11 +2,11 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 if (isset($_POST['email']) and is_string($_POST['email']) and
     isset($_POST['kommentar']) and is_string($_POST['kommentar'])) {
-    $erfolgreich = $user->kontakt_aufnehmen(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['kommentar']));
+    $erfolgreich = $dao->kontakt_aufnehmen(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['kommentar']));
 }
 ?>
 

@@ -2,13 +2,13 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 if (isset($_POST["email"]) and is_string($_POST["email"]) and isset($_POST["passwort"]) and is_string($_POST["passwort"])) {
     $email = htmlspecialchars($_POST["email"]);
     $passwort = htmlspecialchars($_POST["passwort"]);
 
-    $anmeldung = $user->anmelden($email, $passwort);
+    $anmeldung = $dao->anmelden($email, $passwort);
     if (!empty($anmeldung) and $anmeldung[0] != -1) {
         $_SESSION["id"] = $anmeldung[0];
         $_SESSION["token"] = $anmeldung[1];

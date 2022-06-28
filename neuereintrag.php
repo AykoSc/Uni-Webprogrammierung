@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 if (isset($_REQUEST['typ']) and is_string($_REQUEST['typ'])) {
     if ($_REQUEST['typ'] === 'Gemälde') {
@@ -29,7 +29,7 @@ if ($gemaelde and $angemeldet) {
         isset($_POST['datum']) and is_string($_POST['datum']) and
         isset($_POST['ort']) and is_string($_POST['ort'])) {
         $dateityp = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']),PATHINFO_EXTENSION));
-        $erstellung = $user->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+        $erstellung = $dao->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
             htmlspecialchars($dateityp), htmlspecialchars($_POST['titel']),
             htmlspecialchars($_POST['kuenstler']), htmlspecialchars($_POST['beschreibung']),
             htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
@@ -50,7 +50,7 @@ if (!$gemaelde and $angemeldet) {
     if (isset($_POST['auswahl']) and is_string($_POST['auswahl']) and
         isset($_POST['titel']) and is_string($_POST['titel']) and
         isset($_POST['beschreibung']) and is_string($_POST['beschreibung'])) {
-        $erstellung = $user->sammlung_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+        $erstellung = $dao->sammlung_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
             htmlspecialchars($_POST['auswahl']),
             htmlspecialchars($_POST['titel']),
             htmlspecialchars($_POST['beschreibung']));

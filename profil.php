@@ -2,7 +2,7 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 //Profil bearbeiten
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
@@ -20,7 +20,7 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     if (isset($fehlermeldung) and is_string($fehlermeldung)) {
         $profilbearbeitung = false;
     } else {
-        $profilbearbeitung = $user->profil_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+        $profilbearbeitung = $dao->profil_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
             htmlspecialchars($_POST['beschreibung']),
             htmlspecialchars($_POST['geschlecht']), htmlspecialchars($_POST['vollstaendigerName']),
             htmlspecialchars($_POST['adresse']), htmlspecialchars($_POST['sprache']), htmlspecialchars($_POST['geburtsdatum']));
@@ -30,7 +30,7 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
 
 
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
-    $profil = $user->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
+    $profil = $dao->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
     header("location: index.php");
 }

@@ -2,22 +2,22 @@
 session_start();
 if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
-$user = NutzerDAODBImpl::getInstance();
+$dao = NutzerDAODBImpl::getInstance();
 
 if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["kommentar"]) and is_string($_POST["kommentar"]) and isset($_GET["id"]) and is_string($_GET["id"])) {
-    $angelegt = $user->kommentar_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]));
+    $angelegt = $dao->kommentar_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
-    $geliked = $user->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
+    $geliked = $dao->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
-    $entfernung = $user->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
+    $entfernung = $dao->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
 if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
-    $loeschung = $user->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+    $loeschung = $dao->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if (!$loeschung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
@@ -32,14 +32,14 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
     isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
     isset($_POST['ort']) and is_string($_POST['ort'])) {
-    $gemaelde = $user->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+    $gemaelde = $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
         htmlspecialchars($_GET["id"]), htmlspecialchars($_POST['beschreibung']),
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
 }
 
 if (isset($_GET["id"]) and is_string($_GET["id"])) {
-    $kommentare = $user->kommentare_erhalten(htmlspecialchars($_GET["id"]));
-    $gemaelde = $user->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
+    $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_GET["id"]));
+    $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
 } else {
     header("location: index.php");
 }
