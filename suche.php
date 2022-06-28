@@ -4,7 +4,7 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Erhalte die Titel aller potenziellen Ergebnisse
-$vorschlaege = "";
+$ergebnis = "";
 if (isset($_GET["suche"]) and is_string($_GET["suche"]) and
     isset($_GET["herkunft"]) and is_string($_GET["herkunft"])) {
     if ($_GET["herkunft"] === "ausstellung") {
@@ -12,30 +12,29 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"]) and
         $ergebniszaehler = 0;
         foreach ($ausstellung as $reihe) {
             foreach ($reihe as $gemaelde) {
-                if ($vorschlaege === "") {
-                    $vorschlaege .= $gemaelde[2];
-                } else {
-                    $vorschlaege .= ", " . $gemaelde[2];
-                }
+                if ($ergebnis !== "") $ergebnis .= "<br />";
+                $ergebnis .= "<a class='vorschlaege' href='gemaelde.php?id=" . htmlspecialchars($gemaelde[0]) . "'>" . htmlspecialchars($gemaelde[2]) . "</a>";
                 $ergebniszaehler++;
                 if ($ergebniszaehler == 10) break 2;
             }
         }
-    } else if ($_GET["herkunft"] === "sammlungen") {
+    } else if ($_GET["herkunft"] === "sammlungen") { //TODO so machen wie bei ausstellung
         $sammlungen = $dao->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), "");
         $ergebniszaehler = 0;
         foreach ($sammlungen as $reihe) {
             foreach ($reihe as $sammlung) {
-                if ($vorschlaege === "") {
-                    $vorschlaege .= $sammlung[3];
+                if ($ergebnis === "") {
+                    $ergebnis .= $sammlung[3];
                 } else {
-                    $vorschlaege .= ", " . $sammlung[3];
+                    $ergebnis .= ", " . $sammlung[3];
                 }
                 $ergebniszaehler++;
                 if ($ergebniszaehler == 10) break 2;
             }
         }
+    } else if ($_GET["herkunft"] === "registrierung") {
+        $ergebnis = $dao->nutzername_unbenutzt(htmlspecialchars($_GET["suche"]));
     }
 }
 
-echo $vorschlaege === "" ? "Keine Vorschläge" : "Vorschläge: " . htmlspecialchars($vorschlaege);
+echo $ergebnis === "" ? "Keine Vorschläge" : $ergebnis;

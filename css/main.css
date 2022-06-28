@@ -137,7 +137,7 @@ header a:hover { /*Links beim drüber hovern*/
     display: flex; /* verwendet um suchfeld und button nebeneinander zu platzieren und float: left zu vermeiden */
 }
 
-.suche input[type=text] {
+.suche .suchfeld {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey; /* kante umzieht die suchleiste */

@@ -222,10 +222,10 @@ include $abs_path . '/php/head.php';
                         <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
                             <form method="post">
                                 <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="thumbsUp" src="images/thumbsUp.png" width="20">
+                                <input type="image" alt="thumbsup" src="images/thumbsup.png" width="20">
                             </form>
                         <?php else: ?>
-                            <img src="images/thumbsUp.png" width="20" alt="thumbsUp"/>
+                            <img src="images/thumbsup.png" width="20" alt="thumbsup"/>
                         <?php endif; ?>
                         <?php echo htmlspecialchars($kommentar[3]) ?>
                     </div>

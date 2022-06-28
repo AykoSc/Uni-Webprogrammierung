@@ -123,6 +123,29 @@ class NutzerDAODBImpl implements NutzerDAO
         return true;
     }
 
+    public function nutzername_unbenutzt($Nutzername): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername;";
+            $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
+            $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
+            $checkNutzernameCMD->execute();
+            $result = $checkNutzernameCMD->fetchObject();
+            if (isset($result->Nutzername)) {
+                $this->db->rollBack();
+                return false; //Nutzername existiert bereits
+            }
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
 
     public function registrieren($Nutzername, $Email, $Passwort): bool
     {

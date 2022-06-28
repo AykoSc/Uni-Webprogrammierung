@@ -66,6 +66,12 @@ class NutzerDAODummyImpl implements NutzerDAO
         return self::$instance;
     }
 
+    public function nutzername_unbenutzt($Nutzername): bool
+    {
+        // Ob ein Nutzername unbenutzt ist, wird in der DBImpl erst benötigt.
+        return true;
+    }
+
     public function registrieren($Nutzername, $Email, $Passwort): bool
     {
         // Registrierung wird in der DBImpl gemacht, da es eine schreibende Methode ist

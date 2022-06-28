@@ -47,6 +47,26 @@ include $abs_path . '/php/head.php';
 
 <body>
 
+<script>
+    function suchvorschlaege(suche) {
+        if (suche.length === 0) {
+            document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername';
+            return;
+        }
+        const request = new XMLHttpRequest();
+        request.onload = function() {
+            if(this.responseText === '1') {
+                document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Verfügbar)' + this.responseText;
+            } else {
+                document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Bereits vergeben)' + this.responseText;
+            }
+            return this.responseText;
+        }
+        request.open("GET", "suche.php?herkunft=registrierung&suche=" + suche);
+        request.send();
+    }
+</script>
+
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
@@ -60,8 +80,8 @@ include $abs_path . '/php/head.php';
         <h3>Bitte gib die folgende Informationen an, um dich zu registrieren.</h3>
         <form method="post" action="registrierung.php">
             <hr>
-            <label for="nutzername">Benutzername</label>
-            <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required
+            <label id="nutzernamevergeben" for="nutzername">Benutzername</label>
+            <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required onkeyup="suchvorschlaege(this.value)"
                 <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . htmlspecialchars($_POST["nutzername"]) : '' ?>>
             <label for="email">E-Mail</label>
             <input type="email" id="email" name="email" maxlength="100" placeholder="E-Mail eingeben" required

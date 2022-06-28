@@ -2,6 +2,8 @@
 
 interface NutzerDAO
 {
+    public function nutzername_unbenutzt($Nutzername): bool;
+
     public function registrieren($Nutzername, $Email, $Passwort): bool;
 
     public function anmelden($Email, $Passwort): array;

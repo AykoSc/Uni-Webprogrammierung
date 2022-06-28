@@ -65,19 +65,19 @@ include $abs_path . '/php/head.php';
     <form>
         <div class="suche">
             <label for="suche" class="invisible">Suche</label>
-            <input type="text" placeholder="Suche..." name="suche" id="suche" onkeyup="suchvorschlaege(this.value)"
+            <input class="suchfeld" type="text" placeholder="Suche..." name="suche" id="suche" onkeyup="suchvorschlaege(this.value)"
                 <?php echo (isset($_GET["suche"]) and is_string($_GET["suche"])) ? 'value=' . htmlspecialchars($_GET["suche"]) : '' ?>>
             <button id="suchenknopf">
                 <img src="images/suche.svg" alt="suchen" height="16" width="16">
             </button>
         </div>
+        <p id="suchvorschlag"></p>
 
         <label for="filter">Filtern nach:</label>
         <select id="filter" name="filter">
             <option value="beliebteste" <?php echo ($selektiert === 'beliebteste') ? 'selected' : ''?>selected>Beliebteste</option>
             <option value="datum" <?php echo ($selektiert === 'datum') ? 'selected' : ''?>>Datum</option>
         </select>
-        <p id="suchvorschlag"></p>
     </form>
 
     <div class="reihe">
