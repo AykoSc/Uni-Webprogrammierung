@@ -56,9 +56,9 @@ include $abs_path . '/php/head.php';
         const request = new XMLHttpRequest();
         request.onload = function() {
             if(this.responseText === '1') {
-                document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Verfügbar)' + this.responseText;
+                document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Verfügbar)';
             } else {
-                document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Bereits vergeben)' + this.responseText;
+                document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Bereits vergeben)';
             }
             return this.responseText;
         }
