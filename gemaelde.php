@@ -200,12 +200,16 @@ include $abs_path . '/php/head.php';
                     <p>
                         <?php echo htmlspecialchars($kommentar[4]); ?>
                     </p>
-                    <div class="likes">
-                        <form method="post">
-                            <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                            <input type="image" alt="thumbsUp" src="images/thumbsUp.png" width="20">
-                        </form>
 
+                    <div class="likes">
+                        <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
+                            <form method="post">
+                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                                <input type="image" alt="thumbsUp" src="images/thumbsUp.png" width="20">
+                            </form>
+                        <?php else: ?>
+                            <img src="images/thumbsUp.png" width="20" alt="thumbsUp"/>
+                        <?php endif; ?>
                         <?php echo htmlspecialchars($kommentar[3]) ?>
                     </div>
                     <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>

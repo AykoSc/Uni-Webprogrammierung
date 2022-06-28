@@ -328,11 +328,30 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
+            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID";
+            $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
+            $erhalteGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $erhalteGemaeldeCMD->execute();
+
+            $ergebnis = $erhalteGemaeldeCMD->fetchObject();
+            if ($ergebnis->AnbieterID != $AnbieterID) {
+                $this->db->rollBack();
+                return false;
+            }
+            $Dateityp = $ergebnis->Dateityp;
+
             $entferneGemaeldeSQL = "DELETE FROM Gemaelde WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
             $entferneGemaeldeCMD = $this->db->prepare($entferneGemaeldeSQL);
             $entferneGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $entferneGemaeldeCMD->bindParam(':AnbieterID', $AnbieterID);
             $entferneGemaeldeCMD->execute();
+
+            $entferneAusSammlungenSQL = "DELETE FROM gehoert_zu WHERE GemaeldeID = :GemaeldeID;";
+            $entferneAusSammlungenCMD = $this->db->prepare($entferneAusSammlungenSQL);
+            $entferneAusSammlungenCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $entferneAusSammlungenCMD->execute();
+
+            unlink('images/' . $GemaeldeID . '.' . $Dateityp);
 
             $this->db->commit();
             return true;
@@ -707,8 +726,12 @@ class NutzerDAODBImpl implements NutzerDAO
             if (!$this->anbieterCheck($AnbieterID, $Token)) return false;
             if (!($Geschlecht === "m" || $Geschlecht === "w")) return false;
 
-            $datumSplitted = explode(".", $Geburtsdatum);
-            $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
+            $datumSplitted = explode("-", $Geburtsdatum);
+            if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
+                $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
+            } else {
+                return false; //Datum nicht richtig übertragen (nicht im Format yyyy-mm-dd)
+            }
 
             $editAnbieterSQL = "UPDATE Anbieter SET Personenbeschreibung = :Personenbeschreibung, Geschlecht = :Geschlecht, Vollstaendiger_Name = :Vollstaendiger_Name, 
                     Anschrift = :Anschrift, Sprache = :Sprache, Geburtsdatum = :Geburtsdatum
@@ -737,10 +760,7 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $erhalteAusstellungSQL = "SELECT * FROM Gemaelde";
-            if (!empty($Suche)) {
-                $erhalteAusstellungSQL .= " WHERE Titel LIKE :suche";
-            }
+            $erhalteAusstellungSQL = "SELECT * FROM Gemaelde WHERE Titel LIKE :suche";
             if ($Filter == "beliebteste") {
                 $erhalteAusstellungSQL .= " ORDER BY Bewertung DESC";
             } else if ($Filter == "datum") {
@@ -749,9 +769,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $erhalteAusstellungSQL .= ";";
 
             $erhalteAusstellungCMD = $this->db->prepare($erhalteAusstellungSQL);
-            if (!empty($Suche)) {
-                $erhalteAusstellungCMD->bindValue(":suche", '%' . $Suche . '%');
-            }
+            $erhalteAusstellungCMD->bindValue(":suche", '%' . $Suche . '%');
             $erhalteAusstellungCMD->execute();
             $this->db->commit();
 
@@ -779,10 +797,7 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $erhalteSammlungenSQL = "SELECT * FROM Sammlung";
-            if (!empty($Suche)) {
-                $erhalteSammlungenSQL .= " WHERE Titel LIKE :suche";
-            }
+            $erhalteSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE :suche";
             if ($Filter == "beliebteste") {
                 $erhalteSammlungenSQL .= " ORDER BY Bewertung DESC";
             } else if ($Filter == "datum") {
@@ -791,9 +806,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $erhalteSammlungenSQL .= ";";
 
             $erhalteSammlungenCMD = $this->db->prepare($erhalteSammlungenSQL);
-            if (!empty($Suche)) {
-                $erhalteSammlungenCMD->bindValue(":suche", '%' . $Suche . '%');
-            }
+            $erhalteSammlungenCMD->bindValue(":suche", '%' . $Suche . '%');
             $erhalteSammlungenCMD->execute();
             $this->db->commit();
 

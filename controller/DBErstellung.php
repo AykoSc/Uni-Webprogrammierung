@@ -29,7 +29,7 @@ class DBErstellung
         Hochladedatum TEXT,
         Aufrufe INTEGER,
         Dateityp TEXT,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE SET NULL ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
     CREATE TABLE IF NOT EXISTS Sammlung (
@@ -40,7 +40,7 @@ class DBErstellung
         Bewertung INTEGER,
         Erstellungsdatum TEXT,
         Aufrufe INTEGER,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE SET NULL ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
     );
     
     CREATE TABLE IF NOT EXISTS Kommentar (
@@ -50,7 +50,7 @@ class DBErstellung
         Likeanzahl INTEGER,
         Textinhalt TEXT,
         Erstellungsdatum TEXT,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE SET NULL ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
     );
     
     CREATE TABLE IF NOT EXISTS Kontakt (
@@ -62,7 +62,7 @@ class DBErstellung
     CREATE TABLE IF NOT EXISTS Tokens (
         AnbieterID INTEGER,
         Tokennummer TEXT,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE NO ACTION ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
     );
     
     CREATE TABLE IF NOT EXISTS gehoert_zu (
