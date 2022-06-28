@@ -79,6 +79,24 @@ include $abs_path . '/php/head.php';
     <?php if (isset($fehlermeldung)): ?>
         <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
+    <?php if (isset($angelegt) and is_bool($angelegt) and $angelegt): ?>
+        <p class="nachricht">Kommentar erfolgreich angelegt</p>
+    <?php endif ?>
+    <?php if (isset($angelegt) and is_bool($angelegt) and !$angelegt): ?>
+        <p class="nachricht fehler">Kommentar Erstellung fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($geliked) and is_bool($geliked) and $geliked): ?>
+        <p class="nachricht">Kommentar erfolgreich geliked</p>
+    <?php endif ?>
+    <?php if (isset($geliked) and is_bool($geliked) and !$geliked): ?>
+        <p class="nachricht fehler">Kommentar liken fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($entfernung) and is_bool($entfernung) and $entfernung): ?>
+        <p class="nachricht">Kommentar erfolgreich gelöscht</p>
+    <?php endif ?>
+    <?php if (isset($entfernung) and is_bool($entfernung) and !$entfernung): ?>
+        <p class="nachricht fehler">Kommentar Löschung fehlgeschlagen</p>
+    <?php endif ?>
 
     <h1><?php echo $titel ?></h1>
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
