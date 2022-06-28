@@ -55,7 +55,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe0 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . htmlspecialchars($reihe[10]) ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>
@@ -64,7 +64,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe1 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . htmlspecialchars($reihe[10]) ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>
@@ -73,7 +73,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe2 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . htmlspecialchars($reihe[10]) ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>
@@ -82,7 +82,7 @@ include $abs_path . '/php/head.php';
         <div class="spalte">
             <?php foreach ($reihe3 as $reihe): ?>
                 <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
-                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . $reihe[10] ?>"
+                    <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . htmlspecialchars($reihe[10]) ?>"
                          alt="<?php echo htmlspecialchars($reihe[2]) ?>">
                 </a>
             <?php endforeach; ?>

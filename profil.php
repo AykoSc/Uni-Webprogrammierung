@@ -38,15 +38,15 @@ if (isset($_GET["id"]) and is_string($_GET["id"])) {
     header("location: index.php");
 }
 if (isset($profil) and is_array($profil) and $profil !== [-1]) {
-    $id = $profil[0];
-    $nutzername = $profil[1];
-    $beschreibung = $profil[2];
-    $geschlecht = $profil[3];
-    $vollstaendigerName = $profil[4];
-    $adresse = $profil[5];
-    $sprache = $profil[6];
-    $geburtsdatum = $profil[7];
-    $registrierungsdatum = $profil[8];
+    $id = htmlspecialchars($profil[0]);
+    $nutzername = htmlspecialchars($profil[1]);
+    $beschreibung = htmlspecialchars($profil[2]);
+    $geschlecht = htmlspecialchars($profil[3]);
+    $vollstaendigerName = htmlspecialchars($profil[4]);
+    $adresse = htmlspecialchars($profil[5]);
+    $sprache = htmlspecialchars($profil[6]);
+    $geburtsdatum = htmlspecialchars($profil[7]);
+    $registrierungsdatum = htmlspecialchars($profil[8]);
 } else {
     header("location: index.php");
 }

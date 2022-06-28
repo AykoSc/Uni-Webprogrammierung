@@ -37,11 +37,11 @@ if (isset($sammlung) and is_array($sammlung) and $sammlung !== [-1]) {
     foreach ($sammlung[2] as $gemaeldeID) { //$sammlung[2] sind gemaeldeIDs
         $alle_gemaelde[] = $dao->gemaelde_erhalten(htmlspecialchars($gemaeldeID));
     }
-    $titel = $sammlung[3];
-    $beschreibung = $sammlung[4];
-    $bewertung = $sammlung[5];
-    $hochladedatum = $sammlung[6];
-    $aufrufe = $sammlung[7];
+    $titel = htmlspecialchars($sammlung[3]);
+    $beschreibung = htmlspecialchars($sammlung[4]);
+    $bewertung = htmlspecialchars($sammlung[5]);
+    $hochladedatum = htmlspecialchars($sammlung[6]);
+    $aufrufe = htmlspecialchars($sammlung[7]);
 } else {
     header("location: index.php");
 }
@@ -68,7 +68,7 @@ include $abs_path . '/php/head.php';
     <h2><?php echo $titel ?></h2>
 
     <?php foreach ($alle_gemaelde as $gemaelde): ?>
-        <h3><?php echo $gemaelde[2] ?></h3>
+        <h3><?php echo htmlspecialchars($gemaelde[2]) ?></h3>
         <a href="gemaelde.php?id=<?php echo htmlspecialchars($gemaelde[0]) ?>">
             <img class="presentation"
                  src="<?php echo "images/" . htmlspecialchars($gemaelde[0]) . "." . htmlspecialchars($gemaelde[10]) ?>"

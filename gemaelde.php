@@ -45,8 +45,8 @@ if (isset($_GET["id"]) and is_string($_GET["id"])) {
 }
 
 if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
-    $id = $gemaelde[0];
-    $nutzer = $gemaelde[1];
+    $id = htmlspecialchars($gemaelde[0]);
+    $nutzer = htmlspecialchars($gemaelde[1]);
     $titel = htmlspecialchars($gemaelde[2]);
     $kuenstler = htmlspecialchars($gemaelde[3]);
     $beschreibung = htmlspecialchars($gemaelde[4]);
@@ -85,7 +85,7 @@ include $abs_path . '/php/head.php';
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
     <div class="align_container">
         <div class="description">
-            <?php if (isset($_SESSION["id"]) and htmlspecialchars($nutzer) == htmlspecialchars($_SESSION["id"])) : ?>
+            <?php if (isset($_SESSION["id"]) and $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
 
                 <form method="post">
                     <h2> Über das Gemaelde </h2>
@@ -100,12 +100,12 @@ include $abs_path . '/php/head.php';
                             <h3>Erstellungsdatum</h3>
                             <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
                             <input id="erstellungsdatum" type="date" name="erstellungsdatum"
-                                   value="<?php echo htmlspecialchars($erstellungsdatum) ?>"/>
+                                   value="<?php echo $erstellungsdatum ?>"/>
                         </div>
                         <div class="item">
                             <h3>Ort</h3>
                             <label for="ort" class="invisible">Ort</label>
-                            <input id="ort" type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
+                            <input id="ort" type="text" name="ort" value="<?php echo $ort ?>">
                         </div>
                         <div class="item">
                             <h3>Bewertung</h3>

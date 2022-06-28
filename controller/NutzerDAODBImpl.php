@@ -742,9 +742,9 @@ class NutzerDAODBImpl implements NutzerDAO
                 $erhalteAusstellungSQL .= " WHERE Titel LIKE :suche";
             }
             if ($Filter == "beliebteste") {
-                $erhalteAusstellungSQL .= " ORDER BY Bewertung";
+                $erhalteAusstellungSQL .= " ORDER BY Bewertung DESC";
             } else if ($Filter == "datum") {
-                $erhalteAusstellungSQL .= " ORDER BY Erstellungsdatum";
+                $erhalteAusstellungSQL .= " ORDER BY Erstellungsdatum DESC";
             }
             $erhalteAusstellungSQL .= ";";
 
@@ -784,9 +784,9 @@ class NutzerDAODBImpl implements NutzerDAO
                 $erhalteSammlungenSQL .= " WHERE Titel LIKE :suche";
             }
             if ($Filter == "beliebteste") {
-                $erhalteSammlungenSQL .= " ORDER BY Bewertung";
+                $erhalteSammlungenSQL .= " ORDER BY Bewertung DESC";
             } else if ($Filter == "datum") {
-                $erhalteSammlungenSQL .= " ORDER BY Erstellungsdatum";
+                $erhalteSammlungenSQL .= " ORDER BY Erstellungsdatum DESC";
             }
             $erhalteSammlungenSQL .= ";";
 

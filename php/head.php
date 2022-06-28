@@ -12,7 +12,7 @@
     <?php endif ?>
 
     <?php if (!empty($name) and ($name == 'Gemälde' or $name == 'Sammlung')) : ?>
-        <link rel="stylesheet" href="css/gemaelde.css"/>
+        <link rel="stylesheet" href="css/gemaeldeundsammlung.css"/>
     <?php endif ?>
 
     <title>Online-Ausstellung<?php echo (!empty($name)) ? ' - ' . $name : '' ?></title>
