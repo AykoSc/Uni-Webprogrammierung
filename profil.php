@@ -4,7 +4,6 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $user = NutzerDAODBImpl::getInstance();
 
-
 //Profil bearbeiten
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
@@ -25,15 +24,13 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
             htmlspecialchars($_POST['beschreibung']),
             htmlspecialchars($_POST['geschlecht']), htmlspecialchars($_POST['vollstaendigerName']),
             htmlspecialchars($_POST['adresse']), htmlspecialchars($_POST['sprache']), htmlspecialchars($_POST['geburtsdatum']));
-        if (!$profilbearbeitung) {
-            $fehlermeldung = "Sie sind nicht richtig angemeldet, womöglich ist Ihre Session abgelaufen. Bitte melden Sie sich neu an und versuchen Sie es erneut.";
-        }
+        if (!$profilbearbeitung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
 
 
-if (isset($_GET["id"]) and is_string($_GET["id"])) {
-    $profil = $user->profil_erhalten(htmlspecialchars($_GET["id"]));
+if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
+    $profil = $user->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
     header("location: index.php");
 }
@@ -67,6 +64,9 @@ include $abs_path . '/php/head.php';
 <main>
     <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and !$profilbearbeitung and isset($fehlermeldung) and is_string($fehlermeldung)): ?>
         <p class="nachricht fehler">Profilbearbeitung fehlgeschlagen: <?php echo $fehlermeldung ?></p>
+    <?php endif ?>
+    <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and $profilbearbeitung): ?>
+        <p class="nachricht">Editierung erfolgreich!</p>
     <?php endif ?>
 
     <h1>Mein Profil</h1>
