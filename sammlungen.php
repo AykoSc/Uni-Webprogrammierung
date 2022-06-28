@@ -48,7 +48,7 @@ include $abs_path . '/php/head.php';
         request.onload = function() {
             document.getElementById("suchvorschlag").innerHTML = this.responseText;
         }
-        request.open("GET", "suchvorschlaege.php?herkunft=sammlungen&suche=" + suche);
+        request.open("GET", "suche.php?herkunft=sammlungen&suche=" + suche);
         request.send();
     }
 </script>
