@@ -134,7 +134,7 @@ include $abs_path . '/php/head.php';
                 <?php endif ?>
                 <?php if ($geburtsdatum !== '') : ?>
                     <h3>Geburtsdatum</h3>
-                    <p><?php echo $geburtsdatum ?></p>
+                    <p><?php echo date("d.m.Y", strtotime($geburtsdatum)); ?></p>
                 <?php endif ?>
                 <h3>Registrierungsdatum</h3>
                 <p><?php echo $registrierungsdatum ?></p>
