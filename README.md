@@ -20,6 +20,9 @@ JavaScript:
 - Countdown Uhr für Auktion auf index.php implementiert ✅
 - Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert. ✅
 - Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt. ✅
+- Veränderung in der Kommentarsektion werden, falls möglich über Ajax an den Server gesendet,
+  Es ist nicht ganz so schön geworden, da dennoch die komplette Seite geladen 
+wird (siehe Kommentar in kommentaraktionen.js) ✅
 
 Erklärung Gemälde:
 
