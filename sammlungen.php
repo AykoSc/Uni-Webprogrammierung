@@ -53,6 +53,9 @@ include $abs_path . '/php/head.php';
             document.getElementById("suchvorschlag").style.width = "80%";
             document.getElementById("suchvorschlag").style.backgroundColor = "white";
             document.getElementById("suchvorschlag").style.lineHeight = "190%";
+            document.getElementById("suchvorschlag").style.textOverflow = "ellipsis";
+            document.getElementById("suchvorschlag").style.whiteSpace = "nowrap";
+            document.getElementById("suchvorschlag").style.overflow = "hidden";
             const children = document.getElementById("suchvorschlag").getElementsByTagName("a");
             for (let i = 0; i < children.length; i++) {
                 children[i].style.textDecoration = "none";
