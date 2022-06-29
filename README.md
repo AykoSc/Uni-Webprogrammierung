@@ -5,7 +5,7 @@ Namen der Studierenden:
 - Schwedler, Ayko
 - Pollak, Jan Niklas
 
-Abgabe zu Aufgabenblatt 4
+Abgabe zu Aufgabenblatt 5
 
 Hinweise:
 
@@ -16,16 +16,15 @@ Login-Daten:
 
 JavaScript:
 
-- Die Sammlungsfunktionen sowie die Sammlungen folgen mit JavaScript, da wir hierüber das Hinzufügen der Gemälde
-  ermöglichen wollen
-- Profil bearbeiten machen wir mit JavaScript
-- Gemaelde bewertung machen wir mt JavaScript
-- Sammlung erstellen machen wir mit JavaScript
+- Filter bei Suchanfragen wird direkt angewandt nach Auswahl ✅
+- Countdown Uhr für Auktion auf index.php implementiert ✅
+- Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert. ✅
+- Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt. ✅
 
 Erklärung Gemälde:
 
-- Mit Gemälde meinen wir Bilder, keine Textdokumente für ASCII-art
+- Mit Gemälde meinen wir Bilder, keine Textdokumente für ASCII-art.
 
 Anmeldung:
 
-- Genauere Informationen über Fehler bei Anmeldung nicht an den Nutzer weiterleiten aufgrund von Datenschutz
+- Genauere Informationen über Fehler bei z.B. Anmeldung werden nicht an den Nutzer weiterleiten aufgrund von Datenschutz.
