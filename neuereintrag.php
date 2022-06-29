@@ -107,7 +107,7 @@ include $abs_path . '/php/head.php';
                 <input type="file" accept=".png, .jpg" id="datei" name="datei" required>
 
                 <label for="titel">Titel:</label>
-                <input type="text" id="titel" name="titel" maxlength="100" required
+                <input type="text" id="titel" name="titel" maxlength="50" required
                     <?php echo (isset($_POST["titel"]) and is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
                 <label for="beschreibung">Beschreibung:</label>
