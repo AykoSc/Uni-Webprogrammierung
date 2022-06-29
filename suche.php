@@ -12,8 +12,8 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"]) and
         $ergebniszaehler = 0;
         foreach ($ausstellung as $reihe) {
             foreach ($reihe as $gemaelde) {
-                if ($ergebnis !== "") $ergebnis .= "<br />";
-                $ergebnis .= "<a class='vorschlaege' href='gemaelde.php?id=" . htmlspecialchars($gemaelde[0]) . "'>" . htmlspecialchars($gemaelde[2]) . "</a>";
+                if ($ergebnis !== "") $ergebnis .= "<br/>";
+                $ergebnis .= "<a href='gemaelde.php?id=" . htmlspecialchars($gemaelde[0]) . "'>" . htmlspecialchars($gemaelde[2]) . "</a>";
                 $ergebniszaehler++;
                 if ($ergebniszaehler == 10) break 2;
             }
@@ -23,11 +23,8 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"]) and
         $ergebniszaehler = 0;
         foreach ($sammlungen as $reihe) {
             foreach ($reihe as $sammlung) {
-                if ($ergebnis === "") {
-                    $ergebnis .= $sammlung[3];
-                } else {
-                    $ergebnis .= ", " . $sammlung[3];
-                }
+                if ($ergebnis !== "") $ergebnis .= "<br/>";
+                $ergebnis .= "<a href='sammlung.php?id=" . htmlspecialchars($sammlung[0]) . "'>" . htmlspecialchars($sammlung[3]) . "</a>";
                 $ergebniszaehler++;
                 if ($ergebniszaehler == 10) break 2;
             }
