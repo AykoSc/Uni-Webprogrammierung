@@ -68,7 +68,7 @@ include $abs_path . '/php/head.php';
     <h1>Mein Profil</h1>
 
     <div class="profil">
-        <?php if (isset($_SESSION["id"]) and htmlspecialchars($id) == htmlspecialchars($_SESSION["id"])) : ?>
+        <?php if (isset($_SESSION["id"]) and $id == htmlspecialchars($_SESSION["id"])) : ?>
         <h2>Willkommen auf deinem Profil!</h2>
         <form method="post">
             <h3>Nutzername</h3>
@@ -106,7 +106,7 @@ include $abs_path . '/php/head.php';
             <input id="geburtsdatum" type="date" name="geburtsdatum"
                    value="<?php echo htmlspecialchars($geburtsdatum) ?>"/>
 
-            <button type="submit">Speichern</button>
+            <button id="submit" name="submit" type="submit">Speichern</button>
 
             <?php else: ?>
                 <h2>Willkommen auf dem Profil!</h2>
