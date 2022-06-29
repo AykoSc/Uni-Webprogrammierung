@@ -79,13 +79,7 @@ include $abs_path . '/php/head.php';
 
 <body>
 
-
-<script>
-    function liken(id) {
-    }
-</script>
-
-
+<script src="js/kommentaraktionen.js" ></script>
 
 
 <?php include $abs_path . '/php/header.php'; ?>
@@ -196,6 +190,7 @@ include $abs_path . '/php/head.php';
                         <h3>Aufrufe</h3>
                         <p><?php echo $aufrufe ?></p>
                     </div>
+                </div>
 
             </details>
 
@@ -219,7 +214,7 @@ include $abs_path . '/php/head.php';
                 </div>
             <?php endif ?>
         </div>
-        <ul class="comment-section">
+        <ul class="comment-section" id="comment-section">
             <?php foreach ($kommentare as $kommentar): ?>
                 <li class="comment">
                     <div class="info">
@@ -237,12 +232,11 @@ include $abs_path . '/php/head.php';
 
                         <?php if (isset($_SESSION["id"])) /*and $kommentar[2] != $_SESSION["id"])//TODO zum testen draußen*/ : ?>
                             <form method="post">
-                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>" onclick="liken(value)">
-                                <?php if($kommentar[6] == 1): ?>
-                                    <input type="image" alt="thumbsup" src="images/thumbsup.png" width="20">
-                                <?php else: ?>
-                                    <input type="image" alt="thumbsup" src="images/thumbsupgrey.png" width="20">
-                                <?php endif ?>
+                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                                <input id="thumbsup" type="image" alt="thumbsup" <?php if($kommentar[6] == 1): ?>src="images/thumbsup.png"
+                                    <?php else:?> src="images/thumbsupgrey.png" <?php endif ?>
+                                       width="20">
+                                <script>console.log(document.readyState); </script>
                             </form>
                         <?php else: ?>
                             <img src="images/thumbsup.png" width="20" alt="thumbsup"/>

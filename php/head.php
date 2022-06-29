@@ -17,4 +17,8 @@
 
     <title>Online-Ausstellung<?php echo (!empty($name)) ? ' - ' . $name : '' ?></title>
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <?php //TODO raus wenn geht?>
+
 </head>
