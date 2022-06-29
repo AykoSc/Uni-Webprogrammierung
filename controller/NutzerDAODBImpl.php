@@ -173,12 +173,14 @@ class NutzerDAODBImpl implements NutzerDAO
             }
 
             $Hash = password_hash($Passwort, PASSWORD_DEFAULT);
+            $Registrierungsdatum = date("Y.m.d");;
 
-            $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort) VALUES (:Nutzername, :Email, :Passwort);";
+            $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort, Registrierungsdatum) VALUES (:Nutzername, :Email, :Passwort, :Registrierungsdatum);";
             $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
             $speichereAnbieterCMD->bindParam(":Nutzername", $Nutzername);
             $speichereAnbieterCMD->bindParam(":Email", $Email);
             $speichereAnbieterCMD->bindParam(":Passwort", $Hash);
+            $speichereAnbieterCMD->bindParam(":Registrierungsdatum", $Registrierungsdatum);
             $speichereAnbieterCMD->execute();
 
             $this->db->commit();
