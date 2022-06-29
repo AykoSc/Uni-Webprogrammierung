@@ -793,14 +793,18 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            if (!($Geschlecht === "m" || $Geschlecht === "w")) {
-                return false;
+            if (!($Geschlecht === "m" or $Geschlecht === "w" or $Geschlecht === "")) {
+                $this->db->rollBack();
+                return false; //Geschlecht nicht richtig angegeben
             }
-            $datumSplitted = explode("-", $Geburtsdatum);
-            if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
-                $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
-            } else {
-                return false; //Datum nicht richtig übertragen (nicht im Format yyyy-mm-dd)
+            if($Geburtsdatum !== "") {
+                $datumSplitted = explode("-", $Geburtsdatum);
+                if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
+                    $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
+                } else {
+                    $this->db->rollBack();
+                    return false; //Datum nicht richtig übertragen (nicht im Format yyyy-mm-dd)
+                }
             }
 
             $editiereAnbieterSQL = "UPDATE Anbieter 
