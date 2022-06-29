@@ -43,7 +43,7 @@ include $abs_path . '/php/head.php';
             document.getElementById("suchvorschlag").style.border = "1px solid grey";
             document.getElementById("suchvorschlag").style.width = "80%";
             document.getElementById("suchvorschlag").style.backgroundColor = "white";
-            document.getElementById("suchvorschlag").style.lineHeight = "150%";
+            document.getElementById("suchvorschlag").style.lineHeight = "190%";
             const children = document.getElementById("suchvorschlag").getElementsByTagName("a");
             for (let i = 0; i < children.length; i++) {
                 children[i].style.textDecoration = "none";

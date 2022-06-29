@@ -158,6 +158,10 @@ header a:hover { /*Links beim drüber hovern*/
     background: #0b7dda;
 }
 
+.suchvorschlag:hover {
+    background-color: var(--first-color) !important;
+}
+
 
 /*
 ---> Footer <---
