@@ -37,10 +37,16 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
 }
 
-if (isset($_GET["id"]) and is_string($_GET["id"])) {
-    $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_GET["id"]));
+if (isset($_GET["id"]) and is_string($_GET["id"])
+    and isset($_SESSION["id"]) and is_string($_SESSION["id"])
+    and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+    $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_GET["id"]),htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
     $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
-} else {
+}else if(isset($_GET["id"]) and is_string($_GET["id"])){
+    $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_GET["id"]),"", "");
+    $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_GET["id"]));
+    }
+else {
     header("location: index.php");
 }
 
@@ -73,6 +79,15 @@ include $abs_path . '/php/head.php';
 
 <body>
 
+
+<script>
+    function liken(id) {
+    }
+</script>
+
+
+
+
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
@@ -86,7 +101,7 @@ include $abs_path . '/php/head.php';
         <p class="nachricht fehler">Kommentar Erstellung fehlgeschlagen</p>
     <?php endif ?>
     <?php if (isset($geliked) and is_bool($geliked) and $geliked): ?>
-        <p class="nachricht">Kommentar erfolgreich geliked</p>
+        <p class="nachricht">Kommentar erfolgreich bewertet</p>
     <?php endif ?>
     <?php if (isset($geliked) and is_bool($geliked) and !$geliked): ?>
         <p class="nachricht fehler">Kommentar liken fehlgeschlagen</p>
@@ -219,10 +234,15 @@ include $abs_path . '/php/head.php';
                     </p>
 
                     <div class="likes">
-                        <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
+
+                        <?php if (isset($_SESSION["id"])) /*and $kommentar[2] != $_SESSION["id"])//TODO zum testen draußen*/ : ?>
                             <form method="post">
-                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="thumbsup" src="images/thumbsup.png" width="20">
+                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>" onclick="liken(value)">
+                                <?php if($kommentar[6] == 1): ?>
+                                    <input type="image" alt="thumbsup" src="images/thumbsup.png" width="20">
+                                <?php else: ?>
+                                    <input type="image" alt="thumbsup" src="images/thumbsupgrey.png" width="20">
+                                <?php endif ?>
                             </form>
                         <?php else: ?>
                             <img src="images/thumbsup.png" width="20" alt="thumbsup"/>

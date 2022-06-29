@@ -34,7 +34,7 @@ interface NutzerDAO
 
     public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool;
 
-    public function kommentare_erhalten($GemaeldeID): array;
+    public function kommentare_erhalten($GemaeldeID, $AnbieterID, $Tokennummer): array;
 
     public function profil_erhalten($AnbieterID): array;
 

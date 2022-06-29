@@ -650,8 +650,19 @@ class NutzerDAODBImpl implements NutzerDAO
             $bereitsGelikedCMD->execute();
             $ergebnis = $bereitsGelikedCMD->fetchObject();
             if (isset($ergebnis->KommentarID)) {
-                $this->db->rollBack();
-                return false; //Kommentar bereits geliked
+                $entlikenSQL = 'DELETE FROM geliked_von WHERE AnbieterID = :AnbieterID AND KommentarID = :KommentarID;';
+                $entlikenCMD = $this->db->prepare($entlikenSQL);
+                $entlikenCMD->bindParam(":KommentarID", $KommentarID);
+                $entlikenCMD->bindParam(':AnbieterID', $AnbieterID);
+                $entlikenCMD->execute();
+
+                $likeEntfernenSQL = 'Update Kommentar SET Likeanzahl = Likeanzahl -1 WHERE KommentarID = :KommentarID;';
+                $likeEntfernenCMD = $this->db->prepare($likeEntfernenSQL);
+                $likeEntfernenCMD->bindParam(":KommentarID", $KommentarID);
+                $likeEntfernenCMD->execute();
+
+                $this->db->commit();
+                return true; //Kommentar bereits geliked
             }
 
             $aktualisiereLikeanzahlSQL = 'UPDATE Kommentar SET Likeanzahl = Likeanzahl + 1 WHERE KommentarID = :KommentarID;';
@@ -674,7 +685,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentare_erhalten($GemaeldeID): array
+    public function kommentare_erhalten($GemaeldeID, $AnbieterID, $Tokennummer ): array
     {
         try {
             $this->db->beginTransaction();
@@ -693,7 +704,39 @@ class NutzerDAODBImpl implements NutzerDAO
                 $datumSplitted = explode(".", $zeile->Erstellungsdatum);
                 $zeile->Erstellungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
 
-                $ergebnis[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID, $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+                $ergebnis[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID,
+                    $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+            }
+
+            $checkAnbieterSQL = "SELECT * FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
+            $checkAnbieterCMD = $this->db->prepare($checkAnbieterSQL);
+            $checkAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
+            $checkAnbieterCMD->bindParam(":Tokennummer", $Tokennummer);
+            $checkAnbieterCMD->execute();
+            $result = $checkAnbieterCMD->fetchObject();
+
+            $erhalteLikesSQL = "SELECT KommentarID FROM geliked_von WHERE AnbieterID = :AnbieterID";
+            $erhalteLikesCMD = $this->db->prepare($erhalteLikesSQL);
+            $erhalteLikesCMD->bindParam(":AnbieterID", $AnbieterID);
+            $erhalteLikesCMD->execute();
+
+            $likes = array();
+            while($geliked = $erhalteLikesCMD->fetchObject()){
+                $likes[] = $geliked->KommentarID;
+            }
+
+            if (!isset($result->AnbieterID) || empty($likes)) {
+                for($i = 0; $i<count($ergebnis); $i++){
+                    $ergebnis[$i][] = 0;
+                }
+            }else {
+                for($i = 0; $i<count($ergebnis); $i++){
+                    if(in_array($ergebnis[$i][0] ,$likes)){
+                        $ergebnis[$i][] = 1;
+                    }else {
+                        $ergebnis[$i][] = 0;
+                    }
+                }
             }
 
             $this->db->commit();

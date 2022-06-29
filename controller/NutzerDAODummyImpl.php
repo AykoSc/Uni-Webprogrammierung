@@ -185,7 +185,7 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
-    public function kommentare_erhalten($GemaeldeID): array
+    public function kommentare_erhalten($GemaeldeID, $AnbieterID, $Tokennummer): array
     {
         $result = array();
         if (isset($GemaeldeID) and is_string($GemaeldeID)) {
