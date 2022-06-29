@@ -178,7 +178,7 @@ include $abs_path . '/php/head.php';
                     </div>
                     <div class="item">
                         <h3>Erstellungsdatum</h3>
-                        <p><?php echo $erstellungsdatum ?></p>
+                        <p><?php echo date("d.m.Y", strtotime($erstellungsdatum)); ?></p>
                     </div>
                     <div class="item">
                         <h3>Ort</h3>
