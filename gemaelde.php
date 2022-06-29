@@ -236,7 +236,6 @@ include $abs_path . '/php/head.php';
                                 <input id="thumbsup" type="image" alt="thumbsup" <?php if($kommentar[6] == 1): ?>src="images/thumbsup.png"
                                     <?php else:?> src="images/thumbsupgrey.png" <?php endif ?>
                                        width="20">
-                                <script>console.log(document.readyState); </script>
                             </form>
                         <?php else: ?>
                             <img src="images/thumbsup.png" width="20" alt="thumbsup"/>

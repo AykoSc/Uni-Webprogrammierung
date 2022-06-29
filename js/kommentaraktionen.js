@@ -1,12 +1,8 @@
     $(document).ready(function() {
-    console.log("drin");
 
         $("#comment_section form").submit(function (event) {
-            console.log("drin1");
 
             event.preventDefault();
-
-            console.log("drin2");
 
             var ajaxRequest;
 
@@ -33,12 +29,12 @@
                 //$("#comment_section").load(location.href + " #comment_section");
                 location.reload();
 
-                console.log("wunderbar");
+                console.log("Erfolg");
             });
 
             /* On failure of request this function will be called*/
             ajaxRequest.fail(function () {
-            console.log("nicht wunderbar");
+            console.warn("Fehler");
             });
         });
     });
