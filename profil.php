@@ -112,18 +112,30 @@ include $abs_path . '/php/head.php';
                 <h2>Willkommen auf dem Profil!</h2>
                 <h3>Nutzername</h3>
                 <p><?php echo $nutzername ?></p>
-                <h3>Beschreibung</h3>
-                <p><?php echo $beschreibung ?></p>
-                <h3>Geschlecht</h3>
-                <p><?php echo $geschlecht ?></p>
-                <h3>Vollständiger Name</h3>
-                <p><?php echo $vollstaendigerName ?></p>
-                <h3>Adresse</h3>
-                <p><?php echo $adresse ?></p>
-                <h3>Sprache</h3>
-                <p><?php echo $sprache ?></p>
-                <h3>Geburtsdatum</h3>
-                <p><?php echo $geburtsdatum ?></p>
+                <?php if ($beschreibung !== '') : ?>
+                    <h3>Beschreibung</h3>
+                    <p><?php echo $beschreibung ?></p>
+                <?php endif ?>
+                <?php if ($geschlecht !== '') : ?>
+                    <h3>Geschlecht</h3>
+                    <p><?php echo $geschlecht ?></p>
+                <?php endif ?>
+                <?php if ($vollstaendigerName !== '') : ?>
+                    <h3>Vollständiger Name</h3>
+                    <p><?php echo $vollstaendigerName ?></p>
+                <?php endif ?>
+                <?php if ($adresse !== '') : ?>
+                    <h3>Adresse</h3>
+                    <p><?php echo $adresse ?></p>
+                <?php endif ?>
+                <?php if ($sprache !== '') : ?>
+                    <h3>Sprache</h3>
+                    <p><?php echo $sprache ?></p>
+                <?php endif ?>
+                <?php if ($geburtsdatum !== '') : ?>
+                    <h3>Geburtsdatum</h3>
+                    <p><?php echo $geburtsdatum ?></p>
+                <?php endif ?>
                 <h3>Registrierungsdatum</h3>
                 <p><?php echo $registrierungsdatum ?></p>
             <?php endif ?>
