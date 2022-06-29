@@ -5,45 +5,41 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 //Profil bearbeiten
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
-    isset($_POST['geschlecht']) and is_string($_POST['geschlecht']) and
-    isset($_POST['vollstaendigerName']) and is_string($_POST['vollstaendigerName']) and
-    isset($_POST['adresse']) and is_string($_POST['adresse']) and
-    isset($_POST['sprache']) and is_string($_POST['sprache']) and
-    isset($_POST['geburtsdatum']) and is_string($_POST['geburtsdatum'])) {
-    if (htmlspecialchars($_POST['geschlecht']) !== "m" && htmlspecialchars($_POST['geschlecht']) !== "w"
-        && htmlspecialchars($_POST['geschlecht']) !== "") {
-        $fehlermeldung = "Sie haben Ihr Geschlecht im falschen Format angegeben. Bitte wählen Sie 'm', 'w' oder lassen Sie das Feld leer.";
-    }
-    if (isset($fehlermeldung) and is_string($fehlermeldung)) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"]) and isset($_POST['submit'])) {
+    $sessionId = htmlspecialchars($_SESSION["id"]);
+    $sessionToken = htmlspecialchars($_SESSION["token"]);
+    $neuBeschreibung = (isset($_POST['beschreibung']) and is_string($_POST['beschreibung'])) ? htmlspecialchars($_POST['beschreibung']) : '';
+    $neuGeschlecht = (isset($_POST['geschlecht']) and is_string($_POST['geschlecht'])) ? htmlspecialchars($_POST['geschlecht']) : '';
+    $neuVollstaendigerName = (isset($_POST['vollstaendigerName']) and is_string($_POST['vollstaendigerName'])) ? htmlspecialchars($_POST['vollstaendigerName']) : '';
+    $neuAdresse = (isset($_POST['adresse']) and is_string($_POST['adresse'])) ? htmlspecialchars($_POST['adresse']) : '';
+    $neuSprache = (isset($_POST['sprache']) and is_string($_POST['sprache'])) ? htmlspecialchars($_POST['sprache']) : '';
+    $neuGeburtsdatum = (isset($_POST['geburtsdatum']) and is_string($_POST['geburtsdatum'])) ? htmlspecialchars($_POST['geburtsdatum']) : '';
+
+    if ($neuGeschlecht !== "m" and $neuGeschlecht !== "w" and $neuGeschlecht !== "") {
         $profilbearbeitung = false;
+        $fehlermeldung = "Sie haben Ihr Geschlecht im falschen Format angegeben. Bitte wählen Sie 'm', 'w' oder lassen Sie das Feld leer.";
     } else {
-        $profilbearbeitung = $dao->profil_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-            htmlspecialchars($_POST['beschreibung']),
-            htmlspecialchars($_POST['geschlecht']), htmlspecialchars($_POST['vollstaendigerName']),
-            htmlspecialchars($_POST['adresse']), htmlspecialchars($_POST['sprache']), htmlspecialchars($_POST['geburtsdatum']));
+        $profilbearbeitung = $dao->profil_editieren($sessionId, $sessionToken, $neuBeschreibung, $neuGeschlecht, $neuVollstaendigerName, $neuAdresse, $neuSprache, $neuGeburtsdatum);
         if (!$profilbearbeitung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
 
-
+//Profil laden
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
     $profil = $dao->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
-} else {
-    header("location: index.php");
-}
-if (isset($profil) and is_array($profil) and $profil !== [-1]) {
-    $id = htmlspecialchars($profil[0]);
-    $nutzername = htmlspecialchars($profil[1]);
-    $beschreibung = htmlspecialchars($profil[2]);
-    $geschlecht = htmlspecialchars($profil[3]);
-    $vollstaendigerName = htmlspecialchars($profil[4]);
-    $adresse = htmlspecialchars($profil[5]);
-    $sprache = htmlspecialchars($profil[6]);
-    $geburtsdatum = htmlspecialchars($profil[7]);
-    $registrierungsdatum = htmlspecialchars($profil[8]);
+    if ($profil !== [-1]) {
+        $id = htmlspecialchars($profil[0]);
+        $nutzername = htmlspecialchars($profil[1]);
+        $beschreibung = htmlspecialchars($profil[2]);
+        $geschlecht = htmlspecialchars($profil[3]);
+        $vollstaendigerName = htmlspecialchars($profil[4]);
+        $adresse = htmlspecialchars($profil[5]);
+        $sprache = htmlspecialchars($profil[6]);
+        $geburtsdatum = htmlspecialchars($profil[7]);
+        $registrierungsdatum = htmlspecialchars($profil[8]);
+    } else {
+        header("location: index.php");
+    }
 } else {
     header("location: index.php");
 }
