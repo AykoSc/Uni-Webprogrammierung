@@ -173,7 +173,7 @@ class NutzerDAODBImpl implements NutzerDAO
             }
 
             $Hash = password_hash($Passwort, PASSWORD_DEFAULT);
-            $Registrierungsdatum = date("Y.m.d");
+            $Registrierungsdatum = date("Y-m-d");
 
             $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort, Registrierungsdatum) VALUES (:Nutzername, :Email, :Passwort, :Registrierungsdatum);";
             $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
@@ -258,7 +258,7 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $Erstellungsdatum = date("Y.m.d");
+            $Erstellungsdatum = date("Y-m-d");
 
             $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail, Erstellungsdatum) VALUES (:Kommentar, :EMail :Erstellungsdatum);";
             $speichereKontaktCMD = $this->db->prepare($speichereKontaktSQL);
@@ -285,8 +285,8 @@ class NutzerDAODBImpl implements NutzerDAO
                 return -1;
             }
 
-            $Erstellungsdatum = date("Y.m.d", strtotime($Erstellungsdatum));
-            $Hochladedatum = date("Y.m.d");
+            $Erstellungsdatum = date("Y-m-d", strtotime($Erstellungsdatum));
+            $Hochladedatum = date("Y-m-d");
 
             $speichereGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
                                      VALUES (:AnbieterID, :Titel, :Kuenstler, :Beschreibung, :Erstellungsdatum, :Ort, 0, :Hochladedatum, 0, :Dateityp);";
@@ -325,7 +325,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $Erstellungsdatum = date("Y.m.d", strtotime($Erstellungsdatum));
+            $Erstellungsdatum = date("Y-m-d", strtotime($Erstellungsdatum));
 
             $editiereGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :Beschreibung, Erstellungsdatum = :Erstellungsdatum, Ort = :Ort WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
             $editiereGemaeldeCMD = $this->db->prepare($editiereGemaeldeSQL);
@@ -434,7 +434,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return -1;
             }
 
-            $Erstellungsdatum = date("Y.m.d");
+            $Erstellungsdatum = date("Y-m-d");
 
             $speichereSammlungSQL = "INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe) 
                                      VALUES (:AnbieterID, :Titel, :Beschreibung, 0, :Erstellungsdatum, 0);";
@@ -581,7 +581,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $Erstellungsdatum = date("Y.m.d");
+            $Erstellungsdatum = date("Y-m-d");
 
             $erstelleKommentarSQL = 'INSERT INTO Kommentar  (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
                     VALUES (:GemaeldeID, :AnbieterID, 0, :Textinhalt, :Erstellungsdatum) ;';
@@ -782,7 +782,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Geschlecht nicht richtig angegeben
             }
             if($Geburtsdatum !== "") {
-                date("Y.m.d", strtotime($Geburtsdatum));
+                date("Y-m-d", strtotime($Geburtsdatum));
             }
 
             $editiereAnbieterSQL = "UPDATE Anbieter 

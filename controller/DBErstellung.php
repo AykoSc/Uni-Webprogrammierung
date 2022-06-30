@@ -85,32 +85,32 @@ class DBErstellung
 
     const DATEN = "
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
-    VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1 !', 'm', 'Max Mustermann', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '2000.10.04', '2022.06.02');
+    VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1!', 'm', 'Max Mustermann', 'Ammerländer Heerstraße 114, 26129 Oldenburg', 'deutsch', '2000-10-04', '2022-06-02');
     INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
-    VALUES ('test2', 'test2@test.com', '', 'Ich bin der User Test 2 !', 'w', 'Maxine Musterfrau', 'Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg', 'deutsch', '2000.11.01', '2022.05.28');
+    VALUES ('test2', 'test2@test.com', '', 'Ich bin Test 2!', 'w', 'Maxine Musterfrau', 'Ammerländer Heerstraße 118, 26129 Oldenburg', 'deutsch', '2000.11-01', '2022-05-28');
   
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-    VALUES (2, 'Stockbild0', 'Stockkünstler0', 'Beschreibung von Bild 0', '1900.09.04', 'München, Deutschland', 8, '2021.10.07', 56, 'jpg');
+    VALUES (2, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '1900-09-04', 'München, Deutschland', 8, '2021-10-07', 56, 'jpg');
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-    VALUES (1, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '1234.10.05', 'Oldenburg, Deutschland', 9, '2022.06.01', 4, 'jpg');
+    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '1234-10-05', 'Oldenburg, Deutschland', 9, '2022-06-01', 4, 'jpg');
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '1432.11.06', 'Berlin, Deutschland', 4, '2022.09.06', 8, 'jpg');
+    VALUES (1, 'Stockbild3', 'Stockkünstler3', 'Beschreibung von Bild 3', '1432-11-06', 'Berlin, Deutschland', 4, '2022-09-06', 8, 'jpg');
 
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (1, 1, 274, 'Dies ist ein Kommentar!', '2021.10.05');
+    VALUES (1, 1, 274, 'Dies ist ein Kommentar!', '2021-10-05');
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (1, 2, 346, 'Dies ist auch ein Kommentar!!', '2022.06.07');
+    VALUES (1, 2, 346, 'Dies ist auch ein Kommentar!!', '2022-06-07');
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (2, 1, 56, 'Mein erster Kommentar.', '2022.03.02');
+    VALUES (2, 1, 56, 'Mein erster Kommentar.', '2022-03-02');
     INSERT INTO Kommentar (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-    VALUES (3, 1, 23, 'Mein toller Kommentar.', '2022.06.01');
+    VALUES (3, 1, 23, 'Mein toller Kommentar.', '2022-06-01');
 
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 0', 3, '2021.01.03', 2234);
+    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 0', 3, '2021-01-03', 2234);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 1', 7, '2022.04.06', 34);
+    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 1', 7, '2022-04-06', 34);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 2', 5, '2022.03.02', 8673);
+    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 2', 5, '2022-03-02', 8673);
 
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (1, 1);
