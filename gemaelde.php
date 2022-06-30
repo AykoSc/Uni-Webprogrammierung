@@ -126,7 +126,7 @@ include $abs_path . '/php/head.php';
                             <h3>Erstellungsdatum</h3>
                             <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
                             <input id="erstellungsdatum" type="date" name="erstellungsdatum"
-                                   value="<?php echo $erstellungsdatum ?>"/>
+                                   value="<?php echo date("Y-m-d", strtotime($erstellungsdatum)); ?>"/>
                         </div>
                         <div class="item">
                             <h3>Ort</h3>
@@ -139,7 +139,7 @@ include $abs_path . '/php/head.php';
                         </div>
                         <div class="item">
                             <h3>Hochladedatum</h3>
-                            <p><?php echo $hochladedatum ?></p>
+                            <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
                         </div>
                         <div class="item">
                             <h3>Aufrufe</h3>
@@ -184,7 +184,7 @@ include $abs_path . '/php/head.php';
                     </div>
                     <div class="item">
                         <h3>Hochladedatum</h3>
-                        <p><?php echo $hochladedatum ?></p>
+                        <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
                     </div>
                     <div class="item">
                         <h3>Aufrufe</h3>
@@ -219,7 +219,7 @@ include $abs_path . '/php/head.php';
                 <li class="comment">
                     <div class="info">
                         <a href="profil.php?id=<?php echo htmlspecialchars($kommentar[2]) ?>">
-                            <span><?php echo htmlspecialchars($kommentar[5]) ?></span></a>
+                            <span><?php echo date("d.m.Y", strtotime(htmlspecialchars($kommentar[5]))) ?></span></a>
                     </div>
                     <a class="avatar" href="profil.php?id=<?php echo htmlspecialchars($kommentar[2]) ?>">
                         <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
@@ -230,7 +230,7 @@ include $abs_path . '/php/head.php';
 
                     <div class="likes">
 
-                        <?php if (isset($_SESSION["id"])) /*and $kommentar[2] != $_SESSION["id"])//TODO zum testen draußen*/ : ?>
+                        <?php if (isset($_SESSION["id"])) : ?>
                             <form method="post">
                                 <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
                                 <input id="thumbsup" type="image" alt="thumbsup"

@@ -258,10 +258,13 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail) VALUES (:Kommentar, :EMail);";
+            $Erstellungsdatum = date("Y.m.d");
+
+            $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail, Erstellungsdatum) VALUES (:Kommentar, :EMail :Erstellungsdatum);";
             $speichereKontaktCMD = $this->db->prepare($speichereKontaktSQL);
             $speichereKontaktCMD->bindParam(":Kommentar", $Kommentar);
             $speichereKontaktCMD->bindParam(":EMail", $EMail);
+            $speichereKontaktCMD->bindParam(":Erstellungsdatum", $Erstellungsdatum);
             $speichereKontaktCMD->execute();
 
             $this->db->commit();
@@ -404,12 +407,6 @@ class NutzerDAODBImpl implements NutzerDAO
             $erhalteGemaeldeCMD->execute();
             $ergebnis = $erhalteGemaeldeCMD->fetchObject();
 
-            $datumFormatiert = explode(".", $ergebnis->Erstellungsdatum);
-            $ergebnis->Erstellungsdatum = $datumFormatiert[0] . "-" . $datumFormatiert[1] . "-" . $datumFormatiert[2];
-
-            $datumFormatiert = explode(".", $ergebnis->Hochladedatum);
-            $ergebnis->Hochladedatum = $datumFormatiert[2] . "." . $datumFormatiert[1] . "." . $datumFormatiert[0];
-
             //Erhöhe Aufrufe um 1
             $aktualisiereAufrufeSQL = "UPDATE Gemaelde SET Aufrufe = :Aufrufe WHERE GemaeldeID = :GemaeldeID;";
             $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
@@ -547,9 +544,6 @@ class NutzerDAODBImpl implements NutzerDAO
             $erhalteSammlungCMD->execute();
             $ergebnis = $erhalteSammlungCMD->fetchObject();
 
-            $datumFormatiert = explode(".", $ergebnis->Erstellungsdatum);
-            $ergebnis->Erstellungsdatum = $datumFormatiert[2] . "." . $datumFormatiert[1] . "." . $datumFormatiert[0];
-
             $erhalteSammlungsinhalteSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
             $erhalteSammlungsinhalteCMD = $this->db->prepare($erhalteSammlungsinhalteSQL);
             $erhalteSammlungsinhalteCMD->bindParam(":SammlungID", $ergebnis->SammlungID);
@@ -587,15 +581,16 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $sql = 'INSERT INTO Kommentar  (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
-                    VALUES (:GemaeldeID, :AnbieterID, 0, :Textinhalt, :Erstellungsdatum) ;';
-            $kommando = $this->db->prepare($sql);
-            $kommando->bindParam(':GemaeldeID', $GemaeldeID);
-            $kommando->bindParam(':AnbieterID', $AnbieterID);
-            $kommando->bindParam(':Textinhalt', $Textinhalt);
             $Erstellungsdatum = date("Y.m.d");
-            $kommando->bindParam(':Erstellungsdatum', $Erstellungsdatum);
-            $kommando->execute();
+
+            $erstelleKommentarSQL = 'INSERT INTO Kommentar  (GemaeldeID, AnbieterID, Likeanzahl, Textinhalt, Erstellungsdatum)
+                    VALUES (:GemaeldeID, :AnbieterID, 0, :Textinhalt, :Erstellungsdatum) ;';
+            $erstelleKommentarCMD = $this->db->prepare($erstelleKommentarSQL);
+            $erstelleKommentarCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $erstelleKommentarCMD->bindParam(':AnbieterID', $AnbieterID);
+            $erstelleKommentarCMD->bindParam(':Textinhalt', $Textinhalt);
+            $erstelleKommentarCMD->bindParam(':Erstellungsdatum', $Erstellungsdatum);
+            $erstelleKommentarCMD->execute();
 
             $this->db->commit();
             return true;
@@ -687,7 +682,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function kommentare_erhalten($GemaeldeID, $AnbieterID, $Tokennummer ): array
+    public function kommentare_erhalten($GemaeldeID, $AnbieterID, $Tokennummer): array
     {
         try {
             $this->db->beginTransaction();
@@ -703,9 +698,6 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $ergebnis = array();
             while ($zeile = $erhalteKommentareCMD->fetchObject()) {
-                $datumSplitted = explode(".", $zeile->Erstellungsdatum);
-                $zeile->Erstellungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
-
                 $ergebnis[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID,
                     $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
             }
@@ -767,14 +759,6 @@ class NutzerDAODBImpl implements NutzerDAO
                 return array(-1); //Nutzer existiert nicht
             }
 
-            $datumSplitted = explode(".", $ergebnis->Geburtsdatum);
-            if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
-                $ergebnis->Geburtsdatum = $datumSplitted[0] . "-" . $datumSplitted[1] . "-" . $datumSplitted[2];
-            }
-
-            $datumSplitted = explode(".", $ergebnis->Registrierungsdatum);
-            $ergebnis->Registrierungsdatum = $datumSplitted[2] . "." . $datumSplitted[1] . "." . $datumSplitted[0];
-
             $this->db->commit();
             return array($ergebnis->AnbieterID, $ergebnis->Nutzername, $ergebnis->Personenbeschreibung, $ergebnis->Geschlecht, $ergebnis->Vollstaendiger_Name, $ergebnis->Anschrift, $ergebnis->Sprache, $ergebnis->Geburtsdatum, $ergebnis->Registrierungsdatum);
         } catch (Exception $ex) {
@@ -798,13 +782,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Geschlecht nicht richtig angegeben
             }
             if($Geburtsdatum !== "") {
-                $datumSplitted = explode("-", $Geburtsdatum);
-                if (sizeof($datumSplitted) == 3) { //split funktioniert nur wenn geburtsdatum bereits angegeben
-                    $Geburtsdatum = $datumSplitted[0] . "." . $datumSplitted[1] . "." . $datumSplitted[2];
-                } else {
-                    $this->db->rollBack();
-                    return false; //Datum nicht richtig übertragen (nicht im Format yyyy-mm-dd)
-                }
+                date("Y.m.d", strtotime($Geburtsdatum));
             }
 
             $editiereAnbieterSQL = "UPDATE Anbieter 

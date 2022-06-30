@@ -73,13 +73,13 @@ include $abs_path . '/php/head.php';
 
     <div class="profil">
         <?php if (isset($_SESSION["id"]) and $id == htmlspecialchars($_SESSION["id"])) : ?>
-        <h2>Willkommen auf deinem Profil!</h2>
-        <form method="post">
+            <h2>Willkommen auf deinem Profil!</h2>
+            <form method="post">
             <h3>Nutzername</h3>
             <p><?php echo $nutzername ?></p>
 
             <h3>Registrierungsdatum</h3>
-            <p><?php echo $registrierungsdatum ?></p>
+            <p><?php echo date("d.m.Y", strtotime($registrierungsdatum)); ?></p>
 
             <h3>Beschreibung</h3>
             <label for="beschreibung" class="invisible">Beschreibung</label>
@@ -112,41 +112,41 @@ include $abs_path . '/php/head.php';
             <h3>Geburtsdatum</h3>
             <label for="geburtsdatum" class="invisible">Geburtsdatum</label>
             <input id="geburtsdatum" type="date" name="geburtsdatum"
-                   value="<?php echo htmlspecialchars($geburtsdatum) ?>"/>
+                   value="<?php echo date("Y-m-d", strtotime(htmlspecialchars($geburtsdatum))); ?>"/>
 
             <button id="submit" name="submit" type="submit">Speichern</button>
 
-            <?php else: ?>
-                <h2>Willkommen auf dem Profil!</h2>
-                <h3>Nutzername</h3>
-                <p><?php echo $nutzername ?></p>
-                <?php if ($beschreibung !== '') : ?>
-                    <h3>Beschreibung</h3>
-                    <p><?php echo $beschreibung ?></p>
-                <?php endif ?>
-                <?php if ($geschlecht !== '') : ?>
-                    <h3>Geschlecht</h3>
-                    <p><?php echo $geschlecht ?></p>
-                <?php endif ?>
-                <?php if ($vollstaendigerName !== '') : ?>
-                    <h3>Vollständiger Name</h3>
-                    <p><?php echo $vollstaendigerName ?></p>
-                <?php endif ?>
-                <?php if ($adresse !== '') : ?>
-                    <h3>Adresse</h3>
-                    <p><?php echo $adresse ?></p>
-                <?php endif ?>
-                <?php if ($sprache !== '') : ?>
-                    <h3>Sprache</h3>
-                    <p><?php echo $sprache ?></p>
-                <?php endif ?>
-                <?php if ($geburtsdatum !== '') : ?>
-                    <h3>Geburtsdatum</h3>
-                    <p><?php echo date("d.m.Y", strtotime($geburtsdatum)); ?></p>
-                <?php endif ?>
-                <h3>Registrierungsdatum</h3>
-                <p><?php echo $registrierungsdatum ?></p>
+        <?php else: ?>
+            <h2>Willkommen auf dem Profil!</h2>
+            <h3>Nutzername</h3>
+            <p><?php echo $nutzername ?></p>
+            <?php if ($beschreibung !== '') : ?>
+                 <h3>Beschreibung</h3>
+                 <p><?php echo $beschreibung ?></p>
             <?php endif ?>
+            <?php if ($geschlecht !== '') : ?>
+                <h3>Geschlecht</h3>
+                <p><?php echo $geschlecht ?></p>
+            <?php endif ?>
+            <?php if ($vollstaendigerName !== '') : ?>
+                <h3>Vollständiger Name</h3>
+                <p><?php echo $vollstaendigerName ?></p>
+            <?php endif ?>
+            <?php if ($adresse !== '') : ?>
+                <h3>Adresse</h3>
+                <p><?php echo $adresse ?></p>
+            <?php endif ?>
+            <?php if ($sprache !== '') : ?>
+                <h3>Sprache</h3>
+                <p><?php echo $sprache ?></p>
+            <?php endif ?>
+            <?php if ($geburtsdatum !== '') : ?>
+                <h3>Geburtsdatum</h3>
+                <p><?php echo date("d.m.Y", strtotime($geburtsdatum)); ?></p>
+            <?php endif ?>
+            <h3>Registrierungsdatum</h3>
+            <p><?php echo date("d.m.Y", strtotime($registrierungsdatum)); ?></p>
+        <?php endif ?>
 
     </div>
 

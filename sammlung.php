@@ -110,7 +110,7 @@ include $abs_path . '/php/head.php';
     <h3>Bewertung</h3>
     <p><?php echo $bewertung ?></p>
     <h3>Hochladedatum</h3>
-    <p><?php echo $hochladedatum ?></p>
+    <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
     <h3>Aufrufe</h3>
     <p><?php echo $aufrufe ?></p>
 </main>

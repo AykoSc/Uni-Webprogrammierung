@@ -56,7 +56,8 @@ class DBErstellung
     CREATE TABLE IF NOT EXISTS Kontakt (
         KontaktID INTEGER PRIMARY KEY AUTOINCREMENT,
         Kommentar TEXT,
-        EMail TEXT
+        EMail TEXT,
+        Erstellungsdatum TEXT
     );
     
     CREATE TABLE IF NOT EXISTS Tokens (
