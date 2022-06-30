@@ -126,7 +126,7 @@ include $abs_path . '/php/head.php';
             <?php endif ?>
             <?php if ($geschlecht !== '') : ?>
                 <h3>Geschlecht</h3>
-                <p><?php echo $geschlecht ?></p>
+                <p><?php echo ($geschlecht === 'w') ? 'Weiblich' : ''?><?php echo ($geschlecht === 'm') ? 'Männlich' : ''?></p>
             <?php endif ?>
             <?php if ($vollstaendigerName !== '') : ?>
                 <h3>Vollständiger Name</h3>
