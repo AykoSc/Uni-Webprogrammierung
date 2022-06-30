@@ -16,6 +16,13 @@ if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["delet
     $entfernung = $dao->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_GET["id"]) and is_string($_GET["id"]) and
+    isset($_POST["bewertung"]) and is_string($_POST["bewertung"])) {
+    $bewertet = $dao->gemaelde_bewerten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_POST["bewertung"]));
+}
+
 if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if (!$loeschung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
@@ -180,7 +187,17 @@ include $abs_path . '/php/head.php';
                     </div>
                     <div class="item">
                         <h3>Bewertung</h3>
-                        <p><?php echo $bewertung ?>/10</p>
+                        <?php if (isset($_SESSION["id"])): ?>
+                            <form method="post">
+                                <?php for ($i = 0; $i < $bewertung; $i++) { ?>
+                                    <button type="submit" name="bewertung" value="<?php echo $i //TODO ?>">
+                                        <img src="images/stern_gelb.svg" alt="stern_gelb"/>
+                                    </button>
+                                <?php } ?>
+                            </form>
+                        <?php else: ?>
+                            <p><?php echo $bewertung ?>/5</p>
+                        <?php endif; ?>
                     </div>
                     <div class="item">
                         <h3>Hochladedatum</h3>
