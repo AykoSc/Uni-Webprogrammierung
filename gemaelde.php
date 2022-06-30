@@ -233,12 +233,13 @@ include $abs_path . '/php/head.php';
                         <?php if (isset($_SESSION["id"])) /*and $kommentar[2] != $_SESSION["id"])//TODO zum testen draußen*/ : ?>
                             <form method="post">
                                 <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input id="thumbsup" type="image" alt="thumbsup" <?php if($kommentar[6] == 1): ?>src="images/thumbsup.png"
-                                    <?php else:?> src="images/thumbsupgrey.png" <?php endif ?>
+                                <input id="thumbsup" type="image" alt="thumbsup"
+                                       <?php if ($kommentar[6] == 1): ?>src="images/daumenhoch_farbig.png"
+                                    <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
                                        width="20">
                             </form>
                         <?php else: ?>
-                            <img src="images/thumbsup.png" width="20" alt="thumbsup"/>
+                            <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
                         <?php endif; ?>
                         <?php echo htmlspecialchars($kommentar[3]) ?>
                     </div>
@@ -247,7 +248,7 @@ include $abs_path . '/php/head.php';
                             <form method="post">
                                 <input type="hidden" name="delete"
                                        value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="trashbin" src="images/trashbin.png" width="20">
+                                <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
                             </form>
                         </div>
                     <?php endif; ?>
