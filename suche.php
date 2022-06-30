@@ -18,7 +18,7 @@ if (isset($_GET["suche"]) and is_string($_GET["suche"]) and
                 if ($ergebniszaehler == 10) break 2;
             }
         }
-    } else if ($_GET["herkunft"] === "sammlungen") { //TODO so machen wie bei ausstellung
+    } else if ($_GET["herkunft"] === "sammlungen") {
         $sammlungen = $dao->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), "");
         $ergebniszaehler = 0;
         foreach ($sammlungen as $reihe) {

@@ -260,7 +260,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $Erstellungsdatum = date("Y-m-d");
 
-            $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail, Erstellungsdatum) VALUES (:Kommentar, :EMail :Erstellungsdatum);";
+            $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail, Erstellungsdatum) VALUES (:Kommentar, :EMail, :Erstellungsdatum);";
             $speichereKontaktCMD = $this->db->prepare($speichereKontaktSQL);
             $speichereKontaktCMD->bindParam(":Kommentar", $Kommentar);
             $speichereKontaktCMD->bindParam(":EMail", $EMail);
@@ -422,6 +422,74 @@ class NutzerDAODBImpl implements NutzerDAO
             print_r($ex);
             $this->db->rollBack();
             return array(-1);
+        }
+    }
+
+    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
+            }
+
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return false;
+            }
+
+            $bereitsBewertetSQL = "SELECT * FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
+            $bereitsBewertetCMD = $this->db->prepare($bereitsBewertetSQL);
+            $bereitsBewertetCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $bereitsBewertetCMD->bindParam(':AnbieterID', $AnbieterID);
+            $bereitsBewertetCMD->execute();
+            $ergebnis = $bereitsBewertetCMD->fetchObject();
+            if (isset($ergebnis->Bewertung)) {
+                $bewertungEntfernenSQL = 'DELETE FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;';
+                $bewertungEntfernenCMD = $this->db->prepare($bewertungEntfernenSQL);
+                $bewertungEntfernenCMD->bindParam(":GemaeldeID", $GemaeldeID);
+                $bewertungEntfernenCMD->bindParam(':AnbieterID', $AnbieterID);
+                $bewertungEntfernenCMD->execute();
+
+                $this->db->commit();
+                return true; //Gemaelde bereits bewertet, Bewertung wird entfernt
+            }
+
+            $speichereBewertungSQL = 'Insert INTO bewertet_von (GemaeldeID, AnbieterID, Bewertung) VALUES (:GemaeldeID, :AnbieterID, :Bewertung);';
+            $speichereBewertungCMD = $this->db->prepare($speichereBewertungSQL);
+            $speichereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $speichereBewertungCMD->bindParam(':AnbieterID', $AnbieterID);
+            $speichereBewertungCMD->bindParam(':Bewertung', $Bewertung);
+
+            $erhalteBewertungSQL = "SELECT Bewertung FROM bewertet_von WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteBewertungCMD = $this->db->prepare($erhalteBewertungSQL);
+            $erhalteBewertungCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $erhalteBewertungCMD->execute();
+
+            $bewertungenZaehler = 0;
+            $Bewertung_neu = 0; //falls es keine bewertungen gibt
+            while ($zeile = $erhalteBewertungCMD->fetchObject()) {
+                $Bewertung_neu += $zeile->Bewertung;
+                $bewertungenZaehler++;
+            }
+            if ($bewertungenZaehler != 0) {
+                $Bewertung_neu = (int)($Bewertung_neu / $bewertungenZaehler);
+            }
+
+            $aktualisiereBewertungSQL = 'UPDATE Gemaelde SET Bewertung = :Bewertung WHERE GemaeldeID = :GemaeldeID;';
+            $aktualisiereBewertungCMD = $this->db->prepare($aktualisiereBewertungSQL);
+            $aktualisiereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $aktualisiereBewertungCMD->bindParam(':Bewertung', $Bewertung_neu);
+            $aktualisiereBewertungCMD->execute();
+
+            $speichereBewertungCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
         }
     }
 
