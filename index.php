@@ -8,13 +8,15 @@ $dao = NutzerDAODBImpl::getInstance();
 if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {
     if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
         $abmeldung = $dao->abmelden(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
+        if (!$abmeldung) $fehlermeldung = 'Datenbankverbindung verloren. Kontaktiere einen Administrator.';
     }
     session_unset();
     session_destroy();
+    $erfolgreich = 'Du hast dich erfolgreich abgemeldet!';
 }
 
 if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
-    $anmeldung = true;
+    $erfolgreich = 'Du hast dich erfolgreich angemeldet!';
 }
 ?>
 
@@ -33,11 +35,11 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($abmeldung) and is_bool($abmeldung) and $abmeldung): ?>
-        <p class="nachricht">Abmeldung erfolgreich</p>
+    <?php if (isset($erfolgreich) and is_string($erfolgreich)): ?>
+        <p class="nachricht"><?php echo htmlspecialchars($erfolgreich);?></p>
     <?php endif ?>
-    <?php if (isset($anmeldung) and is_bool($anmeldung) and $anmeldung): ?>
-        <p class="nachricht">Anmeldung erfolgreich</p>
+    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo htmlspecialchars($fehlermeldung);?></p>
     <?php endif ?>
 
     <h1>Hauptseite</h1>
