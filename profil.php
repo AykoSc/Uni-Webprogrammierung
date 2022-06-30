@@ -24,6 +24,7 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["t
     }
 }
 
+$selektiert = ""; //default value
 //Profil laden
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
     $profil = $dao->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
@@ -32,6 +33,9 @@ if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
         $nutzername = htmlspecialchars($profil[1]);
         $beschreibung = htmlspecialchars($profil[2]);
         $geschlecht = htmlspecialchars($profil[3]);
+        if(isset($profil[3])){
+            $selektiert = htmlspecialchars($profil[3]);
+        }
         $vollstaendigerName = htmlspecialchars($profil[4]);
         $adresse = htmlspecialchars($profil[5]);
         $sprache = htmlspecialchars($profil[6]);
@@ -83,8 +87,12 @@ include $abs_path . '/php/head.php';
 
             <h3>Geschlecht</h3>
             <label for="geschlecht" class="invisible">Geschlecht</label>
-            <input id="geschlecht" type="text" name="geschlecht"
-                   value="<?php echo htmlspecialchars($geschlecht) ?>"/>
+            <select id="geschlecht" name="geschlecht">
+                <option value="" <?php echo ($geschlecht === '') ? 'selected' : ''?>>Keine Angabe</option>
+                <option value="m" <?php echo ($geschlecht === 'm') ? 'selected' : ''?>>Männlich</option>
+                <option value="w" <?php echo ($geschlecht === 'w') ? 'selected' : ''?>>Weiblich</option>
+            </select>
+
 
             <h3>Vollständiger Name</h3>
             <label for="vollstaendigerName" class="invisible">Vollständiger Name</label>
