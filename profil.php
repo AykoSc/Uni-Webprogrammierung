@@ -4,7 +4,7 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-//Profil bearbeiten
+// Profil bearbeiten
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"]) and isset($_POST['submit'])) {
     $sessionId = htmlspecialchars($_SESSION["id"]);
     $sessionToken = htmlspecialchars($_SESSION["token"]);
@@ -24,21 +24,8 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["t
     }
 }
 
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
-    $loeschung = $dao->profil_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
-    if($loeschung) {
-        session_unset();
-        session_destroy();
-    }
-    if (!$loeschung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
-}
-
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
-    $fehlermeldung = "Um dieses Profil zu löschen müssen Sie den Bestätigungshaken setzen.";
-}
-
+// Profil laden
 $selektiert = ""; //default value
-//Profil laden
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
     $profil = $dao->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
     if ($profil !== [-1]) {
@@ -55,11 +42,27 @@ if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
         $geburtsdatum = htmlspecialchars($profil[7]);
         $registrierungsdatum = htmlspecialchars($profil[8]);
     } else {
-        header("location: index.php");
+        header("location: index.php?fehler=401");
     }
 } else {
-    header("location: index.php");
+    header("location: index.php?fehler=402");
 }
+
+// Profil löschen
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+    $loeschung = $dao->profil_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+    if ($loeschung) {
+        session_unset();
+        session_destroy();
+        header("location: index.php?entfernt=Profil");
+    } else {
+        $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
+    }
+}
+if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+    $fehlermeldung = "Um dieses Profil zu löschen müssen Sie den Bestätigungshaken setzen.";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -80,9 +83,6 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
     <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and $profilbearbeitung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>
-    <?php endif ?>
-    <?php if (isset($loeschung) and is_bool($loeschung) and $loeschung): ?>
-        header("location: index.php");
     <?php endif ?>
 
     <h1>Mein Profil</h1>
@@ -129,7 +129,8 @@ include $abs_path . '/php/head.php';
             <label for="geburtsdatum" class="invisible">Geburtsdatum</label>
             <input id="geburtsdatum" type="date" name="geburtsdatum"
                    value="<?php echo date("Y-m-d", strtotime(htmlspecialchars($geburtsdatum))); ?>"/>
-
+            <br>
+            <br>
             <button id="submit" name="submit" type="submit">Speichern</button>
 
         <form method="post">

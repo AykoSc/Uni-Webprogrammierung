@@ -15,10 +15,6 @@ if (isset($_POST["email"]) and is_string($_POST["email"]) and isset($_POST["pass
         header("location: index.php?anmelden=1");
     }
 }
-
-if (isset($_GET["registrieren"]) and is_string($_GET["registrieren"]) and $_GET["registrieren"] === "1") {
-    $registrierung = true;
-}
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +33,7 @@ include $abs_path . '/php/head.php';
     <?php if (isset($anmeldung) and is_array($anmeldung) and $anmeldung[0] === -1): ?>
         <p class="nachricht fehler">Anmeldung fehlgeschlagen</p>
     <?php endif ?>
-    <?php if (isset($registrierung) and is_bool($registrierung) and $registrierung): ?>
+    <?php if (isset($_GET["registrieren"]) and is_string($_GET["registrieren"]) and $_GET["registrieren"] === "1"): ?>
         <p class="nachricht">Registrierung erfolgreich</p>
     <?php endif ?>
 

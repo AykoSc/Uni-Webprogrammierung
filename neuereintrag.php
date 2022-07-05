@@ -12,7 +12,7 @@ if (isset($_REQUEST['typ']) and is_string($_REQUEST['typ'])) {
     }
 }
 if (!isset($gemaelde)) {
-    header("location: index.php");
+    header("location: index.php?fehler=301");
 }
 
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {

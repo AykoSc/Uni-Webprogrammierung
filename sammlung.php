@@ -4,7 +4,7 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-//Eintrag bearbeiten
+// Eintrag bearbeiten
 if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
     isset($_REQUEST["id"]) and is_string($_REQUEST["id"]) and
@@ -15,17 +15,22 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     if (!$editierung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
+// Eintrag laden
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
     $sammlung = $dao->sammlung_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
-    header("location: index.php");
+    header("location: index.php?fehler=101");
 }
 
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
-    $result = $dao->sammlung_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
-    if (!$result) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
+// Eintrag löschen
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+    $loeschung = $dao->sammlung_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+    if ($loeschung) {
+        header("location: index.php?entfernt=Sammlung");
+    } else {
+        $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
+    }
 }
-
 if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um diese Sammlung zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
@@ -44,7 +49,7 @@ if (isset($sammlung) and is_array($sammlung) and $sammlung !== [-1]) {
     $hochladedatum = htmlspecialchars($sammlung[6]);
     $aufrufe = htmlspecialchars($sammlung[7]);
 } else {
-    header("location: index.php");
+    header("location: index.php?fehler=102");
 }
 ?>
 

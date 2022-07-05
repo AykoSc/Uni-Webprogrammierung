@@ -15,6 +15,12 @@ if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelde
     $erfolgreich = 'Du hast dich erfolgreich abgemeldet!';
 }
 
+if (isset($_GET["fehler"]) and is_string($_GET["fehler"])) {
+    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! Fehlercode: ' . htmlspecialchars($_GET["fehler"]);
+}
+if (isset($_GET["entfernt"]) and is_string($_GET["entfernt"])) {
+    $erfolgreich = htmlspecialchars($_GET["entfernt"]) . ' erfolgreich gelöscht!';
+}
 if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
     $erfolgreich = 'Du hast dich erfolgreich angemeldet!';
 }
