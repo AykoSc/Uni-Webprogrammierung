@@ -381,6 +381,11 @@ class NutzerDAODBImpl implements NutzerDAO
             $entferneAusSammlungenCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $entferneAusSammlungenCMD->execute();
 
+            $entferneKommentareSQL = "DELETE FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
+            $entferneKommentareCMD = $this->db->prepare($entferneKommentareSQL);
+            $entferneKommentareCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $entferneKommentareCMD->execute();
+
             unlink('images/' . $GemaeldeID . '.' . $Dateityp);
 
             $this->db->commit();
