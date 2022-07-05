@@ -39,7 +39,7 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
     isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
     isset($_POST['ort']) and is_string($_POST['ort'])) {
-    $gemaelde = $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+    $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
         htmlspecialchars($_GET["id"]), htmlspecialchars($_POST['beschreibung']),
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
 }
@@ -187,19 +187,35 @@ include $abs_path . '/php/head.php';
                     </div>
                     <div class="item">
                         <h3>Bewertung</h3>
+                        <p>Gesamtbewertung:</p>
+                        <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+                            <img src="images/stern_gelb.svg" alt="bewertunggesamt" class="icons"
+                                 style="width: 25px; height: 25px"/>
+                        <?php } ?>
+                        <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+                            <img src="images/stern_schwarz.svg" alt="bewertunggesamt" class="icons"
+                                 style="width: 25px; height: 25px"/>
+                        <?php } ?>
+
                         <?php if (isset($_SESSION["id"])): ?>
-                            <form method="post">
-                                <?php for ($i = 0; $i < $bewertung; $i++) { ?>
-                                    <button type="submit" name="bewertung" value="<?php echo $i //TODO ?>">
-                                        <img src="images/stern_gelb.svg" alt="stern_gelb"/>
-                                    </button>
+                        <p>Deine Bewertung:</p>
+                        <form method="post">
+                            <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { //TODO für jeden Stern eigenes Form oder wieder trick wie bei checkbox mit sich überschreibenden values.
+                                //TODO input values gibt nicht gewünschtes ergebnis siehe https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_image?>
+                                <input type="image" src="images/stern_gelb.svg" name="bewertung"
+                                       value="<?php echo $i ?>" style="width: 25px; height: 25px"
+                                       alt="eigenebewertung"/>
+                            <?php } ?>
+                            <?php for ($i = $eigene_bewertung + 1;
+                            $i <= 5;
+                            $i++) { ?>
+                            <input type="image" src="images/stern_schwarz.svg" name="bewertung" value="<?php echo $i ?>"
+                                   style="width: 25px; height: 25px" alt="eigenebewertung/>
                                 <?php } ?>
                             </form>
-                        <?php else: ?>
-                            <p><?php echo $bewertung ?>/5</p>
                         <?php endif; ?>
                     </div>
-                    <div class="item">
+                    <div class=" item">
                         <h3>Hochladedatum</h3>
                         <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
                     </div>

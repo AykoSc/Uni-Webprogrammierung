@@ -444,15 +444,12 @@ class NutzerDAODBImpl implements NutzerDAO
             $bereitsBewertetCMD->bindParam(':AnbieterID', $AnbieterID);
             $bereitsBewertetCMD->execute();
             $ergebnis = $bereitsBewertetCMD->fetchObject();
-            if (isset($ergebnis->Bewertung)) {
+            if (isset($ergebnis->Bewertung)) { //Gemaelde bereits bewertet, Bewertung wird entfernt
                 $bewertungEntfernenSQL = 'DELETE FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;';
                 $bewertungEntfernenCMD = $this->db->prepare($bewertungEntfernenSQL);
                 $bewertungEntfernenCMD->bindParam(":GemaeldeID", $GemaeldeID);
                 $bewertungEntfernenCMD->bindParam(':AnbieterID', $AnbieterID);
                 $bewertungEntfernenCMD->execute();
-
-                $this->db->commit();
-                return true; //Gemaelde bereits bewertet, Bewertung wird entfernt
             }
 
             $speichereBewertungSQL = 'Insert INTO bewertet_von (GemaeldeID, AnbieterID, Bewertung) VALUES (:GemaeldeID, :AnbieterID, :Bewertung);';
@@ -467,19 +464,19 @@ class NutzerDAODBImpl implements NutzerDAO
             $erhalteBewertungCMD->execute();
 
             $bewertungenZaehler = 0;
-            $Bewertung_neu = 0; //falls es keine bewertungen gibt
+            $bewertung_neu = 0; //falls es keine bewertungen gibt
             while ($zeile = $erhalteBewertungCMD->fetchObject()) {
-                $Bewertung_neu += $zeile->Bewertung;
+                $bewertung_neu += $zeile->Bewertung;
                 $bewertungenZaehler++;
             }
             if ($bewertungenZaehler != 0) {
-                $Bewertung_neu = (int)($Bewertung_neu / $bewertungenZaehler);
+                $bewertung_neu = (int)($bewertung_neu / $bewertungenZaehler);
             }
 
             $aktualisiereBewertungSQL = 'UPDATE Gemaelde SET Bewertung = :Bewertung WHERE GemaeldeID = :GemaeldeID;';
             $aktualisiereBewertungCMD = $this->db->prepare($aktualisiereBewertungSQL);
             $aktualisiereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
-            $aktualisiereBewertungCMD->bindParam(':Bewertung', $Bewertung_neu);
+            $aktualisiereBewertungCMD->bindParam(':Bewertung', $bewertung_neu);
             $aktualisiereBewertungCMD->execute();
 
             $speichereBewertungCMD->execute();
