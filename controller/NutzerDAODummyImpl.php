@@ -216,6 +216,12 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
+    public function profil_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool
+    {
+        // Profil löschen wird hier nicht implementiert, da es eine schreibende Methode ist
+        return true;
+    }
+
     public function ausstellung_erhalten($Suche, $Filter): array
     {
         $Suchergebnis = array();
@@ -286,11 +292,5 @@ class NutzerDAODummyImpl implements NutzerDAO
         }
 
         return $ergebnis;
-    }
-
-
-    public function profil_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool
-    {
-        return true;
     }
 }
