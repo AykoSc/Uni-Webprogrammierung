@@ -20,6 +20,10 @@ interface NutzerDAO
 
     public function gemaelde_erhalten($GemaeldeID): array;
 
+    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool;
+
+    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int;
+
     public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int;
 
     public function sammlung_editieren($AnbieterID, $Tokennummer, $SammlungID, $Titel, $Beschreibung): bool;

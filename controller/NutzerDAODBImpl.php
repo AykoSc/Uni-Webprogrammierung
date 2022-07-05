@@ -495,6 +495,34 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
+    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return -1;
+            }
+
+            $bereitsBewertetSQL = "SELECT * FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
+            $bereitsBewertetCMD = $this->db->prepare($bereitsBewertetSQL);
+            $bereitsBewertetCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $bereitsBewertetCMD->bindParam(':AnbieterID', $AnbieterID);
+            $bereitsBewertetCMD->execute();
+            $ergebnis = $bereitsBewertetCMD->fetchObject();
+
+            $ergebniss = $ergebnis->Bewertung;
+
+            $this->db->commit();
+
+            return empty($ergebniss) ? -1 : $ergebniss;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
     public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int
     {
         try {

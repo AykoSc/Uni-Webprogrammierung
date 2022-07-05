@@ -41,16 +41,17 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
 }
 
 // Eintrag laden
-if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"]) and
-    isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
-    $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]),htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
+if (isset($_GET["id"]) and is_string($_GET["id"])) {
+    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+        isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+        $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]), htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
+        $eigene_bewertung = $dao->eigene_gemaelde_bewertung_erhalten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_GET["id"]));
+    } else {
+        $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]), "", "");
+    }
     $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_REQUEST["id"]));
-}else if(isset($_REQUEST["id"]) and is_string($_REQUEST["id"])){
-    $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]),"", "");
-    $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_REQUEST["id"]));
-}
-else {
+
+} else {
     header("location: index.php?fehler=201");
 }
 
@@ -96,7 +97,7 @@ include $abs_path . '/php/head.php';
 
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="js/kommentaraktionen.js" ></script>
+<script src="js/kommentaraktionen.js"></script>
 
 
 <?php include $abs_path . '/php/header.php'; ?>
@@ -133,7 +134,8 @@ include $abs_path . '/php/head.php';
                 <form method="post">
                     <h2> Über das Gemaelde </h2>
                     <label for="beschreibung" class="invisible">Beschreibung</label>
-                    <textarea cols="70" rows="10" id="beschreibung" name="beschreibung"><?php echo $beschreibung ?></textarea>
+                    <textarea cols="70" rows="10" id="beschreibung"
+                              name="beschreibung"><?php echo $beschreibung ?></textarea>
                     <div class="grid">
                         <div class="item">
                             <h3>KünstlerIn</h3>
@@ -200,32 +202,33 @@ include $abs_path . '/php/head.php';
                         <p>Gesamtbewertung:</p>
                         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
                             <img src="images/stern_gelb.svg" alt="bewertunggesamt" class="icons"
-                                 style="width: 25px; height: 25px"/> <!--TODO Remove style-->
+                                 style="width: 25px; height: 25px"/>
                         <?php } ?>
                         <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
                             <img src="images/stern_schwarz.svg" alt="bewertunggesamt" class="icons"
-                                 style="width: 25px; height: 25px"/> <!--TODO Remove style-->
+                                 style="width: 25px; height: 25px"/>
                         <?php } ?>
 
-                        <!--<?php if (isset($_SESSION["id"])): ?>
-                        <p>Deine Bewertung:</p>
-                        <form method="post">
-                            <?php //for ($i = 1; $i <= $eigene_bewertung; $i++) { //TODO für jeden Stern eigenes Form oder wieder trick wie bei checkbox mit sich überschreibenden values.
-                                //TODO input values gibt nicht gewünschtes ergebnis siehe https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_image?>
-                                <input type="image" src="images/stern_gelb.svg" name="bewertung"
-                                       value="<?php // echo $i ?>" style="width: 25px; height: 25px"
-                                       alt="eigenebewertung"/>
-                            <?php //} ?>
-                            <?php //for ($i = $eigene_bewertung + 1;
-                            //$i <= 5;
-                            //$i++) { ?>
-                            <input type="image" src="images/stern_schwarz.svg" name="bewertung" value="<?php //echo $i ?>"
-                                   style="width: 25px; height: 25px" alt="eigenebewertung/> TODO Remove style
-                                <?php //} ?>
+                        <?php if (isset($_SESSION["id"])): ?>
+                            <p>Deine Bewertung:</p>
+                            <form method="post">
+                                <?php for ($i = 1; $i <= $eigene_bewertung; $i++) {
+                                    //TODO für jeden Stern eigenes Form oder wieder trick wie bei checkbox mit sich überschreibenden values.
+                                    //TODO input values gibt nicht gewünschtes ergebnis siehe https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_image
+                                    ?>
+                                    <input type="image" src="images/stern_gelb.svg" name="bewertung"
+                                           value="<?php echo $i ?>" style="width: 25px; height: 25px"
+                                           alt="eigenebewertung"/>
+                                <?php } ?>
+                                <?php for ($i = $eigene_bewertung + 1; $i < 5; $i++) { ?>
+                                    <input type="image" src="images/stern_schwarz.svg" name="bewertung"
+                                           value="<?php echo $i ?>"
+                                           style="width: 25px; height: 25px" alt="eigenebewertung"/>
+                                <?php } ?>
                             </form>
-                        <?php endif; ?>-->
+                        <?php endif; ?>
                     </div>
-                    <div class="item">
+                    <div class=" item">
                         <h3>Hochladedatum</h3>
                         <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
                     </div>
