@@ -34,9 +34,10 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
     isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
     isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
     isset($_POST['ort']) and is_string($_POST['ort'])) {
-    $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+    $editierung = $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
         htmlspecialchars($_GET["id"]), htmlspecialchars($_POST['beschreibung']),
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
+    if (!$editierung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
 // Eintrag laden
@@ -199,32 +200,32 @@ include $abs_path . '/php/head.php';
                         <p>Gesamtbewertung:</p>
                         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
                             <img src="images/stern_gelb.svg" alt="bewertunggesamt" class="icons"
-                                 style="width: 25px; height: 25px"/>
+                                 style="width: 25px; height: 25px"/> <!--TODO Remove style-->
                         <?php } ?>
                         <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
                             <img src="images/stern_schwarz.svg" alt="bewertunggesamt" class="icons"
-                                 style="width: 25px; height: 25px"/>
+                                 style="width: 25px; height: 25px"/> <!--TODO Remove style-->
                         <?php } ?>
 
-                        <?php if (isset($_SESSION["id"])): ?>
+                        <!--<?php if (isset($_SESSION["id"])): ?>
                         <p>Deine Bewertung:</p>
                         <form method="post">
-                            <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { //TODO für jeden Stern eigenes Form oder wieder trick wie bei checkbox mit sich überschreibenden values.
+                            <?php //for ($i = 1; $i <= $eigene_bewertung; $i++) { //TODO für jeden Stern eigenes Form oder wieder trick wie bei checkbox mit sich überschreibenden values.
                                 //TODO input values gibt nicht gewünschtes ergebnis siehe https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_image?>
                                 <input type="image" src="images/stern_gelb.svg" name="bewertung"
-                                       value="<?php echo $i ?>" style="width: 25px; height: 25px"
+                                       value="<?php // echo $i ?>" style="width: 25px; height: 25px"
                                        alt="eigenebewertung"/>
-                            <?php } ?>
-                            <?php for ($i = $eigene_bewertung + 1;
-                            $i <= 5;
-                            $i++) { ?>
-                            <input type="image" src="images/stern_schwarz.svg" name="bewertung" value="<?php echo $i ?>"
-                                   style="width: 25px; height: 25px" alt="eigenebewertung/>
-                                <?php } ?>
+                            <?php //} ?>
+                            <?php //for ($i = $eigene_bewertung + 1;
+                            //$i <= 5;
+                            //$i++) { ?>
+                            <input type="image" src="images/stern_schwarz.svg" name="bewertung" value="<?php //echo $i ?>"
+                                   style="width: 25px; height: 25px" alt="eigenebewertung/> TODO Remove style
+                                <?php //} ?>
                             </form>
-                        <?php endif; ?>
+                        <?php endif; ?>-->
                     </div>
-                    <div class=" item">
+                    <div class="item">
                         <h3>Hochladedatum</h3>
                         <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
                     </div>
