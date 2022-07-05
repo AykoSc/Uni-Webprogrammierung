@@ -98,9 +98,9 @@ class DBErstellung
     VALUES ('test2', 'test2@test.com', '', 'Ich bin Test 2!', 'w', 'Maxine Musterfrau', 'Ammerländer Heerstraße 118, 26129 Oldenburg', 'deutsch', '2000.11-01', '2022-05-28');
   
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-    VALUES (2, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '1900-09-04', 'München, Deutschland', 0, '2021-10-07', 56, 'jpg');
+    VALUES (2, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '1900-09-04', 'München, Deutschland', 3, '2021-10-07', 56, 'jpg');
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
-    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '1234-10-05', 'Oldenburg, Deutschland', 0, '2022-06-01', 4, 'jpg');
+    VALUES (1, 'Stockbild2', 'Stockkünstler2', 'Beschreibung von Bild 2', '1234-10-05', 'Oldenburg, Deutschland', 3, '2022-06-01', 4, 'jpg');
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
     VALUES (1, 'Stockbild3', 'Stockkünstler3', 'Beschreibung von Bild 3', '1432-11-06', 'Berlin, Deutschland', 0, '2022-09-06', 8, 'jpg');
 
@@ -136,11 +136,11 @@ class DBErstellung
     VALUES (3, 1);
 
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
-        VALUES (3, 1, 4);
+        VALUES (2, 1, 3);
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (2, 2, 2);
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
-        VALUES (2, 1, 3);
+        VALUES (3, 1, 4);
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (3, 2, 5);
     ";
