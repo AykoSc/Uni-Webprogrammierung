@@ -24,6 +24,19 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["t
     }
 }
 
+if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+    $loeschung = $dao->profil_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+    if($loeschung) {
+        session_unset();
+        session_destroy();
+    }
+    if (!$loeschung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
+}
+
+if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+    $fehlermeldung = "Um dieses Profil zu löschen müssen Sie den Bestätigungshaken setzen.";
+}
+
 $selektiert = ""; //default value
 //Profil laden
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
@@ -67,6 +80,9 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
     <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and $profilbearbeitung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>
+    <?php endif ?>
+    <?php if (isset($loeschung) and is_bool($loeschung) and $loeschung): ?>
+        header("location: index.php");
     <?php endif ?>
 
     <h1>Mein Profil</h1>
@@ -116,7 +132,15 @@ include $abs_path . '/php/head.php';
 
             <button id="submit" name="submit" type="submit">Speichern</button>
 
-        <?php else: ?>
+        <form method="post">
+                <h3>Profil löschen?</h3>
+                <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
+                <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
+                <label for="loeschen">Löschen bestätigen</label>
+                <input type="submit" value="Löschen"/>
+            </form>
+
+            <?php else: ?>
             <h2>Willkommen auf dem Profil!</h2>
             <h3>Nutzername</h3>
             <p><?php echo $nutzername ?></p>

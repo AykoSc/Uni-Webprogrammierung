@@ -948,4 +948,52 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
+    public function profil_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
+            }
+            $gemaeldeEntfernenSQL = "DELETE FROM Anbieter WHERE AnbieterID = :AnbieterID;";
+            $gemaeldeEntfernenCMD = $this->db->prepare($gemaeldeEntfernenSQL);
+            $gemaeldeEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $gemaeldeEntfernenCMD->execute();
+
+            $kommentareEntfernenSQL = "DELETE FROM Kommentar WHERE AnbieterID = :AnbieterID;";
+            $kommentareEntfernenCMD = $this->db->prepare($kommentareEntfernenSQL);
+            $kommentareEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $kommentareEntfernenCMD->execute();
+
+            $gemaeldeEntfernenSQL = "DELETE FROM Gemaelde WHERE AnbieterID = :AnbieterID;";
+            $gemaeldeEntfernenCMD = $this->db->prepare($gemaeldeEntfernenSQL);
+            $gemaeldeEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $gemaeldeEntfernenCMD->execute();
+
+            $sammlungEntfernenSQL = "DELETE FROM Sammlung WHERE AnbieterID = :AnbieterID;";
+            $sammlungEntfernenCMD = $this->db->prepare($sammlungEntfernenSQL);
+            $sammlungEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $sammlungEntfernenCMD->execute();
+
+
+            $gelikedVonSQL = "DELETE FROM geliked_von WHERE AnbieterID = :AnbieterID;";
+            $gelikedVonCMD = $this->db->prepare($gelikedVonSQL);
+            $gelikedVonCMD->bindParam(":AnbieterID", $AnbieterID);
+            $gelikedVonCMD->execute();
+
+            $entferneTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
+            $entferneTokenCMD = $this->db->prepare($entferneTokenSQL);
+            $entferneTokenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $entferneTokenCMD->bindParam(":Tokennummer", $Tokennummer);
+            $entferneTokenCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
 }

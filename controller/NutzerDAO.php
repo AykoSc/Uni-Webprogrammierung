@@ -40,6 +40,8 @@ interface NutzerDAO
 
     public function profil_editieren($AnbieterID, $Tokennummer, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool;
 
+    public function profil_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool;
+
     public function ausstellung_erhalten($Suche, $Filter): array;
 
     public function sammlungen_erhalten($Suche, $Filter): array;

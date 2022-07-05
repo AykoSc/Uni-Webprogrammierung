@@ -289,4 +289,8 @@ class NutzerDAODummyImpl implements NutzerDAO
     }
 
 
+    public function profil_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool
+    {
+        return true;
+    }
 }
