@@ -498,7 +498,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $bereitsBewertetCMD->execute();
             $ergebnis = $bereitsBewertetCMD->fetchObject();
 
-            $rueckgabe = $ergebnis->Bewertung;
+            $rueckgabe = $ergebnis->Bewertung; //TODO hier wird noch ein Fehler angezeigt wenn man angemeldet ist aber keinen Token mehr hat, weil im catch noch print_r ausgeführt wird. Bei finaler Abgabe print_r entfernen!
 
             $this->db->commit();
 
