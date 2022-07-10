@@ -443,21 +443,8 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $bereitsBewertetSQL = "SELECT * FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
-            $bereitsBewertetCMD = $this->db->prepare($bereitsBewertetSQL);
-            $bereitsBewertetCMD->bindParam(":GemaeldeID", $GemaeldeID);
-            $bereitsBewertetCMD->bindParam(':AnbieterID', $AnbieterID);
-            $bereitsBewertetCMD->execute();
-            $ergebnis = $bereitsBewertetCMD->fetchObject();
-            if (isset($ergebnis->Bewertung)) { //Gemaelde bereits bewertet, Bewertung wird entfernt
-                $bewertungEntfernenSQL = 'DELETE FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;';
-                $bewertungEntfernenCMD = $this->db->prepare($bewertungEntfernenSQL);
-                $bewertungEntfernenCMD->bindParam(":GemaeldeID", $GemaeldeID);
-                $bewertungEntfernenCMD->bindParam(':AnbieterID', $AnbieterID);
-                $bewertungEntfernenCMD->execute();
-            }
-
-            $speichereBewertungSQL = 'Insert INTO bewertet_von (GemaeldeID, AnbieterID, Bewertung) VALUES (:GemaeldeID, :AnbieterID, :Bewertung);';
+            $speichereBewertungSQL = 'Insert INTO bewertet_von (GemaeldeID, AnbieterID, Bewertung) VALUES (:GemaeldeID, :AnbieterID, :Bewertung) 
+                                                             ON CONFLICT DO UPDATE SET Bewertung = :Bewertung;';
             $speichereBewertungCMD = $this->db->prepare($speichereBewertungSQL);
             $speichereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
             $speichereBewertungCMD->bindParam(':AnbieterID', $AnbieterID);
@@ -469,7 +456,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $erhalteBewertungCMD->execute();
 
             $bewertungenZaehler = 0;
-            $bewertung_neu = 0; //falls es keine bewertungen gibt
+            $bewertung_neu = 0; //Falls es keine bewertungen gibt, ist die Bewertung erstmal 0
             while ($zeile = $erhalteBewertungCMD->fetchObject()) {
                 $bewertung_neu += $zeile->Bewertung;
                 $bewertungenZaehler++;
@@ -511,11 +498,11 @@ class NutzerDAODBImpl implements NutzerDAO
             $bereitsBewertetCMD->execute();
             $ergebnis = $bereitsBewertetCMD->fetchObject();
 
-            $ergebniss = $ergebnis->Bewertung;
+            $rueckgabe = $ergebnis->Bewertung;
 
             $this->db->commit();
 
-            return empty($ergebniss) ? -1 : $ergebniss;
+            return empty($rueckgabe) ? 0 : $rueckgabe;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();

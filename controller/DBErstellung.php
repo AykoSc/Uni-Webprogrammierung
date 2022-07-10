@@ -63,14 +63,16 @@ class DBErstellung
     CREATE TABLE IF NOT EXISTS Tokens (
         AnbieterID INTEGER,
         Tokennummer TEXT,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE,
+        PRIMARY KEY (AnbieterID, Tokennummer)
     );
     
     CREATE TABLE IF NOT EXISTS gehoert_zu (
         GemaeldeID INTEGER,
         SammlungID INTEGER,
         FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE                    
+        FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE,
+        PRIMARY KEY (GemaeldeID, SammlungID)
     );
 
 
@@ -78,7 +80,8 @@ class DBErstellung
         KommentarID INTEGER,
         AnbieterID INTEGER,
         FOREIGN KEY (KommentarID) REFERENCES Kommentar (KommentarID) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE,
+        PRIMARY KEY (KommentarID, AnbieterID)
     );
 
     CREATE TABLE IF NOT EXISTS bewertet_von (
@@ -86,7 +89,8 @@ class DBErstellung
         AnbieterID INTEGER,
         Bewertung INTEGER,
         FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE,
+        PRIMARY KEY (GemaeldeID, AnbieterID)
     );
 
     ";

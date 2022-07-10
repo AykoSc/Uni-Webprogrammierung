@@ -50,7 +50,6 @@ if (isset($_GET["id"]) and is_string($_GET["id"])) {
         $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]), "", "");
     }
     $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_REQUEST["id"]));
-
 } else {
     header("location: index.php?fehler=201");
 }
@@ -213,17 +212,18 @@ include $abs_path . '/php/head.php';
                             <p>Deine Bewertung:</p>
                             <form method="post">
                                 <?php for ($i = 1; $i <= $eigene_bewertung; $i++) {
-                                    //TODO für jeden Stern eigenes Form oder wieder trick wie bei checkbox mit sich überschreibenden values.
-                                    //TODO input values gibt nicht gewünschtes ergebnis siehe https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_image
+                                    //TODO styles entfernen
                                     ?>
-                                    <input type="image" src="images/stern_gelb.svg" name="bewertung"
-                                           value="<?php echo $i ?>" style="width: 25px; height: 25px"
-                                           alt="eigenebewertung"/>
+                                    <button name="bewertung" value="<?php echo $i ?>" style="padding: 0">
+                                        <img src="images/stern_gelb.svg" style="width: 25px; height: 25px"
+                                             alt="eigenebewertung"/>
+                                    </button>
                                 <?php } ?>
-                                <?php for ($i = $eigene_bewertung + 1; $i < 5; $i++) { ?>
-                                    <input type="image" src="images/stern_schwarz.svg" name="bewertung"
-                                           value="<?php echo $i ?>"
-                                           style="width: 25px; height: 25px" alt="eigenebewertung"/>
+                                <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
+                                    <button name="bewertung" value="<?php echo $i ?>" style="padding: 0">
+                                        <img src="images/stern_schwarz.svg" style="width: 25px; height: 25px"
+                                             alt="eigenebewertung"/>
+                                    </button>
                                 <?php } ?>
                             </form>
                         <?php endif; ?>
