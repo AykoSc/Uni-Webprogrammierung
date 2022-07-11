@@ -51,10 +51,17 @@ include $abs_path . '/php/head.php';
     <h1>Hauptseite</h1>
 
     <img class="presentation" src="images/start.jpg" alt="Start">
-    <p>Der Schwur der Horatier (französisch Le Serment des Horaces) ist ein 1784 fertiggestelltes Gemälde von Jacques-Louis David. Das großformatige Bild (330 × 425 cm) wurde mit Ölfarbe auf Leinwand gemalt.</p>
+    <p>Der Schwur der Horatier (französisch Le Serment des Horaces) ist ein 1784 fertiggestelltes Gemälde von
+        Jacques-Louis David. Das großformatige Bild (330 × 425 cm) wurde mit Ölfarbe auf Leinwand gemalt.</p>
 
-    <noscript><h4>Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt.</h4></noscript>
+    <noscript><h4>Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt!</h4></noscript>
     <h4 id="aktionscountdown"></h4>
+
+    <h3>Hier ein paar der bekanntesten Gemälde</h3>
+    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6YSAMo6TmkE"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
 </main>
 
 
