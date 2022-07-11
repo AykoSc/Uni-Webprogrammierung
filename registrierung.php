@@ -7,11 +7,13 @@ $dao = NutzerDAODBImpl::getInstance();
 if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     and isset($_POST["email"]) and is_string($_POST["email"])
     and isset($_POST["passwort"]) and is_string($_POST["passwort"])
-    and isset($_POST["passwort_wiederholen"]) and is_string($_POST["passwort_wiederholen"])) {
+    and isset($_POST["passwort_wiederholen"]) and is_string($_POST["passwort_wiederholen"])
+    and isset($_POST["akzeptiert"]) and is_string($_POST["akzeptiert"])) {
     $nutzername = htmlspecialchars($_POST["nutzername"]);
     $email = htmlspecialchars($_POST["email"]);
     $passwort = htmlspecialchars($_POST["passwort"]);
     $passwort_wiederholen = htmlspecialchars($_POST["passwort_wiederholen"]);
+    $akzeptiert = htmlspecialchars($_POST["akzeptiert"]);
 
     if ($passwort !== $passwort_wiederholen) {
         $fehlermeldung = "Das Passwort wurde falsch wiederholt.";
@@ -21,6 +23,9 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     }
     if ($passwort === $email) {
         $fehlermeldung = "Das Passwort darf nicht der Email entsprechen.";
+    }
+    if ($akzeptiert === "nein") {
+        $fehlermeldung = "Sie stimmen nicht der Datenschutzerklärung zu und bestätigen nicht das Einhalten der Nutzungsbedingungen.";
     }
     if (isset($fehlermeldung) and is_string($fehlermeldung)) {
         $registrierung = false;
@@ -92,6 +97,10 @@ include $abs_path . '/php/head.php';
             <label for="passwort_wiederholen">Passwort wiederholen</label>
             <input type="password" id="passwort_wiederholen" name="passwort_wiederholen" minlength="8" maxlength="100"
                    placeholder="Passwort wiederholen" required>
+            <input type="hidden" name="akzeptiert" value="nein"/>
+            <input id="akzeptiert" type="checkbox" name="akzeptiert" value="ja"/>
+            <label for="akzeptiert">Ich stimme der Datenschutzerklärung zu und bestätige das Einhalten der
+                Nutzungsbedingungen.</label>
             <hr>
             <button type="submit">Registrieren</button>
             <a href="index.php">Zurück zur Startseite</a>
