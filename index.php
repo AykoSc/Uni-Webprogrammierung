@@ -31,9 +31,9 @@ $daten = json_decode($json, true);
 if (isset($daten["Realtime Currency Exchange Rate"])) {
     $wechselkurs = $daten["Realtime Currency Exchange Rate"];
     $von_name = $wechselkurs["2. From_Currency Name"];
-    $von_preis = 500;
+    $von_preis = 5000;
     $zu_name = $wechselkurs["4. To_Currency Name"];
-    $zu_preis = $wechselkurs["5. Exchange Rate"] * $von_preis;
+    $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis,2);
 }
 ?>
 
@@ -75,7 +75,7 @@ include $abs_path . '/php/head.php';
         </ul>
     <?php else: ?>
         <ul>
-            <li>Startpreis in Euro: 500</li>
+            <li>Startpreis in Euro: 5000</li>
         </ul>
     <?php endif ?>
 
