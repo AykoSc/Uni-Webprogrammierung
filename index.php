@@ -79,12 +79,6 @@ include $abs_path . '/php/head.php';
         </ul>
     <?php endif ?>
 
-    <h3>Hier ein paar der bekanntesten Gemälde</h3>
-    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6YSAMo6TmkE"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-    <noscript>Aktivieren Sie JavaScript, um die bekanntesten Gemälde zu sehen!</noscript>
 </main>
 
 

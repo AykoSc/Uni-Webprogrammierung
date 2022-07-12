@@ -25,10 +25,13 @@ include $abs_path . '/php/head.php';
         Möglichkeit bieten, in der Kommentarsektion über die ausgestellten Werke und Sammlungen zu diskutieren.
     </p>
     <h2>Wo Sie uns finden können</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2392.9644089075323!2d8.181704813819259!3d53.14673329156484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b6dfca0f089dff%3A0x283f06b42b139285!2sUniversity%20of%20Oldenburg%20Haarentor%20Campus!5e0!3m2!1sen!2sde!4v1657553852179!5m2!1sen!2sde"
-            width="1000" height="500" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-    <noscript>Universität Oldenburg</noscript>
+    <iframe class="presentation presentation-height"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=8.173259496688845%2C53.14384239502062%2C8.187421560287477%2C53.14978171374889&amp;layer=mapnik"></iframe>
+    <noscript>Mit JavaScript wäre hier eine Karte der Universität Oldenburg Campus Haarentor ersichtlich</noscript>
+    <br/>
+    <small>
+        <a href="https://www.openstreetmap.org/#map=17/53.14681/8.18034">Größere Karte anzeigen</a>
+    </small>
 
 </main>
 
