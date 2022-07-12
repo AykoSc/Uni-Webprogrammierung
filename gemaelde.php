@@ -120,6 +120,18 @@ include $abs_path . '/php/head.php';
     <?php if (isset($entfernung) and is_bool($entfernung) and !$entfernung): ?>
         <p class="nachricht fehler">Kommentar Löschung fehlgeschlagen</p>
     <?php endif ?>
+    <?php if (isset($bewertet) and is_bool($bewertet) and $bewertet): ?>
+        <p class="nachricht">Gemälde erfolgreich bewertet</p>
+    <?php endif ?>
+    <?php if (isset($bewertet) and is_bool($bewertet) and !$bewertet): ?>
+        <p class="nachricht fehler">Gemälde Bewertung fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($editierung) and is_bool($editierung) and $editierung): ?>
+        <p class="nachricht">Gemälde erfolgreich editiert</p>
+    <?php endif ?>
+    <?php if (isset($editierung) and is_bool($editierung) and !$editierung): ?>
+        <p class="nachricht fehler">Gemälde Editieren fehlgeschlagen</p>
+    <?php endif ?>
 
     <h1><?php echo $titel ?></h1>
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
