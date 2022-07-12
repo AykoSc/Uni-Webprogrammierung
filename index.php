@@ -60,6 +60,8 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
 
     <h1>Hauptseite</h1>
+    <h3>Willkommen auf ArtPlace - dem Forum für Kunstliebhaber</h3>
+    <h4>Noch nie war kreativer Austausch so einfach!</h4>
 
     <img class="presentation" src="images/start.jpg" alt="Start">
     <p>Der Schwur der Horatier (französisch Le Serment des Horaces) ist ein 1784 fertiggestelltes Gemälde von
