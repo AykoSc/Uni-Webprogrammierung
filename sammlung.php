@@ -19,11 +19,13 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
     $sammlung = $dao->sammlung_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
-    header("location: index.php?fehler=101");
+    header("location: index.php?fehler=Sammlung");
 }
 
 // Eintrag löschen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->sammlung_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if ($loeschung) {
         header("location: index.php?entfernt=Sammlung");
@@ -31,7 +33,9 @@ if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loesc
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um diese Sammlung zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
@@ -49,7 +53,7 @@ if (isset($sammlung) and is_array($sammlung) and $sammlung !== [-1]) {
     $hochladedatum = htmlspecialchars($sammlung[6]);
     $aufrufe = htmlspecialchars($sammlung[7]);
 } else {
-    header("location: index.php?fehler=102");
+    header("location: index.php?fehler=Sammlung");
 }
 ?>
 

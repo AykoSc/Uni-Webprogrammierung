@@ -419,11 +419,6 @@ class NutzerDAODBImpl implements NutzerDAO
             $entferneGemaeldeCMD->bindParam(':AnbieterID', $AnbieterID);
             $entferneGemaeldeCMD->execute();
 
-            $entferneAusSammlungenSQL = "DELETE FROM gehoert_zu WHERE GemaeldeID = :GemaeldeID;";
-            $entferneAusSammlungenCMD = $this->db->prepare($entferneAusSammlungenSQL);
-            $entferneAusSammlungenCMD->bindParam(":GemaeldeID", $GemaeldeID);
-            $entferneAusSammlungenCMD->execute();
-
             $entferneKommentareSQL = "DELETE FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
             $entferneKommentareCMD = $this->db->prepare($entferneKommentareSQL);
             $entferneKommentareCMD->bindParam(":GemaeldeID", $GemaeldeID);
@@ -647,11 +642,6 @@ class NutzerDAODBImpl implements NutzerDAO
             $entferneSammlungCMD->bindParam(":SammlungID", $SammlungID);
             $entferneSammlungCMD->bindParam(':AnbieterID', $AnbieterID);
             $entferneSammlungCMD->execute();
-
-            $entferneGehoertZuSQL = "DELETE FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $entferneGehoertZuCMD = $this->db->prepare($entferneGehoertZuSQL);
-            $entferneGehoertZuCMD->bindParam(":SammlungID", $SammlungID);
-            $entferneGehoertZuCMD->execute();
 
             $this->db->commit();
             return true;

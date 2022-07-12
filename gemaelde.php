@@ -5,17 +5,23 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Kommentar anlegen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["kommentar"]) and is_string($_POST["kommentar"]) and isset($_GET["id"]) and is_string($_GET["id"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["kommentar"]) and is_string($_POST["kommentar"]) and isset($_GET["id"]) and is_string($_GET["id"])) {
     $angelegt = $dao->kommentar_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]));
 }
 
 // Kommentar liken
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["like"]) and is_string($_POST["like"])) {
     $geliked = $dao->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
 }
 
 // Kommentar entfernen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["delete"]) and is_string($_POST["delete"])) {
     $entfernung = $dao->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
@@ -51,11 +57,13 @@ if (isset($_GET["id"]) and is_string($_GET["id"])) {
     }
     $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
-    header("location: index.php?fehler=201");
+    header("location: index.php?fehler=Gemälde");
 }
 
 // Eintrag löschen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and  htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if ($loeschung) {
         header("location: index.php?entfernt=Gemälde");
@@ -63,7 +71,9 @@ if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loesc
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um dieses Gemälde zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
@@ -80,7 +90,7 @@ if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
     $aufrufe = htmlspecialchars($gemaelde[9]);
     $dateityp = htmlspecialchars($gemaelde[10]);
 } else {
-    header("location: index.php?fehler=202");
+    header("location: index.php?fehler=Gemälde");
 }
 
 

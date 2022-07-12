@@ -42,14 +42,16 @@ if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
         $geburtsdatum = htmlspecialchars($profil[7]);
         $registrierungsdatum = htmlspecialchars($profil[8]);
     } else {
-        header("location: index.php?fehler=401");
+        header("location: index.php?fehler=Profil");
     }
 } else {
-    header("location: index.php?fehler=402");
+    header("location: index.php?fehler=Profil");
 }
 
 // Profil löschen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->profil_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if ($loeschung) {
         session_unset();
@@ -59,7 +61,9 @@ if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loesc
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um dieses Profil zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
@@ -69,7 +73,7 @@ if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["l
 <html lang="de">
 
 <?php
-$name = "Mein Profil";
+$name = "Profil";
 include $abs_path . '/php/head.php';
 ?>
 
@@ -78,8 +82,8 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and !$profilbearbeitung and isset($fehlermeldung) and is_string($fehlermeldung)): ?>
-        <p class="nachricht fehler">Profil fehlgeschlagen: <?php echo $fehlermeldung ?></p>
+    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo $fehlermeldung ?></p>
     <?php endif ?>
     <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and $profilbearbeitung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>
@@ -91,49 +95,50 @@ include $abs_path . '/php/head.php';
         <?php if (isset($_SESSION["id"]) and $id == htmlspecialchars($_SESSION["id"])) : ?>
             <h2>Willkommen auf deinem Profil!</h2>
             <form method="post">
-            <h3>Nutzername</h3>
-            <p><?php echo $nutzername ?></p>
+                <h3>Nutzername</h3>
+                <p><?php echo $nutzername ?></p>
 
-            <h3>Registrierungsdatum</h3>
-            <p><?php echo date("d.m.Y", strtotime($registrierungsdatum)); ?></p>
+                <h3>Registrierungsdatum</h3>
+                <p><?php echo date("d.m.Y", strtotime($registrierungsdatum)); ?></p>
 
-            <h3>Beschreibung</h3>
-            <label for="beschreibung" class="invisible">Beschreibung</label>
-            <textarea id="beschreibung" cols="70" rows="10" name="beschreibung"><?php echo $beschreibung ?></textarea>
+                <h3>Beschreibung</h3>
+                <label for="beschreibung" class="invisible">Beschreibung</label>
+                <textarea id="beschreibung" cols="70" rows="10" name="beschreibung"><?php echo $beschreibung ?></textarea>
 
-            <h3>Geschlecht</h3>
-            <label for="geschlecht" class="invisible">Geschlecht</label>
-            <select id="geschlecht" name="geschlecht">
-                <option value="" <?php echo ($geschlecht === '') ? 'selected' : ''?>>Keine Angabe</option>
-                <option value="m" <?php echo ($geschlecht === 'm') ? 'selected' : ''?>>Männlich</option>
-                <option value="w" <?php echo ($geschlecht === 'w') ? 'selected' : ''?>>Weiblich</option>
-            </select>
+                <h3>Geschlecht</h3>
+                <label for="geschlecht" class="invisible">Geschlecht</label>
+                <select id="geschlecht" name="geschlecht">
+                    <option value="" <?php echo ($geschlecht === '') ? 'selected' : ''?>>Keine Angabe</option>
+                    <option value="m" <?php echo ($geschlecht === 'm') ? 'selected' : ''?>>Männlich</option>
+                    <option value="w" <?php echo ($geschlecht === 'w') ? 'selected' : ''?>>Weiblich</option>
+                </select>
 
 
-            <h3>Vollständiger Name</h3>
-            <label for="vollstaendigerName" class="invisible">Vollständiger Name</label>
-            <input id="vollstaendigerName" type="text" name="vollstaendigerName"
+                <h3>Vollständiger Name</h3>
+                <label for="vollstaendigerName" class="invisible">Vollständiger Name</label>
+                <input id="vollstaendigerName" type="text" name="vollstaendigerName"
                    value="<?php echo htmlspecialchars($vollstaendigerName) ?>"/>
 
-            <h3>Adresse</h3>
-            <label for="adresse" class="invisible">Adresse</label>
-            <input id="adresse" type="text" name="adresse"
+                <h3>Adresse</h3>
+                <label for="adresse" class="invisible">Adresse</label>
+                <input id="adresse" type="text" name="adresse"
                    value="<?php echo htmlspecialchars($adresse) ?>"/>
 
-            <h3>Sprache</h3>
-            <label for="sprache" class="invisible">Sprache</label>
-            <input id="sprache" type="text" name="sprache"
+                <h3>Sprache</h3>
+                <label for="sprache" class="invisible">Sprache</label>
+                <input id="sprache" type="text" name="sprache"
                    value="<?php echo htmlspecialchars($sprache) ?>"/>
 
-            <h3>Geburtsdatum</h3>
-            <label for="geburtsdatum" class="invisible">Geburtsdatum</label>
-            <input id="geburtsdatum" type="date" name="geburtsdatum"
+                <h3>Geburtsdatum</h3>
+                <label for="geburtsdatum" class="invisible">Geburtsdatum</label>
+                <input id="geburtsdatum" type="date" name="geburtsdatum"
                    value="<?php echo date("Y-m-d", strtotime(htmlspecialchars($geburtsdatum))); ?>"/>
-            <br>
-            <br>
-            <button id="submit" name="submit" type="submit">Speichern</button>
+                <br>
+                <br>
+                <button id="submit" name="submit" type="submit">Speichern</button>
+            </form>
 
-        <form method="post">
+            <form method="post">
                 <h3>Profil löschen?</h3>
                 <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
                 <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
