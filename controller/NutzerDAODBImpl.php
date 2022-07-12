@@ -30,8 +30,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             try {
                 $this->db->beginTransaction();
-                $this->db->exec('PRAGMA foreign_keys = ON;'); // activate use of foreign key constraints, only in SQLITE
-                /*
+
                                 $this->db->exec(DBErstellung::TABELLEN);
 
                                 $checkLeereDatenbankCMD = $this->db->query("SELECT * FROM Gemaelde;");
@@ -53,12 +52,11 @@ class NutzerDAODBImpl implements NutzerDAO
                                     $setzePasswortCMD->bindParam(':Nutzername', $Nutzername2);
                                     $setzePasswortCMD->execute();
                                 }
-
                                 $this->db->commit();
-                                */
+
             } catch (Exception $ex) {
                 print_r($ex);
-                //$this->db->rollBack();
+                $this->db->rollBack();
             }
         } catch (Exception $ex) {
             print_r($ex);
