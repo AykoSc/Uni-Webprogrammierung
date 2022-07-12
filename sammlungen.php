@@ -42,25 +42,13 @@ include $abs_path . '/php/head.php';
     function suchvorschlaege(suche) {
         if (suche.length === 0) {
             document.getElementById("suchvorschlag").innerHTML = "";
+            document.getElementById("suchvorschlag").style.padding = "0px";
             return;
         }
         const request = new XMLHttpRequest();
         request.onload = function () {
             document.getElementById("suchvorschlag").innerHTML = this.responseText;
             document.getElementById("suchvorschlag").style.padding = "10px";
-            document.getElementById("suchvorschlag").style.fontSize = "17px";
-            document.getElementById("suchvorschlag").style.border = "1px solid grey";
-            document.getElementById("suchvorschlag").style.width = "80%";
-            document.getElementById("suchvorschlag").style.backgroundColor = "white";
-            document.getElementById("suchvorschlag").style.lineHeight = "190%";
-            document.getElementById("suchvorschlag").style.textOverflow = "ellipsis";
-            document.getElementById("suchvorschlag").style.whiteSpace = "nowrap";
-            document.getElementById("suchvorschlag").style.overflow = "hidden";
-            const children = document.getElementById("suchvorschlag").getElementsByTagName("a");
-            for (let i = 0; i < children.length; i++) {
-                children[i].style.textDecoration = "none";
-                children[i].style.color = "black";
-            }
         }
         request.open("GET", "suche.php?herkunft=sammlungen&suche=" + suche);
         request.send();

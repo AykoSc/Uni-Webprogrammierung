@@ -16,7 +16,7 @@ if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelde
 }
 
 if (isset($_GET["fehler"]) and is_string($_GET["fehler"])) {
-    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! Fehlercode: ' . htmlspecialchars($_GET["fehler"]);
+    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! Bitte kontaktieren Sie einen Administrator mit dem Fehlercode: ' . htmlspecialchars($_GET["fehler"]);
 }
 if (isset($_GET["entfernt"]) and is_string($_GET["entfernt"])) {
     $erfolgreich = htmlspecialchars($_GET["entfernt"]) . ' erfolgreich gelöscht!';
