@@ -945,7 +945,15 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            // TODO unlink(File)
+            $meineGemaeldeSQL = "SELECT GemaeldeID, Dateityp FROM Gemaelde WHERE AnbieterID = :AnbieterID";
+            $meineGemaeldeCMD = $this->db->prepare($meineGemaeldeSQL);
+            $meineGemaeldeCMD->bindParam(":AnbieterID", $AnbieterID);
+            $meineGemaeldeCMD->execute();
+
+            while ($zeile = $meineGemaeldeCMD->fetchObject()) {
+                unlink("images/$zeile->GemaeldeID.$zeile->Dateityp");
+            }
+
             $anbieterEntfernenSQL = "DELETE FROM Anbieter WHERE AnbieterID = :AnbieterID;";
             $anbieterEntfernenCMD = $this->db->prepare($anbieterEntfernenSQL);
             $anbieterEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
