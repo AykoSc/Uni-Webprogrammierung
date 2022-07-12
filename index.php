@@ -24,6 +24,17 @@ if (isset($_GET["entfernt"]) and is_string($_GET["entfernt"])) {
 if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
     $erfolgreich = 'Du hast dich erfolgreich angemeldet!';
 }
+
+// API für Währungskurswechsel https://www.alphavantage.co/documentation/#currency-exchange
+$json = file_get_contents('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=EUR&to_currency=USD&apikey=J7QN7XYS9PJLT1WZ');
+$daten = json_decode($json, true);
+if (isset($daten["Realtime Currency Exchange Rate"])) {
+    $wechselkurs = $daten["Realtime Currency Exchange Rate"];
+    $von_name = $wechselkurs["2. From_Currency Name"];
+    $von_preis = 500;
+    $zu_name = $wechselkurs["4. To_Currency Name"];
+    $zu_preis = $wechselkurs["5. Exchange Rate"] * $von_preis;
+}
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +67,17 @@ include $abs_path . '/php/head.php';
 
     <noscript><h4>Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt!</h4></noscript>
     <h4 id="aktionscountdown"></h4>
+
+    <?php if (isset($daten["Realtime Currency Exchange Rate"])): ?>
+        <ul>
+            <li>Startpreis in <?php echo $von_name . ': ' .  $von_preis; ?></li>
+            <li>Startpreis in <?php echo $zu_name . ': ' .  $zu_preis; ?></li>
+        </ul>
+    <?php else: ?>
+        <ul>
+            <li>Startpreis in Euro: 500</li>
+        </ul>
+    <?php endif ?>
 
     <h3>Hier ein paar der bekanntesten Gemälde</h3>
     <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6YSAMo6TmkE"
