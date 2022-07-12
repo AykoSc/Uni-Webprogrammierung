@@ -494,6 +494,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $speichereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
             $speichereBewertungCMD->bindParam(':AnbieterID', $AnbieterID);
             $speichereBewertungCMD->bindParam(':Bewertung', $Bewertung);
+            $speichereBewertungCMD->execute();
 
             $erhalteBewertungSQL = "SELECT Bewertung FROM bewertet_von WHERE GemaeldeID = :GemaeldeID;";
             $erhalteBewertungCMD = $this->db->prepare($erhalteBewertungSQL);
@@ -515,8 +516,6 @@ class NutzerDAODBImpl implements NutzerDAO
             $aktualisiereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
             $aktualisiereBewertungCMD->bindParam(':Bewertung', $bewertung_neu);
             $aktualisiereBewertungCMD->execute();
-
-            $speichereBewertungCMD->execute();
 
             $this->db->commit();
             return true;
