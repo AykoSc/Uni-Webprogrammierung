@@ -79,7 +79,7 @@ include $abs_path . '/php/head.php';
 
 <main>
     <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and !$profilbearbeitung and isset($fehlermeldung) and is_string($fehlermeldung)): ?>
-        <p class="nachricht fehler">Profilbearbeitung fehlgeschlagen: <?php echo $fehlermeldung ?></p>
+        <p class="nachricht fehler">Profil fehlgeschlagen: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
     <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and $profilbearbeitung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>

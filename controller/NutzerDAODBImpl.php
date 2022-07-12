@@ -27,35 +27,38 @@ class NutzerDAODBImpl implements NutzerDAO
             // Nur bei MySQL: $dsn = "mysql:dbname=website;host=localhost";
             $this->db = new PDO($dsn, $nutzername, $passwort);
             // Nur bei MySQL: $this->db->exec("SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE");
+
             try {
                 $this->db->beginTransaction();
+                $this->db->exec('PRAGMA foreign_keys = ON;'); // activate use of foreign key constraints, only in SQLITE
+                /*
+                                $this->db->exec(DBErstellung::TABELLEN);
 
-                $this->db->exec(DBErstellung::TABELLEN);
+                                $checkLeereDatenbankCMD = $this->db->query("SELECT * FROM Gemaelde;");
+                                $result = $checkLeereDatenbankCMD->fetchObject();
+                                if (!isset($result->GemaeldeID)) {
+                                    $this->db->exec(DBErstellung::DATEN); // Daten werden eingefügt, wenn Datenbank leer ist
 
-                $checkLeereDatenbankCMD = $this->db->query("SELECT * FROM Gemaelde;");
-                $result = $checkLeereDatenbankCMD->fetchObject();
-                if (!isset($result->GemaeldeID)) {
-                    $this->db->exec(DBErstellung::DATEN); // Daten werden eingefügt, wenn Datenbank leer ist
+                                    // Passwort für Test-Accounts hashen
+                                    $Nutzername1 = "test1";
+                                    $Hash1 = password_hash("test1!", PASSWORD_DEFAULT);
+                                    $Nutzername2 = "test2";
+                                    $Hash2 = password_hash("test2!", PASSWORD_DEFAULT);
+                                    $setzePasswortSQL = "UPDATE Anbieter SET Passwort = :Passwort WHERE Nutzername = :Nutzername;";
+                                    $setzePasswortCMD = $this->db->prepare($setzePasswortSQL);
+                                    $setzePasswortCMD->bindParam(':Passwort', $Hash1);
+                                    $setzePasswortCMD->bindParam(':Nutzername', $Nutzername1);
+                                    $setzePasswortCMD->execute();
+                                    $setzePasswortCMD->bindParam(':Passwort', $Hash2);
+                                    $setzePasswortCMD->bindParam(':Nutzername', $Nutzername2);
+                                    $setzePasswortCMD->execute();
+                                }
 
-                    // Passwort für Test-Accounts hashen
-                    $Nutzername1 = "test1";
-                    $Hash1 = password_hash("test1!", PASSWORD_DEFAULT);
-                    $Nutzername2 = "test2";
-                    $Hash2 = password_hash("test2!", PASSWORD_DEFAULT);
-                    $setzePasswortSQL = "UPDATE Anbieter SET Passwort = :Passwort WHERE Nutzername = :Nutzername;";
-                    $setzePasswortCMD = $this->db->prepare($setzePasswortSQL);
-                    $setzePasswortCMD->bindParam(':Passwort', $Hash1);
-                    $setzePasswortCMD->bindParam(':Nutzername', $Nutzername1);
-                    $setzePasswortCMD->execute();
-                    $setzePasswortCMD->bindParam(':Passwort', $Hash2);
-                    $setzePasswortCMD->bindParam(':Nutzername', $Nutzername2);
-                    $setzePasswortCMD->execute();
-                }
-
-                $this->db->commit();
+                                $this->db->commit();
+                                */
             } catch (Exception $ex) {
                 print_r($ex);
-                $db->rollBack();
+                //$this->db->rollBack();
             }
         } catch (Exception $ex) {
             print_r($ex);
@@ -152,14 +155,8 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername;";
-            $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
-            $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
-            $checkNutzernameCMD->execute();
-            $result = $checkNutzernameCMD->fetchObject();
-            if (isset($result->Nutzername)) {
-                $this->db->rollBack();
-                return false; //Nutzername existiert bereits
+            if (!$this->nutzername_unbenutzt($Nutzername)) {
+                return false;
             }
 
             $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
@@ -172,8 +169,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
                 //E-Mail existiert bereits, sende "Existiert bereits" E-Mail
                 $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
-                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. 
-                Solltest du dein Password vergessen haben, klicke bitte hier: [HIER LINK FÜR ZURÜCKSETZEN, WURDE IN DIESEM PROJEKT NICHT IMPLEMENTIERT]";
+                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. \nSolltest du dein Password vergessen haben, klicke bitte hier: [HIER LINK FÜR ZURÜCKSETZEN, WURDE IN DIESEM PROJEKT NICHT IMPLEMENTIERT]";
 
                 $fp = fopen($speichern_unter, "wb");
                 fwrite($fp, $inhalt);
@@ -200,8 +196,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             //E-Mail existiert noch nicht, sende "Existiert noch nicht" E-Mail
             $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
-            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. 
-            Ansonsten klicke auf folgenden Link, um die Registrierung abzuschließen: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
+            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung abzuschließen: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
 
             $fp = fopen($speichern_unter, "wb");
             fwrite($fp, $inhalt);
@@ -952,36 +947,42 @@ class NutzerDAODBImpl implements NutzerDAO
             }
 
             // TODO DELETE gehoert_zu Einträge und unlink(File)
-
+            $this->db->query("PRAGMA foreign_keys = ON;");
             $anbieterEntfernenSQL = "DELETE FROM Anbieter WHERE AnbieterID = :AnbieterID;";
             $anbieterEntfernenCMD = $this->db->prepare($anbieterEntfernenSQL);
             $anbieterEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
             $anbieterEntfernenCMD->execute();
+            /*
+                        $this->db->query("PRAGMA foreign_keys = ON;");
+                        $kommentareEntfernenSQL = "DELETE FROM Kommentar WHERE AnbieterID = :AnbieterID;";
+                        $kommentareEntfernenCMD = $this->db->prepare($kommentareEntfernenSQL);
+                        $kommentareEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+                        $kommentareEntfernenCMD->execute();
 
-            $kommentareEntfernenSQL = "DELETE FROM Kommentar WHERE AnbieterID = :AnbieterID;";
-            $kommentareEntfernenCMD = $this->db->prepare($kommentareEntfernenSQL);
-            $kommentareEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
-            $kommentareEntfernenCMD->execute();
+                        $this->db->query("PRAGMA foreign_keys = ON;");
+                        $gemaeldeEntfernenSQL = "DELETE FROM Gemaelde WHERE AnbieterID = :AnbieterID;";
+                        $gemaeldeEntfernenCMD = $this->db->prepare($gemaeldeEntfernenSQL);
+                        $gemaeldeEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+                        $gemaeldeEntfernenCMD->execute();
 
-            $gemaeldeEntfernenSQL = "DELETE FROM Gemaelde WHERE AnbieterID = :AnbieterID;";
-            $gemaeldeEntfernenCMD = $this->db->prepare($gemaeldeEntfernenSQL);
-            $gemaeldeEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
-            $gemaeldeEntfernenCMD->execute();
+                        $this->db->query("PRAGMA foreign_keys = ON;");
+                        $sammlungEntfernenSQL = "DELETE FROM Sammlung WHERE AnbieterID = :AnbieterID;";
+                        $sammlungEntfernenCMD = $this->db->prepare($sammlungEntfernenSQL);
+                        $sammlungEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+                        $sammlungEntfernenCMD->execute();
 
-            $sammlungEntfernenSQL = "DELETE FROM Sammlung WHERE AnbieterID = :AnbieterID;";
-            $sammlungEntfernenCMD = $this->db->prepare($sammlungEntfernenSQL);
-            $sammlungEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
-            $sammlungEntfernenCMD->execute();
+                        $this->db->query("PRAGMA foreign_keys = ON;");
+                        $gelikedVonEntfernenSQL = "DELETE FROM geliked_von WHERE AnbieterID = :AnbieterID;";
+                        $gelikedVonEntfernenCMD = $this->db->prepare($gelikedVonEntfernenSQL);
+                        $gelikedVonEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
+                        $gelikedVonEntfernenCMD->execute();
 
-            $gelikedVonEntfernenSQL = "DELETE FROM geliked_von WHERE AnbieterID = :AnbieterID;";
-            $gelikedVonEntfernenCMD = $this->db->prepare($gelikedVonEntfernenSQL);
-            $gelikedVonEntfernenCMD->bindParam(":AnbieterID", $AnbieterID);
-            $gelikedVonEntfernenCMD->execute();
-
-            $entferneTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :AnbieterID;";
-            $entferneTokenCMD = $this->db->prepare($entferneTokenSQL);
-            $entferneTokenCMD->bindParam(":AnbieterID", $AnbieterID);
-            $entferneTokenCMD->execute();
+                        $this->db->query("PRAGMA foreign_keys = ON;");
+                        $entferneTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :AnbieterID;";
+                        $entferneTokenCMD = $this->db->prepare($entferneTokenSQL);
+                        $entferneTokenCMD->bindParam(":AnbieterID", $AnbieterID);
+                        $entferneTokenCMD->execute();
+            */
 
             $this->db->commit();
             return true;
