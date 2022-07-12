@@ -8,26 +8,21 @@
 
             var values = $(this).serialize();
 
-            /* Send the data using post and put the results in a div.*/
-            /* I am not aborting the previous request, because it's an
-               asynchronous request, meaning once it's sent it's out
-               there. But in case you want to abort it you can do it
-               by abort(). jQuery Ajax methods return an XMLHttpRequest
-               object, so you can just use abort().*/
+            /* Sendet die Daten mit post und packt die Ergebnisse in ein div.
+               Ich breche die vorherige Anfrage nicht ab, da es sich um eine
+               asynchrone Anfrage handelt, d.h. sobald sie gesendet wurde, ist sie
+               raus. Aber falls Sie die Anfrage abbrechen wollen, können Sie das tun
+               mit abort(). jQuery Ajax-Methoden geben ein XMLHttpRequest
+               Objekt zurück, sodass Sie einfach abort() verwenden können. */
             ajaxRequest = $.ajax({
-                url: "",//aktueller Pfad
+                url: "", //aktueller Pfad
                 type: "post",
                 data: values
             });
 
-            /*  Request can be aborted by ajaxRequest.abort()*/
-
             ajaxRequest.done(function () {
-                //Das hat so nicht den gewünschten Effekt, da so auch die gesamte Seite neu geladen wird.
-                //Das Laden von nur den veränderten Inhalten, hat aber nach einer Aktion nicht mehr funktioniert,
-                //bzw wurde nicht mehr in die on submit Methode gegangen, sodass der POST ganz normal ohne Javascript bearbeitet wurde.
-                //$("#comment_section").load(location.href + " #comment_section");
-                location.reload();
+                // Es wird nur die Kommentar-Sektion neu geladen
+                $("#comment_section").load(location.href + " #comment_section");
 
                 console.log("Erfolg");
             });

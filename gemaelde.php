@@ -244,7 +244,7 @@ include $abs_path . '/php/head.php';
         <?php endif ?>
 
     </div>
-    <section id="comment_section">
+    <div id="comment_section">
         <div class="align_container">
             <h2> Kommentarbereich</h2>
             <?php if (isset($_SESSION["id"])): ?>
@@ -301,7 +301,7 @@ include $abs_path . '/php/head.php';
             <?php endforeach; ?>
         </ul>
 
-    </section>
+    </div>
 
 </main>
 
