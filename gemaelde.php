@@ -95,9 +95,6 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="js/kommentaraktionen.js"></script>
-
 
 <?php include $abs_path . '/php/header.php'; ?>
 
@@ -245,6 +242,8 @@ include $abs_path . '/php/head.php';
 
     </div>
     <div id="comment_section">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="js/kommentaraktionen.js"></script>
         <div class="align_container">
             <h2> Kommentarbereich</h2>
             <?php if (isset($_SESSION["id"])): ?>
