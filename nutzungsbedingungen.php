@@ -24,13 +24,11 @@ include $abs_path . '/php/head.php';
         </h4>
         <p>&nbsp;</p>
         <p><strong>1 Geltungsbereich</strong></p>
-        <p>(1)&nbsp;Die nachfolgenden Bedingungen gelten für die Nutzung des Name Ihrer Domain - im folgenden "Unsere
-            Webseite" genannt - Kommentars.&nbsp;Für die Nutzung des Kommentars ist wichtig, dass Sie als
+        <p>(1)&nbsp;Die nachfolgenden Bedingungen gelten für die Nutzung dieser Webseite - im folgenden
+            "ArtPlace" genannt - ArtPlace.&nbsp;Für die Nutzung des ArtPlace ist wichtig, dass Sie als
             Nutzer/Nutzerin die
-            nachfolgenden Kommentareregeln bzw. bedingungen akzeptieren. Die Registrierung und Benutzung unseres
-            Kommentars
-            ist
-            kostenlos.</p>
+            nachfolgenden ArtPlace-Regeln bzw. bedingungen akzeptieren. Die Registrierung und Benutzung unseres
+            ArtPlace ist kostenlos.</p>
         <p>(2)&nbsp;Mit der Registrierung sind Sie mit den Nutzungsbedingungen unserer Webseite einverstanden. Durch Ihr
             Einverständnis garantieren Sie uns, dass Sie keine Beiträge erstellen werden, die gegen die
             Nutzungsbedingung
@@ -38,36 +36,36 @@ include $abs_path . '/php/head.php';
         <p>(3) Durch das Benutzen von unserer Webseite kommt kein Vertrag zwischen den Nutzern/Nutzerinnen und uns
             zustande.</p>
         <p><strong>&nbsp;</strong></p>
-        <p><strong> 2 Pflichten als Kommentar-Nutzer/Kommentar-Nutzerinnen</strong></p>
+        <p><strong> 2 Pflichten als ArtPlace-Nutzer/ArtPlace-Nutzerinnen</strong></p>
         <p><sup>&nbsp;</sup>(1) Einer Ihrer Pflichten als Nutzer/Nutzerin ist es, dass Sie keine Beiträge
             veröffentlichen,
-            die gegen diese Kommentareregeln, gegen die guten Sitten oder sonst gegen geltendes deutsches Recht
+            die gegen diese ArtPlace-Regeln, gegen die guten Sitten oder sonst gegen geltendes deutsches Recht
             verstoßen.
         </p>
         <p><span><u>Folgende Punkte sind Ihnen nicht genehmigt:</u></span></p>
         <p>1. Inhalte zu veröffentlichen, die unwahr sind und deren Veröffentlichung einen Straftatbestand oder eine
-            Ordnungswidrigkeit erfüllt,<br/>2. Versendung von Spam über das Kommentar an andere
-            Kommentar-Nutzer/Form-Nutzerin,<br/>3. Verwendung von gesetzlich durch Urheber- und Markenrecht geschützte
+            Ordnungswidrigkeit erfüllt,<br/>2. Versendung von Spam über das ArtPlace an andere
+            ArtPlace-Nutzer/ArtPlace-Nutzerin,<br/>3. Verwendung von gesetzlich durch Urheber- und Markenrecht geschützte
             Inhalte
             ohne rechtmäßige Berechtigung (z.B. Pressemitteilungen etc.),<br/>4. Handlungen, die wettbewerbswidrig
-            sind,<br/>5. mehrfache Einstellung von Themen ins Kommentar (sogenannte Doppelpostings),<br/>6. eigene
+            sind,<br/>5. mehrfache Einstellung von Themen ins ArtPlace (sogenannte Doppelpostings),<br/>6. eigene
             Werbung,
             folglich Schleichwerbung, zu betreiben und<br/>7. Inhalte zu veröffentlichen, die beleidigend, rassistisch,
             diskriminierend oder pornographische Elemente aufweisen gegenüber anderen Nutzern/Nutzerinnen und der
             Allgemeinheit.</p>
-        <p>Ihre Pflicht als Kommentar-Nutzer/ Kommentar-Nutzerin ist es, auf 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung,
+        <p>Ihre Pflicht als ArtPlace-Nutzer/ ArtPlace-Nutzerin ist es, auf 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung,
             vor&nbsp;
-            der Veröffentlichung Ihres Beitrages im Kommentar zu beachten und zu überprüfen, ob Sie sich an diese Punkte
+            der Veröffentlichung Ihres Beitrages im ArtPlace zu beachten und zu überprüfen, ob Sie sich an diese Punkte
             gehalten haben.</p>
         <p>(2)&nbsp;&nbsp;&nbsp;Sollten Sie gegen 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung verstoßen, behalten wir
             uns
             das Recht vor, gegen Sie folgende Schritte vorzunehmen:</p>
         <p>1. Ihre eingestellten Beiträge zu löschen und diese abzuändern,</p>
-        <p>2. Verbot weiterhin im Kommentar Beiträge zu verfassen und</p>
+        <p>2. Verbot weiterhin im ArtPlace Beiträge zu verfassen und</p>
         <p>3. Sperrung des Zugangs als Nutzer/Nutzerin.</p>
-        <p>(3)&nbsp;&nbsp;Haben Sie als Kommentar-Nutzer/Kommentar-Nutzerin nicht die Kommentareregeln beachtet und sind
+        <p>(3)&nbsp;&nbsp;Haben Sie als ArtPlace-Nutzer/ArtPlace-Nutzerin nicht die ArtPlace-Regeln beachtet und sind
             hierdurch
-            mögliche Rechtsverstöße entstanden, die durch Ihre eingestellten Inhalte in unserem Kommentar entstanden
+            mögliche Rechtsverstöße entstanden, die durch Ihre eingestellten Inhalte in unserem ArtPlace entstanden
             sind
             (Pflichtverletzung), verpflichten Sie sich als Nutzer/Nutzerin, <em>uns </em>von jeglichen Ansprüchen, auch
             den
@@ -80,8 +78,8 @@ include $abs_path . '/php/head.php';
             Signaturen.</p>
         <p>&nbsp;</p>
         <p><strong> 3 Übertragung von Nutzungsrechten</strong></p>
-        <p>Sie, als Kommentar-Nutzer/Kommentar-Nutzerin&nbsp; haben die alleinige Verantwortung des Urheberrechts i.S.d.
-            Urhebergesetzes bei Veröffentlichung von Beiträgen und Themen im Kommentar zu beachten. <sup>2</sup>Als
+        <p>Sie, als ArtPlace-Nutzer/ArtPlace-Nutzerin&nbsp; haben die alleinige Verantwortung des Urheberrechts i.S.d.
+            Urhebergesetzes bei Veröffentlichung von Beiträgen und Themen im ArtPlace zu beachten. <sup>2</sup>Als
             Nutzer/Nutzerin räumen Sie lediglich uns mit Veröffentlichung Ihres Beitrages auf deren Homepage das Recht
             ein, den Beitrag dauerhaft zum Abruf bereitzustellen. <sup>3</sup>Ferner hat unser Team das Recht, Ihre
             Themen
@@ -89,7 +87,7 @@ include $abs_path . '/php/head.php';
             Inhalten zu verknüpfen oder zu schließen.</p>
         <p>&nbsp;</p>
         <p><strong> 4 Haftungsbeschränkung</strong></p>
-        <p>(1) Wir übernimmen keinerlei Gewähr für die im Kommentar veröffentlichten und eingestellten Beiträge,
+        <p>(1) Wir übernimmen keinerlei Gewähr für die im ArtPlace veröffentlichten und eingestellten Beiträge,
             Themen,
             externen Links und die daraus resultierenden Inhalte, insbesondere nicht für deren Richtigkeit,
             Vollständigkeit und Aktualität. Wir sind auch nicht verpflichtet, permanent die übermittelten und
@@ -97,7 +95,7 @@ include $abs_path . '/php/head.php';
             auf
             einen rechtswidrigen Inhalt hinweisen. Wir haften grundsätzlich nur im Falle einer vorsätzlichen oder grob
             fahrlässigen Pflichtverletzung.</p>
-        <p>(2) WIr weisen ausdrücklich darauf hin, dass die juristischen Beiträge und Diskussionen im Kommentar
+        <p>(2) WIr weisen ausdrücklich darauf hin, dass die juristischen Beiträge und Diskussionen im ArtPlace
             vollkommen
             unverbindlich sind. <sup>2</sup>Die Nutzung der Beiträge und deren Verwertung erfolgt auf Ihre eigene
             Gefahr.
@@ -126,7 +124,7 @@ include $abs_path . '/php/head.php';
             seitens eines Benutzers verursacht werden, werden diesem in Rechnung gestellt.</p>
         <p><strong>&nbsp;</strong></p>
         <p><strong> 6 Änderungsvorbehalt</strong></p>
-        <p>Wir haben jederzeit das Recht die Nutzungsbedingungen zu ändern. Die Änderung wird dann per Kommentar-Eintrag
+        <p>Wir haben jederzeit das Recht die Nutzungsbedingungen zu ändern. Die Änderung wird dann per ArtPlace-Eintrag
             auf
             der Webseite veröffentlicht.</p>
         <p>&nbsp;</p>
@@ -136,12 +134,12 @@ include $abs_path . '/php/head.php';
             Kündigen fristlos gekündigt werden.</p>
         <p>&nbsp;</p>
         <p><strong> 8 Salvatorische Klausel</strong></p>
-        <p>Diese Kommentar-Nutzungsbedingung ist als Teil unserer Webseite zu betrachten, von dem aus auf diese Seite
+        <p>Diese ArtPlace-Nutzungsbedingung ist als Teil unserer Webseite zu betrachten, von dem aus auf diese Seite
             verwiesen
-            wird. Sind einzelne Formulierungen dieser Kommentar-Nutzungsbedingung nicht mehr ganz oder nicht mehr
+            wird. Sind einzelne Formulierungen dieser ArtPlace-Nutzungsbedingung nicht mehr ganz oder nicht mehr
             vollständig
             konform mit der geltenden Rechtslage, so ist davon auszugehen, dass die übrigen Regelungen der
-            Kommentar-Nutzungsbedingungen bestehen bleiben.</p>
+            ArtPlace-Nutzungsbedingungen bestehen bleiben.</p>
         <p>Diese <a href="http://www.jurarat.de/muster-nutzungsbedingungen">Nutzungsbedingungen</a> wurden
             freundlicherweise
             von www.jurarat.de zur Verfügung
