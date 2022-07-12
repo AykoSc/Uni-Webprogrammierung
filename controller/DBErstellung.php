@@ -142,12 +142,12 @@ class DBErstellung
     VALUES (3, 1);
 
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
-        VALUES (2, 1, 3);
+        VALUES (1, 1, 3);
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
-        VALUES (2, 2, 2);
+        VALUES (1, 2, 2);
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
-        VALUES (3, 1, 4);
+        VALUES (2, 1, 4);
     INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
-        VALUES (3, 2, 5);
+        VALUES (2, 2, 5);
     ";
 }
