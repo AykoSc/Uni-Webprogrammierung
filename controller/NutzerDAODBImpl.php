@@ -542,11 +542,12 @@ class NutzerDAODBImpl implements NutzerDAO
             $bereitsBewertetCMD->execute();
             $ergebnis = $bereitsBewertetCMD->fetchObject();
 
-            $rueckgabe = $ergebnis->Bewertung; //TODO hier wird noch ein Fehler angezeigt wenn man bewerten könnte aber dies noch nicht getan hat, weil im catch noch print_r ausgeführt wird. Bei finaler Abgabe print_r entfernen!
-
             $this->db->commit();
-
-            return empty($rueckgabe) ? 0 : $rueckgabe;
+            if (isset($ergebnis->Bewertung) and is_int($ergebnis->Bewertung)) {
+                return $ergebnis->Bewertung;
+            } else {
+                return 0;
+            }
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
