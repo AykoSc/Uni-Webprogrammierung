@@ -32,7 +32,7 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
         if (!$registrierung) {
             $fehlermeldung = "Der Nutzername existiert bereits. Versuchen Sie es mit einem anderen Nutzernamen erneut.";
         } else {
-            $erfolgreich = "Es wurde eine E-Mail an die angegebene Adresse verschickt mit weiteren Infos.";
+            $erfolgreich = "Es wurde eine E-Mail an die angegebene Adresse verschickt mit weiteren Infos. ";
         }
     }
 }
@@ -74,8 +74,8 @@ include $abs_path . '/php/head.php';
     <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
         <p class="nachricht fehler"><?php echo $fehlermeldung ?></p>
     <?php endif ?>
-    <?php if (isset($erfolgreich) and is_string($erfolgreich)): ?>
-        <p class="nachricht"><?php echo $erfolgreich ?></p>
+    <?php if (isset($erfolgreich) and is_string($erfolgreich) and isset($email) and is_string($email)): ?>
+        <p class="nachricht"><?php echo $erfolgreich ?><a href="emails/<?php echo $email?>_postfach.txt" target="_blank">Zur Email-Datei</a></p>
     <?php endif ?>
 
     <h1>Registrierung</h1>

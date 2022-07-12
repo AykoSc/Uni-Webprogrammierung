@@ -10,7 +10,7 @@ if (isset($_GET["Email"]) and is_string($_GET["Email"])
     if ($erfolgreich_bestaetigt) {
         $erfolgreich = "Erfolgreich bestätigt. Sie können sich nun einloggen.";
     } else {
-        $fehlermeldung = "Der Verifizierungsprozess schlug fehl, da die Daten falsch waren. Bitte kontaktieren Sie einen Administrator.";
+        $fehlermeldung = "Der Verifizierungsprozess schlug fehl, da die Daten falsch waren. Bitte kontaktieren Sie einen Administrator oder versuchen Sie es erneut mit dem Verifizierungscode in der Email.";
     }
 }
 
@@ -23,6 +23,8 @@ if (isset($_POST["email"]) and is_string($_POST["email"]) and isset($_POST["pass
         $_SESSION["id"] = $anmeldung[0];
         $_SESSION["token"] = $anmeldung[1];
         header("location: index.php?anmelden=1");
+    } else {
+        $fehlermeldung = "Anmeldung fehlgeschlagen";
     }
 }
 ?>
@@ -40,12 +42,6 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($anmeldung) and is_array($anmeldung) and $anmeldung[0] === -1): ?>
-        <p class="nachricht fehler">Anmeldung fehlgeschlagen</p>
-    <?php endif ?>
-    <?php if (isset($_GET["registrieren"]) and is_string($_GET["registrieren"]) and $_GET["registrieren"] === "1"): ?>
-        <p class="nachricht">Registrierung erfolgreich</p>
-    <?php endif ?>
     <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
         <p class="nachricht fehler"><?php echo $fehlermeldung ?></p>
     <?php endif ?>

@@ -173,9 +173,8 @@ class NutzerDAODBImpl implements NutzerDAO
                 $this->db->rollBack();
 
                 //E-Mail existiert bereits, sende "Existiert bereits" E-Mail
-                $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
-                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. \nSolltest du dein Password vergessen haben, klicke bitte hier: [HIER LINK FÜR ZURÜCKSETZEN, WURDE IN DIESEM PROJEKT NICHT IMPLEMENTIERT]";
-
+                $speichern_unter = "emails/$Email" . "_postfach.txt";
+                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. \nSolltest du dein Password vergessen haben, klicke bitte hier: [HIER PASSWORT VERGESSEN LINK, Password-vergessen-Funktion muss nicht implementiert werden]";
                 $fp = fopen($speichern_unter, "wb");
                 fwrite($fp, $inhalt);
                 fclose($fp);
@@ -199,10 +198,9 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
 
-            //E-Mail existiert noch nicht, sende "Existiert noch nicht" E-Mail
-            $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
-            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung abzuschließen: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
-
+            //E-Mail existiert noch nicht, sende "Registrierung abzuschließen" E-Mail
+            $speichern_unter = "emails/$Email" . "_postfach.txt";
+            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung vollständig zu beenden: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
             $fp = fopen($speichern_unter, "wb");
             fwrite($fp, $inhalt);
             fclose($fp);

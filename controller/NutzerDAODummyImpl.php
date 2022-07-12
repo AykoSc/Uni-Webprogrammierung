@@ -78,6 +78,12 @@ class NutzerDAODummyImpl implements NutzerDAO
         return true;
     }
 
+    public function registrieren_bestaetigen($Email, $Verifizierungscode): bool
+    {
+        // Registrierung bestätigen wird hier nicht implementiert, da es eine schreibende Methode ist
+        return true;
+    }
+
     public function anmelden($Email, $Passwort): array
     {
         if (isset($Email) and is_string($Email) and isset($Passwort) and is_string($Passwort)) {
@@ -135,6 +141,16 @@ class NutzerDAODummyImpl implements NutzerDAO
             }
         }
         return [-1];
+    }
+
+    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool {
+        // Gemälde bewerten wird hier nicht implementiert, da es eine schreibende Methode ist
+        return true;
+    }
+
+    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int {
+        // Eigene Gemälde Bewertung erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
+        return -1;
     }
 
     public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int
