@@ -1,6 +1,6 @@
     $(document).ready(function() {
 
-        $("#comment_section form").submit(function (event) {
+        $("#comment_section form").submit(function(event) {
 
             event.preventDefault();
 

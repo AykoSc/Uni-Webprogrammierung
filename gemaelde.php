@@ -242,7 +242,7 @@ include $abs_path . '/php/head.php';
 
     </div>
     <div id="comment_section">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="js/jquery.min.js"></script>
         <script src="js/kommentaraktionen.js"></script>
         <div class="align_container">
             <h2> Kommentarbereich</h2>
@@ -299,7 +299,6 @@ include $abs_path . '/php/head.php';
                 </li>
             <?php endforeach; ?>
         </ul>
-
     </div>
 
 </main>
