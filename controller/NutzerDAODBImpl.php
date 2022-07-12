@@ -220,16 +220,16 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $speichereAnbieterSQL = "UPDATE Anbieter SET Verifiziert = :Verifiziert WHERE Email = :Email AND Verifizierungscode = :Verifizierungscode;";
-            $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
-            $speichereAnbieterCMD->bindValue(":Verifiziert", "true");
-            $speichereAnbieterCMD->bindParam(":Email", $Email);
-            $speichereAnbieterCMD->bindParam(":Verifizierungscode", $Verifizierungscode);
-            $speichereAnbieterCMD->execute();
-            $BetroffeneReihen = $speichereAnbieterCMD->rowCount();
+            $verifiziereAnbieterSQL = "UPDATE Anbieter SET Verifiziert = :Verifiziert WHERE Email = :Email AND Verifizierungscode = :Verifizierungscode;";
+            $verifiziereAnbieterCMD = $this->db->prepare($verifiziereAnbieterSQL);
+            $verifiziereAnbieterCMD->bindValue(":Verifiziert", "true");
+            $verifiziereAnbieterCMD->bindParam(":Email", $Email);
+            $verifiziereAnbieterCMD->bindParam(":Verifizierungscode", $Verifizierungscode);
+            $verifiziereAnbieterCMD->execute();
+            $betroffeneReihen = $verifiziereAnbieterCMD->rowCount();
 
             $this->db->commit();
-            return $BetroffeneReihen > 0;
+            return $betroffeneReihen > 0;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();
@@ -242,7 +242,7 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $existiertAnbieterSQL = "SELECT * FROM Anbieter WHERE Email = :Email;";
+            $existiertAnbieterSQL = "SELECT * FROM Anbieter WHERE Email = :Email AND Verifiziert = 'true';";
             $existiertAnbieterCMD = $this->db->prepare($existiertAnbieterSQL);
             $existiertAnbieterCMD->bindParam(":Email", $Email);
             $existiertAnbieterCMD->execute();

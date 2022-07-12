@@ -98,10 +98,10 @@ class DBErstellung
     ";
 
     const DATEN = "
-    INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
-    VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1!', 'm', 'Max Mustermann', 'Ammerländer Heerstraße 114, 26129 Oldenburg', 'deutsch', '2000-10-04', '2022-06-02');
-    INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum)
-    VALUES ('test2', 'test2@test.com', '', 'Ich bin Test 2!', 'w', 'Maxine Musterfrau', 'Ammerländer Heerstraße 118, 26129 Oldenburg', 'deutsch', '2000.11-01', '2022-05-28');
+    INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum, Verifiziert)
+    VALUES ('test1', 'test1@test.com', '', 'Ich bin Test 1!', 'm', 'Max Mustermann', 'Ammerländer Heerstraße 114, 26129 Oldenburg', 'deutsch', '2000-10-04', '2022-06-02', 'true');
+    INSERT INTO Anbieter (Nutzername, Email, Passwort, Personenbeschreibung, Geschlecht, Vollstaendiger_Name, Anschrift, Sprache, Geburtsdatum, Registrierungsdatum, Verifiziert)
+    VALUES ('test2', 'test2@test.com', '', 'Ich bin Test 2!', 'w', 'Maxine Musterfrau', 'Ammerländer Heerstraße 118, 26129 Oldenburg', 'deutsch', '2000.11-01', '2022-05-28', 'true');
   
     INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
     VALUES (2, 'Stockbild1', 'Stockkünstler1', 'Beschreibung von Bild 1', '1900-09-04', 'München, Deutschland', 3, '2021-10-07', 56, 'jpg');
