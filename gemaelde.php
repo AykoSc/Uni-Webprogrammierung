@@ -200,10 +200,10 @@ include $abs_path . '/php/head.php';
                 </form>
             <?php else: ?>
 
-            <h2>Über das Gemälde</h2>
-            <p><?php echo $beschreibung ?></p>
+                <h2>Über das Gemälde</h2>
+                <p><?php echo $beschreibung ?></p>
 
-            <details class="extended_description">
+                <details class="extended_description">
 
                 <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
 
