@@ -62,6 +62,7 @@ include $abs_path . '/php/head.php';
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen></iframe>
+    <noscript>Aktivieren Sie JavaScript, um die bekanntesten Gemälde zu sehen!</noscript>
 </main>
 
 

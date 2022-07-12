@@ -152,8 +152,13 @@ include $abs_path . '/php/head.php';
                             <input id="ort" type="text" name="ort" value="<?php echo $ort ?>">
                         </div>
                         <div class="item">
-                            <h3>Bewertung</h3>
-                            <p><?php echo $bewertung ?>/10</p>
+                            <p>Gesamtbewertung:</p>
+                            <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+                                <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
+                            <?php } ?>
+                            <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+                                <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
+                            <?php } ?>
                         </div>
                         <div class="item">
                             <h3>Hochladedatum</h3>
@@ -200,35 +205,29 @@ include $abs_path . '/php/head.php';
                         <h3>Bewertung</h3>
                         <p>Gesamtbewertung:</p>
                         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
-                            <img src="images/stern_gelb.svg" alt="bewertunggesamt" class="icons"
-                                 style="width: 25px; height: 25px"/>
+                            <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
                         <?php } ?>
                         <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
-                            <img src="images/stern_schwarz.svg" alt="bewertunggesamt" class="icons"
-                                 style="width: 25px; height: 25px"/>
+                            <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
                         <?php } ?>
 
                         <?php if (isset($_SESSION["id"])): ?>
                             <p>Deine Bewertung:</p>
                             <form method="post">
-                                <?php for ($i = 1; $i <= $eigene_bewertung; $i++) {
-                                    //TODO styles entfernen
-                                    ?>
-                                    <button name="bewertung" value="<?php echo $i ?>" style="padding: 0">
-                                        <img src="images/stern_gelb.svg" style="width: 25px; height: 25px"
-                                             alt="eigenebewertung"/>
+                                <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
+                                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                                        <img class="icons" src="images/stern_gelb.svg" alt="eigenebewertung"/>
                                     </button>
                                 <?php } ?>
                                 <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
-                                    <button name="bewertung" value="<?php echo $i ?>" style="padding: 0">
-                                        <img src="images/stern_schwarz.svg" style="width: 25px; height: 25px"
-                                             alt="eigenebewertung"/>
+                                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                                        <img class="icons" src="images/stern_schwarz.svg" alt="eigenebewertung"/>
                                     </button>
                                 <?php } ?>
                             </form>
                         <?php endif; ?>
                     </div>
-                    <div class=" item">
+                    <div class="item">
                         <h3>Hochladedatum</h3>
                         <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
                     </div>

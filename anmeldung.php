@@ -4,6 +4,16 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
+if (isset($_GET["Email"]) and is_string($_GET["Email"])
+    and isset($_GET["Verifizierungscode"]) and is_string($_GET["Verifizierungscode"])) {
+    $erfolgreich_bestaetigt = $dao->registrieren_bestaetigen(htmlspecialchars($_GET["Email"]), htmlspecialchars($_GET["Verifizierungscode"]));
+    if ($erfolgreich_bestaetigt) {
+        $erfolgreich = "Erfolgreich bestätigt. Sie können sich nun einloggen.";
+    } else {
+        $fehlermeldung = "Der Verifizierungsprozess schlug fehl, da die Daten falsch waren. Bitte kontaktieren Sie einen Administrator.";
+    }
+}
+
 if (isset($_POST["email"]) and is_string($_POST["email"]) and isset($_POST["passwort"]) and is_string($_POST["passwort"])) {
     $email = htmlspecialchars($_POST["email"]);
     $passwort = htmlspecialchars($_POST["passwort"]);
@@ -35,6 +45,12 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
     <?php if (isset($_GET["registrieren"]) and is_string($_GET["registrieren"]) and $_GET["registrieren"] === "1"): ?>
         <p class="nachricht">Registrierung erfolgreich</p>
+    <?php endif ?>
+    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo $fehlermeldung ?></p>
+    <?php endif ?>
+    <?php if (isset($erfolgreich) and is_string($erfolgreich)): ?>
+        <p class="nachricht"><?php echo $erfolgreich ?></p>
     <?php endif ?>
 
     <h1>Anmeldung</h1>

@@ -1,3 +1,12 @@
+.icons {
+    width: 25px;
+    height: 25px;
+}
+
+.bewertung {
+    padding: 0;
+}
+
 /*liste der Komentare */
 .comment-section {
     list-style: none; /*Keine Punkte vor Lsteneinträgen */

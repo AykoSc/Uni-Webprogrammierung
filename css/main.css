@@ -249,6 +249,10 @@ footer > a:hover { /*Links beim drüber hovern*/
     opacity: 1; /*Deckkraft*/
 }
 
+.usermanagement #akzeptiert {
+    width: 1%;
+}
+
 /*
 ---> Interaktion mit Nutzer: Rückmeldung per Nachricht <---
 */

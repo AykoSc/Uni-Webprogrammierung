@@ -14,7 +14,9 @@ class DBErstellung
         Anschrift TEXT,
         Sprache TEXT,
         Geburtsdatum TEXT,
-        Registrierungsdatum TEXT
+        Registrierungsdatum TEXT,
+        Verifiziert TEXT,
+        Verifizierungscode TEXT
     );
     
     CREATE TABLE IF NOT EXISTS Gemaelde (

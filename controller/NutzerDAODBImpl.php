@@ -152,16 +152,6 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
-            $checkEmailCMD = $this->db->prepare($checkEmailSQL);
-            $checkEmailCMD->bindParam(":email", $Email);
-            $checkEmailCMD->execute();
-            $result = $checkEmailCMD->fetchObject();
-            if (isset($result->Email)) {
-                $this->db->rollBack();
-                return false; //Email existiert bereits
-            }
-
             $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername;";
             $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
             $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
@@ -172,19 +162,74 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Nutzername existiert bereits
             }
 
+            $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
+            $checkEmailCMD = $this->db->prepare($checkEmailSQL);
+            $checkEmailCMD->bindParam(":email", $Email);
+            $checkEmailCMD->execute();
+            $result = $checkEmailCMD->fetchObject();
+            if (isset($result->Email)) {
+                $this->db->rollBack();
+
+                //E-Mail existiert bereits, sende "Existiert bereits" E-Mail
+                $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
+                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. 
+                Solltest du dein Password vergessen haben, klicke bitte hier: [HIER LINK FÜR ZURÜCKSETZEN, WURDE IN DIESEM PROJEKT NICHT IMPLEMENTIERT]";
+
+                $fp = fopen($speichern_unter, "wb");
+                fwrite($fp, $inhalt);
+                fclose($fp);
+
+                return true;
+            }
+
+            $Verifizierungscode = uniqid();
             $Hash = password_hash($Passwort, PASSWORD_DEFAULT);
             $Registrierungsdatum = date("Y-m-d");
 
-            $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort, Registrierungsdatum) VALUES (:Nutzername, :Email, :Passwort, :Registrierungsdatum);";
+            $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort, Registrierungsdatum, Verifiziert, Verifizierungscode) VALUES (:Nutzername, :Email, :Passwort, :Registrierungsdatum, :Verifiziert, :Verifizierungscode);";
             $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
             $speichereAnbieterCMD->bindParam(":Nutzername", $Nutzername);
             $speichereAnbieterCMD->bindParam(":Email", $Email);
             $speichereAnbieterCMD->bindParam(":Passwort", $Hash);
             $speichereAnbieterCMD->bindParam(":Registrierungsdatum", $Registrierungsdatum);
+            $speichereAnbieterCMD->bindValue(":Verifiziert", "false");
+            $speichereAnbieterCMD->bindParam(":Verifizierungscode", $Verifizierungscode);
             $speichereAnbieterCMD->execute();
 
             $this->db->commit();
+
+            //E-Mail existiert noch nicht, sende "Existiert noch nicht" E-Mail
+            $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
+            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. 
+            Ansonsten klicke auf folgenden Link, um die Registrierung abzuschließen: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
+
+            $fp = fopen($speichern_unter, "wb");
+            fwrite($fp, $inhalt);
+            fclose($fp);
+
             return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+    public function registrieren_bestaetigen($Email, $Verifizierungscode): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            $speichereAnbieterSQL = "UPDATE Anbieter SET Verifiziert = :Verifiziert WHERE Email = :Email AND Verifizierungscode = :Verifizierungscode;";
+            $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
+            $speichereAnbieterCMD->bindValue(":Verifiziert", "true");
+            $speichereAnbieterCMD->bindParam(":Email", $Email);
+            $speichereAnbieterCMD->bindParam(":Verifizierungscode", $Verifizierungscode);
+            $speichereAnbieterCMD->execute();
+            $BetroffeneReihen = $speichereAnbieterCMD->rowCount();
+
+            $this->db->commit();
+            return $BetroffeneReihen > 0;
         } catch (Exception $ex) {
             print_r($ex);
             $this->db->rollBack();

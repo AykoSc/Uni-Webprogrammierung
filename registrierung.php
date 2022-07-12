@@ -27,17 +27,13 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     if ($akzeptiert === "nein") {
         $fehlermeldung = "Sie stimmen nicht der Datenschutzerklärung zu und bestätigen nicht das Einhalten der Nutzungsbedingungen.";
     }
-    if (isset($fehlermeldung) and is_string($fehlermeldung)) {
-        $registrierung = false;
-    } else {
+    if (!(isset($fehlermeldung) and is_string($fehlermeldung))) {
         $registrierung = $dao->registrieren($nutzername, $email, $passwort);
         if (!$registrierung) {
-            $fehlermeldung = "Der Nutzername oder die Email wird bereits verwendet.";
+            $fehlermeldung = "Der Nutzername existiert bereits. Versuchen Sie es mit einem anderen Nutzernamen erneut.";
+        } else {
+            $erfolgreich = "Es wurde eine E-Mail an die angegebene Adresse verschickt mit weiteren Infos.";
         }
-    }
-
-    if ($registrierung) {
-        header("location: anmeldung.php?registrieren=1");
     }
 }
 ?>
@@ -75,8 +71,11 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($registrierung) and is_bool($registrierung) and !$registrierung and isset($fehlermeldung) and is_string($fehlermeldung)): ?>
-        <p class="nachricht fehler">Registrierung fehlgeschlagen: <?php echo $fehlermeldung ?></p>
+    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo $fehlermeldung ?></p>
+    <?php endif ?>
+    <?php if (isset($erfolgreich) and is_string($erfolgreich)): ?>
+        <p class="nachricht"><?php echo $erfolgreich ?></p>
     <?php endif ?>
 
     <h1>Registrierung</h1>
@@ -86,7 +85,8 @@ include $abs_path . '/php/head.php';
         <form method="post" action="registrierung.php">
             <hr>
             <label id="nutzernamevergeben" for="nutzername">Benutzername</label>
-            <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required onkeyup="suchvorschlaege(this.value)"
+            <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required
+                   onkeyup="suchvorschlaege(this.value)"
                 <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . htmlspecialchars($_POST["nutzername"]) : '' ?>>
             <label for="email">E-Mail</label>
             <input type="email" id="email" name="email" maxlength="100" placeholder="E-Mail eingeben" required
