@@ -47,10 +47,12 @@ include $abs_path . '/php/head.php';
             Ordnungswidrigkeit erfüllt,<br/>2. Versendung von Spam über das ArtPlace an andere
             ArtPlace-Nutzer/ArtPlace-Nutzerin,<br/>3. Verwendung von gesetzlich durch Urheber- und Markenrecht geschützte
             Inhalte
-            ohne rechtmäßige Berechtigung (z.B. Pressemitteilungen etc.),<br/>4. Handlungen, die wettbewerbswidrig
-            sind,<br/>5. mehrfache Einstellung von Themen ins ArtPlace (sogenannte Doppelpostings),<br/>6. eigene
+            ohne rechtmäßige Berechtigung (z.B. Pressemitteilungen etc.),<br/>4. Beim Hochladen sichert der/die
+            ArtPlace-Nutzer/ArtPlace-Nutzerin zu, dass er/sie die Rechte an der hochgeladenen Datei hat
+            und diese an ArtPlace überträgt,<br/>5. Handlungen, die wettbewerbswidrig
+            sind,<br/>6. mehrfache Einstellung von Themen ins ArtPlace (sogenannte Doppelpostings),<br/>7. eigene
             Werbung,
-            folglich Schleichwerbung, zu betreiben und<br/>7. Inhalte zu veröffentlichen, die beleidigend, rassistisch,
+            folglich Schleichwerbung, zu betreiben und<br/>8. Inhalte zu veröffentlichen, die beleidigend, rassistisch,
             diskriminierend oder pornographische Elemente aufweisen gegenüber anderen Nutzern/Nutzerinnen und der
             Allgemeinheit.</p>
         <p>Ihre Pflicht als ArtPlace-Nutzer/ ArtPlace-Nutzerin ist es, auf 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung,
