@@ -99,8 +99,8 @@ include $abs_path . '/php/head.php';
                    placeholder="Passwort wiederholen" required>
             <input type="hidden" name="akzeptiert" value="nein"/>
             <input id="akzeptiert" type="checkbox" name="akzeptiert" value="ja"/>
-            <label for="akzeptiert">Ich stimme der Datenschutzerklärung zu und bestätige das Einhalten der
-                Nutzungsbedingungen.</label>
+            <label for="akzeptiert">Ich stimme der <a href="datenschutz.php">Datenschutzerklärung</a> zu und
+                bestätige das Einhalten der <a href="nutzungsbedingungen.php">Nutzungsbedingungen</a>.</label>
             <hr>
             <button type="submit">Registrieren</button>
             <a href="index.php">Zurück zur Startseite</a>
