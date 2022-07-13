@@ -107,7 +107,6 @@ include $abs_path . '/php/head.php';
 <body>
 <script src="js/jquery.min.js"></script>
 <script src="js/kommentaraktionen.js"></script>
-<script src="js/bewertunganwenden.js"></script>
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
