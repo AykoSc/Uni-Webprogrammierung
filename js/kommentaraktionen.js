@@ -7,7 +7,7 @@ $(document).ready(function() {
         var ajaxRequest;
 
         var values = $(this).serialize();
-        console.debug(values)
+
         /* Sendet die Daten mit post und packt die Ergebnisse in ein div.
            Ich breche die vorherige Anfrage nicht ab, da es sich um eine
            asynchrone Anfrage handelt, d.h. sobald sie gesendet wurde, ist sie

@@ -105,7 +105,9 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
-
+<script src="js/jquery.min.js"></script>
+<script src="js/kommentaraktionen.js"></script>
+<script src="js/bewertunganwenden.js"></script>
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
@@ -264,8 +266,6 @@ include $abs_path . '/php/head.php';
 
     </div>
     <div id="comment_section">
-        <script src="js/jquery.min.js"></script>
-        <script src="js/kommentaraktionen.js"></script>
         <div class="align_container">
             <h2> Kommentarbereich</h2>
             <?php if (isset($_SESSION["id"])): ?>
@@ -299,7 +299,7 @@ include $abs_path . '/php/head.php';
                         <?php if (isset($_SESSION["id"])) : ?>
                             <form method="post">
                                 <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input id="thumbsup" type="image" alt="thumbsup"
+                                <input type="image" alt="thumbsup"
                                        <?php if ($kommentar[6] == 1): ?>src="images/daumenhoch_farbig.png"
                                     <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
                                        width="20">
