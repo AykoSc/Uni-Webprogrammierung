@@ -107,6 +107,7 @@ include $abs_path . '/php/head.php';
 <body>
 <script src="js/jquery.min.js"></script>
 <script src="js/kommentaraktionen.js"></script>
+<script src="js/bewertungaktion.js"></script>
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
@@ -221,7 +222,7 @@ include $abs_path . '/php/head.php';
                         <h3>Ort</h3>
                         <p><?php echo $ort ?></p>
                     </div>
-                    <div class="item">
+                    <div id="bewertung" class="item">
                         <h3>Bewertung</h3>
                         <p>Gesamtbewertung:</p>
                         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
@@ -290,7 +291,7 @@ include $abs_path . '/php/head.php';
                         <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
                     </a>
                     <p>
-                        <?php echo htmlspecialchars($kommentar[4]); ?>
+                        <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
                     </p>
 
                     <div class="likes">
