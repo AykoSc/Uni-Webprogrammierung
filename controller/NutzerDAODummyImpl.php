@@ -50,11 +50,11 @@ class NutzerDAODummyImpl implements NutzerDAO
         [2, 0, [2, 0], "Sammlung2", "Beschreibung von Bild 2", 5, "02.03.2022", 8673]
     ];
 
-    private static $instance = null;
+    private static ?NutzerDAODummyImpl $instance = null;
 
     private function __construct()
     {
-
+        //Setze Default Constructor privat, um damit direkte Instanziierungen zu verbieten
     }
 
     public static function getInstance(): NutzerDAODummyImpl
@@ -80,9 +80,9 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function anmelden($Email, $Passwort): array
     {
-        if (isset($Email) and is_string($Email) and isset($Passwort) and is_string($Passwort)) {
+        if (isset($Email) && is_string($Email) && isset($Passwort) && is_string($Passwort)) {
             foreach ($this->users as $user) {
-                if ($user[1] === htmlspecialchars($Email) and $user[2] === htmlspecialchars($Passwort)) {
+                if ($user[1] === htmlspecialchars($Email) && $user[2] === htmlspecialchars($Passwort)) {
                     // Token wird hier nicht in Datenbank gespeichert und an User gesendet, da es eine schreibende Methode ist
                     foreach ($this->users_tokens as $token) {
                         if ($user[0] === $token[0]) {
@@ -127,7 +127,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function gemaelde_erhalten($GemaeldeID): array
     {
-        if (isset($GemaeldeID) and is_string($GemaeldeID)) {
+        if (isset($GemaeldeID) && is_string($GemaeldeID)) {
             foreach ($this->gemaelde as $g) {
                 if ($g[0] == htmlspecialchars($GemaeldeID)) {
                     return $g;
@@ -157,7 +157,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function sammlung_erhalten($SammlungID): array
     {
-        if (isset($SammlungID) and is_string($SammlungID)) {
+        if (isset($SammlungID) && is_string($SammlungID)) {
             foreach ($this->sammlungen as $s) {
                 if ($s[0] == htmlspecialchars($SammlungID)) {
                     return $s;
@@ -181,14 +181,14 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool
     {
-        // Kommentar wird hier nicht geliked, da es eine schreibende Methode ist
+        // Kommentar wird hier nicht gelikt, da es eine schreibende Methode ist
         return true;
     }
 
     public function kommentare_erhalten($GemaeldeID, $AnbieterID, $Tokennummer): array
     {
         $result = array();
-        if (isset($GemaeldeID) and is_string($GemaeldeID)) {
+        if (isset($GemaeldeID) && is_string($GemaeldeID)) {
             foreach ($this->kommentare as $k) {
                 if ($k[1] == htmlspecialchars($GemaeldeID)) {
                     $result[] = $k;
@@ -200,7 +200,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function profil_erhalten($AnbieterID): array
     {
-        if (isset($AnbieterID) and is_string($AnbieterID)) {
+        if (isset($AnbieterID) && is_string($AnbieterID)) {
             foreach ($this->users_profil as $profil) {
                 if ($profil[0] == htmlspecialchars($AnbieterID)) {
                     return $profil;
@@ -225,7 +225,7 @@ class NutzerDAODummyImpl implements NutzerDAO
     public function ausstellung_erhalten($Suche, $Filter): array
     {
         $Suchergebnis = array();
-        if (isset($Suche) and is_string($Suche)) {
+        if (isset($Suche) && is_string($Suche)) {
             foreach ($this->gemaelde as $g) {
                 if (str_contains($g[2], $Suche)) {
                     $Suchergebnis[] = $g;
@@ -234,15 +234,13 @@ class NutzerDAODummyImpl implements NutzerDAO
         } else {
             $Suchergebnis = $this->gemaelde;
         }
-        if (isset($Filter) and is_string($Filter)) {
-            if ($Filter === "beliebteste") { //Nach beliebtesten sortieren
-                for ($i = 0; $i < sizeof($Suchergebnis); $i++) {
-                    for ($j = $i + 1; $j < sizeof($Suchergebnis); $j++) {
-                        if ($Suchergebnis[$i][9] < $Suchergebnis[$j][9]) {
-                            $temp = $Suchergebnis[$i];
-                            $Suchergebnis[$i] = $Suchergebnis[$j];
-                            $Suchergebnis[$j] = $temp;
-                        }
+        if (isset($Filter) && $Filter === "beliebteste") { //Nach beliebtesten sortieren
+            for ($i = 0; $i < sizeof($Suchergebnis); $i++) {
+                for ($j = $i + 1; $j < sizeof($Suchergebnis); $j++) {
+                    if ($Suchergebnis[$i][9] < $Suchergebnis[$j][9]) {
+                        $temp = $Suchergebnis[$i];
+                        $Suchergebnis[$i] = $Suchergebnis[$j];
+                        $Suchergebnis[$j] = $temp;
                     }
                 }
             }
@@ -261,7 +259,7 @@ class NutzerDAODummyImpl implements NutzerDAO
     public function sammlungen_erhalten($Suche, $Filter): array
     {
         $Suchergebnis = array();
-        if (isset($Suche) and is_string($Suche)) {
+        if (isset($Suche) && is_string($Suche)) {
             foreach ($this->sammlungen as $s) {
                 if (str_contains($s[3], $Suche)) {
                     $Suchergebnis[] = $s;
@@ -270,15 +268,13 @@ class NutzerDAODummyImpl implements NutzerDAO
         } else {
             $Suchergebnis = $this->sammlungen;
         }
-        if (isset($Filter) and is_string($Filter)) {
-            if ($Filter === "beliebteste") { //Nach beliebtesten sortieren
-                for ($i = 0; $i < sizeof($Suchergebnis); $i++) {
-                    for ($j = $i + 1; $j < sizeof($Suchergebnis); $j++) {
-                        if ($Suchergebnis[$i][7] < $Suchergebnis[$j][7]) {
-                            $temp = $Suchergebnis[$i];
-                            $Suchergebnis[$i] = $Suchergebnis[$j];
-                            $Suchergebnis[$j] = $temp;
-                        }
+        if (isset($Filter) && $Filter === "beliebteste") { //Nach beliebtesten sortieren
+            for ($i = 0; $i < sizeof($Suchergebnis); $i++) {
+                for ($j = $i + 1; $j < sizeof($Suchergebnis); $j++) {
+                    if ($Suchergebnis[$i][7] < $Suchergebnis[$j][7]) {
+                        $temp = $Suchergebnis[$i];
+                        $Suchergebnis[$i] = $Suchergebnis[$j];
+                        $Suchergebnis[$j] = $temp;
                     }
                 }
             }
@@ -292,5 +288,17 @@ class NutzerDAODummyImpl implements NutzerDAO
         }
 
         return $ergebnis;
+    }
+
+    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool
+    {
+        // Gemälde wird hier nicht bewertet, da es eine schreibende Methode ist
+        return true;
+    }
+
+    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int
+    {
+        //TODO Eigene Bewertung erhalten
+        return -1;
     }
 }

@@ -39,7 +39,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 if (!isset($result->GemaeldeID)) {
                     $this->db->exec(DBErstellung::DATEN); // Daten werden eingefügt, wenn Datenbank leer ist
 
-                    // Passwort für Test-Accounts hashen
+                    // Passwörter für Test-Accounts hashen
                     $Nutzername1 = "test1";
                     $Hash1 = password_hash("test1!", PASSWORD_DEFAULT);
                     $Nutzername2 = "test2";
@@ -247,7 +247,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $existiertAnbieterCMD->bindParam(":Email", $Email);
             $existiertAnbieterCMD->execute();
             $ergebnis = $existiertAnbieterCMD->fetchObject();
-            if (!isset($ergebnis->AnbieterID) or !isset($ergebnis->Email) or !isset($ergebnis->Passwort)) {
+            if (!isset($ergebnis->AnbieterID) || !isset($ergebnis->Email) || !isset($ergebnis->Passwort)) {
                 $this->db->rollBack();
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Anbieter existiert nicht)
             }
@@ -543,7 +543,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $ergebnis = $bereitsBewertetCMD->fetchObject();
 
             $this->db->commit();
-            if (isset($ergebnis->Bewertung) and is_int($ergebnis->Bewertung)) {
+            if (isset($ergebnis->Bewertung) && is_int($ergebnis->Bewertung)) {
                 return $ergebnis->Bewertung;
             } else {
                 return 0;
@@ -912,7 +912,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            if (!($Geschlecht === "m" or $Geschlecht === "w" or $Geschlecht === "")) {
+            if (!($Geschlecht === "m" || $Geschlecht === "w" || $Geschlecht === "")) {
                 $this->db->rollBack();
                 return false; //Geschlecht nicht richtig angegeben
             }

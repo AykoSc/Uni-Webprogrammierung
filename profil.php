@@ -5,17 +5,17 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Profil bearbeiten
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"]) and isset($_POST['submit'])) {
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST['submit'])) {
     $sessionId = htmlspecialchars($_SESSION["id"]);
     $sessionToken = htmlspecialchars($_SESSION["token"]);
-    $neuBeschreibung = (isset($_POST['beschreibung']) and is_string($_POST['beschreibung'])) ? htmlspecialchars($_POST['beschreibung']) : '';
-    $neuGeschlecht = (isset($_POST['geschlecht']) and is_string($_POST['geschlecht'])) ? htmlspecialchars($_POST['geschlecht']) : '';
-    $neuVollstaendigerName = (isset($_POST['vollstaendigerName']) and is_string($_POST['vollstaendigerName'])) ? htmlspecialchars($_POST['vollstaendigerName']) : '';
-    $neuAdresse = (isset($_POST['adresse']) and is_string($_POST['adresse'])) ? htmlspecialchars($_POST['adresse']) : '';
-    $neuSprache = (isset($_POST['sprache']) and is_string($_POST['sprache'])) ? htmlspecialchars($_POST['sprache']) : '';
-    $neuGeburtsdatum = (isset($_POST['geburtsdatum']) and is_string($_POST['geburtsdatum'])) ? htmlspecialchars($_POST['geburtsdatum']) : '';
+    $neuBeschreibung = (isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) ? htmlspecialchars($_POST['beschreibung']) : '';
+    $neuGeschlecht = (isset($_POST['geschlecht']) && is_string($_POST['geschlecht'])) ? htmlspecialchars($_POST['geschlecht']) : '';
+    $neuVollstaendigerName = (isset($_POST['vollstaendigerName']) && is_string($_POST['vollstaendigerName'])) ? htmlspecialchars($_POST['vollstaendigerName']) : '';
+    $neuAdresse = (isset($_POST['adresse']) && is_string($_POST['adresse'])) ? htmlspecialchars($_POST['adresse']) : '';
+    $neuSprache = (isset($_POST['sprache']) && is_string($_POST['sprache'])) ? htmlspecialchars($_POST['sprache']) : '';
+    $neuGeburtsdatum = (isset($_POST['geburtsdatum']) && is_string($_POST['geburtsdatum'])) ? htmlspecialchars($_POST['geburtsdatum']) : '';
 
-    if ($neuGeschlecht !== "m" and $neuGeschlecht !== "w" and $neuGeschlecht !== "") {
+    if ($neuGeschlecht !== "m" && $neuGeschlecht !== "w" && $neuGeschlecht !== "") {
         $profilbearbeitung = false;
         $fehlermeldung = "Sie haben Ihr Geschlecht im falschen Format angegeben. Bitte wählen Sie 'm', 'w' oder lassen Sie das Feld leer.";
     } else {
@@ -26,14 +26,14 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["t
 
 // Profil laden
 $selektiert = ""; //default value
-if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
+if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
     $profil = $dao->profil_erhalten(htmlspecialchars($_REQUEST["id"]));
     if ($profil !== [-1]) {
         $id = htmlspecialchars($profil[0]);
         $nutzername = htmlspecialchars($profil[1]);
         $beschreibung = htmlspecialchars($profil[2]);
         $geschlecht = htmlspecialchars($profil[3]);
-        if(isset($profil[3])){
+        if (isset($profil[3])) {
             $selektiert = htmlspecialchars($profil[3]);
         }
         $vollstaendigerName = htmlspecialchars($profil[4]);
@@ -49,7 +49,7 @@ if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
 }
 
 // Profil löschen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->profil_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if ($loeschung) {
         session_unset();
@@ -59,7 +59,7 @@ if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loesc
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um dieses Profil zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
@@ -78,19 +78,19 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and !$profilbearbeitung and isset($fehlermeldung) and is_string($fehlermeldung)): ?>
+    <?php if (isset($profilbearbeitung) && is_bool($profilbearbeitung) && !$profilbearbeitung && isset($fehlermeldung) && is_string($fehlermeldung)): ?>
         <p class="nachricht fehler">Profil fehlgeschlagen: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
-    <?php if (isset($profilbearbeitung) and is_bool($profilbearbeitung) and $profilbearbeitung): ?>
+    <?php if (isset($profilbearbeitung) && is_bool($profilbearbeitung) && $profilbearbeitung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>
     <?php endif ?>
 
     <h1>Mein Profil</h1>
 
     <div class="profil">
-        <?php if (isset($_SESSION["id"]) and $id == htmlspecialchars($_SESSION["id"])) : ?>
-            <h2>Willkommen auf deinem Profil!</h2>
-            <form method="post">
+        <?php if (isset($_SESSION["id"]) && $id == htmlspecialchars($_SESSION["id"])) : ?>
+        <h2>Willkommen auf deinem Profil!</h2>
+        <form method="post">
             <h3>Nutzername</h3>
             <p><?php echo $nutzername ?></p>
 

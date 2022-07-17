@@ -7,16 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css"/>
 
-    <?php if (!empty($name) and ($name == 'Ausstellung' or $name == 'Sammlungen')) : ?>
+    <?php if (!empty($name) && ($name == 'Ausstellung' || $name == 'Sammlungen')) : ?>
         <link rel="stylesheet" href="css/ausstellung.css"/>
     <?php endif ?>
 
-    <?php if (!empty($name) and ($name == 'Gemälde' or $name == 'Sammlung')) : ?>
+    <?php if (!empty($name) && ($name == 'Gemälde' || $name == 'Sammlung')) : ?>
         <link rel="stylesheet" href="css/gemaeldeundsammlung.css"/>
     <?php endif ?>
 
     <title>Online-Ausstellung<?php echo (!empty($name)) ? ' - ' . $name : '' ?></title>
-
-
 
 </head>

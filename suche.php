@@ -5,8 +5,8 @@ $dao = NutzerDAODBImpl::getInstance();
 
 // Erhalte die Titel aller potenziellen Ergebnisse
 $ergebnis = "";
-if (isset($_GET["suche"]) and is_string($_GET["suche"]) and
-    isset($_GET["herkunft"]) and is_string($_GET["herkunft"])) {
+if (isset($_GET["suche"]) && is_string($_GET["suche"]) &&
+    isset($_GET["herkunft"]) && is_string($_GET["herkunft"])) {
     if ($_GET["herkunft"] === "ausstellung") {
         $ausstellung = $dao->ausstellung_erhalten(htmlspecialchars($_GET["suche"]), "");
         $ergebniszaehler = 0;

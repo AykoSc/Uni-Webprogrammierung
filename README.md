@@ -21,7 +21,7 @@ JavaScript:
 - Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert. ✅
 - Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt. ✅
 - Veränderung in der Kommentarsektion werden, falls möglich über Ajax an den Server gesendet.
-  Fehler behoben: Es wird nicht die ganze Seite neu geladen, sondern nur die Kommentar-Sektion ✅
+  Fehler behoben: Es wird nicht die ganze Seite neu geladen, sondern nur die Kommentarsektion ✅
 
 Erklärung Gemälde:
 

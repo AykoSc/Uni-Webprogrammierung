@@ -4,9 +4,9 @@
 
             event.preventDefault();
 
-            var ajaxRequest;
+            let ajaxRequest;
 
-            var values = $(this).serialize();
+            const values = $(this).serialize();
 
             /* Sendet die Daten mit post und packt die Ergebnisse in ein div.
                Ich breche die vorherige Anfrage nicht ab, da es sich um eine

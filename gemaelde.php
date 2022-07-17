@@ -5,35 +5,35 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Kommentar anlegen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["kommentar"]) and is_string($_POST["kommentar"]) and isset($_GET["id"]) and is_string($_GET["id"])) {
+if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["kommentar"]) && is_string($_POST["kommentar"]) && isset($_GET["id"]) && is_string($_GET["id"])) {
     $angelegt = $dao->kommentar_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]));
 }
 
 // Kommentar liken
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["like"]) and is_string($_POST["like"])) {
+if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["like"]) && is_string($_POST["like"])) {
     $geliked = $dao->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
 }
 
 // Kommentar entfernen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["delete"]) and is_string($_POST["delete"])) {
+if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["delete"]) && is_string($_POST["delete"])) {
     $entfernung = $dao->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
 // Eintrag bewerten
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_GET["id"]) and is_string($_GET["id"]) and
-    isset($_POST["bewertung"]) and is_string($_POST["bewertung"])) {
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
+    isset($_SESSION["token"]) && is_string($_SESSION["token"]) &&
+    isset($_GET["id"]) && is_string($_GET["id"]) &&
+    isset($_POST["bewertung"]) && is_string($_POST["bewertung"])) {
     $bewertet = $dao->gemaelde_bewerten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_POST["bewertung"]));
 }
 
 // Eintrag bearbeiten
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_GET["id"]) and is_string($_GET["id"]) and
-    isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
-    isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
-    isset($_POST['ort']) and is_string($_POST['ort'])) {
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
+    isset($_SESSION["token"]) && is_string($_SESSION["token"]) &&
+    isset($_GET["id"]) && is_string($_GET["id"]) &&
+    isset($_POST['beschreibung']) && is_string($_POST['beschreibung']) &&
+    isset($_POST['erstellungsdatum']) && is_string($_POST['erstellungsdatum']) &&
+    isset($_POST['ort']) && is_string($_POST['ort'])) {
     $editierung = $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
         htmlspecialchars($_GET["id"]), htmlspecialchars($_POST['beschreibung']),
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
@@ -41,9 +41,9 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
 }
 
 // Eintrag laden
-if (isset($_GET["id"]) and is_string($_GET["id"])) {
-    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-        isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+if (isset($_GET["id"]) && is_string($_GET["id"])) {
+    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
+        isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
         $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]), htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
         $eigene_bewertung = $dao->eigene_gemaelde_bewertung_erhalten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_GET["id"]));
     } else {
@@ -55,7 +55,7 @@ if (isset($_GET["id"]) and is_string($_GET["id"])) {
 }
 
 // Eintrag löschen
-if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if ($loeschung) {
         header("location: index.php?entfernt=Gemälde");
@@ -63,11 +63,11 @@ if (isset($_SESSION["id"]) and isset($_SESSION["token"]) and isset($_POST["loesc
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) and isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um dieses Gemälde zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
-if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
+if (isset($gemaelde) && is_array($gemaelde) && $gemaelde !== [-1]) {
     $id = htmlspecialchars($gemaelde[0]);
     $nutzer = htmlspecialchars($gemaelde[1]);
     $titel = htmlspecialchars($gemaelde[2]);
@@ -102,22 +102,22 @@ include $abs_path . '/php/head.php';
     <?php if (isset($fehlermeldung)): ?>
         <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
-    <?php if (isset($angelegt) and is_bool($angelegt) and $angelegt): ?>
+    <?php if (isset($angelegt) && is_bool($angelegt) && $angelegt): ?>
         <p class="nachricht">Kommentar erfolgreich angelegt</p>
     <?php endif ?>
-    <?php if (isset($angelegt) and is_bool($angelegt) and !$angelegt): ?>
+    <?php if (isset($angelegt) && is_bool($angelegt) && !$angelegt): ?>
         <p class="nachricht fehler">Kommentar Erstellung fehlgeschlagen</p>
     <?php endif ?>
-    <?php if (isset($geliked) and is_bool($geliked) and $geliked): ?>
+    <?php if (isset($geliked) && is_bool($geliked) && $geliked): ?>
         <p class="nachricht">Kommentar erfolgreich bewertet</p>
     <?php endif ?>
-    <?php if (isset($geliked) and is_bool($geliked) and !$geliked): ?>
+    <?php if (isset($geliked) && is_bool($geliked) && !$geliked): ?>
         <p class="nachricht fehler">Kommentar liken fehlgeschlagen</p>
     <?php endif ?>
-    <?php if (isset($entfernung) and is_bool($entfernung) and $entfernung): ?>
+    <?php if (isset($entfernung) && is_bool($entfernung) && $entfernung): ?>
         <p class="nachricht">Kommentar erfolgreich gelöscht</p>
     <?php endif ?>
-    <?php if (isset($entfernung) and is_bool($entfernung) and !$entfernung): ?>
+    <?php if (isset($entfernung) && is_bool($entfernung) && !$entfernung): ?>
         <p class="nachricht fehler">Kommentar Löschung fehlgeschlagen</p>
     <?php endif ?>
 
@@ -125,7 +125,7 @@ include $abs_path . '/php/head.php';
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
     <div class="align_container">
         <div class="description">
-            <?php if (isset($_SESSION["id"]) and $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
+            <?php if (isset($_SESSION["id"]) && $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
 
                 <form method="post">
                     <h2> Über das Gemaelde </h2>
@@ -287,7 +287,7 @@ include $abs_path . '/php/head.php';
                         <?php endif; ?>
                         <?php echo htmlspecialchars($kommentar[3]) ?>
                     </div>
-                    <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
+                    <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
                         <div class="delete">
                             <form method="post">
                                 <input type="hidden" name="delete"

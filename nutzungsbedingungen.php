@@ -140,7 +140,7 @@ include $abs_path . '/php/head.php';
             vollständig
             konform mit der geltenden Rechtslage, so ist davon auszugehen, dass die übrigen Regelungen der
             ArtPlace-Nutzungsbedingungen bestehen bleiben.</p>
-        <p>Diese <a href="http://www.jurarat.de/muster-nutzungsbedingungen">Nutzungsbedingungen</a> wurden
+        <p>Diese <a href="https://www.jurarat.de/muster-nutzungsbedingungen">Nutzungsbedingungen</a> wurden
             freundlicherweise
             von www.jurarat.de zur Verfügung
         </p>

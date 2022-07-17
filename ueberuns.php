@@ -25,7 +25,8 @@ include $abs_path . '/php/head.php';
         Möglichkeit bieten, in der Kommentarsektion über die ausgestellten Werke und Sammlungen zu diskutieren.
     </p>
     <h2>Wo Sie uns finden können</h2>
-    <iframe class="presentation presentation-height"
+    <iframe title="Eine interaktive Karte von OpenStreetMaps der Universität Oldenburg"
+            class="presentation presentation-height"
             src="https://www.openstreetmap.org/export/embed.html?bbox=8.173259496688845%2C53.14384239502062%2C8.187421560287477%2C53.14978171374889&amp;layer=mapnik"></iframe>
     <noscript>Mit JavaScript wäre hier eine Karte der Universität Oldenburg Campus Haarentor ersichtlich.</noscript>
     <br/>

@@ -4,7 +4,7 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-if (isset($_REQUEST['typ']) and is_string($_REQUEST['typ'])) {
+if (isset($_REQUEST['typ']) && is_string($_REQUEST['typ'])) {
     if ($_REQUEST['typ'] === 'Gemälde') {
         $gemaelde = true;
     } else if ($_REQUEST['typ'] === 'Sammlung') {
@@ -15,46 +15,43 @@ if (!isset($gemaelde)) {
     header("location: index.php?fehler=301");
 }
 
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
     $angemeldet = true;
 } else {
     $angemeldet = false;
 }
 
-if ($gemaelde and $angemeldet) {
-    if (isset($_FILES['datei']) and
-        isset($_POST['titel']) and is_string($_POST['titel']) and
-        isset($_POST['kuenstler']) and is_string($_POST['kuenstler']) and
-        isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
-        isset($_POST['datum']) and is_string($_POST['datum']) and
-        isset($_POST['ort']) and is_string($_POST['ort'])) {
-        $dateityp = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']),PATHINFO_EXTENSION));
-        $erstellung = $dao->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-            htmlspecialchars($dateityp), htmlspecialchars($_POST['titel']),
-            htmlspecialchars($_POST['kuenstler']), htmlspecialchars($_POST['beschreibung']),
-            htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
+if ($gemaelde && $angemeldet
+    && isset($_FILES['datei']) &&
+    isset($_POST['titel']) && is_string($_POST['titel']) &&
+    isset($_POST['kuenstler']) && is_string($_POST['kuenstler']) &&
+    isset($_POST['beschreibung']) && is_string($_POST['beschreibung']) &&
+    isset($_POST['datum']) && is_string($_POST['datum']) &&
+    isset($_POST['ort']) && is_string($_POST['ort'])) {
+    $dateityp = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']), PATHINFO_EXTENSION));
+    $erstellung = $dao->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+        htmlspecialchars($dateityp), htmlspecialchars($_POST['titel']),
+        htmlspecialchars($_POST['kuenstler']), htmlspecialchars($_POST['beschreibung']),
+        htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
 
-        if ($erstellung !== -1) {
-            $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $dateityp;
-            if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
-                $hochladen = true;
-            } else {
-                $hochladen = false;
-            }
+    if ($erstellung !== -1) {
+        $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $dateityp;
+        if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
+            $hochladen = true;
+        } else {
+            $hochladen = false;
         }
-
     }
 }
 
-if (!$gemaelde and $angemeldet) {
-    if (isset($_POST['auswahl']) and is_string($_POST['auswahl']) and
-        isset($_POST['titel']) and is_string($_POST['titel']) and
-        isset($_POST['beschreibung']) and is_string($_POST['beschreibung'])) {
-        $erstellung = $dao->sammlung_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-            htmlspecialchars($_POST['auswahl']),
-            htmlspecialchars($_POST['titel']),
-            htmlspecialchars($_POST['beschreibung']));
-    }
+if (!$gemaelde && $angemeldet
+    && isset($_POST['auswahl']) && is_string($_POST['auswahl']) &&
+    isset($_POST['titel']) && is_string($_POST['titel']) &&
+    isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
+    $erstellung = $dao->sammlung_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
+        htmlspecialchars($_POST['auswahl']),
+        htmlspecialchars($_POST['titel']),
+        htmlspecialchars($_POST['beschreibung']));
 }
 ?>
 
@@ -71,19 +68,19 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($angemeldet) and is_bool($angemeldet) and !$angemeldet): ?>
+    <?php if (isset($angemeldet) && is_bool($angemeldet) && !$angemeldet): ?>
         <p class="nachricht fehler">Du bist nicht angemeldet!</p>
     <?php endif ?>
-    <?php if (isset($erstellung) and is_int($erstellung) and $erstellung !== -1): ?>
+    <?php if (isset($erstellung) && is_int($erstellung) && $erstellung !== -1): ?>
         <p class="nachricht">Eintragerstellung erfolgreich</p>
     <?php endif ?>
-    <?php if (isset($erstellung) and is_int($erstellung) and $erstellung === -1): ?>
+    <?php if (isset($erstellung) && is_int($erstellung) && $erstellung === -1): ?>
         <p class="nachricht fehler">Eintragerstellung fehlgeschlagen</p>
     <?php endif ?>
-    <?php if (isset($hochladen) and is_bool($hochladen) and $hochladen): ?>
+    <?php if (isset($hochladen) && is_bool($hochladen) && $hochladen): ?>
         <p class="nachricht">Datei erfolgreich hochgeladen</p>
     <?php endif ?>
-    <?php if (isset($hochladen) and is_bool($hochladen) and !$hochladen): ?>
+    <?php if (isset($hochladen) && is_bool($hochladen) && !$hochladen): ?>
         <p class="nachricht fehler">Datei hochladen fehlgeschlagen</p>
     <?php endif ?>
 
@@ -108,23 +105,23 @@ include $abs_path . '/php/head.php';
 
                 <label for="titel">Titel:</label>
                 <input type="text" id="titel" name="titel" maxlength="50" required
-                    <?php echo (isset($_POST["titel"]) and is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
+                    <?php echo (isset($_POST["titel"]) && is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
                 <label for="beschreibung">Beschreibung:</label>
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) and is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
+                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
                 <label for="kuenstler">Künstler:</label>
                 <input type="text" id="kuenstler" name="kuenstler" maxlength="100" required
-                    <?php echo (isset($_POST["kuenstler"]) and is_string($_POST["kuenstler"])) ? 'value=' . htmlspecialchars($_POST["kuenstler"]) : '' ?>>
+                    <?php echo (isset($_POST["kuenstler"]) && is_string($_POST["kuenstler"])) ? 'value=' . htmlspecialchars($_POST["kuenstler"]) : '' ?>>
 
                 <label for="datum">Datum der Erstellung:</label>
                 <input type="date" id="datum" name="datum"
-                    <?php echo (isset($_POST["datum"]) and is_string($_POST["datum"])) ? 'value=' . htmlspecialchars($_POST["datum"]) : '' ?>>
+                    <?php echo (isset($_POST["datum"]) && is_string($_POST["datum"])) ? 'value=' . htmlspecialchars($_POST["datum"]) : '' ?>>
 
                 <label for="ort">Ort:</label>
                 <input type="text" id="ort" name="ort" maxlength="100"
-                    <?php echo (isset($_POST["ort"]) and is_string($_POST["ort"])) ? 'value=' . htmlspecialchars($_POST["ort"]) : '' ?>>
+                    <?php echo (isset($_POST["ort"]) && is_string($_POST["ort"])) ? 'value=' . htmlspecialchars($_POST["ort"]) : '' ?>>
 
                 <input type="hidden" name="typ" value="Gemälde">
                 <hr>
@@ -136,16 +133,17 @@ include $abs_path . '/php/head.php';
             <form method="post" action="neuereintrag.php">
                 <hr>
                 <label for="auswahl">Gemälde-IDs: (z.B.: 1,2,6)</label>
-                <input type="text" id="auswahl" name="auswahl" pattern="(([0-9]|[1-9][0-9]*),)*([0-9]|[1-9][0-9]*)+" required
-                    <?php echo (isset($_POST["auswahl"]) and is_string($_POST["auswahl"])) ? 'value=' . htmlspecialchars($_POST["auswahl"]) : '' ?>>
+                <input type="text" id="auswahl" name="auswahl" pattern="(([0-9]|[1-9][0-9]*),)*([0-9]|[1-9][0-9]*)+"
+                       required
+                    <?php echo (isset($_POST["auswahl"]) && is_string($_POST["auswahl"])) ? 'value=' . htmlspecialchars($_POST["auswahl"]) : '' ?>>
 
                 <label for="titel">Titel:</label>
                 <input type="text" id="titel" name="titel" maxlength="100" required
-                    <?php echo (isset($_POST["titel"]) and is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
+                    <?php echo (isset($_POST["titel"]) && is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
                 <label for="beschreibung">Beschreibung:</label>
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) and is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
+                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
                 <input type="hidden" name="typ" value="Sammlung">
                 <hr>

@@ -4,8 +4,8 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-if (isset($_POST['email']) and is_string($_POST['email']) and
-    isset($_POST['kommentar']) and is_string($_POST['kommentar'])) {
+if (isset($_POST['email']) && is_string($_POST['email']) &&
+    isset($_POST['kommentar']) && is_string($_POST['kommentar'])) {
     $erfolgreich = $dao->kontakt_aufnehmen(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['kommentar']));
 }
 ?>
@@ -23,7 +23,7 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($erfolgreich) and is_bool($erfolgreich) and $erfolgreich): ?>
+    <?php if (isset($erfolgreich) && is_bool($erfolgreich) && $erfolgreich): ?>
         <p class="nachricht">Kontakt erfolgreich aufgenommen. Wir werden uns um ihr Anliegen schnellstmöglich
             kümmern!</p>
     <?php endif ?>

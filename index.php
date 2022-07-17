@@ -5,8 +5,8 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 
-if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {
-    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+if (isset($_GET["abmelden"]) && $_GET["abmelden"] === "1") {
+    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
         $abmeldung = $dao->abmelden(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
         if (!$abmeldung) $fehlermeldung = 'Datenbankverbindung verloren. Kontaktiere einen Administrator.';
     }
@@ -15,13 +15,13 @@ if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelde
     $erfolgreich = 'Du hast dich erfolgreich abgemeldet!';
 }
 
-if (isset($_GET["fehler"]) and is_string($_GET["fehler"])) {
+if (isset($_GET["fehler"]) && is_string($_GET["fehler"])) {
     $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! Bitte kontaktieren Sie einen Administrator mit dem Fehlercode: ' . htmlspecialchars($_GET["fehler"]);
 }
-if (isset($_GET["entfernt"]) and is_string($_GET["entfernt"])) {
+if (isset($_GET["entfernt"]) && is_string($_GET["entfernt"])) {
     $erfolgreich = htmlspecialchars($_GET["entfernt"]) . ' erfolgreich gelöscht!';
 }
-if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+if (isset($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
     $erfolgreich = 'Du hast dich erfolgreich angemeldet!';
 }
 
@@ -52,11 +52,11 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($erfolgreich) and is_string($erfolgreich)): ?>
-        <p class="nachricht"><?php echo htmlspecialchars($erfolgreich);?></p>
+    <?php if (isset($erfolgreich) && is_string($erfolgreich)): ?>
+        <p class="nachricht"><?php echo htmlspecialchars($erfolgreich); ?></p>
     <?php endif ?>
-    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
-        <p class="nachricht fehler"><?php echo htmlspecialchars($fehlermeldung);?></p>
+    <?php if (isset($fehlermeldung) && is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo htmlspecialchars($fehlermeldung); ?></p>
     <?php endif ?>
 
     <h1>Hauptseite</h1>
