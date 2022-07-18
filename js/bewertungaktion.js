@@ -4,11 +4,11 @@ $(document).ready(function() {
 
         event.preventDefault();
 
-        var ajaxRequest;
+        let ajaxRequest;
 
-        var btnName = $(this).attr('name');
-        var btnVal = $(this).val();
-        var submitData = btnName + '=' + btnVal;
+        const btnName = $(this).attr('name');
+        const btnVal = $(this).val();
+        const submitData = btnName + '=' + btnVal;
 
         /* Sendet die Daten mit post und packt die Ergebnisse in ein div.
            Ich breche die vorherige Anfrage nicht ab, da es sich um eine
