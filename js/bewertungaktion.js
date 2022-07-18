@@ -1,12 +1,14 @@
 $(document).ready(function() {
 
-    $( "#comment_section" ).on( "submit", "form",  function (event) {
+    $( "#bewertung" ).on( "click",  "button",  function (event) {
 
         event.preventDefault();
 
         var ajaxRequest;
 
-        var values = $(this).serialize();
+        var btnName = $(this).attr('name');
+        var btnVal = $(this).val();
+        var submitData = btnName + '=' + btnVal;
 
         /* Sendet die Daten mit post und packt die Ergebnisse in ein div.
            Ich breche die vorherige Anfrage nicht ab, da es sich um eine
@@ -17,12 +19,12 @@ $(document).ready(function() {
         ajaxRequest = $.ajax({
             url: "", //aktueller Pfad
             type: "post",
-            data: values
+            data: submitData
         });
 
         ajaxRequest.done(function () {
-            // Es wird nur die Kommentar-Sektion neu geladen
-            $("#comment_section").load(location.href + " #comment_section");
+            // Es wird nur die Bewertung neu geladen
+            $("#bewertung").load(location.href + " #bewertung");
 
             console.log("Erfolg");
         });

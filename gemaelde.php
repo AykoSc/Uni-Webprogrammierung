@@ -5,35 +5,41 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Kommentar anlegen
-if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["kommentar"]) && is_string($_POST["kommentar"]) && isset($_GET["id"]) && is_string($_GET["id"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["kommentar"]) and is_string($_POST["kommentar"]) and isset($_GET["id"]) and is_string($_GET["id"])) {
     $angelegt = $dao->kommentar_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["kommentar"]), htmlspecialchars($_GET["id"]));
 }
 
 // Kommentar liken
-if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["like"]) && is_string($_POST["like"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["like"]) and is_string($_POST["like"])) {
     $geliked = $dao->kommentar_liken(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["like"]));
 }
 
 // Kommentar entfernen
-if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["delete"]) && is_string($_POST["delete"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["delete"]) and is_string($_POST["delete"])) {
     $entfernung = $dao->kommentar_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_POST["delete"]));
 }
 
 // Eintrag bewerten
-if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
-    isset($_SESSION["token"]) && is_string($_SESSION["token"]) &&
-    isset($_GET["id"]) && is_string($_GET["id"]) &&
-    isset($_POST["bewertung"]) && is_string($_POST["bewertung"])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_GET["id"]) and is_string($_GET["id"]) and
+    isset($_POST["bewertung"]) and is_string($_POST["bewertung"])) {
     $bewertet = $dao->gemaelde_bewerten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_POST["bewertung"]));
 }
 
 // Eintrag bearbeiten
-if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
-    isset($_SESSION["token"]) && is_string($_SESSION["token"]) &&
-    isset($_GET["id"]) && is_string($_GET["id"]) &&
-    isset($_POST['beschreibung']) && is_string($_POST['beschreibung']) &&
-    isset($_POST['erstellungsdatum']) && is_string($_POST['erstellungsdatum']) &&
-    isset($_POST['ort']) && is_string($_POST['ort'])) {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_GET["id"]) and is_string($_GET["id"]) and
+    isset($_POST['beschreibung']) and is_string($_POST['beschreibung']) and
+    isset($_POST['erstellungsdatum']) and is_string($_POST['erstellungsdatum']) and
+    isset($_POST['ort']) and is_string($_POST['ort'])) {
     $editierung = $dao->gemaelde_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
         htmlspecialchars($_GET["id"]), htmlspecialchars($_POST['beschreibung']),
         htmlspecialchars($_POST['erstellungsdatum']), htmlspecialchars($_POST['ort']));
@@ -41,9 +47,9 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
 }
 
 // Eintrag laden
-if (isset($_GET["id"]) && is_string($_GET["id"])) {
-    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) &&
-        isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
+if (isset($_GET["id"]) and is_string($_GET["id"])) {
+    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+        isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
         $kommentare = $dao->kommentare_erhalten(htmlspecialchars($_REQUEST["id"]), htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
         $eigene_bewertung = $dao->eigene_gemaelde_bewertung_erhalten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_GET["id"]));
     } else {
@@ -51,11 +57,13 @@ if (isset($_GET["id"]) && is_string($_GET["id"])) {
     }
     $gemaelde = $dao->gemaelde_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
-    header("location: index.php?fehler=201");
+    header("location: index.php?fehler=Gemälde");
 }
 
 // Eintrag löschen
-if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and  htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->gemaelde_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
     if ($loeschung) {
         header("location: index.php?entfernt=Gemälde");
@@ -63,11 +71,13 @@ if (isset($_SESSION["id"]) && isset($_SESSION["token"]) && isset($_POST["loesche
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
     $fehlermeldung = "Um dieses Gemälde zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
-if (isset($gemaelde) && is_array($gemaelde) && $gemaelde !== [-1]) {
+if (isset($gemaelde) and is_array($gemaelde) and $gemaelde !== [-1]) {
     $id = htmlspecialchars($gemaelde[0]);
     $nutzer = htmlspecialchars($gemaelde[1]);
     $titel = htmlspecialchars($gemaelde[2]);
@@ -80,7 +90,7 @@ if (isset($gemaelde) && is_array($gemaelde) && $gemaelde !== [-1]) {
     $aufrufe = htmlspecialchars($gemaelde[9]);
     $dateityp = htmlspecialchars($gemaelde[10]);
 } else {
-    header("location: index.php?fehler=202");
+    header("location: index.php?fehler=Gemälde");
 }
 
 
@@ -95,37 +105,51 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
-
+<script src="js/jquery.min.js"></script>
+<script src="js/kommentaraktionen.js"></script>
+<script src="js/bewertungaktion.js"></script>
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
     <?php if (isset($fehlermeldung)): ?>
         <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
-    <?php if (isset($angelegt) && is_bool($angelegt) && $angelegt): ?>
+    <?php if (isset($angelegt) and is_bool($angelegt) and $angelegt): ?>
         <p class="nachricht">Kommentar erfolgreich angelegt</p>
     <?php endif ?>
-    <?php if (isset($angelegt) && is_bool($angelegt) && !$angelegt): ?>
+    <?php if (isset($angelegt) and is_bool($angelegt) and !$angelegt): ?>
         <p class="nachricht fehler">Kommentar Erstellung fehlgeschlagen</p>
     <?php endif ?>
-    <?php if (isset($geliked) && is_bool($geliked) && $geliked): ?>
+    <?php if (isset($geliked) and is_bool($geliked) and $geliked): ?>
         <p class="nachricht">Kommentar erfolgreich bewertet</p>
     <?php endif ?>
-    <?php if (isset($geliked) && is_bool($geliked) && !$geliked): ?>
+    <?php if (isset($geliked) and is_bool($geliked) and !$geliked): ?>
         <p class="nachricht fehler">Kommentar liken fehlgeschlagen</p>
     <?php endif ?>
-    <?php if (isset($entfernung) && is_bool($entfernung) && $entfernung): ?>
+    <?php if (isset($entfernung) and is_bool($entfernung) and $entfernung): ?>
         <p class="nachricht">Kommentar erfolgreich gelöscht</p>
     <?php endif ?>
-    <?php if (isset($entfernung) && is_bool($entfernung) && !$entfernung): ?>
+    <?php if (isset($entfernung) and is_bool($entfernung) and !$entfernung): ?>
         <p class="nachricht fehler">Kommentar Löschung fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($bewertet) and is_bool($bewertet) and $bewertet): ?>
+        <p class="nachricht">Gemälde erfolgreich bewertet</p>
+    <?php endif ?>
+    <?php if (isset($bewertet) and is_bool($bewertet) and !$bewertet): ?>
+        <p class="nachricht fehler">Gemälde Bewertung fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($editierung) and is_bool($editierung) and $editierung): ?>
+        <p class="nachricht">Gemälde erfolgreich editiert</p>
+    <?php endif ?>
+    <?php if (isset($editierung) and is_bool($editierung) and !$editierung): ?>
+        <p class="nachricht fehler">Gemälde Editieren fehlgeschlagen</p>
     <?php endif ?>
 
     <h1><?php echo $titel ?></h1>
     <img class="presentation" alt="<?php echo $titel ?>" src="images/<?php echo $id . "." . $dateityp ?>">
     <div class="align_container">
         <div class="description">
-            <?php if (isset($_SESSION["id"]) && $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
+            <?php if (isset($_SESSION["id"]) and $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
 
                 <form method="post">
                     <h2> Über das Gemaelde </h2>
@@ -178,10 +202,10 @@ include $abs_path . '/php/head.php';
                 </form>
             <?php else: ?>
 
-            <h2>Über das Gemälde</h2>
-            <p><?php echo $beschreibung ?></p>
+                <h2>Über das Gemälde</h2>
+                <p><?php echo $beschreibung ?></p>
 
-            <details class="extended_description">
+                <details class="extended_description">
 
                 <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
 
@@ -198,7 +222,7 @@ include $abs_path . '/php/head.php';
                         <h3>Ort</h3>
                         <p><?php echo $ort ?></p>
                     </div>
-                    <div class="item">
+                    <div id="bewertung" class="item">
                         <h3>Bewertung</h3>
                         <p>Gesamtbewertung:</p>
                         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
@@ -242,8 +266,6 @@ include $abs_path . '/php/head.php';
 
     </div>
     <div id="comment_section">
-        <script src="js/jquery.min.js"></script>
-        <script src="js/kommentaraktionen.js"></script>
         <div class="align_container">
             <h2> Kommentarbereich</h2>
             <?php if (isset($_SESSION["id"])): ?>
@@ -269,7 +291,7 @@ include $abs_path . '/php/head.php';
                         <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
                     </a>
                     <p>
-                        <?php echo htmlspecialchars($kommentar[4]); ?>
+                        <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
                     </p>
 
                     <div class="likes">
@@ -277,7 +299,7 @@ include $abs_path . '/php/head.php';
                         <?php if (isset($_SESSION["id"])) : ?>
                             <form method="post">
                                 <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input id="thumbsup" type="image" alt="thumbsup"
+                                <input type="image" alt="thumbsup"
                                        <?php if ($kommentar[6] == 1): ?>src="images/daumenhoch_farbig.png"
                                     <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
                                        width="20">
@@ -287,7 +309,7 @@ include $abs_path . '/php/head.php';
                         <?php endif; ?>
                         <?php echo htmlspecialchars($kommentar[3]) ?>
                     </div>
-                    <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
+                    <?php if (isset($_SESSION["id"]) and $kommentar[2] == $_SESSION["id"]) : ?>
                         <div class="delete">
                             <form method="post">
                                 <input type="hidden" name="delete"

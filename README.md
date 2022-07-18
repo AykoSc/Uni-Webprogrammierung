@@ -16,12 +16,11 @@ Login-Daten:
 
 JavaScript:
 
-- Filter bei Suchanfragen wird direkt angewandt nach Auswahl ✅
-- Countdown Uhr für Auktion auf index.php implementiert ✅
-- Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert. ✅
-- Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt. ✅
-- Veränderung in der Kommentarsektion werden, falls möglich über Ajax an den Server gesendet.
-  Fehler behoben: Es wird nicht die ganze Seite neu geladen, sondern nur die Kommentarsektion ✅
+- Filter bei Suchanfragen wird direkt angewandt nach Auswahl.
+- Countdown Uhr für Auktion auf index.php implementiert.
+- Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert.
+- Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt.
+- Veränderung in der Kommentarsektion werden über Ajax an den Server gesendet.
 
 Erklärung Gemälde:
 
@@ -34,7 +33,7 @@ Anmeldung:
 
 Cookies:
 
-- Es wird nicht über Cookies informiert, da wir nur technisch notwendigen Cookies verwenden (Speicherung der ID des
+- Es wird nicht über Cookies informiert (kein Disclaimer), da wir nur technisch notwendigen Cookies verwenden (Speicherung der ID des
   Nutzers).
 
 Webservices und APIs

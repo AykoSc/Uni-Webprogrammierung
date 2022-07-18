@@ -56,11 +56,11 @@ class NutzerDAODBImpl implements NutzerDAO
                 $this->db->commit();
 
             } catch (Exception $ex) {
-                print_r($ex);
+                //print_r($ex);
                 $this->db->rollBack();
             }
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
         }
     }
 
@@ -143,7 +143,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -173,9 +173,8 @@ class NutzerDAODBImpl implements NutzerDAO
                 $this->db->rollBack();
 
                 //E-Mail existiert bereits, sende "Existiert bereits" E-Mail
-                $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
-                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. \nSolltest du dein Password vergessen haben, klicke bitte hier: [HIER LINK FÜR ZURÜCKSETZEN, WURDE IN DIESEM PROJEKT NICHT IMPLEMENTIERT]";
-
+                $speichern_unter = "emails/$Email" . "_postfach.txt";
+                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. \nSolltest du dein Password vergessen haben, klicke bitte hier: [HIER PASSWORT VERGESSEN LINK, Password-vergessen-Funktion muss nicht implementiert werden]";
                 $fp = fopen($speichern_unter, "wb");
                 fwrite($fp, $inhalt);
                 fclose($fp);
@@ -199,17 +198,16 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
 
-            //E-Mail existiert noch nicht, sende "Existiert noch nicht" E-Mail
-            $speichern_unter = "emails/$Email" . "_bestaetigen.txt";
-            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung abzuschließen: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
-
+            //E-Mail existiert noch nicht, sende "Registrierung abzuschließen" E-Mail
+            $speichern_unter = "emails/$Email" . "_postfach.txt";
+            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung vollständig zu beenden: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
             $fp = fopen($speichern_unter, "wb");
             fwrite($fp, $inhalt);
             fclose($fp);
 
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -231,7 +229,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return $betroffeneReihen > 0;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -271,7 +269,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Passwort falsch)
             }
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1, "");
         }
@@ -292,7 +290,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -315,7 +313,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -351,7 +349,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return $id;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return -1;
         }
@@ -384,7 +382,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -421,11 +419,6 @@ class NutzerDAODBImpl implements NutzerDAO
             $entferneGemaeldeCMD->bindParam(':AnbieterID', $AnbieterID);
             $entferneGemaeldeCMD->execute();
 
-            $entferneAusSammlungenSQL = "DELETE FROM gehoert_zu WHERE GemaeldeID = :GemaeldeID;";
-            $entferneAusSammlungenCMD = $this->db->prepare($entferneAusSammlungenSQL);
-            $entferneAusSammlungenCMD->bindParam(":GemaeldeID", $GemaeldeID);
-            $entferneAusSammlungenCMD->execute();
-
             $entferneKommentareSQL = "DELETE FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
             $entferneKommentareCMD = $this->db->prepare($entferneKommentareSQL);
             $entferneKommentareCMD->bindParam(":GemaeldeID", $GemaeldeID);
@@ -436,7 +429,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -469,7 +462,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $ergebnis->Beschreibung, $ergebnis->Erstellungsdatum, $ergebnis->Ort, $ergebnis->Bewertung,
                 $ergebnis->Hochladedatum, $ergebnis->Aufrufe, $ergebnis->Dateityp);
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }
@@ -520,7 +513,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -549,7 +542,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return 0;
             }
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -595,7 +588,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return $SammlungID;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return -1;
         }
@@ -625,7 +618,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -650,15 +643,10 @@ class NutzerDAODBImpl implements NutzerDAO
             $entferneSammlungCMD->bindParam(':AnbieterID', $AnbieterID);
             $entferneSammlungCMD->execute();
 
-            $entferneGehoertZuSQL = "DELETE FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $entferneGehoertZuCMD = $this->db->prepare($entferneGehoertZuSQL);
-            $entferneGehoertZuCMD->bindParam(":SammlungID", $SammlungID);
-            $entferneGehoertZuCMD->execute();
-
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -698,7 +686,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return array($SammlungID, $ergebnis->AnbieterID, $GemaeldeIDs, $ergebnis->Titel, $ergebnis->Beschreibung, $ergebnis->Bewertung, $ergebnis->Erstellungsdatum, $ergebnis->Aufrufe);
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }
@@ -730,7 +718,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -757,7 +745,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -811,7 +799,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -871,7 +859,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return $ergebnis;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }
@@ -897,7 +885,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return array($ergebnis->AnbieterID, $ergebnis->Nutzername, $ergebnis->Personenbeschreibung, $ergebnis->Geschlecht, $ergebnis->Vollstaendiger_Name, $ergebnis->Anschrift, $ergebnis->Sprache, $ergebnis->Geburtsdatum, $ergebnis->Registrierungsdatum);
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }
@@ -936,7 +924,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -968,7 +956,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return true;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return false;
         }
@@ -1004,7 +992,7 @@ class NutzerDAODBImpl implements NutzerDAO
             }
             return $ergebnis;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }
@@ -1041,7 +1029,7 @@ class NutzerDAODBImpl implements NutzerDAO
             }
             return $ergebnis;
         } catch (Exception $ex) {
-            print_r($ex);
+            //print_r($ex);
             $this->db->rollBack();
             return array(-1);
         }

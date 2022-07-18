@@ -6,6 +6,8 @@ interface NutzerDAO
 
     public function registrieren($Nutzername, $Email, $Passwort): bool;
 
+    public function registrieren_bestaetigen($Email, $Verifizierungscode): bool;
+
     public function anmelden($Email, $Passwort): array;
 
     public function abmelden($AnbieterID, $Tokennummer): bool;
