@@ -70,6 +70,10 @@ main {
     display: none; /* Element soll nicht angezeigt werden */
 }
 
+.jsOnly { /* repräsentiert divs, die nur angezeigt werden sollen, wenn JavaScript aktiviert ist */
+    display: none;
+}
+
 
 /*
 ---> Navigation <---
