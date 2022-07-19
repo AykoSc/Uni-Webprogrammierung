@@ -305,16 +305,4 @@ class NutzerDAODummyImpl implements NutzerDAO
 
         return $ergebnis;
     }
-
-    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool
-    {
-        // Gemälde wird hier nicht bewertet, da es eine schreibende Methode ist
-        return true;
-    }
-
-    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int
-    {
-        //TODO Eigene Bewertung erhalten
-        return -1;
-    }
 }

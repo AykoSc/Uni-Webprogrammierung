@@ -965,20 +965,7 @@ class NutzerDAODBImpl implements NutzerDAO
     public function ausstellung_erhalten($Suche, $Filter): array
     {
         try {
-            $this->db->beginTransaction();
-
-            $erhalteAusstellungSQL = "SELECT * FROM Gemaelde WHERE Titel LIKE :suche";
-            if ($Filter == "beliebteste") {
-                $erhalteAusstellungSQL .= " ORDER BY Bewertung DESC";
-            } else if ($Filter == "datum") {
-                $erhalteAusstellungSQL .= " ORDER BY Erstellungsdatum DESC";
-            }
-            $erhalteAusstellungSQL .= ";";
-
-            $erhalteAusstellungCMD = $this->db->prepare($erhalteAusstellungSQL);
-            $erhalteAusstellungCMD->bindValue(":suche", '%' . $Suche . '%');
-            $erhalteAusstellungCMD->execute();
-            $this->db->commit();
+            $erhalteAusstellungCMD = $this->sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, "SELECT * FROM Gemaelde WHERE Titel LIKE :suche");
 
             $suchergebnis = array();
             while ($zeile = $erhalteAusstellungCMD->fetchObject()) {
@@ -1002,20 +989,7 @@ class NutzerDAODBImpl implements NutzerDAO
     public function sammlungen_erhalten($Suche, $Filter): array
     {
         try {
-            $this->db->beginTransaction();
-
-            $erhalteSammlungenSQL = "SELECT * FROM Sammlung WHERE Titel LIKE :suche";
-            if ($Filter == "beliebteste") {
-                $erhalteSammlungenSQL .= " ORDER BY Bewertung DESC";
-            } else if ($Filter == "datum") {
-                $erhalteSammlungenSQL .= " ORDER BY Erstellungsdatum DESC";
-            }
-            $erhalteSammlungenSQL .= ";";
-
-            $erhalteSammlungenCMD = $this->db->prepare($erhalteSammlungenSQL);
-            $erhalteSammlungenCMD->bindValue(":suche", '%' . $Suche . '%');
-            $erhalteSammlungenCMD->execute();
-            $this->db->commit();
+            $erhalteSammlungenCMD = $this->sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, "SELECT * FROM Sammlung WHERE Titel LIKE :suche");
 
             $suchergebnis = array();
             while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
@@ -1033,5 +1007,25 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->rollBack();
             return array(-1);
         }
+    }
+
+    private function sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, $erhalteSQL): bool|PDOStatement
+    {
+        $this->db->beginTransaction();
+
+        if ($Filter == "beliebteste") {
+            $erhalteSQL .= " ORDER BY Bewertung DESC";
+        } else if ($Filter == "datum") {
+            $erhalteSQL .= " ORDER BY Erstellungsdatum DESC";
+        }
+        $erhalteSQL .= ";";
+
+        $erhalteCMD = $this->db->prepare($erhalteSQL);
+        $erhalteCMD->bindValue(":suche", '%' . $Suche . '%');
+        $erhalteCMD->execute();
+
+        $this->db->commit();
+
+        return $erhalteCMD;
     }
 }
