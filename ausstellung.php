@@ -58,7 +58,7 @@ include $abs_path . '/php/head.php';
     <form>
         <div class="suche">
             <label for="suche" class="invisible">Suche</label>
-            <input class="suchfeld" type="text" placeholder="Suche..." name="suche" id="suche"
+            <input autocomplete="off" class="suchfeld" type="text" placeholder="Suche..." name="suche" id="suche"
                    onkeyup="suchvorschlaege(this.value)"
                 <?php echo (isset($_GET["suche"]) && is_string($_GET["suche"])) ? 'value=' . htmlspecialchars($_GET["suche"]) : '' ?>>
             <button id="suchenknopf">
