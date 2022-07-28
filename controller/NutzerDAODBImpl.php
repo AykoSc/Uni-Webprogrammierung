@@ -11,7 +11,7 @@ class NutzerDAODBImpl implements NutzerDAO
     private function __construct()
     {
         //Stelle alle Errors und Warnings aus, damit Nutzer keine Errors oder Warnings angezeigt bekommen
-        error_reporting(0);
+        //TODO error_reporting(0);
 
         //Datenbankverbindung
         try {
