@@ -4,13 +4,13 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-$selektiert = 'beliebteste';
+$selektiert = '';
 if (isset($_GET["suche"]) && is_string($_GET["suche"])
     && isset($_GET["filter"]) && is_string($_GET["filter"])) {
     $sammlungen = $dao->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
     $selektiert = htmlspecialchars($_GET["filter"]);
 } else {
-    $sammlungen = $dao->sammlungen_erhalten("", "");
+    $sammlungen = $dao->sammlungen_erhalten("", "beliebteste");
 }
 
 // Erstes Gemaelde als Vorschaubild der jeweiligen Sammlung nehmen
@@ -78,10 +78,12 @@ include $abs_path . '/php/head.php';
 
         <label for="filter">Filtern nach:</label>
         <select id="filter" name="filter">
-            <option value="beliebteste" <?php echo ($selektiert === 'beliebteste') ? 'selected' : '' ?>selected>
+            <option value="beliebteste" <?php echo ($selektiert !== 'datum') ? 'selected' : '' ?>>
                 Beliebteste
             </option>
-            <option value="datum" <?php echo ($selektiert === 'datum') ? 'selected' : '' ?>>Datum</option>
+            <option value="datum" <?php echo ($selektiert === 'datum') ? 'selected' : '' ?>>
+                Datum
+            </option>
         </select>
     </form>
 

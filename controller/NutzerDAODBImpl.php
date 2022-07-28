@@ -1014,7 +1014,7 @@ class NutzerDAODBImpl implements NutzerDAO
         $this->db->beginTransaction();
 
         if ($Filter == "beliebteste") {
-            $erhalteSQL .= " ORDER BY Bewertung DESC";
+            $erhalteSQL .= " ORDER BY Aufrufe DESC";
         } else if ($Filter == "datum") {
             $erhalteSQL .= " ORDER BY Erstellungsdatum DESC";
         }
