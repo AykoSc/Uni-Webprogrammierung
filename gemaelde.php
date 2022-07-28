@@ -155,7 +155,7 @@ include $abs_path . '/php/head.php';
                             <input id="ort" type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
                         </div>
                         <div class="item">
-                            <p>Gesamtbewertung:</p>
+                            <h3>Gesamtbewertung</h3>
                             <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
                                 <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
                             <?php } ?>
@@ -206,7 +206,7 @@ include $abs_path . '/php/head.php';
                     </div>
                     <div id="bewertung" class="item">
                         <h3>Bewertung</h3>
-                        <p>Gesamtbewertung:</p>
+                        <p>Gesamtbewertung</p>
                         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
                             <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
                         <?php } ?>
@@ -215,7 +215,7 @@ include $abs_path . '/php/head.php';
                         <?php } ?>
 
                         <?php if (isset($_SESSION["id"])): ?>
-                            <p>Deine Bewertung:</p>
+                            <p>Deine Bewertung</p>
                             <form method="post">
                                 <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
                                     <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
