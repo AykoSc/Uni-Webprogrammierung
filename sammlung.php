@@ -120,7 +120,7 @@ include $abs_path . '/php/head.php';
 
     <div id="bewertung">
         <h3>Bewertung</h3>
-        <p>Gesamtbewertung:</p>
+        <p>Gesamtbewertung</p>
         <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
             <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
         <?php } ?>
@@ -129,7 +129,7 @@ include $abs_path . '/php/head.php';
         <?php } ?>
 
         <?php if (isset($_SESSION["id"])): ?>
-            <p>Deine Bewertung:</p>
+            <p>Deine Bewertung</p>
             <form method="post">
                 <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
                     <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
