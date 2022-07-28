@@ -203,19 +203,19 @@ button {
 }
 
 
-.description .grid{
+.description .grid {
     display: grid;
     grid-template-columns: auto auto;
     column-gap: 20%;
 }
 
-.description input[type ="submit"]{
+.description input[type ="submit"] {
     display: flex;
     justify-self: flex-end;
 }
 
 
-details > summary{
+details > summary {
     cursor: pointer;
     color: #656c71;
     list-style: none;

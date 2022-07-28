@@ -5,9 +5,9 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 
-if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelden"] === "1") {
-    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
-        $abmeldung = $dao->abmelden(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]));
+if (isset($_GET["abmelden"]) && is_string($_GET["abmelden"]) && $_GET["abmelden"] === "1") {
+    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
+        $abmeldung = $dao->abmelden($_SESSION["id"], $_SESSION["token"]);
         if (!$abmeldung) $fehlermeldung = 'Datenbankverbindung verloren. Kontaktiere einen Administrator.';
     }
     session_unset();
@@ -15,13 +15,13 @@ if (isset($_GET["abmelden"]) and is_string($_GET["abmelden"]) and $_GET["abmelde
     $erfolgreich = 'Du hast dich erfolgreich abgemeldet!';
 }
 
-if (isset($_GET["fehler"]) and is_string($_GET["fehler"])) {
-    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! ' . htmlspecialchars($_GET["fehler"]) . ' existiert nicht mehr.';
+if (isset($_GET["fehler"]) && is_string($_GET["fehler"])) {
+    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! ' . $_GET["fehler"] . ' existiert nicht mehr.';
 }
-if (isset($_GET["entfernt"]) and is_string($_GET["entfernt"])) {
-    $erfolgreich = htmlspecialchars($_GET["entfernt"]) . ' erfolgreich gelöscht!';
+if (isset($_GET["entfernt"]) && is_string($_GET["entfernt"])) {
+    $erfolgreich = $_GET["entfernt"] . ' erfolgreich gelöscht!';
 }
-if (isset($_GET["anmelden"]) and is_string($_GET["anmelden"]) and $_GET["anmelden"] === "1" and isset($_SESSION["id"]) and is_string($_SESSION["id"]) and isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+if (isset($_GET["anmelden"]) && is_string($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
     $erfolgreich = 'Du hast dich erfolgreich angemeldet!';
 }
 
@@ -33,7 +33,7 @@ if (isset($daten["Realtime Currency Exchange Rate"])) {
     $von_name = $wechselkurs["2. From_Currency Name"];
     $von_preis = 5000;
     $zu_name = $wechselkurs["4. To_Currency Name"];
-    $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis,2);
+    $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis, 2);
 }
 ?>
 
@@ -52,11 +52,11 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($erfolgreich) and is_string($erfolgreich)): ?>
-        <p class="nachricht"><?php echo htmlspecialchars($erfolgreich);?></p>
+    <?php if (isset($erfolgreich) && is_string($erfolgreich)): ?>
+        <p class="nachricht"><?php echo htmlspecialchars($erfolgreich); ?></p>
     <?php endif ?>
-    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
-        <p class="nachricht fehler"><?php echo htmlspecialchars($fehlermeldung);?></p>
+    <?php if (isset($fehlermeldung) && is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo htmlspecialchars($fehlermeldung); ?></p>
     <?php endif ?>
 
     <h1>Hauptseite</h1>
@@ -72,8 +72,8 @@ include $abs_path . '/php/head.php';
 
     <?php if (isset($daten["Realtime Currency Exchange Rate"])): ?>
         <ul>
-            <li>Startpreis in <?php echo $von_name . ': ' .  $von_preis; ?></li>
-            <li>Startpreis in <?php echo $zu_name . ': ' .  $zu_preis; ?></li>
+            <li>Startpreis in <?php echo htmlspecialchars($von_name . ': ' . $von_preis); ?></li>
+            <li>Startpreis in <?php echo htmlspecialchars($zu_name . ': ' . $zu_preis); ?></li>
         </ul>
     <?php else: ?>
         <ul>

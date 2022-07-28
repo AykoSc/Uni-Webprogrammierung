@@ -4,9 +4,8 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-if (isset($_POST['email']) && is_string($_POST['email']) &&
-    isset($_POST['kommentar']) && is_string($_POST['kommentar'])) {
-    $erfolgreich = $dao->kontakt_aufnehmen(htmlspecialchars($_POST['email']), htmlspecialchars($_POST['kommentar']));
+if (isset($_POST['email']) && is_string($_POST['email']) && isset($_POST['kommentar']) && is_string($_POST['kommentar'])) {
+    $erfolgreich = $dao->kontakt_aufnehmen($_POST['email'], $_POST['kommentar']);
 }
 ?>
 
@@ -32,7 +31,7 @@ include $abs_path . '/php/head.php';
 
     <div class="usermanagement">
         <h3>Hier kannst du Kontakt aufnehmen</h3>
-        <form method="post" action="kontakt.php">
+        <form method="post">
             <hr>
             <label for="email">E-Mail:</label>
             <input type="email" id="email" name="email" maxlength="100" required>

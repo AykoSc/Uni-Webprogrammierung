@@ -17,7 +17,7 @@
 
             <?php if (isset($_SESSION["id"]) && isset($_SESSION["token"])): ?>
                 <a href="neuereintrag.php?typ=Gemälde" class="navitem">Neuer Eintrag</a>
-                <a href="profil.php?id=<?php echo htmlspecialchars($_SESSION['id']) ?>" class="navitem">Mein Profil</a>
+                <a href="profil.php?id=<?php echo urlencode($_SESSION['id']) ?>" class="navitem">Mein Profil</a>
                 <a href="index.php?abmelden=1" class="navitem">Abmeldung</a>
             <?php endif ?>
         </div>

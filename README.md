@@ -33,13 +33,15 @@ Anmeldung:
 
 Cookies:
 
-- Es wird nicht über Cookies informiert (kein Disclaimer), da wir nur technisch notwendigen Cookies verwenden (Speicherung der ID des
+- Es wird nicht über Cookies informiert (kein Disclaimer), da wir nur technisch notwendigen Cookies verwenden (
+  Speicherung der ID des
   Nutzers).
 
 Webservices und APIs
 
 - Die API für Währungskurswechsel wird auf index.php verwendet, um ein Euro-Preis in einen USD-Preis umzurechnen.
-  Diese API ist auf 5 Aufrufe pro Minute begrenzt. Bei Inbetriebnahme würde man eine Kreditkarte hinterlegen, um dies zu erhöhen.
+  Diese API ist auf 5 Aufrufe pro Minute begrenzt. Bei Inbetriebnahme würde man eine Kreditkarte hinterlegen, um dies zu
+  erhöhen.
   Falls die API grade nicht verfügbar ist, wird einfach nur der Euro-Preis angezeigt.
   Quelle/Dokumentation: https://www.alphavantage.co/documentation/#currency-exchange
 - Zudem wurde in der ueberuns.php eine Karte per OpenStreetMap eingebunden.

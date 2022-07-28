@@ -8,15 +8,6 @@ class NutzerDAODBImpl implements NutzerDAO
     private static ?NutzerDAODBImpl $instance = null;
     private PDO $db;
 
-    public static function getInstance(): NutzerDAODBImpl
-    {
-        if (self::$instance == null) {
-            self::$instance = new NutzerDAODBImpl();
-        }
-
-        return self::$instance;
-    }
-
     private function __construct()
     {
         //Datenbankverbindung
@@ -55,13 +46,21 @@ class NutzerDAODBImpl implements NutzerDAO
                 }
                 $this->db->commit();
 
-            } catch (Exception $ex) {
-                //print_r($ex);
+            } catch (Exception) {
                 $this->db->rollBack();
             }
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
+            //evtl PDO-Erstellung errors
         }
+    }
+
+    public static function getInstance(): NutzerDAODBImpl
+    {
+        if (self::$instance == null) {
+            self::$instance = new NutzerDAODBImpl();
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -82,7 +81,6 @@ class NutzerDAODBImpl implements NutzerDAO
         }
         return true;
     }
-
     private function gemaeldeCheck($GemaeldeID): bool
     {
         $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
@@ -96,7 +94,6 @@ class NutzerDAODBImpl implements NutzerDAO
         }
         return true;
     }
-
     private function sammlungCheck($SammlungID): bool
     {
         $checkSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
@@ -107,20 +104,6 @@ class NutzerDAODBImpl implements NutzerDAO
         if (!isset($result->SammlungID)) {
             $this->db->rollBack();
             return false; //SammlungID existiert nicht
-        }
-        return true;
-    }
-
-    private function kommentarCheck($KommentarID): bool
-    {
-        $checkKommentarSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
-        $checkKommentarCMD = $this->db->prepare($checkKommentarSQL);
-        $checkKommentarCMD->bindParam(":KommentarID", $KommentarID);
-        $checkKommentarCMD->execute();
-        $result = $checkKommentarCMD->fetchObject();
-        if (!isset($result->KommentarID)) {
-            $this->db->rollBack();
-            return false; //Kommentar existiert nicht
         }
         return true;
     }
@@ -142,8 +125,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -206,8 +188,7 @@ class NutzerDAODBImpl implements NutzerDAO
             fclose($fp);
 
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -228,8 +209,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return $betroffeneReihen > 0;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -268,8 +248,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $this->db->rollBack();
                 return array(-1, ""); // Anmeldung fehlgeschlagen (Passwort falsch)
             }
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return array(-1, "");
         }
@@ -289,8 +268,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -312,8 +290,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -348,8 +325,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return $id;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return -1;
         }
@@ -381,8 +357,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -428,43 +403,9 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
-        }
-    }
-
-    public function gemaelde_erhalten($GemaeldeID): array
-    {
-        try {
-            $this->db->beginTransaction();
-
-            if (!$this->gemaeldeCheck($GemaeldeID)) {
-                return array(-1);
-            }
-
-            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
-            $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
-            $erhalteGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
-            $erhalteGemaeldeCMD->execute();
-            $ergebnis = $erhalteGemaeldeCMD->fetchObject();
-
-            //Erhöhe Aufrufe um 1
-            $aktualisiereAufrufeSQL = "UPDATE Gemaelde SET Aufrufe = :Aufrufe WHERE GemaeldeID = :GemaeldeID;";
-            $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
-            $aktualisiereAufrufeCMD->bindValue(':Aufrufe', $ergebnis->Aufrufe + 1);
-            $aktualisiereAufrufeCMD->bindParam(':GemaeldeID', $GemaeldeID);
-            $aktualisiereAufrufeCMD->execute();
-
-            $this->db->commit();
-            return array($ergebnis->GemaeldeID, $ergebnis->AnbieterID, $ergebnis->Titel, $ergebnis->Kuenstler,
-                $ergebnis->Beschreibung, $ergebnis->Erstellungsdatum, $ergebnis->Ort, $ergebnis->Bewertung,
-                $ergebnis->Hochladedatum, $ergebnis->Aufrufe, $ergebnis->Dateityp);
-        } catch (Exception $ex) {
-            //print_r($ex);
-            $this->db->rollBack();
-            return array(-1);
         }
     }
 
@@ -512,8 +453,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -538,8 +478,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
 
             return isset($ergebnis->Bewertung) && is_int($ergebnis->Bewertung) ? $ergebnis->Bewertung : 0;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -589,8 +528,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -615,8 +553,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
 
             return isset($ergebnis->Bewertung) && is_int($ergebnis->Bewertung) ? $ergebnis->Bewertung : 0;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -661,8 +598,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return $SammlungID;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return -1;
         }
@@ -691,8 +627,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -719,50 +654,9 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
-        }
-    }
-
-    public function sammlung_erhalten($SammlungID): array
-    {
-        try {
-            $this->db->beginTransaction();
-
-            if (!$this->sammlungCheck($SammlungID)) {
-                return array(-1);
-            }
-
-            $erhalteSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
-            $erhalteSammlungCMD = $this->db->prepare($erhalteSammlungSQL);
-            $erhalteSammlungCMD->bindParam(":SammlungID", $SammlungID);
-            $erhalteSammlungCMD->execute();
-            $ergebnis = $erhalteSammlungCMD->fetchObject();
-
-            $erhalteSammlungsinhalteSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
-            $erhalteSammlungsinhalteCMD = $this->db->prepare($erhalteSammlungsinhalteSQL);
-            $erhalteSammlungsinhalteCMD->bindParam(":SammlungID", $ergebnis->SammlungID);
-            $erhalteSammlungsinhalteCMD->execute();
-            $GemaeldeIDs = array();
-            while ($zeile = $erhalteSammlungsinhalteCMD->fetchObject()) {
-                $GemaeldeIDs[] = $zeile->GemaeldeID;
-            }
-
-            //Erhöhe Aufrufe um 1
-            $aktualisiereAufrufeSQL = "UPDATE Sammlung SET Aufrufe = :Aufrufe WHERE SammlungID = :SammlungID;";
-            $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
-            $aktualisiereAufrufeCMD->bindValue(':Aufrufe', $ergebnis->Aufrufe + 1);
-            $aktualisiereAufrufeCMD->bindParam(':SammlungID', $SammlungID);
-            $aktualisiereAufrufeCMD->execute();
-
-            $this->db->commit();
-            return array($SammlungID, $ergebnis->AnbieterID, $GemaeldeIDs, $ergebnis->Titel, $ergebnis->Beschreibung, $ergebnis->Bewertung, $ergebnis->Erstellungsdatum, $ergebnis->Aufrufe);
-        } catch (Exception $ex) {
-            //print_r($ex);
-            $this->db->rollBack();
-            return array(-1);
         }
     }
 
@@ -791,8 +685,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -818,11 +711,24 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
+    }
+
+    private function kommentarCheck($KommentarID): bool
+    {
+        $checkKommentarSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
+        $checkKommentarCMD = $this->db->prepare($checkKommentarSQL);
+        $checkKommentarCMD->bindParam(":KommentarID", $KommentarID);
+        $checkKommentarCMD->execute();
+        $result = $checkKommentarCMD->fetchObject();
+        if (!isset($result->KommentarID)) {
+            $this->db->rollBack();
+            return false; //Kommentar existiert nicht
+        }
+        return true;
     }
 
     public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool
@@ -872,8 +778,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -932,8 +837,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return $ergebnis;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return array(-1);
         }
@@ -958,8 +862,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return array($ergebnis->AnbieterID, $ergebnis->Nutzername, $ergebnis->Personenbeschreibung, $ergebnis->Geschlecht, $ergebnis->Vollstaendiger_Name, $ergebnis->Anschrift, $ergebnis->Sprache, $ergebnis->Geburtsdatum, $ergebnis->Registrierungsdatum);
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return array(-1);
         }
@@ -997,8 +900,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -1029,8 +931,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
@@ -1052,35 +953,11 @@ class NutzerDAODBImpl implements NutzerDAO
                 $reihe = ($reihe + 1) % 4;
             }
             return $ergebnis;
-        } catch (Exception $ex) {
-            //print_r($ex);
+        } catch (Exception) {
             $this->db->rollBack();
             return array(-1);
         }
 
-    }
-
-    public function sammlungen_erhalten($Suche, $Filter): array
-    {
-        try {
-            $erhalteSammlungenCMD = $this->sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, "SELECT * FROM Sammlung WHERE Titel LIKE :suche");
-
-            $suchergebnis = array();
-            while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
-                $suchergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
-            }
-            $ergebnis = array(array(), array(), array(), array());
-            $reihe = 0;
-            foreach ($suchergebnis as $s) {
-                $ergebnis[$reihe][] = $s;
-                $reihe = ($reihe + 1) % 4;
-            }
-            return $ergebnis;
-        } catch (Exception $ex) {
-            //print_r($ex);
-            $this->db->rollBack();
-            return array(-1);
-        }
     }
 
     private function sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, $erhalteSQL): bool|PDOStatement
@@ -1101,5 +978,98 @@ class NutzerDAODBImpl implements NutzerDAO
         $this->db->commit();
 
         return $erhalteCMD;
+    }
+
+    public function gemaelde_erhalten($GemaeldeID): array
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return array(-1);
+            }
+
+            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
+            $erhalteGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
+            $erhalteGemaeldeCMD->execute();
+            $ergebnis = $erhalteGemaeldeCMD->fetchObject();
+
+            //Erhöhe Aufrufe um 1
+            $aktualisiereAufrufeSQL = "UPDATE Gemaelde SET Aufrufe = :Aufrufe WHERE GemaeldeID = :GemaeldeID;";
+            $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
+            $aktualisiereAufrufeCMD->bindValue(':Aufrufe', $ergebnis->Aufrufe + 1);
+            $aktualisiereAufrufeCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $aktualisiereAufrufeCMD->execute();
+
+            $this->db->commit();
+            return array($ergebnis->GemaeldeID, $ergebnis->AnbieterID, $ergebnis->Titel, $ergebnis->Kuenstler,
+                $ergebnis->Beschreibung, $ergebnis->Erstellungsdatum, $ergebnis->Ort, $ergebnis->Bewertung,
+                $ergebnis->Hochladedatum, $ergebnis->Aufrufe, $ergebnis->Dateityp);
+        } catch (Exception) {
+            $this->db->rollBack();
+            return array(-1);
+        }
+    }
+
+    public function sammlungen_erhalten($Suche, $Filter): array
+    {
+        try {
+            $erhalteSammlungenCMD = $this->sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, "SELECT * FROM Sammlung WHERE Titel LIKE :suche");
+
+            $suchergebnis = array();
+            while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
+                $suchergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
+            }
+            $ergebnis = array(array(), array(), array(), array());
+            $reihe = 0;
+            foreach ($suchergebnis as $s) {
+                $ergebnis[$reihe][] = $s;
+                $reihe = ($reihe + 1) % 4;
+            }
+            return $ergebnis;
+        } catch (Exception) {
+            $this->db->rollBack();
+            return array(-1);
+        }
+    }
+
+    public function sammlung_erhalten($SammlungID): array
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->sammlungCheck($SammlungID)) {
+                return array(-1);
+            }
+
+            $erhalteSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
+            $erhalteSammlungCMD = $this->db->prepare($erhalteSammlungSQL);
+            $erhalteSammlungCMD->bindParam(":SammlungID", $SammlungID);
+            $erhalteSammlungCMD->execute();
+            $ergebnis = $erhalteSammlungCMD->fetchObject();
+
+            $erhalteSammlungsinhalteSQL = "SELECT * FROM gehoert_zu WHERE SammlungID = :SammlungID;";
+            $erhalteSammlungsinhalteCMD = $this->db->prepare($erhalteSammlungsinhalteSQL);
+            $erhalteSammlungsinhalteCMD->bindParam(":SammlungID", $ergebnis->SammlungID);
+            $erhalteSammlungsinhalteCMD->execute();
+            $GemaeldeIDs = array();
+            while ($zeile = $erhalteSammlungsinhalteCMD->fetchObject()) {
+                $GemaeldeIDs[] = $zeile->GemaeldeID;
+            }
+
+            //Erhöhe Aufrufe um 1
+            $aktualisiereAufrufeSQL = "UPDATE Sammlung SET Aufrufe = :Aufrufe WHERE SammlungID = :SammlungID;";
+            $aktualisiereAufrufeCMD = $this->db->prepare($aktualisiereAufrufeSQL);
+            $aktualisiereAufrufeCMD->bindValue(':Aufrufe', $ergebnis->Aufrufe + 1);
+            $aktualisiereAufrufeCMD->bindParam(':SammlungID', $SammlungID);
+            $aktualisiereAufrufeCMD->execute();
+
+            $this->db->commit();
+            return array($SammlungID, $ergebnis->AnbieterID, $GemaeldeIDs, $ergebnis->Titel, $ergebnis->Beschreibung, $ergebnis->Bewertung, $ergebnis->Erstellungsdatum, $ergebnis->Aufrufe);
+        } catch (Exception) {
+            $this->db->rollBack();
+            return array(-1);
+        }
     }
 }

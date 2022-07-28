@@ -5,65 +5,53 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Eintrag bearbeiten
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_REQUEST["id"]) and is_string($_REQUEST["id"]) and
-    isset($_POST['titel']) and is_string($_POST['titel']) and
-    isset($_POST['beschreibung']) and is_string($_POST['beschreibung'])) {
-    $editierung = $dao->sammlung_editieren(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-        htmlspecialchars($_REQUEST["id"]), htmlspecialchars($_POST['titel']), htmlspecialchars($_POST['beschreibung']));
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_REQUEST["id"]) && is_string($_REQUEST["id"]) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
+    $editierung = $dao->sammlung_editieren($_SESSION["id"], $_SESSION["token"],
+        $_REQUEST["id"], $_POST['titel'], $_POST['beschreibung']);
     if (!$editierung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
 // Eintrag laden
-if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
-    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-        isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
-        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_GET["id"]));
+if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
+    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
+        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
     }
 
-    $sammlung = $dao->sammlung_erhalten(htmlspecialchars($_REQUEST["id"]));
+    $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
 } else {
     header("location: index.php?fehler=Sammlung");
 }
 
 // Eintrag bewerten
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_GET["id"]) and is_string($_GET["id"]) and
-    isset($_POST["bewertung"]) and is_string($_POST["bewertung"])) {
-    $bewertet = $dao->sammlung_bewerten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_POST["bewertung"]));
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_GET["id"]) && is_string($_GET["id"]) && isset($_POST["bewertung"]) && is_string($_POST["bewertung"])) {
+    $bewertet = $dao->sammlung_bewerten($_SESSION["id"], $_SESSION["token"], $_GET["id"], $_POST["bewertung"]);
 }
 
 // Eintrag löschen
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
-    $loeschung = $dao->sammlung_entfernen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]));
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
+    $loeschung = $dao->sammlung_entfernen($_SESSION["id"], $_SESSION["token"], $_GET["id"]);
     if ($loeschung) {
         header("location: index.php?entfernt=Sammlung");
     } else {
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
-    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
-    isset($_POST["loeschen"]) and is_string($_POST["loeschen"]) and htmlspecialchars($_POST["loeschen"]) === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && $_POST["loeschen"] === "nichtbestaetigt") {
     $fehlermeldung = "Um diese Sammlung zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
-if (isset($sammlung) and is_array($sammlung) and $sammlung !== [-1]) {
+if (isset($sammlung) && is_array($sammlung) && $sammlung !== [-1]) {
     // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
     $id = $sammlung[0];
     $anbieter = $dao->profil_erhalten($sammlung[1]); //$sammlung[1] ist anbieterID
     $alle_gemaelde = array();
     foreach ($sammlung[2] as $gemaeldeID) { //$sammlung[2] sind gemaeldeIDs
-        $alle_gemaelde[] = $dao->gemaelde_erhalten(htmlspecialchars($gemaeldeID));
+        $alle_gemaelde[] = $dao->gemaelde_erhalten($gemaeldeID);
     }
     $titel = htmlspecialchars($sammlung[3]);
     $beschreibung = htmlspecialchars($sammlung[4]);
-    $bewertung = htmlspecialchars($sammlung[5]);
-    $hochladedatum = htmlspecialchars($sammlung[6]);
+    $bewertung = $sammlung[5];
+    $hochladedatum = $sammlung[6];
     $aufrufe = htmlspecialchars($sammlung[7]);
 } else {
     header("location: index.php?fehler=Sammlung");
@@ -87,7 +75,7 @@ include $abs_path . '/php/head.php';
     <?php if (isset($fehlermeldung)): ?>
         <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
-    <?php if (isset($editierung) and is_bool($editierung) and $editierung): ?>
+    <?php if (isset($editierung) && is_bool($editierung) && $editierung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>
     <?php endif ?>
 
@@ -103,7 +91,7 @@ include $abs_path . '/php/head.php';
         </a>
     <?php endforeach; ?>
 
-    <?php if (isset($_SESSION["id"]) and htmlspecialchars($sammlung[1]) == htmlspecialchars($_SESSION["id"])) : ?>
+    <?php if (isset($_SESSION["id"]) && $sammlung[1] == $_SESSION["id"]) : ?>
         <form method="post">
             <h3>Sammlung löschen?</h3>
             <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
@@ -120,7 +108,7 @@ include $abs_path . '/php/head.php';
 
             <h3>Titel</h3>
             <label for="titel" class="invisible">Titel</label>
-            <input id="titel" type="text" name="titel" value="<?php echo htmlspecialchars($titel) ?>">
+            <input id="titel" type="text" name="titel" value="<?php echo $titel ?>">
             <input type="submit" name="Submit" value="Speichern"/>
         </form>
 
@@ -159,7 +147,6 @@ include $abs_path . '/php/head.php';
     </div>
 
 
-    <p><?php echo $bewertung ?></p>
     <h3>Hochladedatum</h3>
     <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
     <h3>Aufrufe</h3>

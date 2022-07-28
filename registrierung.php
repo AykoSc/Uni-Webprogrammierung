@@ -4,16 +4,12 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
-    and isset($_POST["email"]) and is_string($_POST["email"])
-    and isset($_POST["passwort"]) and is_string($_POST["passwort"])
-    and isset($_POST["passwort_wiederholen"]) and is_string($_POST["passwort_wiederholen"])
-    and isset($_POST["akzeptiert"]) and is_string($_POST["akzeptiert"])) {
-    $nutzername = htmlspecialchars($_POST["nutzername"]);
-    $email = htmlspecialchars($_POST["email"]);
-    $passwort = htmlspecialchars($_POST["passwort"]);
-    $passwort_wiederholen = htmlspecialchars($_POST["passwort_wiederholen"]);
-    $akzeptiert = htmlspecialchars($_POST["akzeptiert"]);
+if (isset($_POST["nutzername"]) && is_string($_POST["nutzername"]) && isset($_POST["email"]) && is_string($_POST["email"]) && isset($_POST["passwort"]) && is_string($_POST["passwort"]) && isset($_POST["passwort_wiederholen"]) && is_string($_POST["passwort_wiederholen"]) && isset($_POST["akzeptiert"]) && is_string($_POST["akzeptiert"])) {
+    $nutzername = $_POST["nutzername"];
+    $email = $_POST["email"];
+    $passwort = $_POST["passwort"];
+    $passwort_wiederholen = $_POST["passwort_wiederholen"];
+    $akzeptiert = $_POST["akzeptiert"];
 
     if ($passwort !== $passwort_wiederholen) {
         $fehlermeldung = "Das Passwort wurde falsch wiederholt.";
@@ -27,7 +23,7 @@ if (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])
     if ($akzeptiert === "nein") {
         $fehlermeldung = "Sie stimmen nicht der Datenschutzerklärung zu und bestätigen nicht das Einhalten der Nutzungsbedingungen.";
     }
-    if (!(isset($fehlermeldung) and is_string($fehlermeldung))) {
+    if (!(isset($fehlermeldung) && is_string($fehlermeldung))) {
         $registrierung = $dao->registrieren($nutzername, $email, $passwort);
         if (!$registrierung) {
             $fehlermeldung = "Der Nutzername existiert bereits. Versuchen Sie es mit einem anderen Nutzernamen erneut.";
@@ -55,8 +51,8 @@ include $abs_path . '/php/head.php';
             return;
         }
         const request = new XMLHttpRequest();
-        request.onload = function() {
-            if(this.responseText === '1') {
+        request.onload = function () {
+            if (this.responseText === '1') {
                 document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Verfügbar)';
             } else {
                 document.getElementById('nutzernamevergeben').innerHTML = 'Benutzername (Bereits vergeben)';
@@ -71,11 +67,13 @@ include $abs_path . '/php/head.php';
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-    <?php if (isset($fehlermeldung) and is_string($fehlermeldung)): ?>
-        <p class="nachricht fehler"><?php echo $fehlermeldung ?></p>
+    <?php if (isset($fehlermeldung) && is_string($fehlermeldung)): ?>
+        <p class="nachricht fehler"><?php echo htmlspecialchars($fehlermeldung) ?></p>
     <?php endif ?>
-    <?php if (isset($erfolgreich) and is_string($erfolgreich) and isset($email) and is_string($email)): ?>
-        <p class="nachricht"><?php echo $erfolgreich ?><a href="emails/<?php echo $email?>_postfach.txt" target="_blank">Zur Email-Datei</a></p>
+    <?php if (isset($erfolgreich) && is_string($erfolgreich) && isset($email) && is_string($email)): ?>
+        <p class="nachricht"><?php echo $erfolgreich ?><a
+                    href="emails/<?php echo htmlspecialchars($email) ?>_postfach.txt" target="_blank">Zur
+                Email-Datei</a></p>
     <?php endif ?>
 
     <h1>Registrierung</h1>
@@ -87,10 +85,10 @@ include $abs_path . '/php/head.php';
             <label id="nutzernamevergeben" for="nutzername">Benutzername</label>
             <input type="text" id="nutzername" name="nutzername" maxlength="100" placeholder="Name eingeben" required
                    onkeyup="suchvorschlaege(this.value)"
-                <?php echo (isset($_POST["nutzername"]) and is_string($_POST["nutzername"])) ? 'value=' . htmlspecialchars($_POST["nutzername"]) : '' ?>>
+                <?php echo (isset($_POST["nutzername"]) && is_string($_POST["nutzername"])) ? 'value=' . htmlspecialchars($_POST["nutzername"]) : '' ?>>
             <label for="email">E-Mail</label>
             <input type="email" id="email" name="email" maxlength="100" placeholder="E-Mail eingeben" required
-                <?php echo (isset($_POST["email"]) and is_string($_POST["email"])) ? 'value=' . htmlspecialchars($_POST["email"]) : '' ?>>
+                <?php echo (isset($_POST["email"]) && is_string($_POST["email"])) ? 'value=' . htmlspecialchars($_POST["email"]) : '' ?>>
             <label for="passwort">Passwort</label>
             <input type="password" id="passwort" name="passwort" minlength="8" maxlength="100"
                    placeholder="Passwort eingeben" required>

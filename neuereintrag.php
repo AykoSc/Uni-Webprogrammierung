@@ -21,18 +21,10 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
     $angemeldet = false;
 }
 
-if ($gemaelde && $angemeldet
-    && isset($_FILES['datei']) &&
-    isset($_POST['titel']) && is_string($_POST['titel']) &&
-    isset($_POST['kuenstler']) && is_string($_POST['kuenstler']) &&
-    isset($_POST['beschreibung']) && is_string($_POST['beschreibung']) &&
-    isset($_POST['datum']) && is_string($_POST['datum']) &&
-    isset($_POST['ort']) && is_string($_POST['ort'])) {
-    $dateityp = strtolower(pathinfo(htmlspecialchars($_FILES['datei']['name']), PATHINFO_EXTENSION));
-    $erstellung = $dao->gemaelde_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-        htmlspecialchars($dateityp), htmlspecialchars($_POST['titel']),
-        htmlspecialchars($_POST['kuenstler']), htmlspecialchars($_POST['beschreibung']),
-        htmlspecialchars($_POST['datum']), htmlspecialchars($_POST['ort']));
+if ($gemaelde && $angemeldet && isset($_FILES['datei']) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['kuenstler']) && is_string($_POST['kuenstler']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung']) && isset($_POST['datum']) && is_string($_POST['datum']) && isset($_POST['ort']) && is_string($_POST['ort'])) {
+    $dateityp = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));
+    $erstellung = $dao->gemaelde_anlegen($_SESSION["id"], $_SESSION["token"], $dateityp, $_POST['titel'],
+        $_POST['kuenstler'], $_POST['beschreibung'], $_POST['datum'], $_POST['ort']);
 
     if ($erstellung !== -1) {
         $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $dateityp;
@@ -44,14 +36,9 @@ if ($gemaelde && $angemeldet
     }
 }
 
-if (!$gemaelde && $angemeldet
-    && isset($_POST['auswahl']) && is_string($_POST['auswahl']) &&
-    isset($_POST['titel']) && is_string($_POST['titel']) &&
-    isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
-    $erstellung = $dao->sammlung_anlegen(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]),
-        htmlspecialchars($_POST['auswahl']),
-        htmlspecialchars($_POST['titel']),
-        htmlspecialchars($_POST['beschreibung']));
+if (!$gemaelde && $angemeldet && isset($_POST['auswahl']) && is_string($_POST['auswahl']) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
+    $erstellung = $dao->sammlung_anlegen($_SESSION["id"], $_SESSION["token"],
+        $_POST['auswahl'], $_POST['titel'], $_POST['beschreibung']);
 }
 ?>
 
@@ -88,11 +75,11 @@ include $abs_path . '/php/head.php';
 
     <div class="usermanagement">
         <h3>Hier kannst du einen neuen Eintrag erstellen</h3>
-        <form method="get" action="neuereintrag.php">
+        <form>
             <hr>
             <?php $gegenteil = ($gemaelde) ? 'Sammlung' : 'Gemälde' ?>
-            <input type="hidden" name="typ" value="<?php echo $gegenteil ?>">
-            <button type="submit"><?php echo $gegenteil ?> erstellen?</button>
+            <input type="hidden" name="typ" value="<?php echo htmlspecialchars($gegenteil) ?>">
+            <button type="submit"><?php echo htmlspecialchars($gegenteil) ?> erstellen?</button>
             <hr>
         </form>
 

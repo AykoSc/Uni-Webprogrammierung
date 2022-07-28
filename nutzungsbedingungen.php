@@ -25,7 +25,7 @@ include $abs_path . '/php/head.php';
         <p>&nbsp;</p>
         <p><strong>1 Geltungsbereich</strong></p>
         <p>(1)&nbsp;Die nachfolgenden Bedingungen gelten für die Nutzung dieser Webseite - im folgenden
-            "ArtPlace" genannt - ArtPlace.&nbsp;Für die Nutzung des ArtPlace ist wichtig, dass Sie als
+            "ArtPlace" genannt - ArtPlace.&nbsp; für die Nutzung des ArtPlace ist wichtig, dass Sie als
             Nutzer/Nutzerin die
             nachfolgenden ArtPlace-Regeln bzw. bedingungen akzeptieren. Die Registrierung und Benutzung unseres
             ArtPlace ist kostenlos.</p>
@@ -45,7 +45,8 @@ include $abs_path . '/php/head.php';
         <p><span><u>Folgende Punkte sind Ihnen nicht genehmigt:</u></span></p>
         <p>1. Inhalte zu veröffentlichen, die unwahr sind und deren Veröffentlichung einen Straftatbestand oder eine
             Ordnungswidrigkeit erfüllt,<br/>2. Versendung von Spam über das ArtPlace an andere
-            ArtPlace-Nutzer/ArtPlace-Nutzerin,<br/>3. Verwendung von gesetzlich durch Urheber- und Markenrecht geschützte
+            ArtPlace-Nutzer/ArtPlace-Nutzerin,<br/>3. Verwendung von gesetzlich durch Urheber- und Markenrecht
+            geschützte
             Inhalte
             ohne rechtmäßige Berechtigung (z.B. Pressemitteilungen etc.),<br/>4. Beim Hochladen sichert der/die
             ArtPlace-Nutzer/ArtPlace-Nutzerin zu, dass er/sie die Rechte an der hochgeladenen Datei hat
@@ -53,7 +54,7 @@ include $abs_path . '/php/head.php';
             sind,<br/>6. mehrfache Einstellung von Themen ins ArtPlace (sogenannte Doppelpostings),<br/>7. eigene
             Werbung,
             folglich Schleichwerbung, zu betreiben und<br/>8. Inhalte zu veröffentlichen, die beleidigend, rassistisch,
-            diskriminierend oder pornographische Elemente aufweisen gegenüber anderen Nutzern/Nutzerinnen und der
+            diskriminierend oder pornografische Elemente aufweisen gegenüber anderen Nutzern/Nutzerinnen und der
             Allgemeinheit.</p>
         <p>Ihre Pflicht als ArtPlace-Nutzer/ ArtPlace-Nutzerin ist es, auf 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung,
             vor&nbsp;
@@ -89,7 +90,7 @@ include $abs_path . '/php/head.php';
             Inhalten zu verknüpfen oder zu schließen.</p>
         <p>&nbsp;</p>
         <p><strong> 4 Haftungsbeschränkung</strong></p>
-        <p>(1) Wir übernimmen keinerlei Gewähr für die im ArtPlace veröffentlichten und eingestellten Beiträge,
+        <p>(1) Wir übernehmen keinerlei Gewähr für die im ArtPlace veröffentlichten und eingestellten Beiträge,
             Themen,
             externen Links und die daraus resultierenden Inhalte, insbesondere nicht für deren Richtigkeit,
             Vollständigkeit und Aktualität. Wir sind auch nicht verpflichtet, permanent die übermittelten und
@@ -102,7 +103,7 @@ include $abs_path . '/php/head.php';
             unverbindlich sind. <sup>2</sup>Die Nutzung der Beiträge und deren Verwertung erfolgt auf Ihre eigene
             Gefahr.
         </p>
-        <p>(3)&nbsp;&nbsp; Bei Werbeschaltungen übernimmen wir keine Haftung für den Inhalt und die Richtigkeit.
+        <p>(3)&nbsp;&nbsp; Bei Werbeschaltungen übernehmen wir keine Haftung für den Inhalt und die Richtigkeit.
             <sup>2 </sup>Für den Inhalt der Werbeanzeigen ist der jeweilige Autor einzig und allein verantwortlich;
             gleiches gilt für den Inhalt der beworbenen Webseite. <sup>3</sup>Bei Darstellung der Werbeanzeige auf
             unserer

@@ -5,10 +5,9 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 $selektiert = '';
-if (isset($_GET["suche"]) && is_string($_GET["suche"])
-    && isset($_GET["filter"]) && is_string($_GET["filter"])) {
-    $sammlungen = $dao->sammlungen_erhalten(htmlspecialchars($_GET["suche"]), htmlspecialchars($_GET["filter"]));
-    $selektiert = htmlspecialchars($_GET["filter"]);
+if (isset($_GET["suche"]) && is_string($_GET["suche"]) && isset($_GET["filter"]) && is_string($_GET["filter"])) {
+    $sammlungen = $dao->sammlungen_erhalten($_GET["suche"], $_GET["filter"]);
+    $selektiert = $_GET["filter"];
 } else {
     $sammlungen = $dao->sammlungen_erhalten("", "beliebteste");
 }
@@ -17,7 +16,7 @@ if (isset($_GET["suche"]) && is_string($_GET["suche"])
 for ($i = 0; $i < sizeof($sammlungen); $i++) { //$sammlungen as $reihe
     for ($j = 0; $j < sizeof($sammlungen[$i]); $j++) { //$reihe as $sammlung
         if (isset($sammlungen[$i][$j][2][0]) && is_int($sammlungen[$i][$j][2][0])) {
-            $sammlungen[$i][$j][2] = $dao->gemaelde_erhalten(htmlspecialchars($sammlungen[$i][$j][2][0]));
+            $sammlungen[$i][$j][2] = $dao->gemaelde_erhalten($sammlungen[$i][$j][2][0]);
         }
     }
 }

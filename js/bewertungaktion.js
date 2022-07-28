@@ -1,6 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $( "#bewertung" ).on( "click",  "button",  function (event) {
+    $("#bewertung").on("click", "button", function (event) {
 
         event.preventDefault();
 

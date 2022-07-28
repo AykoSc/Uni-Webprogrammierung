@@ -42,8 +42,6 @@ class NutzerDAODummyImpl implements NutzerDAO
         [2, 1, 2, 56, "Mein erster Kommentar.", "02.03.2022"],
         [3, 2, 0, 23, "Mein toller Kommentar.", "01.06.2022"]
     ];
-
-    // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
     private array $sammlungen = [
         [0, 1, [0, 2, 1], "Sammlung0", "Beschreibung von Bild 0", 3, "03.01.2021", 2234],
         [1, 1, [1, 0], "Sammlung1", "Beschreibung von Bild 1", 7, "06.04.2022", 34],
@@ -143,12 +141,14 @@ class NutzerDAODummyImpl implements NutzerDAO
         return [-1];
     }
 
-    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool {
+    public function gemaelde_bewerten($AnbieterID, $Tokennummer, $GemaeldeID, $Bewertung): bool
+    {
         // Gemälde bewerten wird hier nicht implementiert, da es eine schreibende Methode ist
         return true;
     }
 
-    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int {
+    public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int
+    {
         // Eigene Gemälde Bewertung erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
         return -1;
     }

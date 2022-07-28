@@ -30,7 +30,7 @@ include $abs_path . '/php/head.php';
     </p>
     <h2>Wo Sie uns finden können</h2>
     <div class="jsOnly">
-        <?php if (isset($_POST["karte_zeigen"]) and is_string($_POST["karte_zeigen"])) : ?>
+        <?php if (isset($_POST["karte_zeigen"]) && is_string($_POST["karte_zeigen"])) : ?>
             <iframe title="Eine interaktive Karte von OpenStreetMaps der Universität Oldenburg"
                     class="presentation presentation-height"
                     src="https://www.openstreetmap.org/export/embed.html?bbox=8.173259496688845%2C53.14384239502062%2C8.187421560287477%2C53.14978171374889&amp;layer=mapnik"></iframe>
