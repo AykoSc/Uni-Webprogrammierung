@@ -21,20 +21,23 @@ if (isset($_GET["fehler"]) && is_string($_GET["fehler"])) {
 if (isset($_GET["entfernt"]) && is_string($_GET["entfernt"])) {
     $erfolgreich = $_GET["entfernt"] . ' erfolgreich gelöscht!';
 }
-if (isset($_GET["anmelden"]) && is_string($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
+if (isset($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
     $erfolgreich = 'Du hast dich erfolgreich angemeldet!';
 }
 
 // API für Währungskurswechsel https://www.alphavantage.co/documentation/#currency-exchange
 $json = file_get_contents('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=EUR&to_currency=USD&apikey=J7QN7XYS9PJLT1WZ');
-$daten = json_decode($json, true);
-if (isset($daten["Realtime Currency Exchange Rate"])) {
-    $wechselkurs = $daten["Realtime Currency Exchange Rate"];
-    $von_name = $wechselkurs["2. From_Currency Name"];
-    $von_preis = 5000;
-    $zu_name = $wechselkurs["4. To_Currency Name"];
-    $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis, 2);
+if ($json !== false) {
+    $daten = json_decode($json, true);
+    if (isset($daten["Realtime Currency Exchange Rate"]["2. From_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["4. To_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["5. Exchange Rate"])) {
+        $wechselkurs = $daten["Realtime Currency Exchange Rate"];
+        $von_name = $wechselkurs["2. From_Currency Name"];
+        $von_preis = 5000;
+        $zu_name = $wechselkurs["4. To_Currency Name"];
+        $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis, 2);
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
