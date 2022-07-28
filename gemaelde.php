@@ -35,12 +35,12 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
 // Eintrag laden
 if (isset($_GET["id"]) && is_string($_GET["id"])) {
     if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
-        $kommentare = $dao->kommentare_erhalten($_REQUEST["id"], $_SESSION["id"], $_SESSION["token"]);
+        $kommentare = $dao->kommentare_erhalten($_GET["id"], $_SESSION["id"], $_SESSION["token"]);
         $eigene_bewertung = $dao->eigene_gemaelde_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
     } else {
-        $kommentare = $dao->kommentare_erhalten($_REQUEST["id"], "", "");
+        $kommentare = $dao->kommentare_erhalten($_GET["id"], "", "");
     }
-    $gemaelde = $dao->gemaelde_erhalten($_REQUEST["id"]);
+    $gemaelde = $dao->gemaelde_erhalten($_GET["id"]);
 } else {
     header("location: index.php?fehler=Gemälde");
 }
