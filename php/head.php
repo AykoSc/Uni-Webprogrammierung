@@ -16,6 +16,10 @@
         <link rel="stylesheet" href="css/gemaeldeundsammlung.css"/>
     <?php endif ?>
 
+    <?php if (!empty($name) && ($name == 'Profil')) : ?>
+        <link rel="stylesheet" href="css/profil.css"/>
+    <?php endif ?>
+
     <title>Online-Ausstellung<?php echo (!empty($name)) ? ' - ' . $name : '' ?></title>
 
 </head>

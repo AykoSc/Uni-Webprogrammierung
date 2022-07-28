@@ -940,6 +940,46 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
+    public function sammlungen_von_anbieter_erhalten($AnbieterID){
+
+        try {
+
+            $erhalteSammlungenSQL = "SELECT * FROM Sammlung WHERE AnbieterID LIKE :AnbieterID";
+
+            $erhalteSammlungenCMD = $this->db->prepare($erhalteSammlungenSQL);
+            $erhalteSammlungenCMD->bindParam(":AnbieterID", $AnbieterID);
+            $erhalteSammlungenCMD->execute();
+
+            $ergebnis = array();
+            while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
+                $ergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
+            }
+            return $ergebnis;
+        }catch (Exception){
+            return array(-1);
+        }
+    }
+
+    public function gemaelde_von_anbieter_erhalten($AnbieterID){
+
+        try {
+
+            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE AnbieterID LIKE :AnbieterID";
+
+            $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
+            $erhalteGemaeldeCMD->bindParam(":AnbieterID", $AnbieterID);
+            $erhalteGemaeldeCMD->execute();
+
+            $ergebnis = array();
+            while ($zeile = $erhalteGemaeldeCMD->fetchObject()) {
+                $ergebnis[] = $this->gemaelde_erhalten($zeile->GemaeldeID);
+            }
+            return $ergebnis;
+        }catch (Exception){
+            return array(-1);
+        }
+    }
+
     public function ausstellung_erhalten($Suche, $Filter): array
     {
         try {

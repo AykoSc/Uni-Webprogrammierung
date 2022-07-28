@@ -65,6 +65,7 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
+<script src="js/jquery.min.js"></script>
 <script src="js/bewertungaktion.js"></script>
 
 <?php include $abs_path . '/php/header.php'; ?>
