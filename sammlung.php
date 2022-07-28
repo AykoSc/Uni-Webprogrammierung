@@ -17,9 +17,22 @@ if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
 
 // Eintrag laden
 if (isset($_REQUEST["id"]) and is_string($_REQUEST["id"])) {
+    if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+        isset($_SESSION["token"]) and is_string($_SESSION["token"])) {
+        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_GET["id"]));
+    }
+
     $sammlung = $dao->sammlung_erhalten(htmlspecialchars($_REQUEST["id"]));
 } else {
     header("location: index.php?fehler=Sammlung");
+}
+
+// Eintrag bewerten
+if (isset($_SESSION["id"]) and is_string($_SESSION["id"]) and
+    isset($_SESSION["token"]) and is_string($_SESSION["token"]) and
+    isset($_GET["id"]) and is_string($_GET["id"]) and
+    isset($_POST["bewertung"]) and is_string($_POST["bewertung"])) {
+    $bewertet = $dao->sammlung_bewerten(htmlspecialchars($_SESSION["id"]), htmlspecialchars($_SESSION["token"]), htmlspecialchars($_GET["id"]), htmlspecialchars($_POST["bewertung"]));
 }
 
 // Eintrag löschen
@@ -66,6 +79,7 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
+<script src="js/bewertungaktion.js"></script>
 
 <?php include $abs_path . '/php/header.php'; ?>
 
@@ -116,7 +130,35 @@ include $abs_path . '/php/head.php';
         <p><?php echo $beschreibung ?></p>
     <?php endif ?>
 
-    <h3>Bewertung</h3>
+
+    <div id="bewertung">
+        <h3>Bewertung</h3>
+        <p>Gesamtbewertung:</p>
+        <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+            <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
+        <?php } ?>
+        <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+            <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
+        <?php } ?>
+
+        <?php if (isset($_SESSION["id"])): ?>
+            <p>Deine Bewertung:</p>
+            <form method="post">
+                <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
+                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                        <img class="icons" src="images/stern_gelb.svg" alt="eigenebewertung"/>
+                    </button>
+                <?php } ?>
+                <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
+                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                        <img class="icons" src="images/stern_schwarz.svg" alt="eigenebewertung"/>
+                    </button>
+                <?php } ?>
+            </form>
+        <?php endif; ?>
+    </div>
+
+
     <p><?php echo $bewertung ?></p>
     <h3>Hochladedatum</h3>
     <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>

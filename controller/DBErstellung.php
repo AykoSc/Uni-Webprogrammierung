@@ -86,13 +86,22 @@ class DBErstellung
         PRIMARY KEY (KommentarID, AnbieterID)
     );
 
-    CREATE TABLE IF NOT EXISTS bewertet_von (
+    CREATE TABLE IF NOT EXISTS gemaelde_bewertet_von (
         GemaeldeID INTEGER,
         AnbieterID INTEGER,
         Bewertung INTEGER,
         FOREIGN KEY (GemaeldeID) REFERENCES Gemaelde (GemaeldeID) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE,
         PRIMARY KEY (GemaeldeID, AnbieterID)
+    );
+
+    CREATE TABLE IF NOT EXISTS sammlung_bewertet_von (
+        SammlungID INTEGER,
+        AnbieterID INTEGER,
+        Bewertung INTEGER,
+        FOREIGN KEY (SammlungID) REFERENCES Sammlung (SammlungID) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (AnbieterID) REFERENCES Anbieter (AnbieterID) ON DELETE CASCADE ON UPDATE CASCADE,
+        PRIMARY KEY (SammlungID, AnbieterID)
     );
 
     ";
@@ -120,11 +129,11 @@ class DBErstellung
     VALUES (3, 1, 23, 'Mein toller Kommentar.', '2022-06-01');
 
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 0', 3, '2021-01-03', 2234);
+    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 0', 4, '2021-01-03', 2234);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 1', 7, '2022-04-06', 34);
+    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 1', 3, '2022-04-06', 34);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 2', 5, '2022-03-02', 8673);
+    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 2', 0, '2022-03-02', 8673);
 
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (1, 1);
@@ -141,13 +150,23 @@ class DBErstellung
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (3, 1);
 
-    INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
+    INSERT INTO gemaelde_bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (1, 1, 3);
-    INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
+    INSERT INTO gemaelde_bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (1, 2, 2);
-    INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
+    INSERT INTO gemaelde_bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (2, 1, 4);
-    INSERT INTO bewertet_von (AnbieterID, GemaeldeID, Bewertung)
+    INSERT INTO gemaelde_bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (2, 2, 5);
+
+    INSERT INTO sammlung_bewertet_von (AnbieterID, SammlungID, Bewertung)
+        VALUES (1, 1, 5);
+    INSERT INTO sammlung_bewertet_von (AnbieterID, SammlungID, Bewertung)
+        VALUES (1, 2, 4);
+    INSERT INTO sammlung_bewertet_von (AnbieterID, SammlungID, Bewertung)
+        VALUES (2, 1, 3);
+    INSERT INTO sammlung_bewertet_von (AnbieterID, SammlungID, Bewertung)
+        VALUES (2, 2, 2);
+
     ";
 }

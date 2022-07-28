@@ -481,7 +481,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $speichereBewertungSQL = 'Insert INTO bewertet_von (GemaeldeID, AnbieterID, Bewertung) VALUES (:GemaeldeID, :AnbieterID, :Bewertung) 
+            $speichereBewertungSQL = 'Insert INTO gemaelde_bewertet_von (GemaeldeID, AnbieterID, Bewertung) VALUES (:GemaeldeID, :AnbieterID, :Bewertung) 
                                                              ON CONFLICT DO UPDATE SET Bewertung = :Bewertung;';
             $speichereBewertungCMD = $this->db->prepare($speichereBewertungSQL);
             $speichereBewertungCMD->bindParam(':GemaeldeID', $GemaeldeID);
@@ -489,7 +489,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $speichereBewertungCMD->bindParam(':Bewertung', $Bewertung);
             $speichereBewertungCMD->execute();
 
-            $erhalteBewertungSQL = "SELECT Bewertung FROM bewertet_von WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteBewertungSQL = "SELECT Bewertung FROM gemaelde_bewertet_von WHERE GemaeldeID = :GemaeldeID;";
             $erhalteBewertungCMD = $this->db->prepare($erhalteBewertungSQL);
             $erhalteBewertungCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $erhalteBewertungCMD->execute();
@@ -528,7 +528,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return -1;
             }
 
-            $bereitsBewertetSQL = "SELECT * FROM bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
+            $bereitsBewertetSQL = "SELECT * FROM gemaelde_bewertet_von WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
             $bereitsBewertetCMD = $this->db->prepare($bereitsBewertetSQL);
             $bereitsBewertetCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $bereitsBewertetCMD->bindParam(':AnbieterID', $AnbieterID);
@@ -536,11 +536,85 @@ class NutzerDAODBImpl implements NutzerDAO
             $ergebnis = $bereitsBewertetCMD->fetchObject();
 
             $this->db->commit();
-            if (isset($ergebnis->Bewertung) && is_int($ergebnis->Bewertung)) {
-                return $ergebnis->Bewertung;
-            } else {
-                return 0;
+
+            return isset($ergebnis->Bewertung) && is_int($ergebnis->Bewertung) ? $ergebnis->Bewertung : 0;
+        } catch (Exception $ex) {
+            //print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+    public function sammlung_bewerten($AnbieterID, $Tokennummer, $SammlungID, $Bewertung): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
             }
+
+            if (!$this->sammlungCheck($SammlungID)) {
+                return false;
+            }
+
+            $speichereBewertungSQL = 'Insert INTO sammlung_bewertet_von (SammlungID, AnbieterID, Bewertung) VALUES (:SammlungID, :AnbieterID, :Bewertung) 
+                                                             ON CONFLICT DO UPDATE SET Bewertung = :Bewertung;';
+            $speichereBewertungCMD = $this->db->prepare($speichereBewertungSQL);
+            $speichereBewertungCMD->bindParam(':SammlungID', $SammlungID);
+            $speichereBewertungCMD->bindParam(':AnbieterID', $AnbieterID);
+            $speichereBewertungCMD->bindParam(':Bewertung', $Bewertung);
+            $speichereBewertungCMD->execute();
+
+            $erhalteBewertungSQL = "SELECT Bewertung FROM sammlung_bewertet_von WHERE SammlungID = :SammlungID;";
+            $erhalteBewertungCMD = $this->db->prepare($erhalteBewertungSQL);
+            $erhalteBewertungCMD->bindParam(":SammlungID", $SammlungID);
+            $erhalteBewertungCMD->execute();
+
+            $bewertungenZaehler = 0;
+            $bewertung_neu = 0; //Falls es keine bewertungen gibt, ist die Bewertung erstmal 0
+            while ($zeile = $erhalteBewertungCMD->fetchObject()) {
+                $bewertung_neu += $zeile->Bewertung;
+                $bewertungenZaehler++;
+            }
+            if ($bewertungenZaehler != 0) {
+                $bewertung_neu = (int)($bewertung_neu / $bewertungenZaehler);
+            }
+
+            $aktualisiereBewertungSQL = 'UPDATE Sammlung SET Bewertung = :Bewertung WHERE SammlungID = :SammlungID;';
+            $aktualisiereBewertungCMD = $this->db->prepare($aktualisiereBewertungSQL);
+            $aktualisiereBewertungCMD->bindParam(':SammlungID', $SammlungID);
+            $aktualisiereBewertungCMD->bindParam(':Bewertung', $bewertung_neu);
+            $aktualisiereBewertungCMD->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $ex) {
+            print_r($ex);
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+    public function eigene_sammlung_bewertung_erhalten($AnbieterID, $SammlungID): int
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->sammlungCheck($SammlungID)) {
+                return -1;
+            }
+
+            $bereitsBewertetSQL = "SELECT * FROM sammlung_bewertet_von WHERE SammlungID = :SammlungID AND AnbieterID = :AnbieterID;";
+            $bereitsBewertetCMD = $this->db->prepare($bereitsBewertetSQL);
+            $bereitsBewertetCMD->bindParam(":SammlungID", $SammlungID);
+            $bereitsBewertetCMD->bindParam(':AnbieterID', $AnbieterID);
+            $bereitsBewertetCMD->execute();
+            $ergebnis = $bereitsBewertetCMD->fetchObject();
+
+            $this->db->commit();
+
+            return isset($ergebnis->Bewertung) && is_int($ergebnis->Bewertung) ? $ergebnis->Bewertung : 0;
         } catch (Exception $ex) {
             //print_r($ex);
             $this->db->rollBack();
