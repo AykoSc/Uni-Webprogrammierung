@@ -128,7 +128,7 @@ include $abs_path . '/php/head.php';
             <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
         <?php } ?>
 
-        <?php if (isset($_SESSION["id"])): ?>
+        <?php if (isset($_SESSION["id"]) && $_SESSION["id"] != $sammlung[1]) : ?>
             <p>Deine Bewertung</p>
             <form method="post">
                 <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
