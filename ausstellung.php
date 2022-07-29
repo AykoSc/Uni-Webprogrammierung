@@ -33,12 +33,14 @@ include $abs_path . '/php/head.php';
         if (suche.length === 0) {
             document.getElementById("suchvorschlag").innerHTML = "";
             document.getElementById("suchvorschlag").style.padding = "0px";
+            document.getElementById("suchvorschlag").style.border = "0px";
             return;
         }
         const request = new XMLHttpRequest();
         request.onload = function () {
             document.getElementById("suchvorschlag").innerHTML = this.responseText;
             document.getElementById("suchvorschlag").style.padding = "10px";
+            document.getElementById("suchvorschlag").style.border = "1px solid grey";
         }
         request.open("GET", "suche.php?herkunft=ausstellung&suche=" + suche);
         request.send();

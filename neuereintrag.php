@@ -12,7 +12,7 @@ if (isset($_REQUEST['typ']) && is_string($_REQUEST['typ'])) {
     }
 }
 if (!isset($gemaelde)) {
-    header("location: index.php?fehler=301");
+    header("location: index.php?fehler=Neuer-Eintrag-Typ");
 }
 
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
@@ -54,6 +54,45 @@ include $abs_path . '/php/head.php';
 ?>
 
 <body>
+
+<script>
+    function suchvorschlaege(suche) {
+        if (suche.length === 0) {
+            document.getElementById("suchvorschlag").innerHTML = "";
+            document.getElementById("suchvorschlag").style.padding = "0px";
+            document.getElementById("suchvorschlag").style.border = "0px";
+            return;
+        }
+        const request = new XMLHttpRequest();
+        request.onload = function () {
+            document.getElementById("suchvorschlag").innerHTML = this.responseText;
+            document.getElementById("suchvorschlag").style.padding = "10px";
+            document.getElementById("suchvorschlag").style.border = "1px solid grey";
+        }
+        request.open("GET", "suche.php?herkunft=neuereintrag&suche=" + suche);
+        request.send();
+    }
+
+    function ideinfuegen(angeklickt) {
+        const id = angeklickt.split(": ");
+        const neueID = id[id.length - 1];
+        if (id.length > 0) {
+            let jetzigeAuswahl = document.getElementById("auswahl").value;
+            if (jetzigeAuswahl.includes(neueID)) {
+                alert("Diese Gemälde-ID haben Sie bereits eingetragen.");
+                return;
+            }
+
+            if (jetzigeAuswahl.length > 0) {
+                jetzigeAuswahl += "," + neueID;
+            } else {
+                jetzigeAuswahl = neueID;
+            }
+
+            document.getElementById("auswahl").value = jetzigeAuswahl;
+        }
+    }
+</script>
 
 <?php include $abs_path . '/php/header.php'; ?>
 
@@ -122,10 +161,19 @@ include $abs_path . '/php/head.php';
             <h3>Sammlung erstellen</h3>
             <form method="post" action="neuereintrag.php">
                 <hr>
+
                 <label for="auswahl">Gemälde-IDs: (z.B.: 1,2,6)</label>
                 <input type="text" id="auswahl" name="auswahl" pattern="(([0-9]|[1-9][0-9]*),)*([0-9]|[1-9][0-9]*)+"
                        required
                     <?php echo (isset($_POST["auswahl"]) && is_string($_POST["auswahl"])) ? 'value=' . htmlspecialchars($_POST["auswahl"]) : '' ?>>
+
+                <p>Suchen Sie hier Gemälde, die Sie eintragen möchten, oder fügen Sie sie selber oben hinzu</p>
+                <label for="suche" class="invisible">GemäldeID's Suchhilfe</label>
+                <input autocomplete="off" class="suchfeld" type="text" placeholder="Gemäldenamen eingeben..."
+                       name="suche" id="suche"
+                       onkeyup="suchvorschlaege(this.value)"
+                    <?php echo (isset($_POST["suche"]) && is_string($_POST["suche"])) ? 'value=' . htmlspecialchars($_POST["suche"]) : '' ?>>
+                <div id="suchvorschlag"></div>
 
                 <label for="titel">Titel:</label>
                 <input type="text" id="titel" name="titel" maxlength="100" required

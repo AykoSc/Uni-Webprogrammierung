@@ -592,7 +592,7 @@ class NutzerDAODBImpl implements NutzerDAO
                     return -1;
                 }
                 $speichereGehoertZuSQL = "INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-                                          VALUES (:GemaeldeID, :SammlungID);";
+                                          VALUES (:GemaeldeID, :SammlungID) ON CONFLICT DO NOTHING;";
                 $speichereGehoertZuCMD = $this->db->prepare($speichereGehoertZuSQL);
                 $speichereGehoertZuCMD->bindParam(":GemaeldeID", $GemaeldeID);
                 $speichereGehoertZuCMD->bindParam(":SammlungID", $SammlungID);

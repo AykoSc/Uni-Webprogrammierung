@@ -144,7 +144,7 @@ header a:hover { /*Links beim drüber hovern*/
     display: flex; /* verwendet um suchfeld und button nebeneinander zu platzieren und float: left zu vermeiden */
 }
 
-.suche .suchfeld {
+.suchfeld {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey; /* kante umzieht die suchleiste */
@@ -168,7 +168,6 @@ header a:hover { /*Links beim drüber hovern*/
 #suchvorschlag {
     padding: 0;
     font-size: 17px;
-    border: 1px solid grey;
     width: 80%;
     background-color: white;
     line-height: 190%;
@@ -177,7 +176,7 @@ header a:hover { /*Links beim drüber hovern*/
     overflow: hidden;
 }
 
-#suchvorschlag > a {
+#suchvorschlag > * {
     text-decoration: none;
     color: black;
 }
@@ -223,6 +222,11 @@ footer > a:hover { /*Links beim drüber hovern*/
     border-width: 1px; /*Umrandungsbreite*/
     border-style: solid; /*Umrandungsstil*/
     border-color: var(--second-color); /*Umrandungsfarbe*/
+}
+
+.usermanagement p {
+    margin: 0;
+    cursor: pointer;
 }
 
 .usermanagement form > label {
