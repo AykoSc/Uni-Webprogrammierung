@@ -29,7 +29,7 @@ include $abs_path . '/php/head.php';
         Möglichkeit bieten, in der Kommentarsektion über die ausgestellten Werke und Sammlungen zu diskutieren.
     </p>
     <h2>Wo Sie uns finden können</h2>
-    <div class="jsOnly">
+    <div id="jsOnly">
         <?php if (isset($_POST["karte_zeigen"]) && is_string($_POST["karte_zeigen"])) : ?>
             <iframe title="Eine interaktive Karte von OpenStreetMaps der Universität Oldenburg"
                     class="presentation presentation-height"
