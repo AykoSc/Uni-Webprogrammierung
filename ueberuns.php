@@ -13,14 +13,9 @@ include $abs_path . '/php/head.php';
 
 <body>
 
-<script>
-    document.getElementById('jsOnly').style.display = 'block';
-</script>
-
 <?php include $abs_path . '/php/header.php'; ?>
 
 <main>
-
     <h1>Über Uns</h1>
 
     <p>
@@ -46,6 +41,9 @@ include $abs_path . '/php/head.php';
             </form>
         <?php endif ?>
     </div>
+    <script>
+        document.getElementById('jsOnly').style.display = 'block';
+    </script>
     <noscript>Mit JavaScript wäre hier eine Karte der Universität Oldenburg Campus Haarentor ersichtlich.</noscript>
 
 </main>
