@@ -30,6 +30,7 @@ if ($gemaelde && $angemeldet && isset($_FILES['datei']) && isset($_POST['titel']
         $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $dateityp;
         if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
             $hochladen = true;
+            header("location: gemaelde.php?id=" . $erstellung );
         } else {
             $hochladen = false;
         }
@@ -39,6 +40,8 @@ if ($gemaelde && $angemeldet && isset($_FILES['datei']) && isset($_POST['titel']
 if (!$gemaelde && $angemeldet && isset($_POST['auswahl']) && is_string($_POST['auswahl']) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
     $erstellung = $dao->sammlung_anlegen($_SESSION["id"], $_SESSION["token"],
         $_POST['auswahl'], $_POST['titel'], $_POST['beschreibung']);
+
+    if($erstellung !== -1) header("location: sammlung.php?id=" . $erstellung );
 }
 ?>
 
