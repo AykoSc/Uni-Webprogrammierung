@@ -16,7 +16,11 @@ if (isset($_GET["suche"]) && is_string($_GET["suche"]) && isset($_GET["filter"])
 for ($i = 0; $i < sizeof($sammlungen); $i++) { //$sammlungen as $reihe
     for ($j = 0; $j < sizeof($sammlungen[$i]); $j++) { //$reihe as $sammlung
         if (isset($sammlungen[$i][$j][2][0]) && is_int($sammlungen[$i][$j][2][0])) {
-            $sammlungen[$i][$j][2] = $dao->gemaelde_erhalten($sammlungen[$i][$j][2][0]);
+            $vorschaubild = $dao->gemaelde_erhalten($sammlungen[$i][$j][2][0]);
+            $sammlungen[$i][$j][2] = $vorschaubild;
+        } else {
+            $sammlungen[$i][$j][2][0] = "kein_vorschau_gemaelde";
+            $sammlungen[$i][$j][2][10] = "png";
         }
     }
 }

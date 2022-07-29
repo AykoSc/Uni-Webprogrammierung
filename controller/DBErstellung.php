@@ -129,11 +129,11 @@ class DBErstellung
     VALUES (3, 1, 23, 'Mein toller Kommentar.', '2022-06-01');
 
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 0', 4, '2021-01-03', 2234);
+    VALUES (1, 'Sammlung1', 'Beschreibung von Sammlung 1', 4, '2021-01-03', 2234);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 1', 3, '2022-04-06', 34);
+    VALUES (1, 'Sammlung2', 'Beschreibung von Sammlung 2', 3, '2022-04-06', 34);
     INSERT INTO Sammlung (AnbieterID, Titel, Beschreibung, Bewertung, Erstellungsdatum, Aufrufe)
-    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 2', 0, '2022-03-02', 8673);
+    VALUES (2, 'Sammlung3', 'Beschreibung von Sammlung 3', 0, '2022-03-02', 8673);
 
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (1, 1);
