@@ -5,17 +5,17 @@ include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
 // Eintrag bearbeiten
-if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_GET["id"]) && is_string($_GET["id"]) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
-    $editierung = $dao->sammlung_editieren($_SESSION["id"], $_SESSION["token"], $_GET["id"], $_POST['titel'], $_POST['beschreibung']);
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_REQUEST["id"]) && is_string($_REQUEST["id"]) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung'])) {
+    $editierung = $dao->sammlung_editieren($_SESSION["id"], $_SESSION["token"], $_REQUEST["id"], $_POST['titel'], $_POST['beschreibung']);
     if (!$editierung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
 // Eintrag laden
-if (isset($_GET["id"]) && is_string($_GET["id"])) {
+if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
     if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
         $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
     }
-    $sammlung = $dao->sammlung_erhalten($_GET["id"]);
+    $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
 } else {
     header("location: index.php?fehler=Sammlung");
 }

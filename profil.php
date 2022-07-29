@@ -26,8 +26,8 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
 
 // Profil laden
 $selektiert = ""; //default value
-if (isset($_GET["id"]) && is_string($_GET["id"])) {
-    $profil = $dao->profil_erhalten($_GET["id"]);
+if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
+    $profil = $dao->profil_erhalten($_REQUEST["id"]);
     if ($profil !== [-1]) {
         $id = $profil[0];
         $nutzername = $profil[1];

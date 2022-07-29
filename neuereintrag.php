@@ -4,10 +4,10 @@ if (!isset($abs_path)) include_once 'path.php';
 include_once $abs_path . "/controller/NutzerDAODBImpl.php";
 $dao = NutzerDAODBImpl::getInstance();
 
-if (isset($_GET['typ']) && is_string($_GET['typ'])) {
-    if ($_GET['typ'] === 'Gemälde') {
+if (isset($_REQUEST['typ']) && is_string($_REQUEST['typ'])) {
+    if ($_REQUEST['typ'] === 'Gemälde') {
         $gemaelde = true;
-    } else if ($_GET['typ'] === 'Sammlung') {
+    } else if ($_REQUEST['typ'] === 'Sammlung') {
         $gemaelde = false;
     }
 }
