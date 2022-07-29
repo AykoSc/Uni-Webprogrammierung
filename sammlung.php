@@ -10,16 +10,6 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
     if (!$editierung) $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
 }
 
-// Eintrag laden
-if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
-    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
-        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
-    }
-    $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
-} else {
-    header("location: index.php?fehler=Sammlung");
-}
-
 // Eintrag bewerten
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_GET["id"]) && is_string($_GET["id"]) && isset($_POST["bewertung"]) && is_string($_POST["bewertung"])) {
     $bewertet = $dao->sammlung_bewerten($_SESSION["id"], $_SESSION["token"], $_GET["id"], $_POST["bewertung"]);
@@ -36,6 +26,16 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
 }
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && $_POST["loeschen"] === "nichtbestaetigt") {
     $fehlermeldung = "Um diese Sammlung zu löschen müssen Sie den Bestätigungshaken setzen.";
+}
+
+// Eintrag laden
+if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
+    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
+        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
+    }
+    $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
+} else {
+    header("location: index.php?fehler=Sammlung");
 }
 
 if (isset($sammlung) && is_array($sammlung) && $sammlung !== [-1]) {
@@ -76,6 +76,13 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
     <?php if (isset($editierung) && is_bool($editierung) && $editierung): ?>
         <p class="nachricht">Editierung erfolgreich!</p>
+    <?php endif ?>
+
+    <?php if (isset($bewertet) && is_bool($bewertet) && $bewertet): ?>
+        <p class="nachricht">Sammlung erfolgreich bewertet</p>
+    <?php endif ?>
+    <?php if (isset($bewertet) && is_bool($bewertet) && !$bewertet): ?>
+        <p class="nachricht fehler">Sammlung Bewertung fehlgeschlagen</p>
     <?php endif ?>
 
     <h1>Sammlung</h1>
