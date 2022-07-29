@@ -5,9 +5,16 @@ Namen der Studierenden:
 - Schwedler, Ayko
 - Pollak, Jan Niklas
 
-Abgabe zu Aufgabenblatt 6
+Finale Abgabe
 
 Hinweise:
+
+TODO: \
+-Voraussetzungen (php.ini, …) und andere zum Betrieb der Website notwendigen Informationen (Admin, Kennwörter, …) \
+-Stichwortartige Auflistung aller Funktionalitäten bzw. eine Sitemap \
+-Wurden Teilaufgaben nicht umgesetzt, diese bitte angeben \
+-Sind Fehler oder Mängel bekannt, diese bitte angeben \
+-Besonderheiten, die über die eigentlichen Aufgaben hinaus berücksichtigtb zw. integriert wurden, bitte angeben
 
 Login-Daten:
 

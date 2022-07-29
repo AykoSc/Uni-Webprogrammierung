@@ -272,6 +272,21 @@ include $abs_path . '/php/head.php';
             25 Abs. 1 TTDSG, soweit die Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im
             Endger&auml;t des Nutzers (z.&nbsp;B. Device-Fingerprinting) im Sinne des TTDSG umfasst. Die Einwilligung
             ist jederzeit widerrufbar.</p>
+        <h3>Alphavantage</h3>
+        <p>Wir nutzen den Finanzmarktdatendienst von Alphavantage.</p>
+        <p>Wir binden die Finanzmarkt-Daten von Alphavantage auf dem Server der Alphavantage Incorporated,
+            125 Western Avenue, Boston, Massachusetts, United States, ein. Bei der Nutzung der
+            Finanzmarkt-Daten wird eine Verbindung zu den Servern der Alphavantage-Incorporated hergestellt. Dabei k&ouml;nnen
+            u. a. Ihre IP-Adresse und weitere Informationen &uuml;ber Ihr Verhalten auf dieser Website an die Alphavantage-Incorporated
+            weitergeleitet werden. Alphavantage speichert hierzu unter Umst&auml;nden Cookies in Ihrem Browser oder
+            setzt vergleichbare Wiedererkennungstechnologien ein.</p>
+        <p>Die Nutzung von Alphavantage erfolgt im Interesse einer ansprechenden Darstellung unserer Online-Angebote
+            und einer leichten Umrechnung der von uns auf der Website benutzten Währungen. Dies stellt ein berechtigtes
+            Interesse im Sinne von Art. 6 Abs. 1 lit. f DSGVO dar. Sofern eine entsprechende Einwilligung abgefragt
+            wurde, erfolgt die Verarbeitung ausschlie&szlig;lich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO und &sect;
+            25 Abs. 1 TTDSG, soweit die Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im
+            Endger&auml;t des Nutzers (z.&nbsp;B. Device-Fingerprinting) im Sinne des TTDSG umfasst. Die Einwilligung
+            ist jederzeit widerrufbar.</p>
         <p>Quelle: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a></p>
     </div>
 
