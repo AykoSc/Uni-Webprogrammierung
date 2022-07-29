@@ -23,14 +23,21 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
 
 if ($gemaelde && $angemeldet && isset($_FILES['datei']) && isset($_POST['titel']) && is_string($_POST['titel']) && isset($_POST['kuenstler']) && is_string($_POST['kuenstler']) && isset($_POST['beschreibung']) && is_string($_POST['beschreibung']) && isset($_POST['datum']) && is_string($_POST['datum']) && isset($_POST['ort']) && is_string($_POST['ort'])) {
     $dateityp = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));
-    $erstellung = $dao->gemaelde_anlegen($_SESSION["id"], $_SESSION["token"], $dateityp, $_POST['titel'],
-        $_POST['kuenstler'], $_POST['beschreibung'], $_POST['datum'], $_POST['ort']);
+    $erstellung = $dao->gemaelde_anlegen($_SESSION["id"], $_SESSION["token"], $dateityp, $_POST['titel'], $_POST['kuenstler'], $_POST['beschreibung'], $_POST['datum'], $_POST['ort']);
 
     if ($erstellung !== -1) {
         $speichern_unter = $abs_path . '/images/' . $erstellung . '.' . $dateityp;
         if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
-            $hochladen = true;
-            header("location: gemaelde.php?id=" . $erstellung );
+            $bilddaten = getimagesize($speichern_unter);
+            $seitenverhaeltnis = $bilddaten[0] / $bilddaten[1];
+            if ($seitenverhaeltnis < 0.5 || $seitenverhaeltnis > 2) {
+                $hochladen = false;
+                $dao->gemaelde_entfernen($_SESSION["id"], $_SESSION["token"], $erstellung);
+                $begruendung = "Das hochgeladene Bild hat mit $seitenverhaeltnis ein nicht erlaubtes Seitenverhältnis.";
+            } else {
+                $hochladen = true;
+                header("location: gemaelde.php?id=" . $erstellung);
+            }
         } else {
             $hochladen = false;
         }
@@ -100,7 +107,7 @@ include $abs_path . '/php/head.php';
     <?php if (isset($angemeldet) && is_bool($angemeldet) && !$angemeldet): ?>
         <p class="nachricht fehler">Du bist nicht angemeldet!</p>
     <?php endif ?>
-    <?php if (isset($erstellung) && is_int($erstellung) && $erstellung !== -1): ?>
+    <?php if (isset($erstellung) && is_int($erstellung) && $erstellung !== -1 && !isset($begruendung)): ?>
         <p class="nachricht">Eintragerstellung erfolgreich</p>
     <?php endif ?>
     <?php if (isset($erstellung) && is_int($erstellung) && $erstellung === -1): ?>
@@ -110,7 +117,8 @@ include $abs_path . '/php/head.php';
         <p class="nachricht">Datei erfolgreich hochgeladen</p>
     <?php endif ?>
     <?php if (isset($hochladen) && is_bool($hochladen) && !$hochladen): ?>
-        <p class="nachricht fehler">Datei hochladen fehlgeschlagen</p>
+        <p class="nachricht fehler">Datei hochladen
+            fehlgeschlagen<?php echo (isset($begruendung) && is_string($begruendung)) ? ": " . htmlspecialchars($begruendung) : "" ?></p>
     <?php endif ?>
 
     <h1>Neuer Eintrag</h1>
@@ -129,7 +137,7 @@ include $abs_path . '/php/head.php';
             <h3>Gemälde erstellen</h3>
             <form method="post" action="neuereintrag.php" enctype="multipart/form-data">
                 <hr>
-                <label for="datei">Gemälde auswählen:</label>
+                <label for="datei">Gemälde auswählen (erlaubt ist ein Seitenverhältnis zwischen 0.5 und 2):</label>
                 <input type="file" accept=".png, .jpg" id="datei" name="datei" required>
 
                 <label for="titel">Titel:</label>
