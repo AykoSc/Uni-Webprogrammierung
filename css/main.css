@@ -261,6 +261,10 @@ footer > a:hover { /*Links beim drüber hovern*/
     width: 5%;
 }
 
+.usermanagement #loeschen {
+    width: 5%;
+}
+
 .usermanagement select {
     width: auto;
     padding: 15px;
@@ -287,4 +291,26 @@ footer > a:hover { /*Links beim drüber hovern*/
 
 .fehler {
     border-color: darkred; /*Umrandungsfarbe*/
+}
+
+/*
+---> Profil Ausstellung: Gemälde und Sammlungen auf dem Profil <---
+*/
+
+.profilausstellung {
+    display: flex;
+    overflow: auto;
+    flex-direction: row;
+    align-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.profilausstellung .eintrag {
+    display: flex;
+}
+
+.profilausstellung .eintrag img {
+    max-width: 150px;
+    max-height: 150px;
 }

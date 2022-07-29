@@ -153,7 +153,7 @@ include $abs_path . '/php/head.php';
                     <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
                     <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
                     <label for="loeschen">Löschen bestätigen</label>
-                    <input type="submit" value="Löschen"/>
+                    <button id="submit" name="submit" type="submit">Löschen</button>
                 </form>
 
             <?php else: ?>
@@ -189,14 +189,14 @@ include $abs_path . '/php/head.php';
             <?php endif ?>
 
             <h3>Ausgestellte Gemaelde</h3>
-            <div class ="container">
+            <div class ="profilausstellung">
 
                 <?php if (count($nutzerGemaelde) == 0): ?>
                     <p> Hier gibt es noch nichts zu sehen..</p>
                 <?php else: ?>
 
                     <?php foreach ($nutzerGemaelde as $reihe): ?>
-                        <div class="item">
+                        <div class="eintrag">
                             <a href="gemaelde.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
                                 <img src="<?php echo 'images/' . htmlspecialchars($reihe[0]) . "." . htmlspecialchars($reihe[10]) ?>"
                                      alt="<?php echo htmlspecialchars($reihe[2]) ?>">
@@ -208,14 +208,14 @@ include $abs_path . '/php/head.php';
             </div>
 
             <h3>Ausgestellte Sammlungen</h3>
-            <div class ="container">
+            <div class ="profilausstellung">
 
                 <?php if (count($nutzerSammlungen) == 0): ?>
                     <p> Hier gibt es noch nichts zu sehen..</p>
                 <?php else: ?>
 
                     <?php foreach ($nutzerSammlungen as $reihe): ?>
-                        <div class="item">
+                        <div class="eintrag">
                             <a href="sammlung.php?id=<?php echo htmlspecialchars($reihe[0]) ?>">
                                 <img src="<?php echo "images/" . htmlspecialchars($reihe[2][0]) . "." . htmlspecialchars($reihe[2][10]) ?>"
                                      alt="<?php echo htmlspecialchars($reihe[3]) ?>">
