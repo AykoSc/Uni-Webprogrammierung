@@ -950,7 +950,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function sammlungen_von_anbieter_erhalten($AnbieterID)
+    public function sammlungen_von_anbieter_erhalten($AnbieterID): array
     {
 
         try {
@@ -971,7 +971,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function gemaelde_von_anbieter_erhalten($AnbieterID)
+    public function gemaelde_von_anbieter_erhalten($AnbieterID): array
     {
 
         try {

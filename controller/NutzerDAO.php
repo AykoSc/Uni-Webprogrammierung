@@ -34,6 +34,10 @@ interface NutzerDAO
 
     public function sammlung_erhalten($SammlungID): array;
 
+    public function eigene_sammlung_bewertung_erhalten($AnbieterID, $SammlungID): int;
+
+    public function sammlung_bewerten($AnbieterID, $Tokennummer, $SammlungID, $Bewertung): bool;
+
     public function kommentar_anlegen($AnbieterID, $Tokennummer, $Textinhalt, $GemaeldeID): bool;
 
     public function kommentar_entfernen($AnbieterID, $Tokennummer, $KommentarID): bool;
@@ -47,6 +51,10 @@ interface NutzerDAO
     public function profil_editieren($AnbieterID, $Tokennummer, $Personenbeschreibung, $Geschlecht, $Vollstaendiger_Name, $Anschrift, $Sprache, $Geburtsdatum): bool;
 
     public function profil_entfernen($AnbieterID, $Tokennummer, $GemaeldeID): bool;
+
+    public function sammlungen_von_anbieter_erhalten($AnbieterID): array;
+
+    public function gemaelde_von_anbieter_erhalten($AnbieterID): array;
 
     public function ausstellung_erhalten($Suche, $Filter): array;
 

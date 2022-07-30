@@ -308,4 +308,24 @@ class NutzerDAODummyImpl implements NutzerDAO
 
         return $ergebnis;
     }
+
+    public function eigene_sammlung_bewertung_erhalten($AnbieterID, $SammlungID): int
+    {
+        // TODO: Implement eigene_sammlung_bewertung_erhalten() method.
+    }
+
+    public function sammlung_bewerten($AnbieterID, $Tokennummer, $SammlungID, $Bewertung): bool
+    {
+        // sammlung_bewerten wird hier nicht implementiert, da es eine schreibende Methode ist
+    }
+
+    public function sammlungen_von_anbieter_erhalten($AnbieterID): array
+    {
+        // sammlungen_von_anbieter_erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
+    }
+
+    public function gemaelde_von_anbieter_erhalten($AnbieterID): array
+    {
+        // gemaelde_von_anbieter_erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
+    }
 }
