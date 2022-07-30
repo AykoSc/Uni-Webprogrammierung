@@ -33,7 +33,7 @@ if (isset($_POST["umrechnung_zeigen"]) && is_string($_POST["umrechnung_zeigen"])
         if (isset($daten["Realtime Currency Exchange Rate"]["2. From_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["4. To_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["5. Exchange Rate"])) {
             $wechselkurs = $daten["Realtime Currency Exchange Rate"];
             $von_name = $wechselkurs["2. From_Currency Name"];
-            $von_preis = 5000;
+            $von_preis = 5000.00;
             $zu_name = $wechselkurs["4. To_Currency Name"];
             $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis, 2);
         }
@@ -75,7 +75,9 @@ include $abs_path . '/php/head.php';
     <noscript><h4>Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt!</h4></noscript>
     <h4 id="aktionscountdown"></h4>
 
-    <?php if (isset($daten["Realtime Currency Exchange Rate"])): ?>
+    <?php if (isset($daten["Realtime Currency Exchange Rate"])
+                && isset($von_name) && is_string($von_name) && isset($von_preis) && is_double($von_preis)
+                && isset($zu_name) && is_string($zu_name) && isset($zu_preis) && is_double($zu_preis)): ?>
         <ul>
             <li>Startpreis in <?php echo htmlspecialchars($von_name . ': ' . $von_preis); ?></li>
             <li>Startpreis in <?php echo htmlspecialchars($zu_name . ': ' . $zu_preis); ?></li>
