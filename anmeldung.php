@@ -9,7 +9,7 @@ if (isset($_GET["Email"]) && is_string($_GET["Email"]) && isset($_GET["Verifizie
     if ($erfolgreich_bestaetigt) {
         $erfolgreich = "Erfolgreich bestätigt. Sie können sich nun einloggen.";
     } else {
-        $fehlermeldung = "Der Verifizierungsprozess schlug fehl, da die Daten falsch waren. Bitte kontaktieren Sie einen Administrator oder versuchen Sie es erneut mit dem Verifizierungscode in der Email.";
+        $fehlermeldung = "Der Verifizierungsprozess schlug fehl, da die Daten falsch oder veraltet waren. Bitte kontaktieren Sie einen Administrator, versuchen Sie es erneut mit dem Verifizierungscode in der E-Mail oder versuchen Sie sich erneut zu registrieren.";
     }
 }
 

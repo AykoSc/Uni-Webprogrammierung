@@ -118,7 +118,7 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername;";
+            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername AND Verifiziert = 'true';";
             $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
             $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
             $checkNutzernameCMD->execute();
@@ -141,7 +141,7 @@ class NutzerDAODBImpl implements NutzerDAO
         try {
             $this->db->beginTransaction();
 
-            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername;";
+            $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername AND Verifiziert = 'true';";
             $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
             $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
             $checkNutzernameCMD->execute();
@@ -151,7 +151,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false; //Nutzername existiert bereits
             }
 
-            $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email;";
+            $checkEmailSQL = "SELECT * FROM Anbieter WHERE Email = :email AND Verifiziert = 'true';";
             $checkEmailCMD = $this->db->prepare($checkEmailSQL);
             $checkEmailCMD->bindParam(":email", $Email);
             $checkEmailCMD->execute();
@@ -161,7 +161,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
                 //E-Mail existiert bereits, sende "Existiert bereits" E-Mail
                 $speichern_unter = "emails/$Email" . "_postfach.txt";
-                $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. Du bist aber bereits registriert. \nSolltest du dein Password vergessen haben, klicke bitte hier: [HIER PASSWORT VERGESSEN LINK, Password-vergessen-Funktion muss nicht implementiert werden]";
+                $inhalt = "Bitte ignorieren Sie die E-Mail, wenn Sie sich nicht versucht haben zu registrieren. Sie sind aber bereits registriert. \nSollten Sie Ihr Passwort vergessen haben, klicken Sie bitte hier: [HIER PASSWORT VERGESSEN LINK, Password-vergessen-Funktion muss nicht implementiert werden]";
                 $fp = fopen($speichern_unter, "wb");
                 fwrite($fp, $inhalt);
                 fclose($fp);
@@ -173,6 +173,14 @@ class NutzerDAODBImpl implements NutzerDAO
             $Hash = password_hash($Passwort, PASSWORD_DEFAULT);
             $Registrierungsdatum = date("Y-m-d");
 
+            //Lösche alle älteren Registrierungen
+            $loescheAeltereNutzerSQL = "DELETE FROM Anbieter WHERE Nutzername = :Nutzername OR Email = :email;";
+            $loescheAeltereCMD = $this->db->prepare($loescheAeltereNutzerSQL);
+            $loescheAeltereCMD->bindParam(":Nutzername", $Nutzername);
+            $loescheAeltereCMD->bindParam(":email", $Email);
+            $loescheAeltereCMD->execute();
+
+            //Speichere die neueste Registrierung dieser E-Mail/dieses Nutzers
             $speichereAnbieterSQL = "INSERT INTO Anbieter (Nutzername, Email, Passwort, Registrierungsdatum, Verifiziert, Verifizierungscode) VALUES (:Nutzername, :Email, :Passwort, :Registrierungsdatum, :Verifiziert, :Verifizierungscode);";
             $speichereAnbieterCMD = $this->db->prepare($speichereAnbieterSQL);
             $speichereAnbieterCMD->bindParam(":Nutzername", $Nutzername);
@@ -184,10 +192,10 @@ class NutzerDAODBImpl implements NutzerDAO
             $speichereAnbieterCMD->execute();
 
             $this->db->commit();
-
+            echo "KOMPLETT DURCHGEKOMMEN";
             //E-Mail existiert noch nicht, sende "Registrierung abzuschließen" E-Mail
             $speichern_unter = "emails/$Email" . "_postfach.txt";
-            $inhalt = "Bitte ignoriere die E-Mail, wenn du es nicht warst, der sich versucht hat zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung vollständig zu beenden: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
+            $inhalt = "Bitte ignorieren Sie die E-Mail, wenn Sie sich nicht versucht haben zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung vollständig zu beenden: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
             $fp = fopen($speichern_unter, "wb");
             fwrite($fp, $inhalt);
             fclose($fp);
