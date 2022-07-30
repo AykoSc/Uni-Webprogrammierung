@@ -91,7 +91,9 @@ include $abs_path . '/php/head.php';
                         sich einverstanden, dass Ihre Daten an Alphavantage Inc. übermittelt
                         werden und dass Sie die <a href="datenschutz.php">Datenschutzerklärung</a> gelesen haben.</p>
                     <form method="post">
-                        <button type="submit" name="umrechnung_zeigen">Bestätigen und Umrechnung anzeigen</button>
+                        <button type="submit" name="umrechnung_zeigen" class="datenschutzbestaetigung">Bestätigen und
+                            Umrechnung anzeigen
+                        </button>
                     </form>
                 </div>
                 <script>

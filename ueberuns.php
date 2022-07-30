@@ -37,7 +37,8 @@ include $abs_path . '/php/head.php';
             <p>Mit dem Aufruf der Karte erklären Sie sich einverstanden, dass Ihre Daten an OpenStreetMap übermittelt
                 werden und dass Sie die <a href="datenschutz.php">Datenschutzerklärung</a> gelesen haben.</p>
             <form method="post">
-                <button type="submit" name="karte_zeigen">Bestätigen und Karte zeigen</button>
+                <button type="submit" name="karte_zeigen" class="datenschutzbestaetigung">Bestätigen und Karte zeigen
+                </button>
             </form>
         <?php endif ?>
     </div>

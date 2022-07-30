@@ -278,6 +278,15 @@ footer > a:hover { /*Links beim drüber hovern*/
     background: var(--first-color);
 }
 
+.datenschutzbestaetigung {
+    background-color: var(--fourth-color); /*Hintergrundfarbe*/
+    color: white; /*Textfarbe*/
+    padding: 10px 20px; /*Polsterung: Erster Wert: oben und unten / Zweiter Wert: rechts und links*/
+    margin: 8px 0; /*Rand: Erster Wert: oben und unten / Zweiter Wert: rechts und links*/
+    cursor: pointer; /*Mauszeiger wird zur Hand*/
+    opacity: 0.9; /*Deckkraft*/
+}
+
 /*
 ---> Interaktion mit Nutzer: Rückmeldung per Nachricht <---
 */
