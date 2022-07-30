@@ -127,8 +127,11 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
 
     <h1><?php echo htmlspecialchars($titel) ?></h1>
-    <img class="presentation" alt="<?php echo htmlspecialchars($titel) ?>"
-         src="images/<?php echo htmlspecialchars($id . "." . $dateityp) ?>">
+    <div class="align_container">
+        <img class="presentation" alt="<?php echo htmlspecialchars($titel) ?>"
+             src="images/<?php echo htmlspecialchars($id . "." . $dateityp) ?>">
+    </div>
+
 
     <h2> Über das Gemälde </h2>
 
@@ -263,59 +266,64 @@ include $abs_path . '/php/head.php';
 
     <h2> Kommentarbereich</h2>
 
-    <?php if (isset($_SESSION["id"])): ?>
-        <div class="align_container">
-            <form method="post">
-                <label for="kommentar" class="invisible">Kommentar</label>
-                <textarea id="kommentar" name="kommentar" maxlength="1000"
-                          placeholder="Neuen Kommentar schreiben..."
-                          required></textarea>
-                <input type="submit" value="Kommentar">
-            </form>
-        </div>
-    <?php endif ?>
+    <div id="comment-section">
 
-    <ul class="comment-section" id="comment-section">
-        <?php foreach ($kommentare as $kommentar): ?>
-            <li class="comment">
-                <div class="info">
-                    <a href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
-                        <span><?php echo date("d.m.Y", strtotime($kommentar[5])) ?></span></a>
-                </div>
-                <a class="avatar" href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
-                    <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
-                </a>
-                <p>
-                    <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
-                </p>
 
-                <div class="likes">
+        <?php if (isset($_SESSION["id"])): ?>
+            <div class="align_container">
+                <form method="post">
+                    <label for="kommentar" class="invisible">Kommentar</label>
+                    <textarea id="kommentar" name="kommentar" maxlength="1000"
+                              placeholder="Neuen Kommentar schreiben..."
+                              required></textarea>
+                    <input type="submit" value="Kommentar">
+                </form>
+            </div>
+        <?php endif ?>
 
-                    <?php if (isset($_SESSION["id"])) : ?>
-                        <form method="post">
-                            <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                            <input type="image" alt="thumbsup"
-                                   <?php if ($kommentar[6] == 1): ?>src="images/daumenhoch_farbig.png"
-                                <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
-                                   width="20">
-                        </form>
-                    <?php else: ?>
-                        <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
-                    <?php endif; ?>
-                    <?php echo htmlspecialchars($kommentar[3]) ?>
-                </div>
-                <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
-                    <div class="delete">
-                        <form method="post">
-                            <input type="hidden" name="delete"
-                                   value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                            <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
-                        </form>
+        <ul class="comment-section">
+            <?php foreach ($kommentare as $kommentar): ?>
+                <li class="comment">
+                    <div class="info">
+                        <a href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
+                            <span><?php echo date("d.m.Y", strtotime($kommentar[5])) ?></span></a>
+                        <span> <?php echo htmlspecialchars($kommentar[6]) ?> </span>
                     </div>
-                <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+                    <a class="avatar" href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
+                        <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
+                    </a>
+                    <p>
+                        <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
+                    </p>
+
+                    <div class="likes">
+
+                        <?php if (isset($_SESSION["id"])) : ?>
+                            <form method="post">
+                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                                <input type="image" alt="thumbsup"
+                                       <?php if ($kommentar[7] == 1): ?>src="images/daumenhoch_farbig.png"
+                                    <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
+                                       width="20">
+                            </form>
+                        <?php else: ?>
+                            <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
+                        <?php endif; ?>
+                        <?php echo htmlspecialchars($kommentar[3]) ?>
+                    </div>
+                    <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
+                        <div class="delete">
+                            <form method="post">
+                                <input type="hidden" name="delete"
+                                       value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                                <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
+                            </form>
+                        </div>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
 </main>
 

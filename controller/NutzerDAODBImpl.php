@@ -806,7 +806,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return array(-1);
             }
 
-            $erhalteKommentareSQL = "SELECT * FROM Kommentar WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteKommentareSQL = "SELECT * FROM Kommentar JOIN Anbieter A on A.AnbieterID = Kommentar.AnbieterID WHERE GemaeldeID = :GemaeldeID;";
             $erhalteKommentareCMD = $this->db->prepare($erhalteKommentareSQL);
             $erhalteKommentareCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $erhalteKommentareCMD->execute();
@@ -814,7 +814,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $ergebnis = array();
             while ($zeile = $erhalteKommentareCMD->fetchObject()) {
                 $ergebnis[] = array($zeile->KommentarID, $zeile->GemaeldeID, $zeile->AnbieterID,
-                    $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum);
+                    $zeile->Likeanzahl, $zeile->Textinhalt, $zeile->Erstellungsdatum, $zeile->Nutzername);
             }
 
             $checkAnbieterSQL = "SELECT * FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
