@@ -69,7 +69,7 @@ include $abs_path . '/php/head.php';
         <div id="suchvorschlag"></div>
 
         <label for="filter">Filtern nach:</label>
-        <select id="filter" name="filter">
+        <select id="filter" name="filter" class="filter">
             <option value="beliebteste" <?php echo ($selektiert !== 'datum') ? 'selected' : '' ?>>
                 Beliebteste
             </option>
