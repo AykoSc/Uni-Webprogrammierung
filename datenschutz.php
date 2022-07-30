@@ -277,7 +277,8 @@ include $abs_path . '/php/head.php';
         <p>Wir binden die Finanzmarkt-Daten von Alphavantage auf dem Server der Alphavantage Incorporated,
             125 Western Avenue, Boston, Massachusetts, United States, ein. Bei der Nutzung der
             Finanzmarkt-Daten wird eine Verbindung zu den Servern der Alphavantage-Incorporated hergestellt. Dabei k&ouml;nnen
-            u. a. Ihre IP-Adresse und weitere Informationen &uuml;ber Ihr Verhalten auf dieser Website an die Alphavantage-Incorporated
+            u. a. Ihre IP-Adresse und weitere Informationen &uuml;ber Ihr Verhalten auf dieser Website an die
+            Alphavantage-Incorporated
             weitergeleitet werden. Alphavantage speichert hierzu unter Umst&auml;nden Cookies in Ihrem Browser oder
             setzt vergleichbare Wiedererkennungstechnologien ein.</p>
         <p>Die Nutzung von Alphavantage erfolgt im Interesse einer ansprechenden Darstellung unserer Online-Angebote

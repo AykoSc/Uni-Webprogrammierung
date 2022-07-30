@@ -30,7 +30,7 @@ if ($gemaelde && $angemeldet && isset($_FILES['datei']) && isset($_POST['titel']
         if (move_uploaded_file($_FILES['datei']['tmp_name'], $speichern_unter)) {
             $bilddaten = getimagesize($speichern_unter);
             $seitenverhaeltnis = $bilddaten[0] / $bilddaten[1];
-            if ($seitenverhaeltnis < 0.5 || $seitenverhaeltnis > 2) {
+            if ($seitenverhaeltnis < 0.2 || $seitenverhaeltnis > 5) {
                 $hochladen = false;
                 $dao->gemaelde_entfernen($_SESSION["id"], $_SESSION["token"], $erstellung);
                 $begruendung = "Das hochgeladene Bild hat mit $seitenverhaeltnis ein nicht erlaubtes Seitenverhältnis.";
@@ -48,7 +48,7 @@ if (!$gemaelde && $angemeldet && isset($_POST['auswahl']) && is_string($_POST['a
     $erstellung = $dao->sammlung_anlegen($_SESSION["id"], $_SESSION["token"],
         $_POST['auswahl'], $_POST['titel'], $_POST['beschreibung']);
 
-    if($erstellung !== -1) header("location: sammlung.php?id=" . $erstellung );
+    if ($erstellung !== -1) header("location: sammlung.php?id=" . $erstellung);
 }
 ?>
 
@@ -137,19 +137,20 @@ include $abs_path . '/php/head.php';
             <h3>Gemälde erstellen</h3>
             <form method="post" action="neuereintrag.php" enctype="multipart/form-data">
                 <hr>
-                <label for="datei">Gemälde auswählen (erlaubt ist ein Seitenverhältnis zwischen 0.5 und 2):</label>
+                <label for="datei">Gemälde auswählen (erlaubt ist ein Seitenverhältnis zwischen 0,2 und 5):</label>
                 <input type="file" accept=".png, .jpg" id="datei" name="datei" required>
 
                 <label for="titel">Titel:</label>
-                <input type="text" id="titel" name="titel" maxlength="50" required
+                <input type="text" id="titel" name="titel" maxlength="50" required placeholder="Titel eingeben..."
                     <?php echo (isset($_POST["titel"]) && is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
                 <label for="beschreibung">Beschreibung:</label>
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
+                          placeholder="Beschreibung eingeben..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
                 <label for="kuenstler">Künstler:</label>
                 <input type="text" id="kuenstler" name="kuenstler" maxlength="100" required
+                       placeholder="Künstlernamen eingeben..."
                     <?php echo (isset($_POST["kuenstler"]) && is_string($_POST["kuenstler"])) ? 'value=' . htmlspecialchars($_POST["kuenstler"]) : '' ?>>
 
                 <label for="datum">Datum der Erstellung:</label>
@@ -157,7 +158,7 @@ include $abs_path . '/php/head.php';
                     <?php echo (isset($_POST["datum"]) && is_string($_POST["datum"])) ? 'value=' . htmlspecialchars($_POST["datum"]) : '' ?>>
 
                 <label for="ort">Ort:</label>
-                <input type="text" id="ort" name="ort" maxlength="100"
+                <input type="text" id="ort" name="ort" maxlength="100" placeholder="Erstellungsort eingeben..."
                     <?php echo (isset($_POST["ort"]) && is_string($_POST["ort"])) ? 'value=' . htmlspecialchars($_POST["ort"]) : '' ?>>
 
                 <input type="hidden" name="typ" value="Gemälde">
@@ -172,24 +173,29 @@ include $abs_path . '/php/head.php';
 
                 <label for="auswahl">Gemälde-IDs: (z.B.: 1,2,6)</label>
                 <input type="text" id="auswahl" name="auswahl" pattern="(([0-9]|[1-9][0-9]*),)*([0-9]|[1-9][0-9]*)+"
-                       required
+                       required placeholder="Gemälde-IDs eingeben..."
                     <?php echo (isset($_POST["auswahl"]) && is_string($_POST["auswahl"])) ? 'value=' . htmlspecialchars($_POST["auswahl"]) : '' ?>>
 
-                <p>Suchen Sie hier Gemälde, die Sie eintragen möchten, oder fügen Sie sie selber oben hinzu</p>
-                <label for="suche" class="invisible">GemäldeID's Suchhilfe</label>
-                <input autocomplete="off" class="suchfeld" type="text" placeholder="Gemäldenamen eingeben..."
-                       name="suche" id="suche"
-                       onkeyup="suchvorschlaege(this.value)"
-                    <?php echo (isset($_POST["suche"]) && is_string($_POST["suche"])) ? 'value=' . htmlspecialchars($_POST["suche"]) : '' ?>>
-                <div id="suchvorschlag"></div>
+                <div id="jsOnly">
+                    <p>Suchen Sie hier Gemälde, die Sie eintragen möchten, oder fügen Sie sie selber oben hinzu</p>
+                    <label for="suche" class="invisible">Gemälde-IDs Suchhilfe</label>
+                    <input autocomplete="off" type="text" placeholder="Gemäldenamen eingeben..."
+                           name="suche" id="suche"
+                           onkeyup="suchvorschlaege(this.value)"
+                        <?php echo (isset($_POST["suche"]) && is_string($_POST["suche"])) ? 'value=' . htmlspecialchars($_POST["suche"]) : '' ?>>
+                    <div id="suchvorschlag"></div>
+                </div>
+                <script>
+                    document.getElementById('jsOnly').style.display = 'block';
+                </script>
 
                 <label for="titel">Titel:</label>
-                <input type="text" id="titel" name="titel" maxlength="100" required
+                <input type="text" id="titel" name="titel" maxlength="100" required placeholder="Titel eingeben..."
                     <?php echo (isset($_POST["titel"]) && is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
                 <label for="beschreibung">Beschreibung:</label>
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
-                          placeholder="Fügen Sie eine Beschreibung ein..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
+                          placeholder="Beschreibung eingeben..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
                 <input type="hidden" name="typ" value="Sammlung">
                 <hr>

@@ -95,7 +95,7 @@
     top: 18px;
 }
 
-/* Responsive Layout: max-wif´dth klein - Kommentar größer und info und likes verteilen sich umzu*/
+/* Responsive Layout: max-width klein - Kommentar größer und info und likes verteilen sich umzu*/
 @media (max-width: 800px) {
 
     .comment p {
@@ -135,19 +135,8 @@
 
 /*nur damit container mittig ist*/
 .align_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.container {
-    padding: 15px 10px;
-}
-
-.container h2 {
-    text-align: center;
-    margin-bottom: 15px;
+    margin: auto;
+    width: 50%;
 }
 
 /*Textarea zum Kommentare schreiben*/
@@ -203,15 +192,25 @@ button {
 }
 
 
-.description .grid {
+.grid {
     display: grid;
     grid-template-columns: auto auto;
-    column-gap: 20%;
+    justify-content: center;
+    grid-column-gap: 20%;
+
 }
 
 .description input[type ="submit"] {
     display: flex;
     justify-self: flex-end;
+}
+
+/* Responsive Layout: max-width klein - Kommentar größer und info und likes verteilen sich umzu*/
+@media (max-width: 600px) {
+
+    .grid {
+        grid-template-columns: auto;
+    }
 }
 
 
@@ -221,12 +220,6 @@ details > summary {
     list-style: none;
     display: flex;
     justify-content: center;
-}
-
-.extended_description {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 details.extended_description[open] summary::after {

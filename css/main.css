@@ -233,7 +233,7 @@ footer > a:hover { /*Links beim drüber hovern*/
     font-weight: bold;
 }
 
-.usermanagement form > input, textarea {
+.usermanagement form input, textarea {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;

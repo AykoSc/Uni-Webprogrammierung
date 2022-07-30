@@ -84,6 +84,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
         return true;
     }
+
     private function gemaeldeCheck($GemaeldeID): bool
     {
         $checkGemaeldeIDSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
@@ -97,6 +98,7 @@ class NutzerDAODBImpl implements NutzerDAO
         }
         return true;
     }
+
     private function sammlungCheck($SammlungID): bool
     {
         $checkSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
@@ -940,7 +942,8 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    public function sammlungen_von_anbieter_erhalten($AnbieterID){
+    public function sammlungen_von_anbieter_erhalten($AnbieterID)
+    {
 
         try {
 
@@ -955,12 +958,13 @@ class NutzerDAODBImpl implements NutzerDAO
                 $ergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
             }
             return $ergebnis;
-        }catch (Exception){
+        } catch (Exception) {
             return array(-1);
         }
     }
 
-    public function gemaelde_von_anbieter_erhalten($AnbieterID){
+    public function gemaelde_von_anbieter_erhalten($AnbieterID)
+    {
 
         try {
 
@@ -975,7 +979,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $ergebnis[] = $this->gemaelde_erhalten($zeile->GemaeldeID);
             }
             return $ergebnis;
-        }catch (Exception){
+        } catch (Exception) {
             return array(-1);
         }
     }

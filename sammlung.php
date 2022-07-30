@@ -97,7 +97,51 @@ include $abs_path . '/php/head.php';
         </a>
     <?php endforeach; ?>
 
+    <h2>Infos zur Sammlung</h2>
+
     <?php if (isset($_SESSION["id"]) && $sammlung[1] == $_SESSION["id"]) : ?>
+        <form method="post">
+            <div class="grid">
+                <div class="item">
+                    <h3>Titel</h3>
+                    <label for="titel" class="invisible">Titel</label>
+                    <input id="titel" type="text" name="titel" value="<?php echo $titel ?>">
+                </div>
+
+                <div class="item">
+                    <h3>Beschreibung</h3>
+                    <label for="beschreibung" class="invisible">Beschreibung</label>
+                    <textarea cols="70" rows="10" id="beschreibung"
+                              name="beschreibung"><?php echo $beschreibung ?></textarea>
+                </div>
+
+                <div class="item" id="bewertung">
+                    <h3>Bewertung</h3>
+                    <p>Gesamtbewertung</p>
+                    <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+                        <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
+                    <?php } ?>
+                    <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+                        <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
+                    <?php } ?>
+                </div>
+
+                <div class="item">
+                    <h3>Hochladedatum</h3>
+                    <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
+                </div>
+
+                <div class="item">
+                    <h3>Aufrufe</h3>
+                    <p><?php echo $aufrufe ?></p>
+                </div>
+
+                <div class="item">
+                    <input type="submit" name="Submit" value="Speichern"/>
+                </div>
+            </div>
+        </form>
+
         <form method="post">
             <h3>Sammlung löschen?</h3>
             <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
@@ -106,57 +150,57 @@ include $abs_path . '/php/head.php';
             <input type="submit" value="Löschen"/>
         </form>
 
-        <h2>Infos zur Sammlung</h2>
-        <form method="post">
-            <h3>Beschreibung</h3>
-            <label for="beschreibung" class="invisible">Beschreibung</label>
-            <textarea cols="70" rows="10" id="beschreibung" name="beschreibung"><?php echo $beschreibung ?></textarea>
-
-            <h3>Titel</h3>
-            <label for="titel" class="invisible">Titel</label>
-            <input id="titel" type="text" name="titel" value="<?php echo $titel ?>">
-            <input type="submit" name="Submit" value="Speichern"/>
-        </form>
-
     <?php else: ?>
-        <h2>Infos zur Sammlung</h2>
-        <h3>Beschreibung</h3>
-        <p><?php echo $beschreibung ?></p>
+        <div class="grid">
+            <div class="item">
+                <h3>Titel</h3>
+                <p><?php echo $titel ?></p>
+            </div>
+
+            <div class="item">
+                <h3>Beschreibung</h3>
+                <p><?php echo $beschreibung ?></p>
+            </div>
+
+            <div id="bewertung" class="item">
+                <h3>Bewertung</h3>
+                <p>Gesamtbewertung</p>
+                <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+                    <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
+                <?php } ?>
+                <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+                    <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
+                <?php } ?>
+
+                <?php if (isset($_SESSION["id"]) && $_SESSION["id"] != $sammlung[1]) : ?>
+                    <p>Deine Bewertung</p>
+                    <form method="post">
+                        <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
+                            <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                                <img class="icons" src="images/stern_gelb.svg" alt="eigenebewertung"/>
+                            </button>
+                        <?php } ?>
+                        <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
+                            <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                                <img class="icons" src="images/stern_schwarz.svg" alt="eigenebewertung"/>
+                            </button>
+                        <?php } ?>
+                    </form>
+                <?php endif; ?>
+            </div>
+
+            <div class="item">
+                <h3>Hochladedatum</h3>
+                <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
+            </div>
+
+            <div class="item">
+                <h3>Aufrufe</h3>
+                <p><?php echo $aufrufe ?></p>
+            </div>
+        </div>
     <?php endif ?>
 
-
-    <div id="bewertung">
-        <h3>Bewertung</h3>
-        <p>Gesamtbewertung</p>
-        <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
-            <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
-        <?php } ?>
-        <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
-            <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
-        <?php } ?>
-
-        <?php if (isset($_SESSION["id"]) && $_SESSION["id"] != $sammlung[1]) : ?>
-            <p>Deine Bewertung</p>
-            <form method="post">
-                <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
-                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
-                        <img class="icons" src="images/stern_gelb.svg" alt="eigenebewertung"/>
-                    </button>
-                <?php } ?>
-                <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
-                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
-                        <img class="icons" src="images/stern_schwarz.svg" alt="eigenebewertung"/>
-                    </button>
-                <?php } ?>
-            </form>
-        <?php endif; ?>
-    </div>
-
-
-    <h3>Hochladedatum</h3>
-    <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
-    <h3>Aufrufe</h3>
-    <p><?php echo $aufrufe ?></p>
 </main>
 
 <?php include $abs_path . '/php/footer.php'; ?>

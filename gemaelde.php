@@ -129,181 +129,193 @@ include $abs_path . '/php/head.php';
     <h1><?php echo htmlspecialchars($titel) ?></h1>
     <img class="presentation" alt="<?php echo htmlspecialchars($titel) ?>"
          src="images/<?php echo htmlspecialchars($id . "." . $dateityp) ?>">
-    <div class="align_container">
-        <div class="description">
-            <?php if (isset($_SESSION["id"]) && $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
 
-                <form method="post">
-                    <h2> Über das Gemaelde </h2>
-                    <label for="beschreibung" class="invisible">Beschreibung</label>
-                    <textarea cols="70" rows="10" id="beschreibung"
-                              name="beschreibung"><?php echo htmlspecialchars($beschreibung) ?></textarea>
-                    <div class="grid">
-                        <div class="item">
-                            <h3>KünstlerIn</h3>
-                            <p><?php echo htmlspecialchars($kuenstler) ?></p>
-                        </div>
-                        <div class="item">
-                            <h3>Erstellungsdatum</h3>
-                            <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
-                            <input id="erstellungsdatum" type="date" name="erstellungsdatum"
-                                   value="<?php echo date("Y-m-d", strtotime($erstellungsdatum)); ?>"/>
-                        </div>
-                        <div class="item">
-                            <h3>Ort</h3>
-                            <label for="ort" class="invisible">Ort</label>
-                            <input id="ort" type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
-                        </div>
-                        <div class="item">
-                            <h3>Gesamtbewertung</h3>
-                            <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
-                                <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
-                            <?php } ?>
-                            <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
-                                <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
-                            <?php } ?>
-                        </div>
-                        <div class="item">
-                            <h3>Hochladedatum</h3>
-                            <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
-                        </div>
-                        <div class="item">
-                            <h3>Aufrufe</h3>
-                            <p><?php echo htmlspecialchars($aufrufe) ?></p>
-                        </div>
-                    </div>
+    <h2> Über das Gemälde </h2>
+
+    <?php if (isset($_SESSION["id"]) && $nutzer == htmlspecialchars($_SESSION["id"])) : ?>
+        <form method="post">
+
+            <label for="beschreibung" class="invisible">Beschreibung</label>
+            <textarea cols="70" rows="10" id="beschreibung"
+                      name="beschreibung"><?php echo htmlspecialchars($beschreibung) ?></textarea>
+
+            <div class="grid">
+
+                <div class="item">
+                    <h3>KünstlerIn</h3>
+                    <p><?php echo htmlspecialchars($kuenstler) ?></p>
+                </div>
+
+                <div class="item">
+                    <h3>Erstellungsdatum</h3>
+                    <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
+                    <input id="erstellungsdatum" type="date" name="erstellungsdatum"
+                           value="<?php echo date("Y-m-d", strtotime($erstellungsdatum)); ?>"/>
+                </div>
+
+                <div class="item">
+                    <h3>Ort</h3>
+                    <label for="ort" class="invisible">Ort</label>
+                    <input id="ort" type="text" name="ort" value="<?php echo htmlspecialchars($ort) ?>">
+                </div>
+
+                <div class="item">
+                    <h3>Gesamtbewertung</h3>
+                    <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+                        <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
+                    <?php } ?>
+                    <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+                        <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
+                    <?php } ?>
+                </div>
+
+                <div class="item">
+                    <h3>Hochladedatum</h3>
+                    <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
+                </div>
+
+                <div class="item">
+                    <h3>Aufrufe</h3>
+                    <p><?php echo htmlspecialchars($aufrufe) ?></p>
+                </div>
+
+                <div class="item">
                     <input type="submit" name="Submit" value="Speichern"/>
-                </form>
+                </div>
+            </div>
 
-                <form method="post">
-                    <h3>Gemälde löschen?</h3>
-                    <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
-                    <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
-                    <label for="loeschen">Löschen bestätigen</label>
-                    <input type="submit" value="Löschen"/>
-                </form>
-            <?php else: ?>
+        </form>
 
-            <h2>Über das Gemälde</h2>
-            <p><?php echo htmlspecialchars($beschreibung) ?></p>
+        <form method="post">
+            <h3>Gemälde löschen?</h3>
+            <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
+            <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
+            <label for="loeschen">Löschen bestätigen</label>
+            <input type="submit" value="Löschen"/>
+        </form>
+    <?php else: ?>
 
-            <details class="extended_description">
+        <p><?php echo htmlspecialchars($beschreibung) ?></p>
 
-                <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
+        <details class="extended_description">
 
-                <div class="grid">
-                    <div class="item">
-                        <h3>KünstlerIn</h3>
-                        <p><?php echo htmlspecialchars($kuenstler) ?></p>
-                    </div>
-                    <div class="item">
-                        <h3>Erstellungsdatum</h3>
-                        <p><?php echo date("d.m.Y", strtotime($erstellungsdatum)); ?></p>
-                    </div>
-                    <div class="item">
-                        <h3>Ort</h3>
-                        <p><?php echo htmlspecialchars($ort) ?></p>
-                    </div>
-                    <div id="bewertung" class="item">
-                        <h3>Bewertung</h3>
-                        <p>Gesamtbewertung</p>
-                        <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
-                            <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
-                        <?php } ?>
-                        <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
-                            <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
-                        <?php } ?>
+            <summary data-open="Weniger anzeigen" data-close="Mehr anzeigen"></summary>
 
-                        <?php if (isset($_SESSION["id"])): ?>
-                            <p>Deine Bewertung</p>
-                            <form method="post">
-                                <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
-                                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
-                                        <img class="icons" src="images/stern_gelb.svg" alt="eigenebewertung"/>
-                                    </button>
-                                <?php } ?>
-                                <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
-                                    <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
-                                        <img class="icons" src="images/stern_schwarz.svg" alt="eigenebewertung"/>
-                                    </button>
-                                <?php } ?>
-                            </form>
-                        <?php endif; ?>
-                    </div>
-                    <div class="item">
-                        <h3>Hochladedatum</h3>
-                        <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
-                    </div>
-                    <div class="item">
-                        <h3>Aufrufe</h3>
-                        <p><?php echo htmlspecialchars($aufrufe) ?></p>
-                    </div>
+            <div class="grid">
+
+                <div class="item">
+                    <h3>KünstlerIn</h3>
+                    <p><?php echo htmlspecialchars($kuenstler) ?></p>
                 </div>
 
-            </details>
-
-
-        </div>
-        <?php endif ?>
-
-    </div>
-    <div id="comment_section">
-        <div class="align_container">
-            <h2> Kommentarbereich</h2>
-            <?php if (isset($_SESSION["id"])): ?>
-                <div class="container">
-                    <form method="post">
-                        <label for="kommentar" class="invisible">Kommentar</label>
-                        <textarea id="kommentar" name="kommentar" maxlength="1000"
-                                  placeholder="Neuen Kommentar schreiben..."
-                                  required></textarea>
-                        <input type="submit" value="Kommentar">
-                    </form>
+                <div class="item">
+                    <h3>Erstellungsdatum</h3>
+                    <p><?php echo date("d.m.Y", strtotime($erstellungsdatum)); ?></p>
                 </div>
-            <?php endif ?>
-        </div>
-        <ul class="comment-section" id="comment-section">
-            <?php foreach ($kommentare as $kommentar): ?>
-                <li class="comment">
-                    <div class="info">
-                        <a href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
-                            <span><?php echo date("d.m.Y", strtotime($kommentar[5])) ?></span></a>
-                    </div>
-                    <a class="avatar" href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
-                        <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
-                    </a>
-                    <p>
-                        <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
-                    </p>
 
-                    <div class="likes">
+                <div class="item">
+                    <h3>Ort</h3>
+                    <p><?php echo htmlspecialchars($ort) ?></p>
+                </div>
 
-                        <?php if (isset($_SESSION["id"])) : ?>
-                            <form method="post">
-                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="thumbsup"
-                                       <?php if ($kommentar[6] == 1): ?>src="images/daumenhoch_farbig.png"
-                                    <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
-                                       width="20">
-                            </form>
-                        <?php else: ?>
-                            <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
-                        <?php endif; ?>
-                        <?php echo htmlspecialchars($kommentar[3]) ?>
-                    </div>
-                    <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
-                        <div class="delete">
-                            <form method="post">
-                                <input type="hidden" name="delete"
-                                       value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
-                            </form>
-                        </div>
+                <div class="item" id="bewertung">
+                    <h3>Bewertung</h3>
+                    <p>Gesamtbewertung</p>
+                    <?php for ($i = 1; $i <= $bewertung; $i++) { ?>
+                        <img class="icons" src="images/stern_gelb.svg" alt="bewertunggesamt"/>
+                    <?php } ?>
+                    <?php for ($i = $bewertung + 1; $i <= 5; $i++) { ?>
+                        <img class="icons" src="images/stern_schwarz.svg" alt="bewertunggesamt"/>
+                    <?php } ?>
+
+                    <?php if (isset($_SESSION["id"])): ?>
+                        <p>Deine Bewertung</p>
+                        <form method="post">
+                            <?php for ($i = 1; $i <= $eigene_bewertung; $i++) { ?>
+                                <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                                    <img class="icons" src="images/stern_gelb.svg" alt="eigenebewertung"/>
+                                </button>
+                            <?php } ?>
+                            <?php for ($i = $eigene_bewertung + 1; $i <= 5; $i++) { ?>
+                                <button class="bewertung" name="bewertung" value="<?php echo $i ?>">
+                                    <img class="icons" src="images/stern_schwarz.svg" alt="eigenebewertung"/>
+                                </button>
+                            <?php } ?>
+                        </form>
                     <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+                </div>
+
+                <div class="item">
+                    <h3>Hochladedatum</h3>
+                    <p><?php echo date("d.m.Y", strtotime($hochladedatum)); ?></p>
+                </div>
+
+                <div class="item">
+                    <h3>Aufrufe</h3>
+                    <p><?php echo htmlspecialchars($aufrufe) ?></p>
+                </div>
+
+            </div>
+
+        </details>
+
+    <?php endif ?>
+
+    <h2> Kommentarbereich</h2>
+
+    <?php if (isset($_SESSION["id"])): ?>
+        <div class="align_container">
+            <form method="post">
+                <label for="kommentar" class="invisible">Kommentar</label>
+                <textarea id="kommentar" name="kommentar" maxlength="1000"
+                          placeholder="Neuen Kommentar schreiben..."
+                          required></textarea>
+                <input type="submit" value="Kommentar">
+            </form>
+        </div>
+    <?php endif ?>
+
+    <ul class="comment-section" id="comment-section">
+        <?php foreach ($kommentare as $kommentar): ?>
+            <li class="comment">
+                <div class="info">
+                    <a href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
+                        <span><?php echo date("d.m.Y", strtotime($kommentar[5])) ?></span></a>
+                </div>
+                <a class="avatar" href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
+                    <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
+                </a>
+                <p>
+                    <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
+                </p>
+
+                <div class="likes">
+
+                    <?php if (isset($_SESSION["id"])) : ?>
+                        <form method="post">
+                            <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                            <input type="image" alt="thumbsup"
+                                   <?php if ($kommentar[6] == 1): ?>src="images/daumenhoch_farbig.png"
+                                <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
+                                   width="20">
+                        </form>
+                    <?php else: ?>
+                        <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
+                    <?php endif; ?>
+                    <?php echo htmlspecialchars($kommentar[3]) ?>
+                </div>
+                <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
+                    <div class="delete">
+                        <form method="post">
+                            <input type="hidden" name="delete"
+                                   value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                            <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
+                        </form>
+                    </div>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 
 </main>
 

@@ -76,8 +76,8 @@ include $abs_path . '/php/head.php';
     <h4 id="aktionscountdown"></h4>
 
     <?php if (isset($daten["Realtime Currency Exchange Rate"])
-                && isset($von_name) && is_string($von_name) && isset($von_preis) && is_double($von_preis)
-                && isset($zu_name) && is_string($zu_name) && isset($zu_preis) && is_double($zu_preis)): ?>
+        && isset($von_name) && is_string($von_name) && isset($von_preis) && is_double($von_preis)
+        && isset($zu_name) && is_string($zu_name) && isset($zu_preis) && is_double($zu_preis)): ?>
         <ul>
             <li>Startpreis in <?php echo htmlspecialchars($von_name . ': ' . $von_preis); ?></li>
             <li>Startpreis in <?php echo htmlspecialchars($zu_name . ': ' . $zu_preis); ?></li>

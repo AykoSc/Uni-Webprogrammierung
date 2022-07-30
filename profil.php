@@ -189,7 +189,7 @@ include $abs_path . '/php/head.php';
             <?php endif ?>
 
             <h3>Ausgestellte Gemaelde</h3>
-            <div class ="profilausstellung">
+            <div class="profilausstellung">
 
                 <?php if (count($nutzerGemaelde) == 0): ?>
                     <p> Hier gibt es noch nichts zu sehen..</p>
@@ -208,9 +208,9 @@ include $abs_path . '/php/head.php';
             </div>
 
             <h3>Ausgestellte Sammlungen</h3>
-            <div class ="profilausstellung">
+            <div class="profilausstellung">
 
-                <?php if (count($nutzerSammlungen) == 0): ?>
+                <?php if (empty($nutzerSammlungen)): ?>
                     <p> Hier gibt es noch nichts zu sehen..</p>
                 <?php else: ?>
 
