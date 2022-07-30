@@ -26,15 +26,17 @@ if (isset($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id
 }
 
 // API für Währungskurswechsel https://www.alphavantage.co/documentation/#currency-exchange
-$json = file_get_contents('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=EUR&to_currency=USD&apikey=J7QN7XYS9PJLT1WZ');
-if ($json !== false) {
-    $daten = json_decode($json, true);
-    if (isset($daten["Realtime Currency Exchange Rate"]["2. From_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["4. To_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["5. Exchange Rate"])) {
-        $wechselkurs = $daten["Realtime Currency Exchange Rate"];
-        $von_name = $wechselkurs["2. From_Currency Name"];
-        $von_preis = 5000;
-        $zu_name = $wechselkurs["4. To_Currency Name"];
-        $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis, 2);
+if (isset($_POST["umrechnung_zeigen"]) && is_string($_POST["umrechnung_zeigen"])) {
+    $json = file_get_contents('https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=EUR&to_currency=USD&apikey=J7QN7XYS9PJLT1WZ');
+    if ($json !== false) {
+        $daten = json_decode($json, true);
+        if (isset($daten["Realtime Currency Exchange Rate"]["2. From_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["4. To_Currency Name"]) && isset($daten["Realtime Currency Exchange Rate"]["5. Exchange Rate"])) {
+            $wechselkurs = $daten["Realtime Currency Exchange Rate"];
+            $von_name = $wechselkurs["2. From_Currency Name"];
+            $von_preis = 5000;
+            $zu_name = $wechselkurs["4. To_Currency Name"];
+            $zu_preis = round($wechselkurs["5. Exchange Rate"] * $von_preis, 2);
+        }
     }
 }
 
@@ -81,6 +83,20 @@ include $abs_path . '/php/head.php';
     <?php else: ?>
         <ul>
             <li>Startpreis in Euro: 5000</li>
+            <li>
+                <div id="jsOnly">
+                    <p>Mit dem Aufruf der Umrechnung des Preises von Euro in USD erklären Sie
+                        sich einverstanden, dass Ihre Daten an Alphavantage Inc. übermittelt
+                        werden und dass Sie die <a href="datenschutz.php">Datenschutzerklärung</a> gelesen haben.</p>
+                    <form method="post">
+                        <button type="submit" name="umrechnung_zeigen">Bestätigen und Umrechnung anzeigen</button>
+                    </form>
+                </div>
+                <script>
+                    document.getElementById('jsOnly').style.display = 'block';
+                </script>
+                <noscript>Mit JavaScript wäre hier eine Umrechnung des Preises von Euro in USD ersichtlich.</noscript>
+            </li>
         </ul>
     <?php endif ?>
 
