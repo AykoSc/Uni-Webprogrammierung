@@ -328,4 +328,9 @@ class NutzerDAODummyImpl implements NutzerDAO
     {
         // gemaelde_von_anbieter_erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
     }
+
+    public function gemaelde_aus_sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID, $GemaeldeID): bool
+    {
+        // TODO: Implement gemaelde_aus_sammlung_entfernen() method.
+    }
 }

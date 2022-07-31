@@ -15,6 +15,11 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
     $bewertet = $dao->sammlung_bewerten($_SESSION["id"], $_SESSION["token"], $_GET["id"], $_POST["bewertung"]);
 }
 
+// Gemaelde entfernen
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["gemaelde_entfernen"]) && is_string($_POST["gemaelde_entfernen"])) {
+    $gemaeldeEntfernung = $dao->gemaelde_aus_sammlung_entfernen($_SESSION["id"], $_SESSION["token"], $_REQUEST["id"], $_POST["gemaelde_entfernen"]);
+}
+
 // Eintrag löschen
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->sammlung_entfernen($_SESSION["id"], $_SESSION["token"], $_GET["id"]);
@@ -76,7 +81,7 @@ include $abs_path . '/php/head.php';
         <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
     <?php if (isset($editierung) && is_bool($editierung) && $editierung): ?>
-        <p class="nachricht">Editierung erfolgreich!</p>
+        <p class="nachricht">Editieren erfolgreich!</p>
     <?php endif ?>
 
     <?php if (isset($bewertet) && is_bool($bewertet) && $bewertet): ?>
@@ -84,6 +89,12 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
     <?php if (isset($bewertet) && is_bool($bewertet) && !$bewertet): ?>
         <p class="nachricht fehler">Sammlung Bewertung fehlgeschlagen</p>
+    <?php endif ?>
+    <?php if (isset($gemaeldeEntfernung) && is_bool($gemaeldeEntfernung) && $gemaeldeEntfernung): ?>
+        <p class="nachricht">Gemälde erfolgreich aus der Sammlung entfernt</p>
+    <?php endif ?>
+    <?php if (isset($gemaeldeEntfernung) && is_bool($gemaeldeEntfernung) && !$gemaeldeEntfernung): ?>
+        <p class="nachricht fehler">Gemälde Entfernung fehlgeschlagen</p>
     <?php endif ?>
 
     <h1>Sammlung</h1>
@@ -96,6 +107,15 @@ include $abs_path . '/php/head.php';
                  src="<?php echo "images/" . htmlspecialchars($gemaelde[0]) . "." . htmlspecialchars($gemaelde[10]) ?>"
                  alt="<?php echo htmlspecialchars($gemaelde[2]) ?>">
         </a>
+        <?php if (isset($_SESSION["id"]) && $anbieterID === $_SESSION["id"]) : ?>
+            <div class="delete">
+                <form method="post">
+                    <input type="hidden" name="gemaelde_entfernen"
+                           value="<?php echo htmlspecialchars($gemaelde[0]) ?>">
+                    <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
+                </form>
+            </div>
+        <?php endif; ?>
     <?php endforeach; ?>
 
     <h2>Über die Sammlung</h2>

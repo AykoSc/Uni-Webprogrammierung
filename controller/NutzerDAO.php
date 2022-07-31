@@ -59,4 +59,6 @@ interface NutzerDAO
     public function ausstellung_erhalten($Suche, $Filter): array;
 
     public function sammlungen_erhalten($Suche, $Filter): array;
+
+    public function gemaelde_aus_sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID, $GemaeldeID): bool;
 }
