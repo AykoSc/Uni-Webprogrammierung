@@ -192,7 +192,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $speichereAnbieterCMD->execute();
 
             $this->db->commit();
-            echo "KOMPLETT DURCHGEKOMMEN";
+
             //E-Mail existiert noch nicht, sende "Registrierung abzuschließen" E-Mail
             $speichern_unter = "emails/$Email" . "_postfach.txt";
             $inhalt = "Bitte ignorieren Sie die E-Mail, wenn Sie sich nicht versucht haben zu registrieren. \nAnsonsten klicke auf folgenden Link, um die Registrierung vollständig zu beenden: anmeldung.php?Email=$Email&Verifizierungscode=$Verifizierungscode";
