@@ -70,6 +70,8 @@ if (isset($gemaelde) && is_array($gemaelde) && $gemaelde !== [-1]) {
     $hochladedatum = $gemaelde[8];
     $aufrufe = $gemaelde[9];
     $dateityp = $gemaelde[10];
+    $anbieterID = urlencode($gemaelde[1]);
+    $anbieterName = htmlspecialchars($gemaelde[11]);
 } else {
     header("location: index.php?fehler=Gemälde");
 }
@@ -183,6 +185,11 @@ include $abs_path . '/php/head.php';
                 </div>
 
                 <div class="item">
+                    <h3>Anbieter</h3>
+                    <a href="profil.php?id=<?php echo $anbieterID ?>"><?php echo $anbieterName ?></a>
+                </div>
+
+                <div class="item">
                     <input type="submit" name="Submit" value="Speichern"/>
                 </div>
             </div>
@@ -256,6 +263,11 @@ include $abs_path . '/php/head.php';
                 <div class="item">
                     <h3>Aufrufe</h3>
                     <p><?php echo htmlspecialchars($aufrufe) ?></p>
+                </div>
+
+                <div class="item">
+                    <h3>Anbieter</h3>
+                    <a href="profil.php?id=<?php echo $anbieterID ?>"><?php echo $anbieterName ?></a>
                 </div>
 
             </div>

@@ -806,7 +806,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return array(-1);
             }
 
-            $erhalteKommentareSQL = "SELECT * FROM Kommentar JOIN Anbieter A on A.AnbieterID = Kommentar.AnbieterID WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteKommentareSQL = "SELECT * FROM Kommentar JOIN Anbieter A ON A.AnbieterID = Kommentar.AnbieterID WHERE GemaeldeID = :GemaeldeID;";
             $erhalteKommentareCMD = $this->db->prepare($erhalteKommentareSQL);
             $erhalteKommentareCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $erhalteKommentareCMD->execute();
@@ -1044,7 +1044,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return array(-1);
             }
 
-            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE GemaeldeID = :GemaeldeID;";
+            $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde JOIN Anbieter A on A.AnbieterID = Gemaelde.AnbieterID  WHERE GemaeldeID = :GemaeldeID;";
             $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
             $erhalteGemaeldeCMD->bindParam(":GemaeldeID", $GemaeldeID);
             $erhalteGemaeldeCMD->execute();
@@ -1060,7 +1060,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $this->db->commit();
             return array($ergebnis->GemaeldeID, $ergebnis->AnbieterID, $ergebnis->Titel, $ergebnis->Kuenstler,
                 $ergebnis->Beschreibung, $ergebnis->Erstellungsdatum, $ergebnis->Ort, $ergebnis->Bewertung,
-                $ergebnis->Hochladedatum, $ergebnis->Aufrufe, $ergebnis->Dateityp);
+                $ergebnis->Hochladedatum, $ergebnis->Aufrufe, $ergebnis->Dateityp, $ergebnis->Nutzername);
         } catch (Exception) {
             $this->db->rollBack();
             return array(-1);
@@ -1098,7 +1098,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 return array(-1);
             }
 
-            $erhalteSammlungSQL = "SELECT * FROM Sammlung WHERE SammlungID = :SammlungID;";
+            $erhalteSammlungSQL = "SELECT * FROM Sammlung JOIN Anbieter A ON A.AnbieterID = Sammlung.AnbieterID  WHERE SammlungID = :SammlungID;";
             $erhalteSammlungCMD = $this->db->prepare($erhalteSammlungSQL);
             $erhalteSammlungCMD->bindParam(":SammlungID", $SammlungID);
             $erhalteSammlungCMD->execute();
@@ -1121,7 +1121,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $aktualisiereAufrufeCMD->execute();
 
             $this->db->commit();
-            return array($SammlungID, $ergebnis->AnbieterID, $GemaeldeIDs, $ergebnis->Titel, $ergebnis->Beschreibung, $ergebnis->Bewertung, $ergebnis->Erstellungsdatum, $ergebnis->Aufrufe);
+            return array($SammlungID, $ergebnis->AnbieterID, $GemaeldeIDs, $ergebnis->Titel, $ergebnis->Beschreibung, $ergebnis->Bewertung, $ergebnis->Erstellungsdatum, $ergebnis->Aufrufe, $ergebnis->Nutzername);
         } catch (Exception) {
             $this->db->rollBack();
             return array(-1);

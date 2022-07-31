@@ -24,7 +24,7 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
 }
-if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && $_POST["loeschen"] === "nichtbestaetigt") {
+if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && $_POST["loeschen"] === "nichtbestaetigt") {
     $fehlermeldung = "Um diese Sammlung zu löschen müssen Sie den Bestätigungshaken setzen.";
 }
 
@@ -41,7 +41,6 @@ if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
 if (isset($sammlung) && is_array($sammlung) && $sammlung !== [-1]) {
     // [SammlungID, users_NutzerID, gemaelde_GemaeldeIDs, Titel, Beschreibung, Bewertung, Hochladedatum, Aufrufe]
     $id = $sammlung[0];
-    $anbieter = $dao->profil_erhalten($sammlung[1]); //$sammlung[1] ist anbieterID
     $alle_gemaelde = array();
     foreach ($sammlung[2] as $gemaeldeID) { //$sammlung[2] sind gemaeldeIDs
         $alle_gemaelde[] = $dao->gemaelde_erhalten($gemaeldeID);
@@ -51,6 +50,8 @@ if (isset($sammlung) && is_array($sammlung) && $sammlung !== [-1]) {
     $bewertung = $sammlung[5];
     $hochladedatum = $sammlung[6];
     $aufrufe = htmlspecialchars($sammlung[7]);
+    $anbieterID = urlencode($sammlung[1]);
+    $anbieterName = htmlspecialchars($sammlung[8]);
 } else {
     header("location: index.php?fehler=Sammlung");
 }
@@ -97,22 +98,20 @@ include $abs_path . '/php/head.php';
         </a>
     <?php endforeach; ?>
 
-    <h2>Infos zur Sammlung</h2>
+    <h2>Über die Sammlung</h2>
 
     <?php if (isset($_SESSION["id"]) && $sammlung[1] == $_SESSION["id"]) : ?>
         <form method="post">
+            <h3>Beschreibung</h3>
+            <label for="beschreibung" class="invisible">Beschreibung</label>
+            <textarea cols="70" rows="10" id="beschreibung"
+                      name="beschreibung"><?php echo $beschreibung ?></textarea>
+
             <div class="grid">
                 <div class="item">
                     <h3>Titel</h3>
                     <label for="titel" class="invisible">Titel</label>
                     <input id="titel" type="text" name="titel" value="<?php echo $titel ?>">
-                </div>
-
-                <div class="item">
-                    <h3>Beschreibung</h3>
-                    <label for="beschreibung" class="invisible">Beschreibung</label>
-                    <textarea cols="70" rows="10" id="beschreibung"
-                              name="beschreibung"><?php echo $beschreibung ?></textarea>
                 </div>
 
                 <div class="item" id="bewertung">
@@ -137,6 +136,11 @@ include $abs_path . '/php/head.php';
                 </div>
 
                 <div class="item">
+                    <h3>Anbieter</h3>
+                    <a href="profil.php?id=<?php echo $anbieterID ?>"><?php echo $anbieterName ?></a>
+                </div>
+
+                <div class="item">
                     <input type="submit" name="Submit" value="Speichern"/>
                 </div>
             </div>
@@ -151,15 +155,12 @@ include $abs_path . '/php/head.php';
         </form>
 
     <?php else: ?>
+        <h3>Beschreibung</h3>
+        <p><?php echo $beschreibung ?></p>
         <div class="grid">
             <div class="item">
                 <h3>Titel</h3>
                 <p><?php echo $titel ?></p>
-            </div>
-
-            <div class="item">
-                <h3>Beschreibung</h3>
-                <p><?php echo $beschreibung ?></p>
             </div>
 
             <div id="bewertung" class="item">
@@ -197,6 +198,16 @@ include $abs_path . '/php/head.php';
             <div class="item">
                 <h3>Aufrufe</h3>
                 <p><?php echo $aufrufe ?></p>
+            </div>
+
+            <div class="item">
+                <h3>Aufrufe</h3>
+                <p><?php echo $aufrufe ?></p>
+            </div>
+
+            <div class="item">
+                <h3>Anbieter</h3>
+                <a href="profil.php?id=<?php echo $anbieterID ?>"><?php echo $anbieterName ?></a>
             </div>
         </div>
     <?php endif ?>
