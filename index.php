@@ -21,7 +21,7 @@ if (isset($_GET["fehler"]) && is_string($_GET["fehler"])) {
 if (isset($_GET["entfernt"]) && is_string($_GET["entfernt"])) {
     $erfolgreich = $_GET["entfernt"] . ' erfolgreich gelöscht!';
 }
-if (isset($_GET["geloescht"]) && isset($_GET["herkunft"]) && $_GET["herkunft"] === "Sammlung") {
+if (isset($_GET["autoloeschung"]) && $_GET["autoloeschung"] === "Sammlung") {
     $erfolgreich = "Die Sammlung wurde gelöscht, da Sie keine Gemälde mehr enthält.";
 }
 if (isset($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {

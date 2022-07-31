@@ -103,7 +103,7 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
 
     <div class="usermanagement">
-        <h1>Mein Profil</h1>
+        <h1>Profil</h1>
 
         <div class="profil">
             <?php if (isset($_SESSION["id"]) && $id == $_SESSION["id"]) : ?>

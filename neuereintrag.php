@@ -111,7 +111,7 @@ include $abs_path . '/php/head.php';
         <p class="nachricht">Eintragerstellung erfolgreich</p>
     <?php endif ?>
     <?php if (isset($erstellung) && is_int($erstellung) && $erstellung === -1): ?>
-        <p class="nachricht fehler">Eintragerstellung fehlgeschlagen: Ungültige Gemälde-ID eingegeben</p>
+        <p class="nachricht fehler">Eintragerstellung fehlgeschlagen</p>
     <?php endif ?>
     <?php if (isset($hochladen) && is_bool($hochladen) && $hochladen): ?>
         <p class="nachricht">Datei erfolgreich hochgeladen</p>
