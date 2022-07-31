@@ -136,7 +136,7 @@ include $abs_path . '/php/head.php';
                 <div class="item">
                     <h3>Titel</h3>
                     <label for="titel" class="invisible">Titel</label>
-                    <input id="titel" type="text" name="titel" value="<?php echo $titel ?>">
+                    <input id="titel" type="text" name="titel" value="<?php echo $titel ?>" required>
                 </div>
 
                 <div class="item" id="bewertung">

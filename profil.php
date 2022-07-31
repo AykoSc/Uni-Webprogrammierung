@@ -51,9 +51,14 @@ if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
     $nutzerSammlungen = $dao->sammlungen_von_anbieter_erhalten($id);
 
     // Erstes Gemaelde als Vorschaubild der jeweiligen Sammlung nehmen
-    for ($j = 0; $j < sizeof($nutzerSammlungen); $j++) { //$reihe as $sammlung
-        if (isset($nutzerSammlungen[$j][2][0]) && is_int($nutzerSammlungen[$j][2][0])) {
-            $nutzerSammlungen[$j][2] = $dao->gemaelde_erhalten($nutzerSammlungen[$j][2][0]);
+    for ($i = 0; $i < sizeof($nutzerSammlungen); $i++) { //$reihe as $sammlung
+
+        if (isset($nutzerSammlungen[$i][2][0]) && is_int($nutzerSammlungen[$i][2][0])) {
+            $vorschaubild = $dao->gemaelde_erhalten($nutzerSammlungen[$i][2][0]);
+            $nutzerSammlungen[$i][2] = $vorschaubild;
+        } else {
+            $nutzerSammlungen[$i][2][0] = "kein_vorschau_gemaelde";
+            $nutzerSammlungen[$i][2][10] = "png";
         }
     }
 } else {
