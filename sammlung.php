@@ -26,6 +26,10 @@ if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
         $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
     }
     $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
+    if ($sammlung[0] === -1) {
+        header("location: index.php?geloescht&herkunft=Sammlung");
+        exit;
+    }
 } else {
     header("location: index.php?fehler=Sammlung");
 }
@@ -34,7 +38,8 @@ if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->sammlung_entfernen($_SESSION["id"], $_SESSION["token"], $_GET["id"]);
     if ($loeschung) {
-        header("location: index.php?entfernt=Sammlung");
+        header("location: index.php?geloescht&herkunft=Sammlung");
+        $sammlunggeloescht = true;
     } else {
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }

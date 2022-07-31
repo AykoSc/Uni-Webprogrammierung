@@ -1085,7 +1085,8 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $suchergebnis = array();
             while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
-                $suchergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
+                $sammlung = $this->sammlung_erhalten($zeile->SammlungID);
+                if ($sammlung[0] !== -1) $suchergebnis[] = $sammlung;
             }
             $ergebnis = array(array(), array(), array(), array());
             $reihe = 0;
@@ -1122,6 +1123,17 @@ class NutzerDAODBImpl implements NutzerDAO
             $GemaeldeIDs = array();
             while ($zeile = $erhalteSammlungsinhalteCMD->fetchObject()) {
                 $GemaeldeIDs[] = $zeile->GemaeldeID;
+            }
+
+            //Keine Gemälde mehr in der Sammlung, dann Sammlung löschen
+            if (empty($GemaeldeIDs)) {
+                $entferneSammlungSQL = "DELETE FROM Sammlung WHERE SammlungID = :SammlungID;";
+                $entferneSammlungCMD = $this->db->prepare($entferneSammlungSQL);
+                $entferneSammlungCMD->bindParam(":SammlungID", $SammlungID);
+                $entferneSammlungCMD->execute();
+
+                $this->db->commit();
+                return array(-1);
             }
 
             //Erhöhe Aufrufe um 1

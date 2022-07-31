@@ -16,10 +16,13 @@ if (isset($_GET["abmelden"]) && is_string($_GET["abmelden"]) && $_GET["abmelden"
 }
 
 if (isset($_GET["fehler"]) && is_string($_GET["fehler"])) {
-    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! ' . $_GET["fehler"] . ' existiert nicht mehr.';
+    $fehlermeldung = 'Es scheint ein kritischer Fehler aufgetreten zu sein! ' . $_GET["fehler"] . ' existiert nicht.';
 }
 if (isset($_GET["entfernt"]) && is_string($_GET["entfernt"])) {
     $erfolgreich = $_GET["entfernt"] . ' erfolgreich gelöscht!';
+}
+if (isset($_GET["geloescht"]) && isset($_GET["herkunft"]) && $_GET["herkunft"] === "Sammlung") {
+    $erfolgreich = "Die Sammlung wurde gelöscht, da Sie keine Gemälde mehr enthält.";
 }
 if (isset($_GET["anmelden"]) && $_GET["anmelden"] === "1" && isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
     $erfolgreich = 'Du hast dich erfolgreich angemeldet!';

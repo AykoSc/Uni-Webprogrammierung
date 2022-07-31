@@ -98,7 +98,7 @@ include $abs_path . '/php/head.php';
             auf
             einen rechtswidrigen Inhalt hinweisen. Wir haften grundsätzlich nur im Falle einer vorsätzlichen oder grob
             fahrlässigen Pflichtverletzung.</p>
-        <p>(2) WIr weisen ausdrücklich darauf hin, dass die juristischen Beiträge und Diskussionen im ArtPlace
+        <p>(2) Wir weisen ausdrücklich darauf hin, dass die juristischen Beiträge und Diskussionen im ArtPlace
             vollkommen
             unverbindlich sind. <sup>2</sup>Die Nutzung der Beiträge und deren Verwertung erfolgt auf Ihre eigene
             Gefahr.
@@ -145,7 +145,7 @@ include $abs_path . '/php/head.php';
             ArtPlace-Nutzungsbedingungen bestehen bleiben.</p>
         <p>Diese <a href="https://www.jurarat.de/muster-nutzungsbedingungen">Nutzungsbedingungen</a> wurden
             freundlicherweise
-            von www.jurarat.de zur Verfügung
+            von www.jurarat.de zur Verfügung gestellt.
         </p>
     </div>
 
