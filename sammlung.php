@@ -225,11 +225,6 @@ include $abs_path . '/php/head.php';
             </div>
 
             <div class="item">
-                <h3>Aufrufe</h3>
-                <p><?php echo $aufrufe ?></p>
-            </div>
-
-            <div class="item">
                 <h3>Anbieter</h3>
                 <a href="profil.php?id=<?php echo $anbieterID ?>"><?php echo $anbieterName ?></a>
             </div>
