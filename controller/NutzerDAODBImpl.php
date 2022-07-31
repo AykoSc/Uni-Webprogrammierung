@@ -340,7 +340,11 @@ class NutzerDAODBImpl implements NutzerDAO
                 return -1;
             }
 
-            $Erstellungsdatum = date("Y-m-d", strtotime($Erstellungsdatum));
+            if ($Erstellungsdatum !== null && $Erstellungsdatum !== '') {
+                $Erstellungsdatum = date("Y-m-d", strtotime($Erstellungsdatum));
+            } else {
+                $Erstellungsdatum = '';
+            }
             $Hochladedatum = date("Y-m-d");
 
             $speichereGemaeldeSQL = "INSERT INTO Gemaelde (AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung, Hochladedatum, Aufrufe, Dateityp)
@@ -379,7 +383,11 @@ class NutzerDAODBImpl implements NutzerDAO
                 return false;
             }
 
-            $Erstellungsdatum = date("Y-m-d", strtotime($Erstellungsdatum));
+            if ($Erstellungsdatum !== null && $Erstellungsdatum !== '') {
+                $Erstellungsdatum = date("Y-m-d", strtotime($Erstellungsdatum));
+            } else {
+                $Erstellungsdatum = '';
+            }
 
             $editiereGemaeldeSQL = "UPDATE Gemaelde SET Beschreibung = :Beschreibung, Erstellungsdatum = :Erstellungsdatum, Ort = :Ort WHERE GemaeldeID = :GemaeldeID AND AnbieterID = :AnbieterID;";
             $editiereGemaeldeCMD = $this->db->prepare($editiereGemaeldeSQL);

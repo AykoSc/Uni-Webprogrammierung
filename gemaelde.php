@@ -153,7 +153,8 @@ include $abs_path . '/php/head.php';
                     <h3>Erstellungsdatum</h3>
                     <label for="erstellungsdatum" class="invisible">Erstellungsdatum</label>
                     <input id="erstellungsdatum" type="date" name="erstellungsdatum"
-                           value="<?php echo date("Y-m-d", strtotime($erstellungsdatum)); ?>"/>
+                        <?php echo ($erstellungsdatum !== null && $erstellungsdatum !== '') ?
+                            'value="' . date("Y-m-d", strtotime($erstellungsdatum)) . '"' : '' ?>/>
                 </div>
 
                 <div class="item">
@@ -218,12 +219,14 @@ include $abs_path . '/php/head.php';
 
                 <div class="item">
                     <h3>Erstellungsdatum</h3>
-                    <p><?php echo date("d.m.Y", strtotime($erstellungsdatum)); ?></p>
+                    <p><?php echo ($erstellungsdatum !== null && $erstellungsdatum !== '') ?
+                            date("d.m.Y", strtotime($erstellungsdatum)) : 'Keine Angabe' ?></p>
                 </div>
 
                 <div class="item">
                     <h3>Ort</h3>
-                    <p><?php echo htmlspecialchars($ort) ?></p>
+                    <p><?php echo ($ort !== null && $ort !== '') ?
+                            htmlspecialchars($ort) : 'Keine Angabe' ?></p>
                 </div>
 
                 <div class="item" id="bewertung">
