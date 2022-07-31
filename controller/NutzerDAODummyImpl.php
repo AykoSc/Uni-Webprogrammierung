@@ -8,44 +8,38 @@ class NutzerDAODummyImpl implements NutzerDAO
      * @implNote Datenspeicherung (ALT), soll nicht gelöscht werden
      */
 
-    // [NutzerID, Email, Passwort]
+    // [NutzerID, Email, Passwort, Token]
     private array $users = [
-        [0, "test1@test.com", "test1!"],
-        [1, "test2@test.com", "test2!"]
+        [1, "test1@test.com", "test1!", "mA23zbjdkENShbk9ezqNp5nQMpyrVb7m"],
+        [2, "test2@test.com", "test2!", "YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7"]
     ];
 
     // [NutzerID, Nutzername, beschreibung, geschlecht, VollständigerName, Adresse, Sprache, Geburtsdatum, Registrierungsdatum]
     private array $users_profil = [
-        [0, "test1", "Ich bin Test 1 !", "m", "Max Mustermann", "Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg", "deutsch", "04.10.2000", "01.06.2022"],
-        [1, "test2", "Ich bin der User Test 2 !", "w", "Maxine Musterfrau", "Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg", "deutsch", "01.11.2000", "28.05.2022"]
+        [1, "test1", "Ich bin Test 1 !", "m", "Max Mustermann", "Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg", "deutsch", "04.10.2000", "01.06.2022"],
+        [2, "test2", "Ich bin der User Test 2 !", "w", "Maxine Musterfrau", "Carl von Ossietzky Universität Oldenburg, Ammerländer Heerstraße 114-118, 26129 Oldenburg", "deutsch", "01.11.2000", "28.05.2022"]
     ];
 
-    // [users_NutzerID, Validierungstoken]
-    private array $users_tokens = [
-        [0, "mA23zbjdkENShbk9ezqNp5nQMpyrVb7m"],
-        [1, "YRSPGgPjnDSuy7b5GuNFBEz9e4AAwaj7"]
-    ];
-
-    // [GemaeldeID, users_NutzerID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung (*/10), Hochladedatum, Aufrufe]
+    // [GemaeldeID, AnbieterID, Titel, Kuenstler, Beschreibung, Erstellungsdatum, Ort, Bewertung (*/5), Hochladedatum, Aufrufe, Dateityp, Nutzername]
     // href: gemaelde.php?id=[GemaeldeID]
     // Datei: images/[GemaeldeID].jpg
     private array $gemaelde = [
-        [0, 0, "Stockbild0", "Stockkünstler0", "Beschreibung von Bild 0", "04.09.1900", "München, Deutschland", 8, "07.10.2021", 56],
-        [1, 1, "Stockbild1", "Stockkünstler1", "Beschreibung von Bild 1", "05.10.1234", "Oldenburg, Deutschland", 9, "01.06.2022", 4],
-        [2, 1, "Stockbild2", "Stockkünstler2", "Beschreibung von Bild 2", "06.11.1432", "Berlin, Deutschland", 4, "06.09.2022", 8]
+        [1, 1, "Stockbild0", "Stockkünstler0", "Beschreibung von Bild 0", "04.09.1900", "München, Deutschland", 4, "06.09.2022", 56, "jpg", "test1"],
+        [2, 2, "Stockbild1", "Stockkünstler1", "Beschreibung von Bild 1", "05.10.1234", "Oldenburg, Deutschland", 5, "01.06.2022", 4, "jpg", "test2"],
+        [3, 2, "Stockbild2", "Stockkünstler2", "Beschreibung von Bild 2", "06.11.1432", "Berlin, Deutschland", 3, "07.10.2021", 8, "jpg", "test2"]
     ];
 
     // [KommentarID, gemaelde_GemaeldeID, users_NutzerID, Likeanzahl, Text, Erstellungsdatum]
     private array $kommentare = [
-        [0, 0, 0, 274, "Dies ist ein Kommentar!", "05.10.2021"],
-        [1, 0, 1, 346, "Dies ist auch ein Kommentar!!", "07.06.2022"],
-        [2, 1, 2, 56, "Mein erster Kommentar.", "02.03.2022"],
-        [3, 2, 0, 23, "Mein toller Kommentar.", "01.06.2022"]
+        [1, 1, 1, 274, "Dies ist ein Kommentar!", "05.10.2021"],
+        [2, 1, 2, 346, "Dies ist auch ein Kommentar!!", "07.06.2022"],
+        [3, 2, 2, 56, "Mein erster Kommentar.", "02.03.2022"],
+        [4, 3, 1, 23, "Mein toller Kommentar.", "01.06.2022"]
     ];
     private array $sammlungen = [
-        [0, 1, [0, 2, 1], "Sammlung0", "Beschreibung von Bild 0", 3, "03.01.2021", 2234],
-        [1, 1, [1, 0], "Sammlung1", "Beschreibung von Bild 1", 7, "06.04.2022", 34],
-        [2, 0, [2, 0], "Sammlung2", "Beschreibung von Bild 2", 5, "02.03.2022", 8673]
+        [1, 1, [1, 2, 3], "Sammlung0", "Beschreibung von Bild 0", 3, "06.04.2022", 2234, "test1"],
+        [2, 1, [2, 1], "Sammlung1", "Beschreibung von Bild 1", 4, "02.03.2022", 34, "test1"],
+        [3, 2, [3, 1], "Sammlung2", "Beschreibung von Bild 2", 5, "03.01.2021", 8673, "test1"]
     ];
 
     private static ?NutzerDAODummyImpl $instance = null;
@@ -69,8 +63,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function nutzername_unbenutzt($Nutzername): bool
     {
-        // Ob ein Nutzername unbenutzt ist, wird in der DBImpl erst benötigt.
-        return true;
+        return !($Nutzername === "test1" || $Nutzername === "test2");
     }
 
     public function registrieren($Nutzername, $Email, $Passwort): bool
@@ -87,19 +80,13 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function anmelden($Email, $Passwort): array
     {
-        if (isset($Email) && is_string($Email) && isset($Passwort) && is_string($Passwort)) {
-            foreach ($this->users as $user) {
-                if ($user[1] === htmlspecialchars($Email) && $user[2] === htmlspecialchars($Passwort)) {
-                    // Token wird hier nicht in Datenbank gespeichert und an User gesendet, da es eine schreibende Methode ist
-                    foreach ($this->users_tokens as $token) {
-                        if ($user[0] === $token[0]) {
-                            return array($token[0], $token[1]); // Anmeldung erfolgreich
-                        }
-                    }
-                }
+        foreach ($this->users as $user) {
+            if ($user[1] === $Email && $user[2] === $Passwort) {
+                // Token wird hier nicht in Datenbank gespeichert und an User gesendet, da es schreibend wäre
+                return array(strval($user[0]), $user[3]);
             }
         }
-        return array(-1, ""); // Anmeldung fehlgeschlagen
+        return array("-1", "");
     }
 
     public function abmelden($AnbieterID, $Tokennummer): bool
@@ -134,9 +121,9 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function gemaelde_erhalten($GemaeldeID): array
     {
-        if (isset($GemaeldeID) && is_string($GemaeldeID)) {
+        if (isset($GemaeldeID)) {
             foreach ($this->gemaelde as $g) {
-                if ($g[0] == htmlspecialchars($GemaeldeID)) {
+                if ($g[0] == $GemaeldeID) {
                     return $g;
                 }
             }
@@ -152,8 +139,7 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function eigene_gemaelde_bewertung_erhalten($AnbieterID, $GemaeldeID): int
     {
-        // Eigene Gemälde Bewertung erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
-        return -1;
+        return 0; //Bewertung ist von allen Testnutzern auf 0
     }
 
     public function sammlung_anlegen($AnbieterID, $Tokennummer, $Auswahl, $Titel, $Beschreibung): int
@@ -209,7 +195,9 @@ class NutzerDAODummyImpl implements NutzerDAO
         $result = array();
         if (isset($GemaeldeID) && is_string($GemaeldeID)) {
             foreach ($this->kommentare as $k) {
-                if ($k[1] == htmlspecialchars($GemaeldeID)) {
+                if ($k[1] == $GemaeldeID) {
+                    $k[] = $this->users_profil[$k[2] - 1][1]; //Name vom Verfasser
+                    $k[] = 0; // Kommentar nicht geliked
                     $result[] = $k;
                 }
             }
@@ -221,7 +209,7 @@ class NutzerDAODummyImpl implements NutzerDAO
     {
         if (isset($AnbieterID) && is_string($AnbieterID)) {
             foreach ($this->users_profil as $profil) {
-                if ($profil[0] == htmlspecialchars($AnbieterID)) {
+                if ($profil[0] == $AnbieterID) {
                     return $profil;
                 }
             }
@@ -311,26 +299,40 @@ class NutzerDAODummyImpl implements NutzerDAO
 
     public function eigene_sammlung_bewertung_erhalten($AnbieterID, $SammlungID): int
     {
-        // TODO: Implement eigene_sammlung_bewertung_erhalten() method.
+        return 0; //Bewertung ist von allen Testnutzern auf 0
     }
 
     public function sammlung_bewerten($AnbieterID, $Tokennummer, $SammlungID, $Bewertung): bool
     {
         // sammlung_bewerten wird hier nicht implementiert, da es eine schreibende Methode ist
+        return true;
     }
 
     public function sammlungen_von_anbieter_erhalten($AnbieterID): array
     {
-        // sammlungen_von_anbieter_erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
+        $ergebnis = array();
+        foreach ($this->sammlungen as $s) {
+            if ($s[1] == $AnbieterID) {
+                $ergebnis[] = $s;
+            }
+        }
+        return $ergebnis;
     }
 
     public function gemaelde_von_anbieter_erhalten($AnbieterID): array
     {
-        // gemaelde_von_anbieter_erhalten wird hier nicht implementiert, da es eine schreibende Methode ist
+        $ergebnis = array();
+        foreach ($this->gemaelde as $g) {
+            if ($g[1] == $AnbieterID) {
+                $ergebnis[] = $g;
+            }
+        }
+        return $ergebnis;
     }
 
     public function gemaelde_aus_sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID, $GemaeldeID): bool
     {
-        // TODO: Implement gemaelde_aus_sammlung_entfernen() method.
+        // gemaelde_aus_sammlung_entfernen wird hier nicht implementiert, da es eine schreibende Methode ist
+        return true;
     }
 }
