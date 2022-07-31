@@ -9,13 +9,13 @@
 ### Hinweise
 
 - **Voraussetzungen und andere zum Betrieb der Website notwendigen Informationen**
-  - Die php.ini benötigt: sqlite3, sqlite und dao
+  - Die php.ini benötigt: Die Extensions sqlite3 und pdo_sqlite
   - Login-Daten
     - Email: test1@test.com, Passwort: test1!
     - Email: test2@test.com, Passwort: test2!
 
 - **Sitemap**
-  - ![](images\Sitemap.png)
+  - ![](images\sitemap.png)
   - Erklärung der Sitemap (Alle Seitennamen enden auf .php):
     - index: Dies ist die Startseite, hier wird ein bald zu versteigerndes Gemälde gezeigt, mit einem live Countdown bis
       zur Versteigerung. Zudem wird der Startpreis in Euro und umgerechnet in Dollar angezeigt.
@@ -34,7 +34,7 @@
     - gemaelde: Hier wird ein Gemälde und deren zugehörigen Informationen angezeigt, die vom Eigentümer bearbeitet
       werden können. Zudem gibt es noch eine Kommentarsektion.
     - sammlung: Hier wird eine Sammlung und deren zugehörigen Informationen angezeigt, die vom Eigentümer bearbeitet
-      werden können. Zudem gibt es noch eine Kommentarsektion.
+      werden können.
 
     - profil: Hier werden Informationen zu dem entsprechenden Aussteller angezeigt und seine Gemälde und Sammlungen
       dargestellt. Wenn der Aussteller sein eigenes Profil betrachtet, kann er dieses bearbeiten und weitere optionale
@@ -102,9 +102,7 @@
     können.
 
 - **Nicht umgesetzte Teilaufgaben**
-  - Bei Filter keine Auswahl möglich zum aufsteigend oder absteigend filtern
-  - Keine Profilbilder möglich
-  - Keine Gemälde von einer Sammlung nach Erstellung entfernbar oder hinzufügbar
+  - keine
 
 - **Bekannte Fehler oder Mängel**
   - keine
@@ -119,6 +117,7 @@
 - Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert.
 - Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt.
 - Veränderung in der Kommentarsektion werden über Ajax an den Server gesendet.
+- Veränderung an der eigenen Bewertung zu einem Gemälde oder einer Sammlung werden über Ajax an den Server gesendet.
 
 ### Erklärung Gemälde
 
