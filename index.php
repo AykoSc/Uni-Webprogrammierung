@@ -72,8 +72,7 @@ include $abs_path . '/php/head.php';
     <p>Der Schwur der Horatier (französisch Le Serment des Horaces) ist ein 1784 fertiggestelltes Gemälde von
         Jacques-Louis David. Das großformatige Bild (330 × 425 cm) wurde mit Ölfarbe auf Leinwand gemalt.</p>
 
-    <noscript><h4>Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt!</h4></noscript>
-    <h4 id="aktionscountdown"></h4>
+    <h4 id="aktionscountdown">Am 24. Dezember 2022 um 23:59:59 findet die Auktion für das Gemälde statt!</h4>
 
     <?php if (isset($daten["Realtime Currency Exchange Rate"])
         && isset($von_name) && is_string($von_name) && isset($von_preis) && is_double($von_preis)

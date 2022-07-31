@@ -20,6 +20,16 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
     $gemaeldeEntfernung = $dao->gemaelde_aus_sammlung_entfernen($_SESSION["id"], $_SESSION["token"], $_REQUEST["id"], $_POST["gemaelde_entfernen"]);
 }
 
+// Eintrag laden
+if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
+    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
+        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
+    }
+    $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
+} else {
+    header("location: index.php?fehler=Sammlung");
+}
+
 // Eintrag löschen
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->sammlung_entfernen($_SESSION["id"], $_SESSION["token"], $_GET["id"]);
@@ -31,16 +41,6 @@ if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["tok
 }
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && $_POST["loeschen"] === "nichtbestaetigt") {
     $fehlermeldung = "Um diese Sammlung zu löschen müssen Sie den Bestätigungshaken setzen.";
-}
-
-// Eintrag laden
-if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
-    if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"])) {
-        $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
-    }
-    $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
-} else {
-    header("location: index.php?fehler=Sammlung");
 }
 
 if (isset($sammlung) && is_array($sammlung) && $sammlung !== [-1]) {

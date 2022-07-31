@@ -142,7 +142,8 @@ include $abs_path . '/php/head.php';
                     <h3>Geburtsdatum</h3>
                     <label for="geburtsdatum" class="invisible">Geburtsdatum</label>
                     <input id="geburtsdatum" type="date" name="geburtsdatum"
-                           value="<?php echo date("Y-m-d", strtotime($geburtsdatum)); ?>"/>
+                        <?php echo ($geburtsdatum !== null && $geburtsdatum !== '') ?
+                            'value="' . date("Y-m-d", strtotime($geburtsdatum)) . '"' : '' ?>/>
                     <br>
                     <br>
                     <button id="submit" name="submit" type="submit">Speichern</button>
@@ -153,34 +154,34 @@ include $abs_path . '/php/head.php';
                     <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
                     <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
                     <label for="loeschen">Löschen bestätigen</label>
-                    <button id="submit" name="submit" type="submit">Löschen</button>
+                    <button id="submit_delete" name="submit" type="submit">Löschen</button>
                 </form>
 
             <?php else: ?>
                 <h2>Willkommen auf dem Profil!</h2>
                 <h3>Nutzername</h3>
                 <p><?php echo htmlspecialchars($nutzername) ?></p>
-                <?php if ($beschreibung !== '') : ?>
+                <?php if ($beschreibung !== null && $beschreibung !== '') : ?>
                     <h3>Beschreibung</h3>
                     <p><?php echo htmlspecialchars($beschreibung) ?></p>
                 <?php endif ?>
-                <?php if ($geschlecht !== '') : ?>
+                <?php if ($geschlecht !== null && $geschlecht !== '') : ?>
                     <h3>Geschlecht</h3>
                     <p><?php echo ($geschlecht === 'w') ? 'Weiblich' : '' ?><?php echo ($geschlecht === 'm') ? 'Männlich' : '' ?></p>
                 <?php endif ?>
-                <?php if ($vollstaendigerName !== '') : ?>
+                <?php if ($vollstaendigerName !== null && $vollstaendigerName !== '') : ?>
                     <h3>Vollständiger Name</h3>
                     <p><?php echo htmlspecialchars($vollstaendigerName) ?></p>
                 <?php endif ?>
-                <?php if ($adresse !== '') : ?>
+                <?php if ($adresse !== null && $adresse !== '') : ?>
                     <h3>Adresse</h3>
                     <p><?php echo htmlspecialchars($adresse) ?></p>
                 <?php endif ?>
-                <?php if ($sprache !== '') : ?>
+                <?php if ($sprache !== null && $sprache !== '') : ?>
                     <h3>Sprache</h3>
                     <p><?php echo htmlspecialchars($sprache) ?></p>
                 <?php endif ?>
-                <?php if ($geburtsdatum !== '') : ?>
+                <?php if ($geburtsdatum !== null && $geburtsdatum !== '') : ?>
                     <h3>Geburtsdatum</h3>
                     <p><?php echo date("d.m.Y", strtotime($geburtsdatum)); ?></p>
                 <?php endif ?>
