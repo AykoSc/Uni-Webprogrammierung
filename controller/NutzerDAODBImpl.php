@@ -53,7 +53,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $this->db->rollBack();
             }
         } catch (Exception) {
-            //evtl PDO-Erstellung errors
+            //Eventuell PDO-Erstellung errors
         }
     }
 
@@ -116,22 +116,17 @@ class NutzerDAODBImpl implements NutzerDAO
     public function nutzername_unbenutzt($Nutzername): bool
     {
         try {
-            $this->db->beginTransaction();
-
             $checkNutzernameSQL = "SELECT * FROM Anbieter WHERE Nutzername = :Nutzername AND Verifiziert = 'true';";
             $checkNutzernameCMD = $this->db->prepare($checkNutzernameSQL);
             $checkNutzernameCMD->bindParam(":Nutzername", $Nutzername);
             $checkNutzernameCMD->execute();
             $result = $checkNutzernameCMD->fetchObject();
             if (isset($result->Nutzername)) {
-                $this->db->rollBack();
                 return false; //Nutzername existiert bereits
             }
 
-            $this->db->commit();
             return true;
         } catch (Exception) {
-            $this->db->rollBack();
             return false;
         }
     }
@@ -210,8 +205,6 @@ class NutzerDAODBImpl implements NutzerDAO
     public function registrieren_bestaetigen($Email, $Verifizierungscode): bool
     {
         try {
-            $this->db->beginTransaction();
-
             $verifiziereAnbieterSQL = "UPDATE Anbieter SET Verifiziert = :Verifiziert WHERE Email = :Email AND Verifizierungscode = :Verifizierungscode;";
             $verifiziereAnbieterCMD = $this->db->prepare($verifiziereAnbieterSQL);
             $verifiziereAnbieterCMD->bindValue(":Verifiziert", "true");
@@ -220,10 +213,8 @@ class NutzerDAODBImpl implements NutzerDAO
             $verifiziereAnbieterCMD->execute();
             $betroffeneReihen = $verifiziereAnbieterCMD->rowCount();
 
-            $this->db->commit();
             return $betroffeneReihen > 0;
         } catch (Exception) {
-            $this->db->rollBack();
             return false;
         }
     }
@@ -271,18 +262,14 @@ class NutzerDAODBImpl implements NutzerDAO
     public function abmelden($AnbieterID, $Tokennummer): bool
     {
         try {
-            $this->db->beginTransaction();
-
             $entferneTokenSQL = "DELETE FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
             $entferneTokenCMD = $this->db->prepare($entferneTokenSQL);
             $entferneTokenCMD->bindParam(":AnbieterID", $AnbieterID);
             $entferneTokenCMD->bindParam(":Tokennummer", $Tokennummer);
             $entferneTokenCMD->execute();
 
-            $this->db->commit();
             return true;
         } catch (Exception) {
-            $this->db->rollBack();
             return false;
         }
     }
@@ -290,8 +277,6 @@ class NutzerDAODBImpl implements NutzerDAO
     public function kontakt_aufnehmen($EMail, $Kommentar): bool
     {
         try {
-            $this->db->beginTransaction();
-
             $Erstellungsdatum = date("Y-m-d");
 
             $speichereKontaktSQL = "INSERT INTO Kontakt (Kommentar, EMail, Erstellungsdatum) VALUES (:Kommentar, :EMail, :Erstellungsdatum);";
@@ -301,10 +286,8 @@ class NutzerDAODBImpl implements NutzerDAO
             $speichereKontaktCMD->bindParam(":Erstellungsdatum", $Erstellungsdatum);
             $speichereKontaktCMD->execute();
 
-            $this->db->commit();
             return true;
         } catch (Exception) {
-            $this->db->rollBack();
             return false;
         }
     }
@@ -860,8 +843,6 @@ class NutzerDAODBImpl implements NutzerDAO
     public function profil_erhalten($AnbieterID): array
     {
         try {
-            $this->db->beginTransaction();
-
             $existiertAnbieterSQL = "SELECT * FROM Anbieter WHERE AnbieterID = :AnbieterID;";
             $existiertAnbieterCMD = $this->db->prepare($existiertAnbieterSQL);
             $existiertAnbieterCMD->bindParam(":AnbieterID", $AnbieterID);
@@ -869,14 +850,11 @@ class NutzerDAODBImpl implements NutzerDAO
             $ergebnis = $existiertAnbieterCMD->fetchObject();
 
             if (!isset($ergebnis->AnbieterID)) {
-                $this->db->rollBack();
                 return array(-1); //Nutzer existiert nicht
             }
 
-            $this->db->commit();
             return array($ergebnis->AnbieterID, $ergebnis->Nutzername, $ergebnis->Personenbeschreibung, $ergebnis->Geschlecht, $ergebnis->Vollstaendiger_Name, $ergebnis->Anschrift, $ergebnis->Sprache, $ergebnis->Geburtsdatum, $ergebnis->Registrierungsdatum);
         } catch (Exception) {
-            $this->db->rollBack();
             return array(-1);
         }
     }
@@ -954,7 +932,6 @@ class NutzerDAODBImpl implements NutzerDAO
     {
 
         try {
-
             $erhalteSammlungenSQL = "SELECT * FROM Sammlung WHERE AnbieterID LIKE :AnbieterID";
 
             $erhalteSammlungenCMD = $this->db->prepare($erhalteSammlungenSQL);
@@ -975,7 +952,6 @@ class NutzerDAODBImpl implements NutzerDAO
     {
 
         try {
-
             $erhalteGemaeldeSQL = "SELECT * FROM Gemaelde WHERE AnbieterID LIKE :AnbieterID";
 
             $erhalteGemaeldeCMD = $this->db->prepare($erhalteGemaeldeSQL);
@@ -1091,7 +1067,7 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $this->db->commit();
             return true;
-        }catch (Exception $ex){
+        } catch (Exception) {
             $this->db->rollBack();
             return false;
         }
