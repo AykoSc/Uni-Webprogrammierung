@@ -1067,6 +1067,36 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
+    public function gemaelde_aus_sammlung_entfernen($AnbieterID, $Tokennummer, $SammlungID, $GemaeldeID): bool
+    {
+        try {
+            $this->db->beginTransaction();
+
+            if (!$this->anbieterCheck($AnbieterID, $Tokennummer)) {
+                return false;
+            }
+            if (!$this->gemaeldeCheck($GemaeldeID)) {
+                return false;
+            }
+            if (!$this->sammlungCheck($SammlungID)) {
+                return false;
+            }
+
+
+            $entferneGemaeldeSQL = 'DELETE FROM gehoert_zu WHERE GemaeldeID = :GemaeldeID AND SammlungID = :SammlungID;';
+            $entferneGemaeldeCMD = $this->db->prepare($entferneGemaeldeSQL);
+            $entferneGemaeldeCMD->bindParam(':GemaeldeID', $GemaeldeID);
+            $entferneGemaeldeCMD->bindParam(':SammlungID', $SammlungID);
+            $entferneGemaeldeCMD->execute();
+
+            $this->db->commit();
+            return true;
+        }catch (Exception $ex){
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
     public function sammlungen_erhalten($Suche, $Filter): array
     {
         try {
