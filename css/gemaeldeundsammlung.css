@@ -162,6 +162,7 @@ input[type="submit"], button {
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
+    margin: 5px;
 }
 
 input[type="submit"] {
@@ -184,6 +185,18 @@ button {
 @media screen and (max-width: 1200px) {
     .grid {
         grid-template-columns: auto;
+    }
+
+    main {
+        /* Ordne main content mittig an mit 25% Abstand an beiden Seiten */
+        max-width: 50%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        /* Ordne main content mittig an mit 25% Abstand an beiden Seiten */
+        max-width: 80%;
     }
 }
 
