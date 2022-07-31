@@ -48,8 +48,9 @@ class NutzerDAODummyImpl implements NutzerDAO
     {
         //Setze Default Constructor privat, um damit direkte Instanziierungen zu verbieten
 
-        //Stelle alle Errors und Warnings aus, damit Nutzer keine Errors oder Warnings angezeigt bekommen
-        //TODO error_reporting(0);
+        //Stelle alle Errors und Warnings aus, damit Nutzer keine Errors oder Warnings angezeigt bekommen.
+        //Dies wird zum Beispiel benötigt, um nicht den API-Key zu veröffentlichen, falls die API nicht erreichbar ist.
+        error_reporting(0);
     }
 
     public static function getInstance(): NutzerDAODummyImpl
