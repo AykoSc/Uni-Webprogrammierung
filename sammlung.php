@@ -26,7 +26,7 @@ if (isset($_REQUEST["id"]) && is_string($_REQUEST["id"])) {
         $eigene_bewertung = $dao->eigene_sammlung_bewertung_erhalten($_SESSION["id"], $_GET["id"]);
     }
     $sammlung = $dao->sammlung_erhalten($_REQUEST["id"]);
-    if ($sammlung[0] === -1) {
+    if ($sammlung[0] === -2) {
         header("location: index.php?geloescht&herkunft=Sammlung");
         exit;
     }

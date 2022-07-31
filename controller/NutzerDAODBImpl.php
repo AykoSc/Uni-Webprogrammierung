@@ -1141,7 +1141,7 @@ class NutzerDAODBImpl implements NutzerDAO
                 $entferneSammlungCMD->execute();
 
                 $this->db->commit();
-                return array(-1);
+                return array(-2);
             }
 
             //Erhöhe Aufrufe um 1
