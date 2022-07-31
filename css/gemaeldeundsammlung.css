@@ -9,7 +9,7 @@
 
 /*liste der Komentare */
 .comment-section {
-    list-style: none; /*Keine Punkte vor Lsteneinträgen */
+    list-style: none; /*Keine Punkte vor Listeneinträgen */
     width: 100%;
     margin: 50px auto;
     padding: 10px;
@@ -82,19 +82,6 @@
     background-color: #ffffff;
 }
 
-/*Abstand nach jedem Kommentar*/
-.comment p:after {
-    content: '';
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    border: 2px solid #f3f3f3;
-    left: -8px;
-    top: 18px;
-}
-
 /* Responsive Layout: max-width klein - Kommentar größer und info und likes verteilen sich umzu*/
 @media (max-width: 800px) {
 
@@ -122,14 +109,6 @@
     .comment .likes {
         padding: 15px 10px 0 18px;
         width: auto;
-    }
-
-    .comment p:after {
-        width: 12px;
-        height: 12px;
-        top: initial;
-        left: 28px;
-        bottom: -6px;
     }
 }
 
@@ -211,6 +190,12 @@ button {
     .grid {
         grid-template-columns: auto;
     }
+}
+
+.presentation {
+    max-height: 80vh;
+    width: auto;
+    max-width: 100%;
 }
 
 

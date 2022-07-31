@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $("#comment_section").on("submit", "form", function (event) {
+    $("#comment-section").on("submit", "form", function (event) {
 
         event.preventDefault();
 
@@ -22,7 +22,7 @@ $(document).ready(function () {
 
         ajaxRequest.done(function () {
             // Es wird nur die Kommentar-Sektion neu geladen
-            $("#comment_section").load(location.href + " #comment_section");
+            $("#comment-section").load(location.href + " #comment-section");
 
             console.log("Erfolg");
         });
