@@ -66,10 +66,11 @@ class NutzerDAODBImpl implements NutzerDAO
         return self::$instance;
     }
 
-    /**
-     * @implNote Hilfsmethoden zur Überprüfung bestimmter Dinge, um Redundanzen zu vermeiden.
-     *           Methoden nur innerhalb einer Transaktion benutzen!
+    /*
+     * Private Hilfsmethoden zur Überprüfung bestimmter Dinge, um Redundanzen zu vermeiden.
+     * Methoden nur innerhalb einer Transaktion benutzen!
      */
+
     private function anbieterCheck($AnbieterID, $Tokennummer): bool
     {
         $checkAnbieterSQL = "SELECT * FROM Tokens WHERE AnbieterID = :AnbieterID AND Tokennummer = :Tokennummer;";
@@ -112,6 +113,44 @@ class NutzerDAODBImpl implements NutzerDAO
         }
         return true;
     }
+
+    private function kommentarCheck($KommentarID): bool
+    {
+        $checkKommentarSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
+        $checkKommentarCMD = $this->db->prepare($checkKommentarSQL);
+        $checkKommentarCMD->bindParam(":KommentarID", $KommentarID);
+        $checkKommentarCMD->execute();
+        $result = $checkKommentarCMD->fetchObject();
+        if (!isset($result->KommentarID)) {
+            $this->db->rollBack();
+            return false; //Kommentar existiert nicht
+        }
+        return true;
+    }
+
+    private function sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, $erhalteSQL): bool|PDOStatement
+    {
+        $this->db->beginTransaction();
+
+        if ($Filter == "beliebteste") {
+            $erhalteSQL .= " ORDER BY Aufrufe DESC";
+        } else if ($Filter == "datum") {
+            $erhalteSQL .= " ORDER BY Erstellungsdatum DESC";
+        }
+        $erhalteSQL .= ";";
+
+        $erhalteCMD = $this->db->prepare($erhalteSQL);
+        $erhalteCMD->bindValue(":suche", '%' . $Suche . '%');
+        $erhalteCMD->execute();
+
+        $this->db->commit();
+
+        return $erhalteCMD;
+    }
+
+    /*
+     * Public Methoden zur Erfüllung der funktionalen Anforderungen.
+     */
 
     public function nutzername_unbenutzt($Nutzername): bool
     {
@@ -713,20 +752,6 @@ class NutzerDAODBImpl implements NutzerDAO
         }
     }
 
-    private function kommentarCheck($KommentarID): bool
-    {
-        $checkKommentarSQL = "SELECT * FROM Kommentar WHERE KommentarID = :KommentarID;";
-        $checkKommentarCMD = $this->db->prepare($checkKommentarSQL);
-        $checkKommentarCMD->bindParam(":KommentarID", $KommentarID);
-        $checkKommentarCMD->execute();
-        $result = $checkKommentarCMD->fetchObject();
-        if (!isset($result->KommentarID)) {
-            $this->db->rollBack();
-            return false; //Kommentar existiert nicht
-        }
-        return true;
-    }
-
     public function kommentar_liken($AnbieterID, $Tokennummer, $KommentarID): bool
     {
         try {
@@ -989,26 +1014,6 @@ class NutzerDAODBImpl implements NutzerDAO
             return array(-1);
         }
 
-    }
-
-    private function sucheUndFilterFuerAusstellungUndSammlungen($Suche, $Filter, $erhalteSQL): bool|PDOStatement
-    {
-        $this->db->beginTransaction();
-
-        if ($Filter == "beliebteste") {
-            $erhalteSQL .= " ORDER BY Aufrufe DESC";
-        } else if ($Filter == "datum") {
-            $erhalteSQL .= " ORDER BY Erstellungsdatum DESC";
-        }
-        $erhalteSQL .= ";";
-
-        $erhalteCMD = $this->db->prepare($erhalteSQL);
-        $erhalteCMD->bindValue(":suche", '%' . $Suche . '%');
-        $erhalteCMD->execute();
-
-        $this->db->commit();
-
-        return $erhalteCMD;
     }
 
     public function gemaelde_erhalten($GemaeldeID): array
