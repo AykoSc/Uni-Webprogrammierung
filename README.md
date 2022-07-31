@@ -13,6 +13,7 @@
   - Login-Daten
     - Email: test1@test.com, Passwort: test1!
     - Email: test2@test.com, Passwort: test2!
+  - Zum Testen der Löschfunktion haben wir die Bild-Dateien 1-3.jpg auch als backup1-3.jpg im Ordner images abgelegt.
 
 - **Sitemap**
   - ![](images\sitemap.png)
