@@ -81,7 +81,7 @@ include $abs_path . '/php/head.php';
         <p class="nachricht fehler">Es gab einen Fehler: <?php echo $fehlermeldung ?></p>
     <?php endif ?>
     <?php if (isset($editierung) && is_bool($editierung) && $editierung): ?>
-        <p class="nachricht">Editierung erfolgreich!</p>
+        <p class="nachricht">Editieren erfolgreich!</p>
     <?php endif ?>
 
     <?php if (isset($bewertet) && is_bool($bewertet) && $bewertet): ?>
@@ -91,10 +91,10 @@ include $abs_path . '/php/head.php';
         <p class="nachricht fehler">Sammlung Bewertung fehlgeschlagen</p>
     <?php endif ?>
     <?php if (isset($gemaeldeEntfernung) && is_bool($gemaeldeEntfernung) && $gemaeldeEntfernung): ?>
-        <p class="nachricht">Gemaelde erfolgreich aus der Sammlung entfernt</p>
+        <p class="nachricht">Gemälde erfolgreich aus der Sammlung entfernt</p>
     <?php endif ?>
     <?php if (isset($gemaeldeEntfernung) && is_bool($gemaeldeEntfernung) && !$gemaeldeEntfernung): ?>
-        <p class="nachricht fehler">Gemaelde Entfernung fehlgeschlagen</p>
+        <p class="nachricht fehler">Gemälde Entfernung fehlgeschlagen</p>
     <?php endif ?>
 
     <h1>Sammlung</h1>
@@ -107,7 +107,7 @@ include $abs_path . '/php/head.php';
                  src="<?php echo "images/" . htmlspecialchars($gemaelde[0]) . "." . htmlspecialchars($gemaelde[10]) ?>"
                  alt="<?php echo htmlspecialchars($gemaelde[2]) ?>">
         </a>
-        <?php if (isset($_SESSION["id"]) && $anbieterID == $_SESSION["id"]) : ?>
+        <?php if (isset($_SESSION["id"]) && $anbieterID === $_SESSION["id"]) : ?>
             <div class="delete">
                 <form method="post">
                     <input type="hidden" name="gemaelde_entfernen"
