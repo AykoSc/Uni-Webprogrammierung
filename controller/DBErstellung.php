@@ -138,17 +138,18 @@ class DBErstellung
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (1, 1);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (1, 3);
-    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (1, 2);
-    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (2, 2);
+    VALUES (3, 1);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
     VALUES (2, 1);
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (3, 3);
+    VALUES (3, 3);    
     INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
-    VALUES (3, 1);
+    VALUES (1, 3);
+    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
+    VALUES (2, 2);
+    INSERT INTO gehoert_zu (GemaeldeID, SammlungID)
+    VALUES (1, 2);
+   
 
     INSERT INTO gemaelde_bewertet_von (AnbieterID, GemaeldeID, Bewertung)
         VALUES (1, 1, 3);
