@@ -49,7 +49,7 @@ if (isset($_GET["id"]) && is_string($_GET["id"])) {
 if (isset($_SESSION["id"]) && is_string($_SESSION["id"]) && isset($_SESSION["token"]) && is_string($_SESSION["token"]) && isset($_POST["loeschen"]) && is_string($_POST["loeschen"]) && htmlspecialchars($_POST["loeschen"]) === "loeschbestaetigung") {
     $loeschung = $dao->gemaelde_entfernen($_SESSION["id"], $_SESSION["token"], $_GET["id"]);
     if ($loeschung) {
-        header("location: index.php?entfernt=Gemälde");
+        header("location: index.php?entfernt=Gemaelde");
     } else {
         $fehlermeldung = "Sie sind möglicherweise nicht mehr angemeldet oder Ihre Session ist abgelaufen. Bitte melden Sie sich erneut an.";
     }
