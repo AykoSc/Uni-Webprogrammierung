@@ -129,10 +129,8 @@ include $abs_path . '/php/head.php';
     <?php endif ?>
 
     <h1><?php echo htmlspecialchars($titel) ?></h1>
-    <div class="align_container">
-        <img class="presentation" alt="<?php echo htmlspecialchars($titel) ?>"
-             src="images/<?php echo htmlspecialchars($id . "." . $dateityp) ?>">
-    </div>
+    <img class="presentation" alt="<?php echo htmlspecialchars($titel) ?>"
+         src="images/<?php echo htmlspecialchars($id . "." . $dateityp) ?>">
 
 
     <h2> Über das Gemälde </h2>
@@ -282,15 +280,15 @@ include $abs_path . '/php/head.php';
 
 
         <?php if (isset($_SESSION["id"])): ?>
-            <div class="align_container">
-                <form method="post">
-                    <label for="kommentar" class="invisible">Kommentar</label>
-                    <textarea id="kommentar" name="kommentar" maxlength="1000"
-                              placeholder="Neuen Kommentar schreiben..."
-                              required></textarea>
-                    <input type="submit" value="Kommentar">
-                </form>
-            </div>
+            <form method="post">
+                <label for="kommentar" class="invisible">Kommentar</label>
+
+                <textarea id="kommentar" name="kommentar" maxlength="1000"
+                          placeholder="Neuen Kommentar schreiben..."
+                          required></textarea>
+                <br>
+                <input type="submit" value="Kommentar">
+            </form>
         <?php endif ?>
 
         <ul class="comment-section">
@@ -310,30 +308,34 @@ include $abs_path . '/php/head.php';
                         <?php echo nl2br(htmlspecialchars($kommentar[4])); ?>
                     </p>
 
-                    <div class="likes">
+                    <div class="flex">
+                        <div class="likes">
 
-                        <?php if (isset($_SESSION["id"])) : ?>
-                            <form method="post">
-                                <input type="hidden" name="like" value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="thumbsup"
-                                       <?php if ($kommentar[7] == 1): ?>src="images/daumenhoch_farbig.png"
-                                    <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
-                                       width="20">
-                            </form>
-                        <?php else: ?>
-                            <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
-                        <?php endif; ?>
-                        <?php echo htmlspecialchars($kommentar[3]) ?>
-                    </div>
-                    <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
-                        <div class="delete">
-                            <form method="post">
-                                <input type="hidden" name="delete"
-                                       value="<?php echo htmlspecialchars($kommentar[0]) ?>">
-                                <input type="image" alt="trashbin" src="images/mulleimer.png" width="20">
-                            </form>
+                            <?php if (isset($_SESSION["id"])) : ?>
+                                <form method="post">
+                                    <input type="hidden" name="like"
+                                           value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                                    <input type="image" alt="thumbsup"
+                                           <?php if ($kommentar[7] == 1): ?>src="images/daumenhoch_farbig.png"
+                                        <?php else: ?> src="images/daumenhoch_grau.png" <?php endif ?>
+                                           width="20">
+                                </form>
+                            <?php else: ?>
+                                <img src="images/daumenhoch_farbig.png" width="20" alt="thumbsup"/>
+                            <?php endif; ?>
+                            <?php echo htmlspecialchars($kommentar[3]) ?>
                         </div>
-                    <?php endif; ?>
+                        <?php if (isset($_SESSION["id"]) && $kommentar[2] == $_SESSION["id"]) : ?>
+                            <div class="delete">
+                                <form method="post">
+                                    <input type="hidden" name="delete"
+                                           value="<?php echo htmlspecialchars($kommentar[0]) ?>">
+                                    <input class="trashbin" type="image" alt="trashbin" src="images/mulleimer.png"
+                                           width="20">
+                                </form>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </li>
             <?php endforeach; ?>
         </ul>

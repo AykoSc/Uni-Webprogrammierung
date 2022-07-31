@@ -1,3 +1,10 @@
+main {
+    /* Ordne main content mittig an mit 25% Abstand an beiden Seiten */
+    max-width: 30%;
+    margin: auto; /* Browser setzt content automatisch in die mitte */
+    text-align: center;
+}
+
 .icons {
     width: 25px;
     height: 25px;
@@ -26,7 +33,7 @@
 
 /* profil und alter der Nachricht  */
 .comment .info {
-    width: 17%;
+    width: 15%;
     text-align: right;
     color: #656c71;
 }
@@ -53,17 +60,13 @@
     width: 8%;
 }
 
-.comment .likes {
-    width: 5%;
-}
-
 .comment .delete {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
 
-.comment .avatar, .likes {
+.comment .avatar {
     padding: 10px 18px 0 3px;
 }
 
@@ -80,6 +83,27 @@
     position: relative;
     word-wrap: break-word; /*erlaubt Trennung von allen Wörtern*/
     background-color: #ffffff;
+    margin: 15px;
+}
+
+.trashbin {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+.likes {
+    margin-left: 15px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1200px) {
+    .flex {
+        flex-direction: row;
+    }
 }
 
 /* Responsive Layout: max-width klein - Kommentar größer und info und likes verteilen sich umzu*/
@@ -121,7 +145,6 @@
 /*Textarea zum Kommentare schreiben*/
 textarea {
     height: 5rem;
-    width: 100%;
     border: none;
     border-bottom: 2px solid #aaa;
     background-color: transparent;
@@ -151,32 +174,17 @@ button {
     background-color: transparent
 }
 
-.description h2 {
-    text-align: center;
-    margin: 1rem;
-
-}
-
-.description p {
-    font-size: medium;
-}
-
-.description {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-direction: column;
-    width: 90%;
-}
-
-
 .grid {
     display: grid;
     grid-template-columns: auto auto;
-    justify-content: center;
-    grid-column-gap: 20%;
+    grid-column-gap: 5%;
 
+}
+
+@media screen and (max-width: 1200px) {
+    .grid {
+        grid-template-columns: auto;
+    }
 }
 
 .description input[type ="submit"] {
@@ -184,17 +192,8 @@ button {
     justify-self: flex-end;
 }
 
-/* Responsive Layout: max-width klein - Kommentar größer und info und likes verteilen sich umzu*/
-@media (max-width: 600px) {
-
-    .grid {
-        grid-template-columns: auto;
-    }
-}
-
 .presentation {
-    max-height: 80vh;
-    width: auto;
+    width: 100%;
     max-width: 100%;
 }
 
@@ -203,8 +202,6 @@ details > summary {
     cursor: pointer;
     color: #656c71;
     list-style: none;
-    display: flex;
-    justify-content: center;
 }
 
 details.extended_description[open] summary::after {
