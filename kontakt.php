@@ -33,13 +33,14 @@ include $abs_path . '/php/head.php';
         <h3>Hier kannst du Kontakt aufnehmen</h3>
         <form method="post">
             <hr>
-            <label for="email">E-Mail:</label>
+            <label for="email">*E-Mail:</label>
             <input type="email" id="email" name="email" maxlength="100" required placeholder="E-Mail eingeben...">
 
-            <label for="kommentar">Kommentar:</label>
+            <label for="kommentar">*Kommentar:</label>
             <textarea id="kommentar" name="kommentar" cols="40" rows="10" maxlength="1000" wrap="soft"
                       placeholder="Neuen Kommentar schreiben..." required></textarea>
             <hr>
+            <p>Die mit * gekennzeichneten Felder sind Pflichtfelder.</p>
             <button type="submit">Senden</button>
             <a href="index.php">Zurück zur Startseite</a>
         </form>

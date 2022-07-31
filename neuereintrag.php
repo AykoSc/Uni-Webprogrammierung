@@ -137,10 +137,10 @@ include $abs_path . '/php/head.php';
             <h3>Gemälde erstellen</h3>
             <form method="post" action="neuereintrag.php" enctype="multipart/form-data">
                 <hr>
-                <label for="datei">Gemälde auswählen (erlaubt ist ein Seitenverhältnis zwischen 0,2 und 5):</label>
+                <label for="datei">*Gemälde auswählen (erlaubt ist ein Seitenverhältnis zwischen 0,2 und 5):</label>
                 <input type="file" accept=".png, .jpg" id="datei" name="datei" required>
 
-                <label for="titel">Titel:</label>
+                <label for="titel">*Titel:</label>
                 <input type="text" id="titel" name="titel" maxlength="50" required placeholder="Titel eingeben..."
                     <?php echo (isset($_POST["titel"]) && is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
@@ -148,7 +148,7 @@ include $abs_path . '/php/head.php';
                 <textarea id="beschreibung" name="beschreibung" cols="40" rows="5" maxlength="1000" wrap="soft"
                           placeholder="Beschreibung eingeben..."><?php echo (isset($_POST["beschreibung"]) && is_string($_POST["beschreibung"])) ? htmlspecialchars($_POST["beschreibung"]) : '' ?></textarea>
 
-                <label for="kuenstler">Künstler:</label>
+                <label for="kuenstler">*Künstler:</label>
                 <input type="text" id="kuenstler" name="kuenstler" maxlength="100" required
                        placeholder="Künstlernamen eingeben..."
                     <?php echo (isset($_POST["kuenstler"]) && is_string($_POST["kuenstler"])) ? 'value=' . htmlspecialchars($_POST["kuenstler"]) : '' ?>>
@@ -163,6 +163,7 @@ include $abs_path . '/php/head.php';
 
                 <input type="hidden" name="typ" value="Gemälde">
                 <hr>
+                <p>Die mit * gekennzeichneten Felder sind Pflichtfelder.</p>
                 <button type="submit">Fertigstellen</button>
                 <a href="index.php">Abbrechen</a>
             </form>
@@ -171,7 +172,7 @@ include $abs_path . '/php/head.php';
             <form method="post" action="neuereintrag.php">
                 <hr>
 
-                <label for="auswahl">Gemälde-IDs: (z.B.: 1,2,6)</label>
+                <label for="auswahl">*Gemälde-IDs: (z.B.: 1,2,6)</label>
                 <input type="text" id="auswahl" name="auswahl" pattern="(([0-9]|[1-9][0-9]*),)*([0-9]|[1-9][0-9]*)+"
                        required placeholder="Gemälde-IDs eingeben..."
                     <?php echo (isset($_POST["auswahl"]) && is_string($_POST["auswahl"])) ? 'value=' . htmlspecialchars($_POST["auswahl"]) : '' ?>>
@@ -189,7 +190,7 @@ include $abs_path . '/php/head.php';
                     document.getElementById('jsOnly').style.display = 'block';
                 </script>
 
-                <label for="titel">Titel:</label>
+                <label for="titel">*Titel:</label>
                 <input type="text" id="titel" name="titel" maxlength="100" required placeholder="Titel eingeben..."
                     <?php echo (isset($_POST["titel"]) && is_string($_POST["titel"])) ? 'value=' . htmlspecialchars($_POST["titel"]) : '' ?>>
 
@@ -199,6 +200,7 @@ include $abs_path . '/php/head.php';
 
                 <input type="hidden" name="typ" value="Sammlung">
                 <hr>
+                <p>Die mit * gekennzeichneten Felder sind Pflichtfelder.</p>
                 <button type="submit">Fertigstellen</button>
                 <a href="index.php">Abbrechen</a>
             </form>
