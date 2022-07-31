@@ -159,7 +159,7 @@ include $abs_path . '/php/head.php';
                     <input type="hidden" name="loeschen" value="nichtbestaetigt"/>
                     <input id="loeschen" type="checkbox" name="loeschen" value="loeschbestaetigung"/>
                     <label for="loeschen">Löschen bestätigen</label>
-                    <button id="submit_delete" name="submit" type="submit">Löschen</button>
+                    <button id="submit_delete" name="submit_delete" type="submit">Löschen</button>
                 </form>
 
             <?php else: ?>
