@@ -82,24 +82,23 @@ include $abs_path . '/php/head.php';
             <li>Startpreis in <?php echo htmlspecialchars($von_name . ': ' . $von_preis); ?></li>
             <li>Startpreis in <?php echo htmlspecialchars($zu_name . ': ' . $zu_preis); ?></li>
         </ul>
+    <?php elseif (isset($daten)): ?>
+        <ul>
+            <li>Startpreis in Euro: 5000</li>
+            <li>Startpreis konnte nicht umgewandelt werden, da die API nur begrenzt Aufrufe zulässt.</li>
+        </ul>
     <?php else: ?>
         <ul>
             <li>Startpreis in Euro: 5000</li>
             <li>
-                <div id="jsOnly">
-                    <p>Mit dem Aufruf der Umrechnung des Preises von Euro in USD erklären Sie
-                        sich einverstanden, dass Ihre Daten an Alphavantage Inc. übermittelt
-                        werden und dass Sie die <a href="datenschutz.php">Datenschutzerklärung</a> gelesen haben.</p>
-                    <form method="post">
-                        <button type="submit" name="umrechnung_zeigen" class="datenschutzbestaetigung">Bestätigen und
-                            Umrechnung anzeigen
-                        </button>
-                    </form>
-                </div>
-                <script>
-                    document.getElementById('jsOnly').style.display = 'block';
-                </script>
-                <noscript>Mit JavaScript wäre hier eine Umrechnung des Preises von Euro in USD ersichtlich.</noscript>
+                <p>Mit dem Aufruf der Umrechnung des Preises von Euro in USD erklären Sie
+                    sich einverstanden, dass Ihre Daten an Alphavantage Inc. übermittelt
+                    werden und dass Sie die <a href="datenschutz.php">Datenschutzerklärung</a> gelesen haben.</p>
+                <form method="post">
+                    <button type="submit" name="umrechnung_zeigen" class="datenschutzbestaetigung">Bestätigen und
+                        Umrechnung anzeigen
+                    </button>
+                </form>
             </li>
         </ul>
     <?php endif ?>
