@@ -973,7 +973,8 @@ class NutzerDAODBImpl implements NutzerDAO
 
             $ergebnis = array();
             while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
-                $ergebnis[] = $this->sammlung_erhalten($zeile->SammlungID);
+                $sammlung = $this->sammlung_erhalten($zeile->SammlungID);
+                if ($sammlung[0] >= 0) $ergebnis[] = $sammlung;
             }
             return $ergebnis;
         } catch (Exception) {
@@ -1094,7 +1095,7 @@ class NutzerDAODBImpl implements NutzerDAO
             $suchergebnis = array();
             while ($zeile = $erhalteSammlungenCMD->fetchObject()) {
                 $sammlung = $this->sammlung_erhalten($zeile->SammlungID);
-                if ($sammlung[0] !== -1) $suchergebnis[] = $sammlung;
+                if ($sammlung[0] >= 0) $suchergebnis[] = $sammlung;
             }
             $ergebnis = array(array(), array(), array(), array());
             $reihe = 0;
