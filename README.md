@@ -104,7 +104,7 @@
 - **Nicht umgesetzte Teilaufgaben**
   - Bei Filter keine Auswahl möglich zum aufsteigend oder absteigend filtern
   - Keine Profilbilder möglich
-  - Keine Gemälde von einer Sammlung nach Erstellung entfernbar oder hinzufügbar
+  - Keine Gemälde von einer Sammlung nach Erstellung hinzufügbar
 
 - **Bekannte Fehler oder Mängel**
   - keine
@@ -118,7 +118,7 @@
 - Countdown Uhr für Auktion auf index.php implementiert.
 - Bei einer Suchanfrage werden nach einzelnen Tastatureingaben Teilergebnisse geliefert.
 - Bei der Registrierung wird unmittelbar überprüft, ob es einen geforderten Benutzernamen schon gibt.
-- Veränderung in der Kommentarsektion werden über Ajax an den Server gesendet.
+- Veränderung in der Kommentarsektion oder der Bewertung eines Gemäldes, oder einer Sammlung werden über Ajax an den Server gesendet.
 
 ### Erklärung Gemälde
 
