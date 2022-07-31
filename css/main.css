@@ -328,10 +328,15 @@ footer > a:hover { /*Links beim drüber hovern*/
 }
 
 .profilausstellung .eintrag {
-    display: flex;
+    margin: 1%;
 }
 
 .profilausstellung .eintrag img {
     max-width: 150px;
     max-height: 150px;
+}
+
+.profilausstellung img:hover {
+    transition: 0.5s;
+    transform: scale(1.05);
 }

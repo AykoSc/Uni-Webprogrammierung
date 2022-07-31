@@ -297,9 +297,11 @@ include $abs_path . '/php/head.php';
             <?php foreach ($kommentare as $kommentar): ?>
                 <li class="comment">
                     <div class="info">
+                        <span><?php echo date("d.m.Y", strtotime($kommentar[5])) ?></span>
+
                         <a href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
-                            <span><?php echo date("d.m.Y", strtotime($kommentar[5])) ?></span></a>
-                        <span> <?php echo htmlspecialchars($kommentar[6]) ?> </span>
+                            <span> <?php echo htmlspecialchars($kommentar[6]) ?> </span>
+                        </a>
                     </div>
                     <a class="avatar" href="profil.php?id=<?php echo urlencode($kommentar[2]) ?>">
                         <img src="images/start.jpg" width="35" alt="Profil-Avatar"/>
